@@ -55,7 +55,7 @@ function salvagePartialJson(str) {
   return null;
 }
 
-export default function MarketingWhisperer() {
+export default function BrandingWhisperer() {
   const [step, setStep] = useState(-1);
   const [answers, setAnswers] = useState({});
   const [draft, setDraft] = useState("");
@@ -217,7 +217,7 @@ Talk me through it like a friend. Find the pain, tell me what I'm really offerin
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 40 }}>
           <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
           <span style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-            The Marketing Whisperer
+            The Branding Whisperer
           </span>
         </div>
 
