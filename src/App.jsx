@@ -631,7 +631,7 @@ Build my gentle 7-day plan — one small action per day.`;
             this for people who don't come from a marketing background.
           </p>
           <p style={{ fontSize: 18, fontStyle: "italic", color: INK, margin: 0 }}>
-            Curiously, <span style={{ color: ACCENT }}>S. Afrin</span>
+            — <span style={{ color: ACCENT }}>S. Afrin</span>
           </p>
         </footer>
       </div>
