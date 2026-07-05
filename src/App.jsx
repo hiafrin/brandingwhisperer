@@ -214,10 +214,10 @@ Return ONLY valid JSON, no markdown, no preamble:
 Give me my brand foundation. Find the pain, the reframe, what's un-copyable, my brand's personality, and what I stand against.`;
 
     try {
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      const response = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, system: systemPrompt, messages: [{ role: "user", content: userPrompt }] }),
+        body: JSON.stringify({ system: systemPrompt, user: userPrompt }),
       });
       if (!response.ok) throw new Error(`The AI service returned an error (${response.status}). Please try again.`);
       const data = await response.json();
@@ -263,9 +263,9 @@ Give exactly 5. Keep it tight. (variety seed: ${seed})`;
     const usr = `Reaching: ${a.customer}. On: ${a.where}. Give me 5 post ideas I could publish this week.`;
 
     try {
-      const r = await fetch("https://api.anthropic.com/v1/messages", {
+      const r = await fetch("/api/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, system: sys, messages: [{ role: "user", content: usr }] }),
+        body: JSON.stringify({ system: sys, user: usr }),
       });
       if (!r.ok) throw new Error(`Error (${r.status}). Try again.`);
       const data = await r.json();
@@ -309,10 +309,10 @@ Give exactly 7 days. Keep every field short so all 7 fit.`;
 Build my gentle 7-day plan — one small action per day.`;
 
     try {
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      const response = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, system: sys, messages: [{ role: "user", content: usr }] }),
+        body: JSON.stringify({ system: sys, user: usr }),
       });
       if (!response.ok) throw new Error(`The service returned an error (${response.status}). Please try again.`);
       const data = await response.json();

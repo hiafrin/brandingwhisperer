@@ -1,0 +1,14 @@
+# dependencies
+node_modules
+
+# local env — holds your secret API key, never commit this
+.env
+.env.local
+.env.*.local
+
+# build output
+dist
+
+# logs / os cruft
+*.log
+.DS_Store
