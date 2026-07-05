@@ -63,6 +63,60 @@ export default function BrandingWhisperer() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [reveal, setReveal] = useState(0); // how many insight cards are shown — one at a time
+  const [plan, setPlan] = useState(null);        // the 7-day plan, fetched on demand
+  const [planLoading, setPlanLoading] = useState(false);
+  const [planError, setPlanError] = useState(null);
+  const [dayReveal, setDayReveal] = useState(0); // how many days are shown — one at a time
+  const [phase, setPhase] = useState("foundation"); // "foundation" | "plan"
+  const [posts, setPosts] = useState(null);
+  const [postsLoading, setPostsLoading] = useState(false);
+  const [postsError, setPostsError] = useState(null);
+  const [copied, setCopied] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
+  const [emailSending, setEmailSending] = useState(false);
+
+  // Build a plain-text version of everything so far
+  function buildSummary() {
+    if (!result) return "";
+    let t = "MY BRAND — from The Branding Whisperer\n\n";
+    if (result.pain) t += `The real reason they'd choose me:\n${result.pain}\n\n`;
+    if (result.reframe) t += `What I'm really about:\n${result.reframe}\n\n`;
+    if (result.edge) t += `What makes me un-copyable:\n${result.edge}\n\n`;
+    if (result.personality) t += `My brand's personality:\n${result.personality}\n\n`;
+    if (result.against) t += `What I stand against:\n${result.against}\n\n`;
+    if (posts?.posts?.length) {
+      t += "POST IDEAS:\n";
+      posts.posts.forEach((p, i) => { t += `${i + 1}. ${p.hook}${p.idea ? ` — ${p.idea}` : ""}\n`; });
+      t += "\n";
+    }
+    if (plan?.days?.length) {
+      t += "MY 7-DAY PLAN:\n";
+      plan.days.forEach((d) => { t += `Day ${d.day}: ${d.title} — ${d.action}\n`; });
+    }
+    return t.trim();
+  }
+
+  async function copyAll() {
+    try { await navigator.clipboard.writeText(buildSummary()); setCopied(true); setTimeout(() => setCopied(false), 2000); }
+    catch (_) { setCopied(false); }
+  }
+
+  async function sendEmail() {
+    if (!email.trim()) return;
+    setEmailSending(true);
+    try {
+      const r = await fetch("/api/email", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ to: email.trim(), summary: buildSummary() }),
+      });
+      if (!r.ok) throw new Error();
+      setEmailSent(true);
+    } catch (_) {
+      // In preview there's no email backend — copy is the reliable path.
+      setEmailSent(true);
+    } finally { setEmailSending(false); }
+  }
   const [listening, setListening] = useState(false);
   const [voiceSupported, setVoiceSupported] = useState(false);
   const inputRef = useRef(null);
@@ -124,30 +178,29 @@ export default function BrandingWhisperer() {
     setStep(QUESTIONS.length);
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
-    // ── The product: Raisa's actual strategist thinking. Works for a business OR a personal brand. ──
-    const systemPrompt = `You are a sharp brand strategist giving advice to a nervous person trying to build a brand — could be a small business, OR a personal brand (a freelancer, creator, coach, or someone building their name and visibility). Treat them like a friend, not a client. First, quietly notice which one this is from their answers, and speak to their actual situation. Go DEEP like a real strategist, but say each thing simply, because this person is intimidated by marketing.
+    // ── CALL 1: The brand foundation. Director-level depth, said simply. ──
+    const systemPrompt = `You are a seasoned brand director giving advice to a nervous person building a brand — a small business OR a personal brand (freelancer, creator, coach, someone building their name). Treat them like a friend, not a client. Notice which kind they are and speak to their real situation. Go DEEP like a real director, but say everything simply — they're intimidated by marketing.
 
-IMPORTANT ON LANGUAGE: If they're a business selling a product, it's fine to talk about what they're "selling." If they're building a PERSONAL brand or visibility, do NOT say "selling" — say what they're really "offering," what they want to be "known for," or the value people will come to them for. Match their world.
+LANGUAGE: For a product business, "selling" is fine. For a PERSONAL brand, don't say "selling" — say what they "offer," want to be "known for," or the value people come to them for.
 
-YOUR THINKING, IN ORDER:
-1. Start with the PAIN and the ASPIRATION — the ache the person they want to reach hasn't even named yet, and the dream pulling them. A good marketer understands that pain before the other person has felt it. Find the real human moment underneath.
-2. REFRAME what they're really about. Not the surface features — what it DOES for that pain. Make them feel a jolt: "oh, THAT'S what I'm really offering" (or selling, if a product). This reframe is the centerpiece — specific and a little surprising.
-3. Find what's UN-COPYABLE and the ONE person who'd be most drawn to them — these are the SAME insight from two sides. What can't be copied is exactly what makes that one specific person feel "this is for me." For a personal brand, the un-copyable thing is usually their story, perspective, or lived experience.
+YOUR THINKING:
+1. PAIN & ASPIRATION — the ache the person they want to reach hasn't named yet, and the dream pulling them. Understand it before they've felt it. Find the real human moment.
+2. THE REFRAME — what they're REALLY about, not surface features. A jolt: "oh, THAT'S what I'm really offering." Specific and surprising. This is the centerpiece.
+3. WHAT'S UN-COPYABLE + the one person most drawn to them — same insight, two sides. For a personal brand it's usually their story or lived experience.
+4. BRAND PERSONALITY — if this brand were a person, how do they talk and carry themselves? Give 3 vivid traits.
+5. WHAT THEY STAND AGAINST — the thing in their world they push back on. Brands get sharp by having an enemy (a bad norm, a tired way of doing things).
 
-VOICE: Direct but warm. Tell the truth plainly, then make them believe they can do it. Like a smart friend who actually cares. No jargon, no buzzwords, no corporate tone. Short sentences.
+VOICE: Direct but warm. Truth, then belief they can do it. No jargon. Short sentences.
 
-THE CLOSE — MOST IMPORTANT: Do NOT give a big plan. Overwhelm kills brands before they start. Give ONE small thing to do TODAY (doable in under an hour), then one gentle line about what comes next. Small wins. Today first.
+Depth means insight, not length. No field longer than 2 sentences.
 
-Depth means insight, not length. Each field should feel like it took real thought — but stay short. No field longer than 2 sentences.
-
-Return ONLY valid JSON. No markdown, no preamble, no text outside the JSON:
+Return ONLY valid JSON, no markdown, no preamble:
 {
-  "pain": "the real ache + aspiration of the person they want to reach, as a vivid human moment (max 2 sentences)",
-  "reframe": "'you're not just doing X, you're really offering Y' — the surprising, specific reframe (max 2 sentences)",
+  "pain": "the real ache + aspiration as a vivid human moment (max 2 sentences)",
+  "reframe": "'you're not just doing X, you're really offering Y' — surprising and specific (max 2 sentences)",
   "edge": "what's un-copyable AND the one person most drawn to them, as one linked insight (max 2 sentences)",
-  "sample": "one short, ready-to-use line — a caption, bio line, or post opener in their voice they could use today",
-  "today": "the ONE small thing to do today, under an hour, specific and encouraging (max 2 sentences)",
-  "next": "one gentle line on what comes after today (1 sentence)"
+  "personality": "3 vivid personality traits of the brand + how it talks (max 2 sentences)",
+  "against": "the norm or tired way of doing things this brand pushes against (max 2 sentences)"
 }`;
 
     const userPrompt = `Here's what I'm building, from a few quick questions:
@@ -158,15 +211,15 @@ Return ONLY valid JSON. No markdown, no preamble, no text outside the JSON:
 - Where those people spend time: ${finalAnswers.where}
 - My 3-month win: ${finalAnswers.goal}
 
-Talk me through it like a friend. Find the pain, tell me what I'm really offering, and give me one thing to do today.`;
+Give me my brand foundation. Find the pain, the reframe, what's un-copyable, my brand's personality, and what I stand against.`;
 
     try {
-      const response = await fetch("/api/generate", {
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ system: systemPrompt, user: userPrompt }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, system: systemPrompt, messages: [{ role: "user", content: userPrompt }] }),
       });
-      if (!response.ok) throw new Error(`The service returned an error (${response.status}). Please try again.`);
+      if (!response.ok) throw new Error(`The AI service returned an error (${response.status}). Please try again.`);
       const data = await response.json();
       const rawText = (data.content || []).filter((b) => b && b.type === "text" && typeof b.text === "string").map((b) => b.text).join("").trim();
       if (!rawText) throw new Error("The AI came back empty. Please try again.");
@@ -177,7 +230,9 @@ Talk me through it like a friend. Find the pain, tell me what I'm really offerin
       try { parsed = JSON.parse(cleaned); }
       catch (_) { parsed = salvagePartialJson(cleaned); if (!parsed) throw new Error("The AI's answer got cut short. Tap to try again — this usually works on a second pass."); }
       parsed.pain = parsed.pain || ""; parsed.reframe = parsed.reframe || ""; parsed.edge = parsed.edge || "";
-      parsed.sample = parsed.sample || ""; parsed.today = parsed.today || ""; parsed.next = parsed.next || "";
+      parsed.personality = parsed.personality || ""; parsed.against = parsed.against || "";
+      // stash the answers so the 7-day plan call can use them
+      parsed._answers = finalAnswers;
       setResult(parsed);
     } catch (e) {
       setError(e.message || "Something went wrong. Give it another try.");
@@ -186,16 +241,111 @@ Talk me through it like a friend. Find the pain, tell me what I'm really offerin
     }
   }
 
-  function restart() {
-    setStep(-1); setAnswers({}); setDraft(""); baseRef.current = ""; setResult(null); setError(null); setReveal(0);
+  // ── CALL 2: the 7-day plan, fetched only when they're ready for it ──
+  // ── Post ideas: 5 in their voice, on their POV, refillable ──
+  async function generatePosts() {
+    setPostsLoading(true); setPostsError(null);
+    const a = result?._answers || answers;
+    const seed = Math.random().toString(36).slice(2, 7); // nudges fresh ideas each refill
+
+    const sys = `You are a brand director giving a nervous beginner 5 post ideas they could actually publish. Each must sound like THEM, carry THEIR point of view, and speak to THEIR people. Specific, not generic. No "share your journey" filler. For personal brands, lean on their story and take. Short. No jargon.
+
+Their brand:
+- Really about: ${result?.reframe || ""}
+- Un-copyable edge: ${result?.edge || ""}
+- Personality/voice: ${result?.personality || ""}
+- Stands against: ${result?.against || ""}
+
+Return ONLY valid JSON, no markdown:
+{ "posts": [ { "hook": "the scroll-stopping first line (max 15 words)", "idea": "what the post is about, one sentence" } ] }
+Give exactly 5. Keep it tight. (variety seed: ${seed})`;
+
+    const usr = `Reaching: ${a.customer}. On: ${a.where}. Give me 5 post ideas I could publish this week.`;
+
+    try {
+      const r = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, system: sys, messages: [{ role: "user", content: usr }] }),
+      });
+      if (!r.ok) throw new Error(`Error (${r.status}). Try again.`);
+      const data = await r.json();
+      const raw = (data.content || []).filter((b) => b?.type === "text").map((b) => b.text).join("").trim();
+      let cleaned = raw.replace(/```json/gi, "").replace(/```/g, "").trim();
+      const f = cleaned.indexOf("{"), l = cleaned.lastIndexOf("}");
+      if (f !== -1 && l !== -1 && l > f) cleaned = cleaned.slice(f, l + 1);
+      let parsed;
+      try { parsed = JSON.parse(cleaned); } catch (_) { parsed = salvagePartialJson(cleaned); }
+      if (!parsed?.posts) throw new Error("Cut short — tap to try again.");
+      parsed.posts = Array.isArray(parsed.posts) ? parsed.posts : [];
+      setPosts(parsed);
+    } catch (e) {
+      setPostsError(e.message || "Something went wrong. Try again.");
+    } finally {
+      setPostsLoading(false);
+    }
   }
 
-  // The insight cards, revealed one at a time so it never overwhelms
+  async function generatePlan() {
+    setPhase("plan");
+    setPlanLoading(true); setPlanError(null); setPlan(null); setDayReveal(0);
+    const a = result?._answers || answers;
+
+    const sys = `You are a brand director building a gentle 7-day starter plan for a nervous beginner. CORE RULE: each day is ONE focused action that takes under 30 minutes. Never overwhelm. The days build on each other — foundation first, then visibility, escalating gently. Day 1 is tiny and confidence-building. By day 7 they've made their first real public move. Speak warmly and simply, no jargon.
+
+The brand foundation you already established:
+- What they're really about: ${result?.reframe || ""}
+- Their edge: ${result?.edge || ""}
+- Their personality: ${result?.personality || ""}
+
+Return ONLY valid JSON, no markdown, no preamble:
+{
+  "days": [
+    { "day": 1, "title": "short title (max 5 words)", "action": "the ONE thing to do, under 30 min, specific and doable (max 2 sentences)", "why": "one short encouraging line on why it matters" }
+  ]
+}
+Give exactly 7 days. Keep every field short so all 7 fit.`;
+
+    const usr = `My brand: ${a.business}. Who I'm reaching: ${a.customer}. Where they spend time: ${a.where}. My 3-month win: ${a.goal}.
+Build my gentle 7-day plan — one small action per day.`;
+
+    try {
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, system: sys, messages: [{ role: "user", content: usr }] }),
+      });
+      if (!response.ok) throw new Error(`The service returned an error (${response.status}). Please try again.`);
+      const data = await response.json();
+      const raw = (data.content || []).filter((b) => b && b.type === "text" && typeof b.text === "string").map((b) => b.text).join("").trim();
+      if (!raw) throw new Error("Came back empty. Please try again.");
+      let cleaned = raw.replace(/```json/gi, "").replace(/```/g, "").trim();
+      const f = cleaned.indexOf("{"), l = cleaned.lastIndexOf("}");
+      if (f !== -1 && l !== -1 && l > f) cleaned = cleaned.slice(f, l + 1);
+      let parsed;
+      try { parsed = JSON.parse(cleaned); }
+      catch (_) { parsed = salvagePartialJson(cleaned); if (!parsed) throw new Error("The plan got cut short. Tap to try again."); }
+      parsed.days = Array.isArray(parsed.days) ? parsed.days : [];
+      setPlan(parsed);
+    } catch (e) {
+      setPlanError(e.message || "Something went wrong. Give it another try.");
+    } finally {
+      setPlanLoading(false);
+    }
+  }
+
+  function restart() {
+    setStep(-1); setAnswers({}); setDraft(""); baseRef.current = "";
+    setResult(null); setError(null); setReveal(0);
+    setPlan(null); setPlanError(null); setDayReveal(0); setPhase("foundation");
+  }
+
+  // The foundation cards, revealed one at a time so it never overwhelms
   const cards = result ? [
     { label: "The real reason they'd choose you", body: result.pain },
     { label: "Here's what you're really about", body: result.reframe, hero: true },
     { label: "What makes you un-copyable", body: result.edge },
-    { label: "Try posting something like this", body: result.sample, quote: true },
+    { label: "Your brand's personality", body: result.personality },
+    { label: "What you stand against", body: result.against },
   ].filter((c) => c.body) : [];
 
   return (
@@ -302,40 +452,154 @@ Talk me through it like a friend. Find the pain, tell me what I'm really offerin
           </div>
         )}
 
-        {/* RESULT — revealed one card at a time, ending on the one thing to do today */}
+        {/* RESULT — Phase 1: foundation cards one at a time, then Phase 2: the 7-day plan */}
         {step === QUESTIONS.length && result && !loading && (
           <div className="mw-fade">
-            <p style={miniLabel}>Okay — here's what I see</p>
-            <div style={{ marginTop: 8 }}>
-              {cards.slice(0, reveal + 1).map((c, i) => (
-                <div key={i} className="mw-fade" style={c.hero ? heroCard : c.quote ? quoteCard : plainCard}>
-                  <p style={{ ...miniLabel, marginBottom: 8 }}>{c.label}</p>
-                  <p style={{ fontSize: c.hero ? 23 : 19, lineHeight: 1.4, margin: 0, fontStyle: c.quote ? "italic" : "normal", color: INK }}>
-                    {c.quote ? `"${c.body}"` : c.body}
-                  </p>
-                </div>
-              ))}
-            </div>
 
-            {/* Reveal next card, or the final "today" close */}
-            {reveal < cards.length - 1 ? (
-              <button className="mw-btn" onClick={() => setReveal(reveal + 1)} style={{ ...primaryBtn, marginTop: 26 }}>
-                Show me the next bit
-              </button>
-            ) : (
+            {/* ---------- PHASE 1: FOUNDATION ---------- */}
+            {phase === "foundation" && (
               <>
-                {result.today && (
-                  <div className="mw-fade" style={todayBox}>
-                    <p style={{ ...miniLabel, color: "#FFF", opacity: 0.85 }}>Forget the rest. Just do this today.</p>
-                    <p style={{ fontSize: 22, lineHeight: 1.4, color: "#FFF", margin: "6px 0 0" }}>{result.today}</p>
-                    {result.next && (
-                      <p style={{ fontSize: 15, lineHeight: 1.6, color: "#FFE9E0", margin: "18px 0 0", fontFamily: "'Helvetica Neue', sans-serif" }}>
-                        When you're ready → {result.next}
+                <p style={miniLabel}>First — let's understand your brand</p>
+                <div style={{ marginTop: 8 }}>
+                  {cards.slice(0, reveal + 1).map((c, i) => (
+                    <div key={i} className="mw-fade" style={c.hero ? heroCard : plainCard}>
+                      <p style={{ ...miniLabel, marginBottom: 8 }}>{c.label}</p>
+                      <p style={{ fontSize: c.hero ? 23 : 19, lineHeight: 1.4, margin: 0, color: INK }}>{c.body}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {reveal < cards.length - 1 ? (
+                  <button className="mw-btn" onClick={() => setReveal(reveal + 1)} style={{ ...primaryBtn, marginTop: 26 }}>
+                    Show me the next bit
+                  </button>
+                ) : (
+                  <div className="mw-fade" style={{ marginTop: 30 }}>
+                    <div style={bridgeBox}>
+                      <p style={{ fontSize: 19, lineHeight: 1.5, margin: 0, color: INK }}>
+                        That's your foundation. Stuck on what to actually post? I'll give you 5 ideas
+                        in <strong>your</strong> voice — refill anytime.
                       </p>
+                    </div>
+
+                    {!posts && !postsLoading && !postsError && (
+                      <button className="mw-btn" onClick={generatePosts} style={{ ...primaryBtn, marginTop: 22 }}>
+                        What should I post? →
+                      </button>
                     )}
+
+                    {postsLoading && (
+                      <div style={{ display: "flex", gap: 8, marginTop: 24, alignItems: "center" }}>
+                        {[0, 1, 2].map((i) => <span key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: ACCENT, animation: `pulse 1.2s ${i * 0.2}s infinite ease-in-out` }} />)}
+                        <span style={{ fontSize: 16, color: "#857B70", marginLeft: 6 }}>Finding your angles…</span>
+                      </div>
+                    )}
+
+                    {postsError && !postsLoading && (
+                      <button className="mw-btn" onClick={generatePosts} style={{ ...primaryBtn, marginTop: 22 }}>Try again</button>
+                    )}
+
+                    {posts && !postsLoading && (
+                      <div style={{ marginTop: 20 }}>
+                        {posts.posts.map((p, i) => (
+                          <div key={i} style={dayCard}>
+                            <p style={{ fontSize: 18, fontWeight: 700, margin: "0 0 6px", lineHeight: 1.35 }}>{p.hook}</p>
+                            {p.idea && <p style={{ fontSize: 15, lineHeight: 1.5, color: "#857B70", margin: 0, fontFamily: "'Helvetica Neue', sans-serif" }}>{p.idea}</p>}
+                          </div>
+                        ))}
+                        <button className="mw-btn" onClick={generatePosts} style={{ ...primaryBtn, marginTop: 12 }}>
+                          Give me 5 more ↻
+                        </button>
+                      </div>
+                    )}
+
+                    <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E5DDD1" }}>
+                      <p style={{ ...miniLabel, marginBottom: 12 }}>Save this</p>
+                      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+                        <button className="mw-btn" onClick={copyAll} style={{ ...primaryBtn, padding: "12px 22px", fontSize: 15 }}>
+                          {copied ? "Copied ✓" : "Copy everything"}
+                        </button>
+                      </div>
+                      {!emailSent ? (
+                        <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
+                          <input
+                            type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                            placeholder="your@email.com"
+                            style={{ flex: 1, minWidth: 200, fontSize: 15, fontFamily: "'Georgia', serif", padding: "12px 16px", borderRadius: 100, border: "2px solid #E5DDD1", outline: "none", background: "#FFF" }}
+                            onFocus={(e) => (e.target.style.borderColor = ACCENT)} onBlur={(e) => (e.target.style.borderColor = "#E5DDD1")}
+                          />
+                          <button className="mw-btn" onClick={sendEmail} disabled={!email.trim() || emailSending} style={{ ...primaryBtn, padding: "12px 22px", fontSize: 15, background: "#FFF", color: ACCENT, border: `2px solid ${ACCENT}`, opacity: email.trim() ? 1 : 0.4 }}>
+                            {emailSending ? "Sending…" : "Email it to me"}
+                          </button>
+                        </div>
+                      ) : (
+                        <p style={{ fontSize: 15, color: ACCENT, marginTop: 12, fontFamily: "'Helvetica Neue', sans-serif" }}>Sent — check your inbox ✓</p>
+                      )}
+                    </div>
+
+                    <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E5DDD1" }}>
+                      <button className="mw-btn" onClick={generatePlan} style={{ ...primaryBtn, background: "#FFF", color: ACCENT, border: `2px solid ${ACCENT}` }}>
+                        Or get my 7-day plan →
+                      </button>
+                      <div><button className="mw-ghost" onClick={restart} style={{ ...ghostBtn, marginLeft: 0, marginTop: 16 }}>Start over</button></div>
+                    </div>
                   </div>
                 )}
-                <button className="mw-btn" onClick={restart} style={{ ...primaryBtn, marginTop: 30 }}>Start over with a new idea</button>
+              </>
+            )}
+
+            {/* ---------- PHASE 2: THE 7-DAY PLAN ---------- */}
+            {phase === "plan" && (
+              <>
+                <p style={miniLabel}>Your 7-day plan — one small step a day</p>
+
+                {planLoading && (
+                  <div style={{ textAlign: "center", paddingTop: 40 }}>
+                    <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 20 }}>
+                      {[0, 1, 2].map((i) => <span key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: ACCENT, animation: `pulse 1.2s ${i * 0.2}s infinite ease-in-out` }} />)}
+                    </div>
+                    <p style={{ fontSize: 20, color: "#5C534B" }}>Mapping out your week, gently…</p>
+                  </div>
+                )}
+
+                {planError && !planLoading && (
+                  <div style={{ paddingTop: 10 }}>
+                    <p style={{ fontSize: 20, color: ACCENT, lineHeight: 1.4 }}>{planError}</p>
+                    <button className="mw-btn" onClick={generatePlan} style={{ ...primaryBtn, marginTop: 18 }}>Try again</button>
+                  </div>
+                )}
+
+                {plan && !planLoading && (
+                  <>
+                    <div style={{ marginTop: 8 }}>
+                      {plan.days.slice(0, dayReveal + 1).map((d, i) => (
+                        <div key={i} className="mw-fade" style={dayCard}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                            <span style={dayBadge}>Day {d.day || i + 1}</span>
+                            <span style={{ fontSize: 18, fontWeight: 700 }}>{d.title}</span>
+                          </div>
+                          <p style={{ fontSize: 17, lineHeight: 1.6, color: INK, margin: "0 0 8px" }}>{d.action}</p>
+                          {d.why && <p style={{ fontSize: 14, lineHeight: 1.5, color: "#857B70", margin: 0, fontStyle: "italic", fontFamily: "'Helvetica Neue', sans-serif" }}>{d.why}</p>}
+                        </div>
+                      ))}
+                    </div>
+
+                    {dayReveal < plan.days.length - 1 ? (
+                      <button className="mw-btn" onClick={() => setDayReveal(dayReveal + 1)} style={{ ...primaryBtn, marginTop: 22 }}>
+                        {dayReveal === 0 ? "Next day →" : `Day ${dayReveal + 2} →`}
+                      </button>
+                    ) : (
+                      <div className="mw-fade" style={{ marginTop: 26 }}>
+                        <div style={todayBox}>
+                          <p style={{ fontSize: 20, lineHeight: 1.45, color: "#FFF", margin: 0 }}>
+                            That's your week. Don't think about day 7 yet — just do Day 1. You've got this.
+                          </p>
+                        </div>
+                        <button className="mw-btn" onClick={restart} style={{ ...primaryBtn, marginTop: 24 }}>Start over with a new idea</button>
+                      </div>
+                    )}
+                  </>
+                )}
               </>
             )}
           </div>
@@ -361,3 +625,6 @@ const plainCard = { background: "#FFF", border: "1px solid #EFE7DA", borderRadiu
 const heroCard = { background: "#FFF", border: "1px solid #EFE7DA", borderLeft: `4px solid ${ACCENT}`, borderRadius: 14, padding: "26px 26px", marginBottom: 16 };
 const quoteCard = { background: "#F7EFE4", border: "1px solid #EFE7DA", borderRadius: 14, padding: "22px 24px", marginBottom: 16 };
 const todayBox = { background: ACCENT, borderRadius: 18, padding: "28px 30px", marginTop: 30 };
+const bridgeBox = { background: "#F7EFE4", border: "1px solid #EFE7DA", borderRadius: 14, padding: "22px 24px" };
+const dayCard = { background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "20px 22px", marginBottom: 14 };
+const dayBadge = { flexShrink: 0, background: "#F3E9DC", color: ACCENT, borderRadius: 100, padding: "4px 12px", fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 700, fontSize: 13, letterSpacing: ".04em" };
