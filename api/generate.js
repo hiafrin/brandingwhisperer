@@ -21,7 +21,10 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: "claude-sonnet-5",
-        max_tokens: 1500,
+        max_tokens: 2500,
+        // Skip extended thinking: these are fast, structured JSON responses,
+        // and thinking tokens count against max_tokens (they starved the output).
+        thinking: { type: "disabled" },
         system,
         messages: [{ role: "user", content: user }],
       }),

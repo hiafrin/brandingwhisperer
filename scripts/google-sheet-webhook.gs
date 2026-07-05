@@ -36,7 +36,8 @@ function doPost(e) {
     subject: "Your brand — from The Branding Whisperer",
     body:
       data.summary +
-      "\n\n—\nYou asked for this on The Branding Whisperer. Keep it somewhere you'll see it.",
+      "\n\n—\nYou asked for this on The Branding Whisperer. Keep it somewhere you'll see it.\n" +
+      "Keep an eye out — 5 fresh post ideas are coming your way next week.",
   });
 
   return ContentService.createTextOutput(
