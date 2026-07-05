@@ -622,6 +622,18 @@ Build my gentle 7-day plan — one small action per day.`;
             )}
           </div>
         )}
+
+        {/* FOOTER — the human behind the whisperer */}
+        <footer style={{ marginTop: 80, paddingTop: 28, borderTop: "1px solid #E5DDD1" }}>
+          <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", margin: "0 0 16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
+            This tool exists purely to help you — no catch, no fine print. I'm a marketer
+            teaching myself AI, and as I get better at it, I want to build more things like
+            this for people who don't come from a marketing background.
+          </p>
+          <p style={{ fontSize: 18, fontStyle: "italic", color: INK, margin: 0 }}>
+            Curiously, <span style={{ color: ACCENT }}>S. Afrin</span>
+          </p>
+        </footer>
       </div>
     </div>
   );
