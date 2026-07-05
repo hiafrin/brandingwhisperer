@@ -75,6 +75,7 @@ export default function BrandingWhisperer() {
   const [email, setEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
   const [emailSending, setEmailSending] = useState(false);
+  const [emailError, setEmailError] = useState(null);
 
   // Build a plain-text version of everything so far
   function buildSummary() {
@@ -104,17 +105,19 @@ export default function BrandingWhisperer() {
 
   async function sendEmail() {
     if (!email.trim()) return;
-    setEmailSending(true);
+    setEmailSending(true); setEmailError(null);
     try {
       const r = await fetch("/api/email", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ to: email.trim(), summary: buildSummary() }),
       });
-      if (!r.ok) throw new Error();
+      if (!r.ok) {
+        const d = await r.json().catch(() => ({}));
+        throw new Error(d.error || "Couldn't send it — try again, or use Copy.");
+      }
       setEmailSent(true);
-    } catch (_) {
-      // In preview there's no email backend — copy is the reliable path.
-      setEmailSent(true);
+    } catch (e) {
+      setEmailError(e.message || "Couldn't send it — try again, or use Copy.");
     } finally { setEmailSending(false); }
   }
   const [listening, setListening] = useState(false);
@@ -521,6 +524,7 @@ Build my gentle 7-day plan — one small action per day.`;
                         </button>
                       </div>
                       {!emailSent ? (
+                        <>
                         <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
                           <input
                             type="email" value={email} onChange={(e) => setEmail(e.target.value)}
@@ -532,6 +536,10 @@ Build my gentle 7-day plan — one small action per day.`;
                             {emailSending ? "Sending…" : "Email it to me"}
                           </button>
                         </div>
+                        {emailError && (
+                          <p style={{ fontSize: 14, color: ACCENT, marginTop: 10, fontFamily: "'Helvetica Neue', sans-serif" }}>{emailError}</p>
+                        )}
+                        </>
                       ) : (
                         <p style={{ fontSize: 15, color: ACCENT, marginTop: 12, fontFamily: "'Helvetica Neue', sans-serif" }}>Sent — check your inbox ✓</p>
                       )}
