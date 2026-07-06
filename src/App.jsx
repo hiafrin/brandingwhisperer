@@ -514,34 +514,11 @@ Build my gentle 7-day plan, one small action per day.`;
                           Give me 5 more ↻
                         </button>
 
-                        {/* The ask comes only after they've received the free value */}
+                        {/* These are the visitor's, free. Nudge them to save via Copy below. */}
                         <div style={{ ...bridgeBox, marginTop: 26 }}>
-                          {!emailSent ? (
-                            <>
-                              <p style={{ fontSize: 18, lineHeight: 1.5, margin: 0, color: INK }}>
-                                These are yours, free. Want me to email you everything (your brand
-                                breakdown and these ideas), plus <strong>5 fresh post ideas next week</strong>?
-                              </p>
-                              <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
-                                <input
-                                  type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                                  placeholder="your@email.com"
-                                  style={{ flex: 1, minWidth: 200, fontSize: 15, fontFamily: "'Georgia', serif", padding: "12px 16px", borderRadius: 100, border: "2px solid #E5DDD1", outline: "none", background: "#FFF" }}
-                                  onFocus={(e) => (e.target.style.borderColor = ACCENT)} onBlur={(e) => (e.target.style.borderColor = "#E5DDD1")}
-                                />
-                                <button className="mw-btn" onClick={sendEmail} disabled={!email.trim() || emailSending} style={{ ...primaryBtn, padding: "12px 22px", fontSize: 15, opacity: email.trim() ? 1 : 0.4 }}>
-                                  {emailSending ? "Sending…" : "Yes, email it to me"}
-                                </button>
-                              </div>
-                              {emailError && (
-                                <p style={{ fontSize: 14, color: ACCENT, marginTop: 10, fontFamily: "'Helvetica Neue', sans-serif" }}>{emailError}</p>
-                              )}
-                            </>
-                          ) : (
-                            <p style={{ fontSize: 17, color: ACCENT, margin: 0, fontFamily: "'Helvetica Neue', sans-serif" }}>
-                              Sent. Check your inbox ✓ Fresh ideas coming next week.
-                            </p>
-                          )}
+                          <p style={{ fontSize: 18, lineHeight: 1.5, margin: 0, color: INK }}>
+                            These are yours, free. Don't lose them. Copy everything below to keep it.
+                          </p>
                         </div>
                       </div>
                     )}
