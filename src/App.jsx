@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { track } from "@vercel/analytics";
 
 // ── The six questions — worded to fit anyone building a brand: a business OR a personal one ──
 const QUESTIONS = [
@@ -239,6 +240,7 @@ Give me my brand foundation. Find the pain, the reframe, what's un-copyable, my 
       // stash the answers so the 7-day plan call can use them
       parsed._answers = finalAnswers;
       setResult(parsed);
+      track("completed_questions"); // anonymous count only, no answers sent
     } catch (e) {
       setError(e.message || "Something went wrong. Give it another try.");
     } finally {
@@ -293,6 +295,7 @@ Give exactly 5. Make each genuinely different from the others. (variety seed: ${
       if (!parsed?.posts) throw new Error("Cut short. Tap to try again.");
       parsed.posts = Array.isArray(parsed.posts) ? parsed.posts : [];
       setPosts(parsed);
+      track("generated_posts"); // anonymous count only
     } catch (e) {
       setPostsError(e.message || "Something went wrong. Try again.");
     } finally {
@@ -398,7 +401,7 @@ Build my gentle 7-day plan, one small action per day.`;
               Answer one question at a time, type or talk, and you'll walk away knowing the real reason
               people will choose you, and the one small thing to do today.
             </p>
-            <button className="mw-btn" onClick={() => setStep(0)} style={primaryBtn}>Start (takes 3 minutes)</button>
+            <button className="mw-btn" onClick={() => { track("started"); setStep(0); }} style={primaryBtn}>Start (takes 3 minutes)</button>
             <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 18, fontFamily: "'Helvetica Neue', sans-serif" }}>
               No account. One question at a time, I promise.
             </p>
@@ -620,13 +623,13 @@ Build my gentle 7-day plan, one small action per day.`;
             this for people who don't come from a marketing background.
           </p>
           <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", margin: "0 0 16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
-            Want an actual audit of your brand and some brand advice?{" "}
-            <a href="mailto:thecuriousafrin@gmail.com?subject=The%20Branding%20Whisperer" style={{ color: ACCENT, textDecoration: "none", fontWeight: 600 }}>
-              Email me at thecuriousafrin@gmail.com
+            Ready to go deeper? Email me for a brand audit and one-on-one advice at{" "}
+            <a href="mailto:thecuriousafrin@gmail.com?subject=The%20Branding%20Whisperer" onClick={() => track("clicked_email")} style={{ color: ACCENT, textDecoration: "none", fontWeight: 600 }}>
+              thecuriousafrin@gmail.com
             </a>.
           </p>
           <p style={{ fontSize: 13, lineHeight: 1.6, color: "#9A8F82", margin: "0 0 16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
-            Nothing you type here is saved, and I never see it. No account, no cookies, no tracking.
+            Nothing you type here is saved, and I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.
           </p>
           <p style={{ fontSize: 18, fontStyle: "italic", color: INK, margin: 0 }}>
             — <span style={{ color: ACCENT }}>S. Afrin</span>
