@@ -619,6 +619,15 @@ Build my gentle 7-day plan, one small action per day.`;
             teaching myself AI, and as I get better at it, I want to build more things like
             this for people who don't come from a marketing background.
           </p>
+          <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", margin: "0 0 16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
+            Want more personal attention, a deeper plan, and expert advice on your brand?{" "}
+            <a href="mailto:thecuriousafrin@gmail.com?subject=The%20Branding%20Whisperer" style={{ color: ACCENT, textDecoration: "none", fontWeight: 600 }}>
+              Email me at thecuriousafrin@gmail.com
+            </a>.
+          </p>
+          <p style={{ fontSize: 13, lineHeight: 1.6, color: "#9A8F82", margin: "0 0 16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
+            Nothing you type here is saved, and I never see it. No account, no cookies, no tracking.
+          </p>
           <p style={{ fontSize: 18, fontStyle: "italic", color: INK, margin: 0 }}>
             — <span style={{ color: ACCENT }}>S. Afrin</span>
           </p>
