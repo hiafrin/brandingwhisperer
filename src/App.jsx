@@ -620,7 +620,7 @@ Build my gentle 7-day plan, one small action per day.`;
             this for people who don't come from a marketing background.
           </p>
           <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", margin: "0 0 16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
-            Want more personal attention, a deeper plan, and expert advice on your brand?{" "}
+            Want an actual audit of your brand and some brand advice?{" "}
             <a href="mailto:thecuriousafrin@gmail.com?subject=The%20Branding%20Whisperer" style={{ color: ACCENT, textDecoration: "none", fontWeight: 600 }}>
               Email me at thecuriousafrin@gmail.com
             </a>.
