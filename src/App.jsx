@@ -195,7 +195,9 @@ YOUR THINKING:
 
 VOICE: Direct but warm. Truth, then belief they can do it. No jargon. Short sentences. Write plainly, the way a real person texts. Do not use em-dashes or en-dashes anywhere; use commas and periods instead.
 
-Depth means insight, not length. No field longer than 2 sentences.
+NEVER assume the gender of the people they want to reach. You cannot know it. Write about that person as "they" or "them", or as "your person" or "this reader". Never use he, she, him, her, his, or hers.
+
+Depth means insight, not length. Be specific to THIS brand and the exact answers they gave. If a sentence could be copy-pasted onto a totally different business, it is too generic, rewrite it until it could only be about them. No field longer than 2 sentences.
 
 Return ONLY valid JSON, no markdown, no preamble:
 {
@@ -251,7 +253,17 @@ Give me my brand foundation. Find the pain, the reframe, what's un-copyable, my 
     const a = result?._answers || answers;
     const seed = Math.random().toString(36).slice(2, 7); // nudges fresh ideas each refill
 
-    const sys = `You are a brand director giving a nervous beginner 5 post ideas they could actually publish. Each must sound like THEM, carry THEIR point of view, and speak to THEIR people. Specific, not generic. No "share your journey" filler. For personal brands, lean on their story and take. Short. No jargon. Write plainly, the way a real person texts. Do not use em-dashes or en-dashes anywhere; use commas and periods instead.
+    const sys = `You are a brand strategist handing a nervous beginner 5 posts they could actually publish this week. These are not marketing theory. They are real, specific posts someone with ZERO marketing background can make without help.
+
+RULES for every idea:
+- Root it in the SPECIFICS of this brand and their point of view. If the idea could belong to any business, it is too generic, throw it out and write a sharper one.
+- Give it a real angle or tension: a belief to argue, a myth to bust, a behind-the-scenes truth, a mistake they made, a hot take, a before-and-after. Never "share your journey", "introduce yourself", or "explain what you do" filler.
+- Make it do-able. Say in plain words what to actually post so a non-marketer knows exactly what to make. Start the idea by naming the format in everyday language (a short story, an honest confession, a quick list, a hot take, a screenshot with a caption, a myth you bust, a question you answer), then say what goes in it.
+- It must sound like THEM, in their voice.
+
+NEVER assume the gender of the people they reach. You cannot know it. Use "they", "them", "your person", or "this reader". Never use he, she, him, her, his, or hers.
+
+Short. No jargon. Write plainly, the way a real person texts. Do not use em-dashes or en-dashes anywhere; use commas and periods instead.
 
 Their brand:
 - Really about: ${result?.reframe || ""}
@@ -260,8 +272,8 @@ Their brand:
 - Stands against: ${result?.against || ""}
 
 Return ONLY valid JSON, no markdown:
-{ "posts": [ { "hook": "the scroll-stopping first line (max 15 words)", "idea": "what the post is about, one sentence" } ] }
-Give exactly 5. Keep it tight. (variety seed: ${seed})`;
+{ "posts": [ { "hook": "the scroll-stopping first line, in their voice (max 15 words)", "idea": "the format in plain words, then exactly what to post and its angle, so a non-marketer could make it today (one or two sentences)" } ] }
+Give exactly 5. Make each genuinely different from the others. (variety seed: ${seed})`;
 
     const usr = `Reaching: ${a.customer}. On: ${a.where}. Give me 5 post ideas I could publish this week.`;
 
@@ -293,7 +305,7 @@ Give exactly 5. Keep it tight. (variety seed: ${seed})`;
     setPlanLoading(true); setPlanError(null); setPlan(null); setDayReveal(0);
     const a = result?._answers || answers;
 
-    const sys = `You are a brand director building a gentle 7-day starter plan for a nervous beginner. CORE RULE: each day is ONE focused action that takes under 30 minutes. Never overwhelm. The days build on each other, foundation first, then visibility, escalating gently. Day 1 is tiny and confidence-building. By day 7 they've made their first real public move. Speak warmly and simply, no jargon. Write plainly, the way a real person texts. Do not use em-dashes or en-dashes anywhere; use commas and periods instead.
+    const sys = `You are a brand director building a gentle 7-day starter plan for a nervous beginner. CORE RULE: each day is ONE focused action that takes under 30 minutes. Never overwhelm. The days build on each other, foundation first, then visibility, escalating gently. Day 1 is tiny and confidence-building. By day 7 they've made their first real public move. Speak warmly and simply, no jargon. Write plainly, the way a real person texts. Do not use em-dashes or en-dashes anywhere; use commas and periods instead. NEVER assume the gender of the people they reach: use "they", "them", or "your person", never he, she, him, her, his, or hers.
 
 The brand foundation you already established:
 - What they're really about: ${result?.reframe || ""}
