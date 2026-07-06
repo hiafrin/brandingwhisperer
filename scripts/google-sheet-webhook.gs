@@ -6,20 +6,24 @@
  * them their summary from your Google account.
  *
  * SETUP (one time, ~3 minutes):
- * 1. Go to sheets.new — name the sheet "Branding Whisperer Leads".
+ * 1. Go to sheets.new, name the sheet "Branding Whisperer Leads".
  *    In row 1, type headers: Date | Email | Brand summary
- * 2. In the sheet menu: Extensions → Apps Script. Delete any code there
- *    and paste this whole file. Save (⌘S).
- * 3. Click "Deploy" → "New deployment" → gear icon → "Web app".
+ * 2. In the sheet menu: Extensions, then Apps Script. Delete any code there
+ *    and paste this whole file. Save.
+ * 3. Run the authorizeMe function once (pick it in the toolbar, click Run) and
+ *    approve EVERY permission Google asks for, including "Send email as you."
+ *    This is the step that grants the send-email scope; skipping it makes the
+ *    email fail silently.
+ * 4. Click "Deploy", then "New deployment", gear icon, "Web app".
  *      - Execute as: Me
  *      - Who has access: Anyone
- *    Click "Deploy", approve the permissions Google asks for.
- * 4. Copy the "Web app URL" it gives you (ends in /exec).
- * 5. Put that URL in your .env as SHEETS_WEBHOOK_URL (and later in
- *    Vercel → Project Settings → Environment Variables).
+ *    Click "Deploy".
+ * 5. Copy the "Web app URL" it gives you (ends in /exec).
+ * 6. Put that URL in your .env as SHEETS_WEBHOOK_URL (and in Vercel, under
+ *    Project Settings, Environment Variables).
  *
  * Note: free Google accounts can send ~100 emails/day this way. Plenty to
- * start — when you outgrow it, swap in a proper email service and keep the
+ * start. When you outgrow it, swap in a proper email service and keep the
  * sheet as your lead log.
  */
 
@@ -33,14 +37,22 @@ function doPost(e) {
   // 2. Send them their summary
   MailApp.sendEmail({
     to: data.email,
-    subject: "Your brand — from The Branding Whisperer",
+    subject: "Your brand, from The Branding Whisperer",
     body:
       data.summary +
-      "\n\n—\nYou asked for this on The Branding Whisperer. Keep it somewhere you'll see it.\n" +
-      "Keep an eye out — 5 fresh post ideas are coming your way next week.",
+      "\n\nYou asked for this on The Branding Whisperer. Keep it somewhere you'll see it.\n" +
+      "Keep an eye out. 5 fresh post ideas are coming your way next week.",
   });
 
   return ContentService.createTextOutput(
     JSON.stringify({ ok: true })
   ).setMimeType(ContentService.MimeType.JSON);
+}
+
+// Run this ONCE from the editor to grant the sheet + email permissions.
+// It touches both SpreadsheetApp and MailApp so Google's consent screen asks
+// for every permission the webhook needs, then finishes cleanly.
+function authorizeMe() {
+  SpreadsheetApp.getActiveSpreadsheet().getName();
+  MailApp.getRemainingDailyQuota();
 }

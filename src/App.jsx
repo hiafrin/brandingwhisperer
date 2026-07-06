@@ -40,7 +40,7 @@ const QUESTIONS = [
   },
 ];
 
-const ACCENT = "#E8633A";
+const ACCENT = "#14805E";
 const INK = "#2A2422";
 const CREAM = "#FBF7F0";
 
@@ -357,7 +357,7 @@ Build my gentle 7-day plan, one small action per day.`;
         * { box-sizing: border-box; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(12px);} to { opacity: 1; transform: translateY(0);} }
         @keyframes pulse { 0%,100% { opacity:.35;} 50% { opacity:1;} }
-        @keyframes ring { 0% { box-shadow:0 0 0 0 rgba(232,99,58,.45);} 70% { box-shadow:0 0 0 16px rgba(232,99,58,0);} 100% { box-shadow:0 0 0 0 rgba(232,99,58,0);} }
+        @keyframes ring { 0% { box-shadow:0 0 0 0 rgba(20,128,94,.45);} 70% { box-shadow:0 0 0 16px rgba(20,128,94,0);} 100% { box-shadow:0 0 0 0 rgba(20,128,94,0);} }
         .mw-fade { animation: fadeUp .5s ease both; }
         .mw-area::placeholder { color:#B9AFA2; font-style:italic; }
         .mw-btn:hover { transform: translateY(-1px); filter: brightness(1.05);}
@@ -653,8 +653,8 @@ const ghostBtn = { background: "none", border: "none", color: "#9A8F82", fontSiz
 const miniLabel = { fontFamily: "'Helvetica Neue', sans-serif", fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: ACCENT, margin: "0 0 10px" };
 const plainCard = { background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "22px 24px", marginBottom: 16 };
 const heroCard = { background: "#FFF", border: "1px solid #EFE7DA", borderLeft: `4px solid ${ACCENT}`, borderRadius: 14, padding: "26px 26px", marginBottom: 16 };
-const quoteCard = { background: "#F7EFE4", border: "1px solid #EFE7DA", borderRadius: 14, padding: "22px 24px", marginBottom: 16 };
+const quoteCard = { background: "#ECF4EF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "22px 24px", marginBottom: 16 };
 const todayBox = { background: ACCENT, borderRadius: 18, padding: "28px 30px", marginTop: 30 };
-const bridgeBox = { background: "#F7EFE4", border: "1px solid #EFE7DA", borderRadius: 14, padding: "22px 24px" };
+const bridgeBox = { background: "#ECF4EF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "22px 24px" };
 const dayCard = { background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "20px 22px", marginBottom: 14 };
-const dayBadge = { flexShrink: 0, background: "#F3E9DC", color: ACCENT, borderRadius: 100, padding: "4px 12px", fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 700, fontSize: 13, letterSpacing: ".04em" };
+const dayBadge = { flexShrink: 0, background: "#E3EFE8", color: ACCENT, borderRadius: 100, padding: "4px 12px", fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 700, fontSize: 13, letterSpacing: ".04em" };
