@@ -6,37 +6,37 @@ const QUESTIONS = [
     id: "business",
     label: "What are you building, in one plain sentence?",
     help: "A business, a product, or just your own name. \"I'm a freelance designer\" works too.",
-    placeholder: "I make soy candles — or — I'm building my name as a career coach",
+    placeholder: "I make soy candles, or I'm building my name as a career coach",
   },
   {
     id: "customer",
     label: "Picture one real person you want to reach. Who are they?",
     help: "A type of person, not \"everyone.\" The more specific, the better.",
-    placeholder: "Women in their 30s into cozy self-care — or — new managers who feel out of their depth",
+    placeholder: "Women in their 30s into cozy self-care, or new managers who feel out of their depth",
   },
   {
     id: "different",
     label: "Why would someone choose you over the others out there?",
     help: "Even if it feels small. Your style, your story, your point of view, made by you.",
-    placeholder: "Clean small-batch candles — or — I've actually done the job I'm coaching on",
+    placeholder: "Clean small-batch candles, or I've actually done the job I'm coaching on",
   },
   {
     id: "feeling",
     label: "When someone discovers you, what's the ONE thing you want them to feel?",
     help: "Pick a single feeling. This becomes the soul of your brand.",
-    placeholder: "Calm — or — \"finally, someone who gets it\"",
+    placeholder: "Calm, or \"finally, someone who gets it\"",
   },
   {
     id: "where",
     label: "Where do the people you want to reach already spend time?",
     help: "Online or in real life. Instagram, LinkedIn, Pinterest, a niche forum, local events...",
-    placeholder: "Instagram and Pinterest — or — LinkedIn and industry Slack groups",
+    placeholder: "Instagram and Pinterest, or LinkedIn and industry Slack groups",
   },
   {
     id: "goal",
     label: "What would make the next 3 months a win?",
-    help: "Be honest about where you are. \"First 10 sales\" or \"500 real followers\" — both count.",
-    placeholder: "My first 30 sales — or — known as a go-to voice in my niche",
+    help: "Be honest about where you are. \"First 10 sales\" or \"500 real followers\" both count.",
+    placeholder: "My first 30 sales, or known as a go-to voice in my niche",
   },
 ];
 
@@ -80,7 +80,7 @@ export default function BrandingWhisperer() {
   // Build a plain-text version of everything so far
   function buildSummary() {
     if (!result) return "";
-    let t = "MY BRAND — from The Branding Whisperer\n\n";
+    let t = "MY BRAND, from The Branding Whisperer\n\n";
     if (result.pain) t += `The real reason they'd choose me:\n${result.pain}\n\n`;
     if (result.reframe) t += `What I'm really about:\n${result.reframe}\n\n`;
     if (result.edge) t += `What makes me un-copyable:\n${result.edge}\n\n`;
@@ -88,12 +88,12 @@ export default function BrandingWhisperer() {
     if (result.against) t += `What I stand against:\n${result.against}\n\n`;
     if (posts?.posts?.length) {
       t += "POST IDEAS:\n";
-      posts.posts.forEach((p, i) => { t += `${i + 1}. ${p.hook}${p.idea ? ` — ${p.idea}` : ""}\n`; });
+      posts.posts.forEach((p, i) => { t += `${i + 1}. ${p.hook}${p.idea ? `: ${p.idea}` : ""}\n`; });
       t += "\n";
     }
     if (plan?.days?.length) {
       t += "MY 7-DAY PLAN:\n";
-      plan.days.forEach((d) => { t += `Day ${d.day}: ${d.title} — ${d.action}\n`; });
+      plan.days.forEach((d) => { t += `Day ${d.day}: ${d.title}. ${d.action}\n`; });
     }
     return t.trim();
   }
@@ -113,11 +113,11 @@ export default function BrandingWhisperer() {
       });
       if (!r.ok) {
         const d = await r.json().catch(() => ({}));
-        throw new Error(d.error || "Couldn't send it — try again, or use Copy.");
+        throw new Error(d.error || "Couldn't send it. Try again, or use Copy.");
       }
       setEmailSent(true);
     } catch (e) {
-      setEmailError(e.message || "Couldn't send it — try again, or use Copy.");
+      setEmailError(e.message || "Couldn't send it. Try again, or use Copy.");
     } finally { setEmailSending(false); }
   }
   const [listening, setListening] = useState(false);
@@ -182,25 +182,25 @@ export default function BrandingWhisperer() {
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
     // ── CALL 1: The brand foundation. Director-level depth, said simply. ──
-    const systemPrompt = `You are a seasoned brand director giving advice to a nervous person building a brand — a small business OR a personal brand (freelancer, creator, coach, someone building their name). Treat them like a friend, not a client. Notice which kind they are and speak to their real situation. Go DEEP like a real director, but say everything simply — they're intimidated by marketing.
+    const systemPrompt = `You are a seasoned brand director giving advice to a nervous person building a brand, a small business OR a personal brand (freelancer, creator, coach, someone building their name). Treat them like a friend, not a client. Notice which kind they are and speak to their real situation. Go DEEP like a real director, but say everything simply. They're intimidated by marketing.
 
-LANGUAGE: For a product business, "selling" is fine. For a PERSONAL brand, don't say "selling" — say what they "offer," want to be "known for," or the value people come to them for.
+LANGUAGE: For a product business, "selling" is fine. For a PERSONAL brand, don't say "selling," say what they "offer," want to be "known for," or the value people come to them for.
 
 YOUR THINKING:
-1. PAIN & ASPIRATION — the ache the person they want to reach hasn't named yet, and the dream pulling them. Understand it before they've felt it. Find the real human moment.
-2. THE REFRAME — what they're REALLY about, not surface features. A jolt: "oh, THAT'S what I'm really offering." Specific and surprising. This is the centerpiece.
-3. WHAT'S UN-COPYABLE + the one person most drawn to them — same insight, two sides. For a personal brand it's usually their story or lived experience.
-4. BRAND PERSONALITY — if this brand were a person, how do they talk and carry themselves? Give 3 vivid traits.
-5. WHAT THEY STAND AGAINST — the thing in their world they push back on. Brands get sharp by having an enemy (a bad norm, a tired way of doing things).
+1. PAIN & ASPIRATION: the ache the person they want to reach hasn't named yet, and the dream pulling them. Understand it before they've felt it. Find the real human moment.
+2. THE REFRAME: what they're REALLY about, not surface features. A jolt: "oh, THAT'S what I'm really offering." Specific and surprising. This is the centerpiece.
+3. WHAT'S UN-COPYABLE + the one person most drawn to them: same insight, two sides. For a personal brand it's usually their story or lived experience.
+4. BRAND PERSONALITY: if this brand were a person, how do they talk and carry themselves? Give 3 vivid traits.
+5. WHAT THEY STAND AGAINST: the thing in their world they push back on. Brands get sharp by having an enemy (a bad norm, a tired way of doing things).
 
-VOICE: Direct but warm. Truth, then belief they can do it. No jargon. Short sentences.
+VOICE: Direct but warm. Truth, then belief they can do it. No jargon. Short sentences. Write plainly, the way a real person texts. Do not use em-dashes or en-dashes anywhere; use commas and periods instead.
 
 Depth means insight, not length. No field longer than 2 sentences.
 
 Return ONLY valid JSON, no markdown, no preamble:
 {
   "pain": "the real ache + aspiration as a vivid human moment (max 2 sentences)",
-  "reframe": "'you're not just doing X, you're really offering Y' — surprising and specific (max 2 sentences)",
+  "reframe": "'you're not just doing X, you're really offering Y', surprising and specific (max 2 sentences)",
   "edge": "what's un-copyable AND the one person most drawn to them, as one linked insight (max 2 sentences)",
   "personality": "3 vivid personality traits of the brand + how it talks (max 2 sentences)",
   "against": "the norm or tired way of doing things this brand pushes against (max 2 sentences)"
@@ -231,7 +231,7 @@ Give me my brand foundation. Find the pain, the reframe, what's un-copyable, my 
       if (f !== -1 && l !== -1 && l > f) cleaned = cleaned.slice(f, l + 1);
       let parsed;
       try { parsed = JSON.parse(cleaned); }
-      catch (_) { parsed = salvagePartialJson(cleaned); if (!parsed) throw new Error("The AI's answer got cut short. Tap to try again — this usually works on a second pass."); }
+      catch (_) { parsed = salvagePartialJson(cleaned); if (!parsed) throw new Error("The AI's answer got cut short. Tap to try again, it usually works on a second pass."); }
       parsed.pain = parsed.pain || ""; parsed.reframe = parsed.reframe || ""; parsed.edge = parsed.edge || "";
       parsed.personality = parsed.personality || ""; parsed.against = parsed.against || "";
       // stash the answers so the 7-day plan call can use them
@@ -251,7 +251,7 @@ Give me my brand foundation. Find the pain, the reframe, what's un-copyable, my 
     const a = result?._answers || answers;
     const seed = Math.random().toString(36).slice(2, 7); // nudges fresh ideas each refill
 
-    const sys = `You are a brand director giving a nervous beginner 5 post ideas they could actually publish. Each must sound like THEM, carry THEIR point of view, and speak to THEIR people. Specific, not generic. No "share your journey" filler. For personal brands, lean on their story and take. Short. No jargon.
+    const sys = `You are a brand director giving a nervous beginner 5 post ideas they could actually publish. Each must sound like THEM, carry THEIR point of view, and speak to THEIR people. Specific, not generic. No "share your journey" filler. For personal brands, lean on their story and take. Short. No jargon. Write plainly, the way a real person texts. Do not use em-dashes or en-dashes anywhere; use commas and periods instead.
 
 Their brand:
 - Really about: ${result?.reframe || ""}
@@ -278,7 +278,7 @@ Give exactly 5. Keep it tight. (variety seed: ${seed})`;
       if (f !== -1 && l !== -1 && l > f) cleaned = cleaned.slice(f, l + 1);
       let parsed;
       try { parsed = JSON.parse(cleaned); } catch (_) { parsed = salvagePartialJson(cleaned); }
-      if (!parsed?.posts) throw new Error("Cut short — tap to try again.");
+      if (!parsed?.posts) throw new Error("Cut short. Tap to try again.");
       parsed.posts = Array.isArray(parsed.posts) ? parsed.posts : [];
       setPosts(parsed);
     } catch (e) {
@@ -293,7 +293,7 @@ Give exactly 5. Keep it tight. (variety seed: ${seed})`;
     setPlanLoading(true); setPlanError(null); setPlan(null); setDayReveal(0);
     const a = result?._answers || answers;
 
-    const sys = `You are a brand director building a gentle 7-day starter plan for a nervous beginner. CORE RULE: each day is ONE focused action that takes under 30 minutes. Never overwhelm. The days build on each other — foundation first, then visibility, escalating gently. Day 1 is tiny and confidence-building. By day 7 they've made their first real public move. Speak warmly and simply, no jargon.
+    const sys = `You are a brand director building a gentle 7-day starter plan for a nervous beginner. CORE RULE: each day is ONE focused action that takes under 30 minutes. Never overwhelm. The days build on each other, foundation first, then visibility, escalating gently. Day 1 is tiny and confidence-building. By day 7 they've made their first real public move. Speak warmly and simply, no jargon. Write plainly, the way a real person texts. Do not use em-dashes or en-dashes anywhere; use commas and periods instead.
 
 The brand foundation you already established:
 - What they're really about: ${result?.reframe || ""}
@@ -309,7 +309,7 @@ Return ONLY valid JSON, no markdown, no preamble:
 Give exactly 7 days. Keep every field short so all 7 fit.`;
 
     const usr = `My brand: ${a.business}. Who I'm reaching: ${a.customer}. Where they spend time: ${a.where}. My 3-month win: ${a.goal}.
-Build my gentle 7-day plan — one small action per day.`;
+Build my gentle 7-day plan, one small action per day.`;
 
     try {
       const response = await fetch("/api/generate", {
@@ -382,11 +382,11 @@ Build my gentle 7-day plan — one small action per day.`;
               <span style={{ color: ACCENT }}>Then I'll tell you what you're really about.</span>
             </h1>
             <p style={{ fontSize: 18, lineHeight: 1.6, color: "#5C534B", maxWidth: 520, margin: "0 0 34px" }}>
-              Building a business or building your own name — either way, no marketing words needed.
+              Building a business or building your own name. Either way, no marketing words needed.
               Answer one question at a time, type or talk, and you'll walk away knowing the real reason
               people will choose you, and the one small thing to do today.
             </p>
-            <button className="mw-btn" onClick={() => setStep(0)} style={primaryBtn}>Start — takes 3 minutes</button>
+            <button className="mw-btn" onClick={() => setStep(0)} style={primaryBtn}>Start (takes 3 minutes)</button>
             <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 18, fontFamily: "'Helvetica Neue', sans-serif" }}>
               No account. One question at a time, I promise.
             </p>
@@ -462,7 +462,7 @@ Build my gentle 7-day plan — one small action per day.`;
             {/* ---------- PHASE 1: FOUNDATION ---------- */}
             {phase === "foundation" && (
               <>
-                <p style={miniLabel}>First — let's understand your brand</p>
+                <p style={miniLabel}>First, let's understand your brand</p>
                 <div style={{ marginTop: 8 }}>
                   {cards.slice(0, reveal + 1).map((c, i) => (
                     <div key={i} className="mw-fade" style={c.hero ? heroCard : plainCard}>
@@ -481,7 +481,7 @@ Build my gentle 7-day plan — one small action per day.`;
                     <div style={bridgeBox}>
                       <p style={{ fontSize: 19, lineHeight: 1.5, margin: 0, color: INK }}>
                         That's your foundation. Stuck on what to actually post? I'll give you 5 ideas
-                        in <strong>your</strong> voice — refill anytime.
+                        in <strong>your</strong> voice. Refill anytime.
                       </p>
                     </div>
 
@@ -519,8 +519,8 @@ Build my gentle 7-day plan — one small action per day.`;
                           {!emailSent ? (
                             <>
                               <p style={{ fontSize: 18, lineHeight: 1.5, margin: 0, color: INK }}>
-                                These are yours, free. Want me to email you everything — your brand
-                                breakdown and these ideas — plus <strong>5 fresh post ideas next week</strong>?
+                                These are yours, free. Want me to email you everything (your brand
+                                breakdown and these ideas), plus <strong>5 fresh post ideas next week</strong>?
                               </p>
                               <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
                                 <input
@@ -530,7 +530,7 @@ Build my gentle 7-day plan — one small action per day.`;
                                   onFocus={(e) => (e.target.style.borderColor = ACCENT)} onBlur={(e) => (e.target.style.borderColor = "#E5DDD1")}
                                 />
                                 <button className="mw-btn" onClick={sendEmail} disabled={!email.trim() || emailSending} style={{ ...primaryBtn, padding: "12px 22px", fontSize: 15, opacity: email.trim() ? 1 : 0.4 }}>
-                                  {emailSending ? "Sending…" : "Yes — email it to me"}
+                                  {emailSending ? "Sending…" : "Yes, email it to me"}
                                 </button>
                               </div>
                               {emailError && (
@@ -539,7 +539,7 @@ Build my gentle 7-day plan — one small action per day.`;
                             </>
                           ) : (
                             <p style={{ fontSize: 17, color: ACCENT, margin: 0, fontFamily: "'Helvetica Neue', sans-serif" }}>
-                              Sent — check your inbox ✓ Fresh ideas coming next week.
+                              Sent. Check your inbox ✓ Fresh ideas coming next week.
                             </p>
                           )}
                         </div>
@@ -569,7 +569,7 @@ Build my gentle 7-day plan — one small action per day.`;
             {/* ---------- PHASE 2: THE 7-DAY PLAN ---------- */}
             {phase === "plan" && (
               <>
-                <p style={miniLabel}>Your 7-day plan — one small step a day</p>
+                <p style={miniLabel}>Your 7-day plan, one small step a day</p>
 
                 {planLoading && (
                   <div style={{ textAlign: "center", paddingTop: 40 }}>
@@ -610,7 +610,7 @@ Build my gentle 7-day plan — one small action per day.`;
                       <div className="mw-fade" style={{ marginTop: 26 }}>
                         <div style={todayBox}>
                           <p style={{ fontSize: 20, lineHeight: 1.45, color: "#FFF", margin: 0 }}>
-                            That's your week. Don't think about day 7 yet — just do Day 1. You've got this.
+                            That's your week. Don't think about day 7 yet. Just do Day 1. You've got this.
                           </p>
                         </div>
                         <button className="mw-btn" onClick={restart} style={{ ...primaryBtn, marginTop: 24 }}>Start over with a new idea</button>
@@ -626,7 +626,7 @@ Build my gentle 7-day plan — one small action per day.`;
         {/* FOOTER — the human behind the whisperer */}
         <footer style={{ marginTop: 80, paddingTop: 28, borderTop: "1px solid #E5DDD1" }}>
           <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", margin: "0 0 16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
-            This tool exists purely to help you — no catch, no fine print. I'm a marketer
+            This tool exists purely to help you. No catch, no fine print. I'm a brand marketer
             teaching myself AI, and as I get better at it, I want to build more things like
             this for people who don't come from a marketing background.
           </p>
