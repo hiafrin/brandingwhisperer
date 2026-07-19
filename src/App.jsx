@@ -405,6 +405,25 @@ Build my gentle 7-day plan, one small action per day.`;
             <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 18, fontFamily: "'Helvetica Neue', sans-serif" }}>
               No account. One question at a time, I promise.
             </p>
+
+            {/* ── More whispers ── */}
+            <div style={{ marginTop: 52 }}>
+              <p style={miniLabel}>Or, if this sounds like you</p>
+              <a
+                href="#/shield"
+                onClick={() => track("opened_shield")}
+                style={{ display: "block", background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "22px 24px", textDecoration: "none", color: INK, transition: "border-color .18s" }}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = ACCENT)}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#EFE7DA")}
+              >
+                <p style={{ fontSize: 19, fontStyle: "italic", lineHeight: 1.45, margin: "0 0 8px" }}>
+                  “Posting feels like exposing myself, not my work.”
+                </p>
+                <p style={{ fontFamily: "'Helvetica Neue', sans-serif", fontSize: 14, fontWeight: 600, color: ACCENT, margin: 0 }}>
+                  The Shield Whisper → build a brand you can hide behind
+                </p>
+              </a>
+            </div>
           </div>
         )}
 
