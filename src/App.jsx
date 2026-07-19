@@ -1,5 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { track } from "@vercel/analytics";
+import {
+  ACCENT, INK, CREAM, ACCENT_RGB, INK_TEAL, CORAL, BUTTER, ACCENT_TINT,
+  SERIF, SANS, GLOBAL_CSS,
+  parseWhisperResponse,
+  useVoiceInput, MicIcon,
+  GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote,
+  primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
+} from "./lib/whisperKit.jsx";
 
 // ── The six questions — worded to fit anyone building a brand: a business OR a personal one ──
 const QUESTIONS = [
@@ -41,20 +49,16 @@ const QUESTIONS = [
   },
 ];
 
-const ACCENT = "#14805E";
-const INK = "#2A2422";
-const CREAM = "#FBF7F0";
-
-function salvagePartialJson(str) {
-  for (let end = str.length; end > 20; end--) {
-    const slice = str.slice(0, end);
-    const candidates = [slice + "}", slice + "]}", slice + '"}]}', slice + '"}', slice.replace(/,\s*$/, "") + "}", slice.replace(/,\s*$/, "") + "]}"];
-    for (const c of candidates) {
-      try { const o = JSON.parse(c); if (o && typeof o === "object") return o; } catch (_) {}
-    }
-  }
-  return null;
-}
+// ── Other whispers, linked from the home page. Each new whisper just adds one entry here. ──
+const MORE_WHISPERS = [
+  {
+    key: "shield",
+    quote: "Posting feels like exposing myself, not my work.",
+    href: "#/shield",
+    event: "opened_shield",
+    cta: "Find a voice that sounds like you →",
+  },
+];
 
 export default function BrandingWhisperer() {
   const [step, setStep] = useState(-1);
@@ -81,7 +85,7 @@ export default function BrandingWhisperer() {
   // Build a plain-text version of everything so far
   function buildSummary() {
     if (!result) return "";
-    let t = "MY BRAND, from The Branding Whisperer\n\n";
+    let t = "MY BRAND, from Branding Inward\n\n";
     if (result.pain) t += `The real reason they'd choose me:\n${result.pain}\n\n`;
     if (result.reframe) t += `What I'm really about:\n${result.reframe}\n\n`;
     if (result.edge) t += `What makes me un-copyable:\n${result.edge}\n\n`;
@@ -121,60 +125,28 @@ export default function BrandingWhisperer() {
       setEmailError(e.message || "Couldn't send it. Try again, or use Copy.");
     } finally { setEmailSending(false); }
   }
-  const [listening, setListening] = useState(false);
-  const [voiceSupported, setVoiceSupported] = useState(false);
   const inputRef = useRef(null);
-  const recognitionRef = useRef(null);
-  const baseRef = useRef("");
+  const { listening, voiceSupported, toggleMic, resetBase, setBase, stopIfListening } = useVoiceInput(draft, setDraft);
 
   useEffect(() => {
     if (step >= 0 && step < QUESTIONS.length && inputRef.current) inputRef.current.focus();
   }, [step]);
 
-  // Browser speech recognition (activates only on a hosted page, not in preview)
-  useEffect(() => {
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) return;
-    setVoiceSupported(true);
-    const rec = new SR();
-    rec.continuous = true; rec.interimResults = true; rec.lang = "en-US";
-    rec.onresult = (e) => {
-      let fin = "", intr = "";
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        const t = e.results[i][0].transcript;
-        if (e.results[i].isFinal) fin += t; else intr += t;
-      }
-      if (fin) baseRef.current = (baseRef.current + " " + fin).trim();
-      setDraft((baseRef.current + " " + intr).trim());
-    };
-    rec.onerror = () => setListening(false);
-    rec.onend = () => setListening(false);
-    recognitionRef.current = rec;
-    return () => { try { rec.stop(); } catch (_) {} };
-  }, []);
-
-  function toggleMic() {
-    const rec = recognitionRef.current;
-    if (!rec) return;
-    if (listening) { rec.stop(); setListening(false); }
-    else { baseRef.current = draft; try { rec.start(); setListening(true); } catch (_) { setListening(false); } }
-  }
-
   const q = step >= 0 && step < QUESTIONS.length ? QUESTIONS[step] : null;
 
   function next() {
     if (!q || !draft.trim()) return;
-    if (listening && recognitionRef.current) { recognitionRef.current.stop(); setListening(false); }
+    stopIfListening();
     const updated = { ...answers, [q.id]: draft.trim() };
     setAnswers(updated);
-    setDraft(""); baseRef.current = "";
+    setDraft(""); resetBase();
     if (step + 1 >= QUESTIONS.length) generate(updated);
     else setStep(step + 1);
   }
 
   function back() {
-    if (listening && recognitionRef.current) { recognitionRef.current.stop(); setListening(false); }
-    if (step > 0) { const id = QUESTIONS[step - 1].id; setDraft(answers[id] || ""); baseRef.current = answers[id] || ""; setStep(step - 1); }
+    stopIfListening();
+    if (step > 0) { const id = QUESTIONS[step - 1].id; setDraft(answers[id] || ""); setBase(answers[id] || ""); setStep(step - 1); }
     else if (step === 0) setStep(-1);
   }
 
@@ -227,14 +199,8 @@ Give me my brand foundation. Find the pain, the reframe, what's un-copyable, my 
       });
       if (!response.ok) throw new Error(`The AI service returned an error (${response.status}). Please try again.`);
       const data = await response.json();
-      const rawText = (data.content || []).filter((b) => b && b.type === "text" && typeof b.text === "string").map((b) => b.text).join("").trim();
-      if (!rawText) throw new Error("The AI came back empty. Please try again.");
-      let cleaned = rawText.replace(/```json/gi, "").replace(/```/g, "").trim();
-      const f = cleaned.indexOf("{"), l = cleaned.lastIndexOf("}");
-      if (f !== -1 && l !== -1 && l > f) cleaned = cleaned.slice(f, l + 1);
-      let parsed;
-      try { parsed = JSON.parse(cleaned); }
-      catch (_) { parsed = salvagePartialJson(cleaned); if (!parsed) throw new Error("The AI's answer got cut short. Tap to try again, it usually works on a second pass."); }
+      const parsed = parseWhisperResponse(data);
+      if (!parsed) throw new Error("The AI's answer got cut short. Tap to try again, it usually works on a second pass.");
       parsed.pain = parsed.pain || ""; parsed.reframe = parsed.reframe || ""; parsed.edge = parsed.edge || "";
       parsed.personality = parsed.personality || ""; parsed.against = parsed.against || "";
       // stash the answers so the 7-day plan call can use them
@@ -286,12 +252,7 @@ Give exactly 5. Make each genuinely different from the others. (variety seed: ${
       });
       if (!r.ok) throw new Error(`Error (${r.status}). Try again.`);
       const data = await r.json();
-      const raw = (data.content || []).filter((b) => b?.type === "text").map((b) => b.text).join("").trim();
-      let cleaned = raw.replace(/```json/gi, "").replace(/```/g, "").trim();
-      const f = cleaned.indexOf("{"), l = cleaned.lastIndexOf("}");
-      if (f !== -1 && l !== -1 && l > f) cleaned = cleaned.slice(f, l + 1);
-      let parsed;
-      try { parsed = JSON.parse(cleaned); } catch (_) { parsed = salvagePartialJson(cleaned); }
+      const parsed = parseWhisperResponse(data);
       if (!parsed?.posts) throw new Error("Cut short. Tap to try again.");
       parsed.posts = Array.isArray(parsed.posts) ? parsed.posts : [];
       setPosts(parsed);
@@ -334,14 +295,8 @@ Build my gentle 7-day plan, one small action per day.`;
       });
       if (!response.ok) throw new Error(`The service returned an error (${response.status}). Please try again.`);
       const data = await response.json();
-      const raw = (data.content || []).filter((b) => b && b.type === "text" && typeof b.text === "string").map((b) => b.text).join("").trim();
-      if (!raw) throw new Error("Came back empty. Please try again.");
-      let cleaned = raw.replace(/```json/gi, "").replace(/```/g, "").trim();
-      const f = cleaned.indexOf("{"), l = cleaned.lastIndexOf("}");
-      if (f !== -1 && l !== -1 && l > f) cleaned = cleaned.slice(f, l + 1);
-      let parsed;
-      try { parsed = JSON.parse(cleaned); }
-      catch (_) { parsed = salvagePartialJson(cleaned); if (!parsed) throw new Error("The plan got cut short. Tap to try again."); }
+      const parsed = parseWhisperResponse(data);
+      if (!parsed) throw new Error("The plan got cut short. Tap to try again.");
       parsed.days = Array.isArray(parsed.days) ? parsed.days : [];
       setPlan(parsed);
     } catch (e) {
@@ -352,7 +307,7 @@ Build my gentle 7-day plan, one small action per day.`;
   }
 
   function restart() {
-    setStep(-1); setAnswers({}); setDraft(""); baseRef.current = "";
+    setStep(-1); setAnswers({}); setDraft(""); resetBase();
     setResult(null); setError(null); setReveal(0);
     setPlan(null); setPlanError(null); setDayReveal(0); setPhase("foundation");
   }
@@ -367,44 +322,93 @@ Build my gentle 7-day plan, one small action per day.`;
   ].filter((c) => c.body) : [];
 
   return (
-    <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: "'Georgia', serif" }}>
-      <style>{`
-        * { box-sizing: border-box; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px);} to { opacity: 1; transform: translateY(0);} }
-        @keyframes pulse { 0%,100% { opacity:.35;} 50% { opacity:1;} }
-        @keyframes ring { 0% { box-shadow:0 0 0 0 rgba(20,128,94,.45);} 70% { box-shadow:0 0 0 16px rgba(20,128,94,0);} 100% { box-shadow:0 0 0 0 rgba(20,128,94,0);} }
-        .mw-fade { animation: fadeUp .5s ease both; }
-        .mw-area::placeholder { color:#B9AFA2; font-style:italic; }
-        .mw-btn:hover { transform: translateY(-1px); filter: brightness(1.05);}
-        .mw-btn:active { transform: translateY(0);}
-        .mw-ghost:hover { color:${ACCENT};}
-        .mw-mic-live { animation: ring 1.6s infinite;}
-      `}</style>
+    <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
+      <style>{GLOBAL_CSS}</style>
+      <GrainOverlay />
 
-      <div style={{ maxWidth: 660, margin: "0 auto", padding: "48px 24px 80px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 40 }}>
-          <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
-          <span style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-            The Branding Whisperer
-          </span>
-        </div>
+      {/* ── FULL-BLEED HERO with ambient video (landing only) ── */}
+      {step === -1 && (
+        <>
+          <section style={{ position: "relative", overflow: "hidden", background: INK_TEAL, backgroundImage: "url(/media/hero-poster.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}>
+            <video autoPlay muted loop playsInline poster="/media/hero-poster.jpg" aria-hidden="true"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}>
+              <source src="/media/hero.mp4" type="video/mp4" />
+            </video>
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(175deg, rgba(11,59,52,.72) 0%, rgba(11,59,52,.55) 45%, rgba(11,59,52,.85) 100%)" }} />
+            <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "56px 24px 96px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 64 }}>
+                <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
+                <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>
+                  Branding Inward
+                </span>
+              </div>
+              <h1 style={{ fontSize: "clamp(42px, 7vw, 72px)", lineHeight: 1.04, margin: "0 0 24px", fontWeight: 350, color: CREAM, letterSpacing: "-0.01em" }}>
+                Six little questions.<br />
+                <span style={{ fontStyle: "italic", fontWeight: 400, color: BUTTER }}>Then I'll tell you</span><br />
+                what you're{" "}
+                <span style={{ display: "inline-block" }}>
+                  really about.
+                  <UnderlineStroke width={230} />
+                </span>
+              </h1>
+              <p style={{ fontSize: 19, lineHeight: 1.65, color: "rgba(251,247,240,.88)", maxWidth: 540, margin: "0 0 38px" }}>
+                Building a business or building your own name. Either way, no marketing words needed.
+                Answer one question at a time, type or talk, and you'll walk away knowing the real reason
+                people will choose you, and the one small thing to do today.
+              </p>
+              <button className="mw-btn" onClick={() => { track("started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Start (takes 3 minutes)</button>
+              <p style={{ fontSize: 14, color: "rgba(251,247,240,.6)", marginTop: 18, fontFamily: SANS }}>
+                No account. One question at a time, I promise.
+              </p>
+            </div>
+          </section>
 
-        {/* INTRO */}
-        {step === -1 && (
-          <div className="mw-fade">
-            <h1 style={{ fontSize: 44, lineHeight: 1.1, margin: "0 0 18px", fontWeight: 400 }}>
-              Six little questions.<br />
-              <span style={{ color: ACCENT }}>Then I'll tell you what you're really about.</span>
-            </h1>
-            <p style={{ fontSize: 18, lineHeight: 1.6, color: "#5C534B", maxWidth: 520, margin: "0 0 34px" }}>
-              Building a business or building your own name. Either way, no marketing words needed.
-              Answer one question at a time, type or talk, and you'll walk away knowing the real reason
-              people will choose you, and the one small thing to do today.
-            </p>
-            <button className="mw-btn" onClick={() => { track("started"); setStep(0); }} style={primaryBtn}>Start (takes 3 minutes)</button>
-            <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 18, fontFamily: "'Helvetica Neue', sans-serif" }}>
-              No account. One question at a time, I promise.
-            </p>
+          {/* ── EDITORIAL BAND: photos + the belief line ── */}
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "72px 24px 8px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 22, alignItems: "center" }}>
+              <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "3/4", boxShadow: "0 16px 40px rgba(11,59,52,.14)" }}>
+                <img src="/media/pottery-hands.jpg" alt="Hands shaping clay on a pottery wheel" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </div>
+              <div style={{ padding: "12px 6px" }}>
+                <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>For the quiet ones</p>
+                <p style={{ fontSize: "clamp(24px, 3.4vw, 32px)", lineHeight: 1.25, margin: 0, fontWeight: 350 }}>
+                  Most marketing advice was written for extroverts.<br />
+                  <span style={{ fontStyle: "italic", color: ACCENT }}>This place isn't.</span>
+                </p>
+                <p style={{ fontSize: 16, lineHeight: 1.6, color: "#5C534B", margin: "16px 0 0", fontFamily: SANS }}>
+                  Free little tools for makers, musicians, freelancers, and small businesses who love
+                  the work and hate the performing. Promotion without performing, depth over reach.
+                </p>
+              </div>
+              <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "3/4", boxShadow: "0 16px 40px rgba(11,59,52,.14)" }}>
+                <img src="/media/quiet-desk.jpg" alt="A quiet chair in morning light with coffee and a notebook" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", animationDelay: "-12s" }} />
+              </div>
+            </div>
+          </section>
+
+          {/* ── MORE WHISPERS ── */}
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "56px 24px 72px" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 18px" }}>More tools</p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
+              {MORE_WHISPERS.map((w) => (
+                <a key={w.key} href={w.href} onClick={() => track(w.event)} className="mw-card-hover" style={{ ...bridgeBox, display: "block", textDecoration: "none", color: INK, padding: "26px 26px" }}>
+                  <DoodleShield />
+                  <p style={{ fontSize: 19, lineHeight: 1.45, fontStyle: "italic", margin: "14px 0 14px" }}>"{w.quote}"</p>
+                  <span style={{ color: ACCENT, fontWeight: 600, fontFamily: SANS, fontSize: 16 }}>{w.cta}</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
+
+      <div style={{ maxWidth: 660, margin: "0 auto", padding: step === -1 ? "0 24px" : "48px 24px 80px" }}>
+        {step !== -1 && (
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 40 }}>
+            <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
+            <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
+              Branding Inward
+            </span>
           </div>
         )}
 
@@ -416,17 +420,20 @@ Build my gentle 7-day plan, one small action per day.`;
                 <span key={i} style={{ height: 3, flex: 1, borderRadius: 2, background: i <= step ? ACCENT : "#E5DDD1", transition: "background .3s" }} />
               ))}
             </div>
-            <p style={{ fontFamily: "'Helvetica Neue', sans-serif", fontSize: 13, letterSpacing: ".1em", textTransform: "uppercase", color: ACCENT, margin: "0 0 14px" }}>
-              Question {step + 1} of {QUESTIONS.length}
-            </p>
-            <h2 style={{ fontSize: 30, lineHeight: 1.2, margin: "0 0 10px", fontWeight: 400 }}>{q.label}</h2>
-            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 22px", fontFamily: "'Helvetica Neue', sans-serif" }}>{q.help}</p>
+            <div style={{ position: "relative", paddingTop: 34 }}>
+              <GhostNumber n={step + 1} />
+              <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".1em", textTransform: "uppercase", color: ACCENT, margin: "0 0 14px", position: "relative" }}>
+                Question {step + 1} of {QUESTIONS.length}
+              </p>
+              <h2 style={{ fontSize: 33, lineHeight: 1.18, margin: "0 0 10px", fontWeight: 400, position: "relative" }}>{q.label}</h2>
+            </div>
+            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 22px", fontFamily: SANS }}>{q.help}</p>
             <textarea
               ref={inputRef} className="mw-area" value={draft}
-              onChange={(e) => { setDraft(e.target.value); baseRef.current = e.target.value; }}
+              onChange={(e) => { setDraft(e.target.value); setBase(e.target.value); }}
               onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); next(); } }}
               placeholder={q.placeholder} rows={3}
-              style={{ width: "100%", fontSize: 19, fontFamily: "'Georgia', serif", color: INK, padding: "18px 20px", borderRadius: 14, border: "2px solid #E5DDD1", background: "#FFF", resize: "none", outline: "none", lineHeight: 1.5 }}
+              style={{ width: "100%", fontSize: 19, fontFamily: SERIF, color: INK, padding: "18px 20px", borderRadius: 14, border: "2px solid #E5DDD1", background: "#FFF", resize: "none", outline: "none", lineHeight: 1.5 }}
               onFocus={(e) => (e.target.style.borderColor = ACCENT)} onBlur={(e) => (e.target.style.borderColor = "#E5DDD1")}
             />
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 22, flexWrap: "wrap" }}>
@@ -434,7 +441,7 @@ Build my gentle 7-day plan, one small action per day.`;
                 {step + 1 >= QUESTIONS.length ? "Show me what I'm really about" : "Next"}
               </button>
               {voiceSupported && (
-                <button onClick={toggleMic} className={listening ? "mw-mic-live" : ""} style={{ display: "flex", alignItems: "center", gap: 8, background: listening ? ACCENT : "#FFF", color: listening ? "#FFF" : INK, border: `2px solid ${listening ? ACCENT : "#E5DDD1"}`, borderRadius: 100, padding: "11px 18px", cursor: "pointer", fontFamily: "'Helvetica Neue', sans-serif", fontSize: 14, fontWeight: 600, transition: "all .18s" }}>
+                <button onClick={toggleMic} className={listening ? "mw-mic-live" : ""} style={{ display: "flex", alignItems: "center", gap: 8, background: listening ? ACCENT : "#FFF", color: listening ? "#FFF" : INK, border: `2px solid ${listening ? ACCENT : "#E5DDD1"}`, borderRadius: 100, padding: "11px 18px", cursor: "pointer", fontFamily: SANS, fontSize: 14, fontWeight: 600, transition: "all .18s" }}>
                   <MicIcon color={listening ? "#FFF" : ACCENT} />
                   {listening ? "Listening…" : "Speak"}
                 </button>
@@ -442,7 +449,7 @@ Build my gentle 7-day plan, one small action per day.`;
               <button className="mw-ghost" onClick={back} style={ghostBtn}>Back</button>
             </div>
             {!voiceSupported && (
-              <p style={{ fontSize: 13, color: "#B9AFA2", marginTop: 14, fontFamily: "'Helvetica Neue', sans-serif" }}>
+              <p style={{ fontSize: 13, color: "#B9AFA2", marginTop: 14, fontFamily: SANS }}>
                 The “Speak” button turns on once this is on a live website.
               </p>
             )}
@@ -480,9 +487,10 @@ Build my gentle 7-day plan, one small action per day.`;
                 <p style={miniLabel}>First, let's understand your brand</p>
                 <div style={{ marginTop: 8 }}>
                   {cards.slice(0, reveal + 1).map((c, i) => (
-                    <div key={i} className="mw-fade" style={c.hero ? heroCard : plainCard}>
-                      <p style={{ ...miniLabel, marginBottom: 8 }}>{c.label}</p>
-                      <p style={{ fontSize: c.hero ? 23 : 19, lineHeight: 1.4, margin: 0, color: INK }}>{c.body}</p>
+                    <div key={i} className="mw-deal" style={c.hero ? heroCard : plainCard}>
+                      {c.hero && <DropQuote />}
+                      <p style={{ ...miniLabel, marginBottom: 8, position: "relative" }}>{c.label}</p>
+                      <p style={{ fontSize: c.hero ? 24 : 19, lineHeight: 1.42, margin: 0, color: INK, position: "relative", fontWeight: c.hero ? 350 : 400 }}>{c.body}</p>
                     </div>
                   ))}
                 </div>
@@ -522,7 +530,7 @@ Build my gentle 7-day plan, one small action per day.`;
                         {posts.posts.map((p, i) => (
                           <div key={i} style={dayCard}>
                             <p style={{ fontSize: 18, fontWeight: 700, margin: "0 0 6px", lineHeight: 1.35 }}>{p.hook}</p>
-                            {p.idea && <p style={{ fontSize: 15, lineHeight: 1.5, color: "#857B70", margin: 0, fontFamily: "'Helvetica Neue', sans-serif" }}>{p.idea}</p>}
+                            {p.idea && <p style={{ fontSize: 15, lineHeight: 1.5, color: "#857B70", margin: 0, fontFamily: SANS }}>{p.idea}</p>}
                           </div>
                         ))}
                         <button className="mw-btn" onClick={generatePosts} style={{ ...primaryBtn, marginTop: 12 }}>
@@ -589,7 +597,7 @@ Build my gentle 7-day plan, one small action per day.`;
                             <span style={{ fontSize: 18, fontWeight: 700 }}>{d.title}</span>
                           </div>
                           <p style={{ fontSize: 17, lineHeight: 1.6, color: INK, margin: "0 0 8px" }}>{d.action}</p>
-                          {d.why && <p style={{ fontSize: 14, lineHeight: 1.5, color: "#857B70", margin: 0, fontStyle: "italic", fontFamily: "'Helvetica Neue', sans-serif" }}>{d.why}</p>}
+                          {d.why && <p style={{ fontSize: 14, lineHeight: 1.5, color: "#857B70", margin: 0, fontStyle: "italic", fontFamily: SANS }}>{d.why}</p>}
                         </div>
                       ))}
                     </div>
@@ -615,47 +623,37 @@ Build my gentle 7-day plan, one small action per day.`;
           </div>
         )}
 
-        {/* FOOTER — the human behind the whisperer */}
-        <footer style={{ marginTop: 80, paddingTop: 28, borderTop: "1px solid #E5DDD1" }}>
-          <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", margin: "0 0 16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
+      </div>
+
+      {/* FOOTER — full-bleed ink teal, the human behind the whisperer */}
+      <footer style={{ background: INK_TEAL, marginTop: step === -1 ? 0 : 80 }}>
+        <div style={{ maxWidth: 920, margin: "0 auto", padding: "56px 24px 48px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 26 }}>
+            <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
+            <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>
+              Branding Inward
+            </span>
+          </div>
+          <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(251,247,240,.75)", margin: "0 0 16px", fontFamily: SANS, maxWidth: 620 }}>
             This tool exists purely to help you. No catch, no fine print. I'm a brand marketer
             teaching myself AI, and as I get better at it, I want to build more things like
             this for people who don't come from a marketing background.
           </p>
-          <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", margin: "0 0 16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
+          <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(251,247,240,.75)", margin: "0 0 16px", fontFamily: SANS, maxWidth: 620 }}>
             Ready to go deeper? Email me for a brand audit and one-on-one advice at{" "}
-            <a href="mailto:thecuriousafrin@gmail.com?subject=The%20Branding%20Whisperer" onClick={() => track("clicked_email")} style={{ color: ACCENT, textDecoration: "none", fontWeight: 600 }}>
+            <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" onClick={() => track("clicked_email")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>
               thecuriousafrin@gmail.com
             </a>.
           </p>
-          <p style={{ fontSize: 13, lineHeight: 1.6, color: "#9A8F82", margin: "0 0 16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
+          <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.5)", margin: "0 0 22px", fontFamily: SANS, maxWidth: 620 }}>
             Nothing you type here is saved, and I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.
+            Photos and film from Pexels artists, with thanks.
           </p>
-          <p style={{ fontSize: 18, fontStyle: "italic", color: INK, margin: 0 }}>
-            — <span style={{ color: ACCENT }}>S. Afrin</span>
+          <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>
+            — <span style={{ color: BUTTER }}>S. Afrin</span>
           </p>
-        </footer>
-      </div>
+        </div>
+      </footer>
     </div>
   );
 }
-
-function MicIcon({ color }) {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-      <path d="M19 10v2a7 7 0 0 1-14 0v-2" /><line x1="12" y1="19" x2="12" y2="23" />
-    </svg>
-  );
-}
-
-const primaryBtn = { background: ACCENT, color: "#FFF", border: "none", borderRadius: 100, padding: "16px 32px", fontSize: 17, fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 600, cursor: "pointer", transition: "all .18s ease" };
-const ghostBtn = { background: "none", border: "none", color: "#9A8F82", fontSize: 16, cursor: "pointer", fontFamily: "'Helvetica Neue', sans-serif", transition: "color .18s", marginLeft: "auto" };
-const miniLabel = { fontFamily: "'Helvetica Neue', sans-serif", fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: ACCENT, margin: "0 0 10px" };
-const plainCard = { background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "22px 24px", marginBottom: 16 };
-const heroCard = { background: "#FFF", border: "1px solid #EFE7DA", borderLeft: `4px solid ${ACCENT}`, borderRadius: 14, padding: "26px 26px", marginBottom: 16 };
-const quoteCard = { background: "#ECF4EF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "22px 24px", marginBottom: 16 };
-const todayBox = { background: ACCENT, borderRadius: 18, padding: "28px 30px", marginTop: 30 };
-const bridgeBox = { background: "#ECF4EF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "22px 24px" };
-const dayCard = { background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "20px 22px", marginBottom: 14 };
-const dayBadge = { flexShrink: 0, background: "#E3EFE8", color: ACCENT, borderRadius: 100, padding: "4px 12px", fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 700, fontSize: 13, letterSpacing: ".04em" };
