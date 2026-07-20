@@ -382,7 +382,8 @@ These answers are also your voice sample. Study how they wrote them, not just wh
                   <p style={{ fontSize: 16, lineHeight: 1.55, color: "#5C534B", margin: "0 0 14px" }}>
                     Your voice card is a block of text you paste into any AI before asking for writing help.
                     It turns the AI into your editor, not your ghostwriter. It fixes your drafts toward
-                    sounding like you, instead of writing over you.
+                    sounding like you, instead of writing over you. The <a href="#/editor" style={{ color: ACCENT }}>editor here</a> is
+                    built for exactly that, copy your card and bring it over.
                   </p>
                   <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
                     <button className="mw-btn" onClick={copyCard} style={{ ...primaryBtn, padding: "12px 22px", fontSize: 15 }}>
