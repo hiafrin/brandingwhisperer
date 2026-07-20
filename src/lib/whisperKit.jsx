@@ -32,6 +32,62 @@ RULES FOR USING THE LIBRARY: the library is YOUR thinking, not their reading. NE
 
 TONE: you are a warm therapist helping someone see their own brand clearly, not a lecturer. Reflect their own words back ("you said it yourself: ..."), notice patterns gently ("notice how your answers keep coming back to..."), never prescribe from authority. Match every insight to what THIS person actually said. If no principle fits naturally, say the plain truth without leaning on anything. Never fabricate research.`;
 
+// ── Device memory: localStorage only, never sent anywhere. This is the whole
+//    retention model: the site remembers you ON YOUR DEVICE, or not at all. ──
+const MEM_PREFIX = "inward.";
+export function remember(key, value) {
+  try { localStorage.setItem(MEM_PREFIX + key, JSON.stringify(value)); return true; } catch (_) { return false; }
+}
+export function recall(key) {
+  try { const v = localStorage.getItem(MEM_PREFIX + key); return v ? JSON.parse(v) : null; } catch (_) { return null; }
+}
+export function forgetAll() {
+  try {
+    Object.keys(localStorage).filter((k) => k.startsWith(MEM_PREFIX)).forEach((k) => localStorage.removeItem(k));
+    return true;
+  } catch (_) { return false; }
+}
+
+// ── The weekly quiet moves, by energy level. Deterministic rotation (week
+//    number picks the move), no AI call, no backend, nothing tracked. ──
+export const QUIET_MOVES = {
+  low: [
+    "Leave one specific, generous comment on another maker's post. That's the whole move, visibility through recognition, no post of your own required.",
+    "Take one photo of your work mid-process. Post it with five words or fewer, or just save it for a week when you have more in the tank.",
+    "Reread the last kind message someone sent about your work. Screenshot it into a folder called proof. That folder is marketing.",
+    "Open your pinned post or bio, read it once, change one word if it needs it. A standing invitation only needs to exist, not be re-announced.",
+  ],
+  okay: [
+    "Text one person who loves your work and ask for two sentences about it. Post their words as your caption this week, credited to them.",
+    "Record a five minute voice memo about what you're making right now, like you're telling a friend. Pull one sentence out of it, that's your caption.",
+    "Find one open call, directory, or features-wanted thread in your niche and submit to it. Being chosen beats self-promoting.",
+    "Feature someone else's work this week, a shoutout or a tiny roundup. Curators get watched for months without ever selling themselves.",
+  ],
+  good: [
+    "Write the honest story of one thing you made this week, three sentences, real details. Post it once, then you're done, no follow-up required.",
+    "Batch three process photos in one sitting and schedule them across the next two weeks. Perform once, privately, be present for weeks.",
+    "Send one short note to your list, or to the five people who'd want to know: what's new, one picture, no hype. Connection, not performance.",
+    "Propose the buddy trade to one creator your size: you each say the honest thing about the OTHER's work. Praise costs a shy person nothing when it's aimed away from them.",
+  ],
+};
+
+// ── The quiet channel library: her researched blueprint, for planning prompts.
+//    Channels rated by performative cost, plus per-creator quiet stacks. ──
+export const CHANNEL_LIBRARY = `THE QUIET CHANNEL LIBRARY (use to prescribe stacks; mention tool types generically, never brand names):
+Channels by performative cost:
+- EMAIL LIST (LOW): they write alone, when they have something to say, and automation sends it. Connection without performance. The single best quiet channel for drops, releases, and news.
+- OWN SITE / WRITTEN CONTENT (LOW): a calm one-page home base plus occasional written pieces. People arrive by search and shares, not by the person being "on." Controlled, low-stimulus visibility.
+- PINTEREST / SEARCH-DISCOVERY PLATFORMS (LOW-MEDIUM): discovery through search, not presence. Pins and visuals quietly compound over time. Design work, not face work.
+- SCHEDULED SOCIAL (MEDIUM): batch-create in private, let a scheduler publish. Presence without being on daily. Personality lives in writing and images, not in live performance.
+- LIVES, STORIES, DAILY VIDEO (HIGH): real-time performance. Deprioritize by default for this audience. Only ever optional, never the backbone of a plan.
+
+Quiet stacks by creator type (adapt to their craft, keep it to 2-3 pieces):
+- MAKER (jewelry, ceramics, art, food): one-page site with shop link and email signup + a drops email when new work exists + scheduled process photos or pins. No talking to camera anywhere in the stack.
+- MUSICIAN: a home base with the music embedded + a release email list (dates, presaves, early merch) + ONE platform of short written notes about the songs, scheduled. Production and craft first, performance optional and only when ready.
+- PERSONAL BRAND / SERVICE (coach, consultant, designer, tutor): simple site that says who they help + one written platform a few times a week + a small newsletter for the people who want depth. Testimonials and case studies do the talking.
+
+RULES: every plan names what to deliberately IGNORE and says it's safe to ignore it, because a channel that costs more energy than it returns is a leak, not a strategy. The stack must fit inside the time they actually gave. One post a week on one channel, kept up for a year, beats everything they've been told.`;
+
 // ── Global CSS shared by every page: animations, texture, calm guards ──
 export const GLOBAL_CSS = `
   * { box-sizing: border-box; }
@@ -55,6 +111,26 @@ export const GLOBAL_CSS = `
     video { display: none !important; }
   }
 `;
+
+// ── One gentle, short line per page. Literary and soft, never a hustle-quote,
+//    because this audience recoils from "crush it" energy. Attributed. ──
+export const QUOTES = {
+  home: { q: "The only journey is the one within.", a: "Rainer Maria Rilke" },
+  scan: { q: "What you seek is seeking you.", a: "Rumi" },
+  voice: { q: "There is no greater agony than bearing an untold story inside you.", a: "Maya Angelou" },
+  roast: { q: "Perfectionism is the voice of the oppressor.", a: "Anne Lamott" },
+  plan: { q: "Great things are done by a series of small things brought together.", a: "Vincent van Gogh" },
+};
+export function PageQuote({ id }) {
+  const item = QUOTES[id];
+  if (!item) return null;
+  return (
+    <div style={{ maxWidth: 600, margin: "64px auto 0", padding: "0 24px", textAlign: "center" }}>
+      <p style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: 22, lineHeight: 1.45, color: INK, margin: "0 0 12px" }}>&ldquo;{item.q}&rdquo;</p>
+      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, margin: 0, fontWeight: 600 }}>{item.a}</p>
+    </div>
+  );
+}
 
 // ── Faint paper grain overlay (SVG turbulence as data URI, fixed, non-interactive) ──
 const GRAIN_URI = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")`;

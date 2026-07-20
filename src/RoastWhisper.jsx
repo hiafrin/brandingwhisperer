@@ -1,13 +1,39 @@
 import React, { useState } from "react";
 import { track } from "@vercel/analytics";
 import {
-  ACCENT, INK, CREAM, INK_TEAL,
+  ACCENT, INK, CREAM, INK_TEAL, CORAL, ACCENT_TINT,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse,
   useVoiceInput, MicIcon,
-  GrainOverlay, DropQuote,
+  GrainOverlay, DropQuote, PageQuote,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox,
 } from "./lib/whisperKit.jsx";
+
+// The four verdicts, each with its own calm color. Strong leads (confidence first).
+const VERDICT_STYLE = {
+  Strong: { tint: "#E1F5EE", border: "#5DCAA5", ink: "#0F6E56", tag: "Don't change this" },
+  Intimidating: { tint: "#FAEEDA", border: "#EF9F27", ink: "#854F0B", tag: "Sounds more formal than you" },
+  Confusing: { tint: "#FBEAE3", border: "#F0997B", ink: "#993C1D", tag: "A reader might not follow this" },
+  Missing: { tint: "#F1EFE8", border: "#B4B2A9", ink: "#444441", tag: "Not here yet" },
+};
+const VERDICT_ORDER = ["Strong", "Intimidating", "Confusing", "Missing"];
+
+// They pick how hard it lands. For RSD and HSP, self-chosen intensity IS the
+// safety: control over the truth. Every level still aims at the work, never the
+// person, and every level still leads with what to keep.
+const LEVELS = [
+  { key: "friend", label: "A friend", blurb: "Warm. Arm around the shoulder." },
+  { key: "stranger", label: "A stranger online", blurb: "Blunt and honest, a little dry. No sugarcoating." },
+  { key: "strategist", label: "A brutal strategist", blurb: "Sharp, professional, no softening. Aimed at the work, never you." },
+];
+const TONE_BY_LEVEL = {
+  friend:
+    "TONE: a warm therapist who happens to love branding. Lean toward their STRENGTHS. Notice what they are already good at that they cannot see in themselves, name it plainly and kindly, and show them one concrete way to let the world see that strength. Frame even the fixes as 'here is how to let more of the real you show', never as 'here is what's wrong'. The Strong verdicts should feel like being truly seen. They should leave feeling capable, not corrected.",
+  stranger:
+    "TONE: a sharp, honest stranger in a good subreddit, the commenter who actually helps because they refuse to flatter you. Blunt, dry, quick. Call the BS out directly: the corporate filler, the fake hype, the hedging, the apology for existing. If a line reads like AI or a fill-in-the-blank template wrote it, say so plainly. And call out the hiding: where they undersell themselves, shrink, or clearly do not believe in their own brand. Push on that, firmly, because if they will not back their own brand, nobody else will. Aim it all at the writing and the self-doubt underneath, never at them as a person.",
+  strategist:
+    "TONE: a cutthroat brand strategist running a real teardown, the kind a company pays thousands for. Ruthless clarity about positioning, differentiation, and audience. Name exactly where the brand is generic, undifferentiated, forgettable, or trying to be everything to everyone. Talk like a professional: the one-line promise, who it is for, what makes it un-copyable, where it blends into competitors. Blunt words about the WORK and the STRATEGY are fine and expected. No encouragement padding, no softening. This is analysis, not therapy.",
+};
 
 // A small hand-drawn candle flame, warm not menacing. Same doodle family as the shield.
 function DoodleFlame({ size = 30 }) {
@@ -26,6 +52,7 @@ export default function RoastWhisper() {
   const [error, setError] = useState(null);
   const [reveal, setReveal] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [level, setLevel] = useState("friend");
 
   const { listening, voiceSupported, toggleMic, setBase, stopIfListening } = useVoiceInput(text, setText);
 
@@ -34,34 +61,39 @@ export default function RoastWhisper() {
     stopIfListening();
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
-    const systemPrompt = `You are the friend behind Branding Inward's gentle roast: the one friend who loves someone's work and is finally allowed to read their captions out loud to them. Your audience is people who find self-promotion physically uncomfortable, so when they do post, they put on a costume: the ad voice, the excitement they don't feel, the hashtag pile, the apology for existing. What they paste is your ONLY material. They are not trying to be anyone else, and you never compare them to anyone. The whole trick of this roast: their own paste contains both the costume AND the real person, so you roast the costume by holding their own realest lines up next to it. They get roasted by what they already revealed, nothing more.
+    const systemPrompt = `You are the editor behind Branding Inward's gentle roast: the one friend who loves someone's work, reads their captions closely, and tells them the truth kindly. Your audience finds self-promotion physically uncomfortable, so when they post they often put on a costume: the ad voice, the excitement they don't feel, the formal register that isn't them. What they paste is your ONLY material. You never compare them to anyone. You quote their own words as evidence for everything.
 
-THE TONE: a gentle tease. Laughing WITH them, arm around the shoulder, never a real punch. Every tease lands on the performing, never on them, never on the work itself, never on skill, effort, or how much or little they post. No shame words (cringe, embarrassing, bad, fail, amateur) aimed at them. The roast should make them exhale, not wince.
+The single most important thing this tool does, that no other critique tool does: it tells them what NOT to change. People need confidence as much as correction. So you ALWAYS lead with what's already working and must be kept, in their own words, before any fix.
+
+${TONE_BY_LEVEL[level]}
+
+THE ONE RULE THAT HOLDS AT EVERY LEVEL, no matter how sharp the tone: aim every hard note at the WRITING and the strategy, never at them as a person, never at their worth, their taste, their skill, their effort, or how much they post. Blunt about the copy is fine at the sharper levels. Cruel about the human is never fine. No shame words aimed at the person (cringe, embarrassing, pathetic, amateur, hopeless). Your audience often lives with rejection sensitivity, so the sting always lands on the sentence, never on them. And always keep at least one Strong, the thing to not change, because confidence is what lets a sensitive person actually hear the rest.
 
 ${PSYCH_LIBRARY}
 
-THE RULES THAT MATTER MOST:
-1. Every tease quotes one of their actual performing lines in single quotes and sets one of their actual real lines against it, so the evidence does the roasting. Never quote words they did not write. Never invent a flaw to roast: if what they pasted has no costume in it, say that honestly, celebrate it, and skip the teasing entirely, an honest all-clear is a better product than a forced joke.
-2. "tells" are THEIR patterns, found at least twice or clearly once in the paste, each given a short playful name they'd repeat to themselves later. Only name a tell you can quote.
-3. "rescue" takes their single most costumed line and says the same thing the way THEY actually talk, built only from words and details that appear elsewhere in their paste. It should read like their gold lines, not like you.
-4. Ground the "gold" in the library with every name and term left out: real, specific, sensory, story-shaped lines are what people's minds keep. You may use "researchers found" at most once in the whole response.
+You return a list of VERDICTS. Each verdict has a "kind" from exactly these four:
+- "Strong": a line of theirs that is already them and already works. Quote it. The note says, in plain warm words, do not touch this and why it lands (real, specific, sensory, story-shaped lines are what people remember, say that without any term or name). ALWAYS include at least one Strong, first. There is always something to keep.
+- "Intimidating": a line that sounds more formal or performed than they actually are, or that reads like AI, a template, or a brand deck wrote it. Quote it, name plainly what it sounds like, then rewrite it the way THEY talk, using only words and details that appear elsewhere in their own paste.
+- "Confusing": a line a reader might not follow, or might read the wrong way. Quote it, say plainly how it could be misread, and offer a clearer version in their voice.
+- "Missing": something a reader needs that is not there yet, most often who this is for or what they actually make. No quote needed. Say it gently as an invitation, not a scolding.
 
-VOICE: plain, warm, short sentences, the way a real person texts. Do not use em-dashes or en-dashes anywhere, use commas and periods instead. NEVER assume gender: use "they" and "them" for anyone mentioned, no matter how a name sounds.
+RULES: Only include a verdict if it is genuinely true of their paste. Never invent a flaw. If the writing is already clean, it is completely fine to return only Strong verdicts, an honest all-clear beats a forced criticism. Never quote words they did not write. Order the verdicts Strong first, then Intimidating, Confusing, Missing.
 
-Return ONLY valid JSON, no markdown, no preamble. Output it compactly, every key exactly "name": with a colon, and NEVER use double quote marks inside a field's text, use single quotes there instead. Use \\n between the teases in "roast" and between the tells in "tells_text":
+VOICE: plain, warm, short sentences, the way a real person texts. Do not use em-dashes or en-dashes, use commas and periods. NEVER assume gender: use "they" and "them" for anyone, no matter how a name sounds, with zero exceptions.
+
+Return ONLY valid JSON, no markdown, no preamble. Output it compactly, every key exactly "name": with a colon, and NEVER use double quote marks inside a field's text, use single quotes there instead:
 {
-  "roast": "3 or 4 gentle teases separated by \\n, each quoting one costume line and one real line of theirs. If there is no costume, one to two honest sentences saying so instead",
-  "tells_text": "their 2 or 3 personal performing tells separated by \\n, each: a short playful name, a colon, the quoted evidence. Empty string if there are none",
-  "gold": "their realest lines quoted back, and one plain sentence on why those are the ones people's minds will keep (max 3 sentences)",
-  "rescue": "their most costumed line quoted, then: said your way, that's... followed by the same message rebuilt only from their own words elsewhere in the paste (max 3 sentences). Empty string if nothing needed rescuing",
-  "today": "one small concrete move for today, under 15 minutes, built from their gold, not generic advice (max 2 sentences)"
+  "verdicts": [
+    { "kind": "Strong", "line": "the exact line of theirs, quoted, or empty for Missing", "note": "the plain warm note: for Strong, why to keep it, for others, the fix in their voice (max 2 sentences)" }
+  ],
+  "today": "one small concrete move for today, under 15 minutes, built from a Strong line, not generic advice (max 2 sentences)"
 }`;
 
     const userPrompt = `Here's what I already put out there, or almost did (bio, captions, drafts, in no particular order):
 
 ${text.trim()}
 
-Roast me gently with my own words. Show me the costume, then show me the lines where I was already me.`;
+Read it closely. Tell me first what to keep and never change, then the few things worth a gentle fix, all in my own words.`;
 
     try {
       const response = await fetch("/api/generate", {
@@ -72,7 +104,9 @@ Roast me gently with my own words. Show me the costume, then show me the lines w
       if (!response.ok) throw new Error(`The AI service returned an error (${response.status}). Please try again.`);
       const data = await response.json();
       const parsed = parseWhisperResponse(data);
-      if (!parsed || !parsed.roast) throw new Error("The AI's answer got cut short. Tap to try again, it usually works on a second pass.");
+      if (!parsed || !Array.isArray(parsed.verdicts) || !parsed.verdicts.length) throw new Error("The AI's answer got cut short. Tap to try again, it usually works on a second pass.");
+      // Strong always leads, then the gentle fixes, Missing last.
+      parsed.verdicts.sort((a, b) => VERDICT_ORDER.indexOf(a.kind) - VERDICT_ORDER.indexOf(b.kind));
       setResult(parsed);
       track("roast_completed");
     } catch (e) {
@@ -89,10 +123,13 @@ Roast me gently with my own words. Show me the costume, then show me the lines w
   function buildSummary() {
     if (!result) return "";
     let t = "MY GENTLE ROAST, from Branding Inward\n\n";
-    if (result.roast) t += `The roast:\n${result.roast}\n\n`;
-    if (result.tells_text) t += `My performing tells (my self-check list):\n${result.tells_text}\n\n`;
-    if (result.gold) t += `The gold, the lines that were already me:\n${result.gold}\n\n`;
-    if (result.rescue) t += `One line, rescued:\n${result.rescue}\n\n`;
+    (result.verdicts || []).forEach((v) => {
+      const tag = VERDICT_STYLE[v.kind] ? VERDICT_STYLE[v.kind].tag : v.kind;
+      t += `${v.kind.toUpperCase()} (${tag}):\n`;
+      if (v.line) t += `"${v.line}"\n`;
+      if (v.note) t += `${v.note}\n`;
+      t += "\n";
+    });
     if (result.today) t += `My first move:\n${result.today}\n`;
     return t.trim();
   }
@@ -102,11 +139,9 @@ Roast me gently with my own words. Show me the costume, then show me the lines w
     catch (_) { setCopied(false); }
   }
 
-  const cards = result ? [
-    { key: "tells", label: "Your tells, keep this list", body: result.tells_text },
-    { key: "gold", label: "The gold, where you were already you", body: result.gold },
-    { key: "rescue", label: "One line, rescued", body: result.rescue },
-  ].filter((c) => c.body) : [];
+  const verdicts = result && Array.isArray(result.verdicts) ? result.verdicts.filter((v) => VERDICT_STYLE[v.kind]) : [];
+  const hero = verdicts[0];
+  const rest = verdicts.slice(1);
 
   return (
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
@@ -131,7 +166,7 @@ Roast me gently with my own words. Show me the costume, then show me the lines w
               <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: 0 }}>The gentle roast</p>
             </div>
             <h1 style={{ fontSize: "clamp(36px, 5vw, 50px)", lineHeight: 1.1, margin: "0 0 22px", fontWeight: 350 }}>
-              Get roasted.<br /><span style={{ fontStyle: "italic", color: ACCENT }}>Gently. By your own words.</span>
+              Get roasted.<br /><span style={{ fontStyle: "italic", color: ACCENT }}>Your words. Your call on how hard.</span>
             </h1>
             <p style={{ fontSize: 18, lineHeight: 1.65, color: "#5C534B", margin: "0 0 16px" }}>
               When posting feels like performing, a costume goes on: the ad voice, the excitement
@@ -140,13 +175,31 @@ Roast me gently with my own words. Show me the costume, then show me the lines w
             </p>
             <p style={{ fontSize: 18, lineHeight: 1.65, color: "#5C534B", margin: "0 0 16px" }}>
               So paste it all in: your bio, your last few captions, the draft you never posted.
-              This won't compare you to anyone, you're not trying to be anyone else. It reads only
-              what you gave it, teases the costume, and holds up the lines where you were already you.
-              Roasted by what you already revealed, nothing else.
+              This won't compare you to anyone. It reads only what you gave it, and it starts by
+              telling you what to keep and never change, then the few lines worth a gentle fix, all
+              in your own words.
             </p>
             <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 28px" }}>
-              The roast aims at the costume. Never at you, and never at the work.
+              Confidence first. Most critique tools forget that the thing you most need to hear is
+              which parts are already good.
             </p>
+
+            <p style={{ ...miniLabel, marginBottom: 4 }}>How hard do you want it?</p>
+            <p style={{ fontSize: 14, color: "#857B70", margin: "0 0 12px", fontFamily: SANS, lineHeight: 1.5 }}>
+              You choose. Even the sharp one aims at the words, never at you. Start gentle, dial up whenever you want.
+            </p>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 28 }}>
+              {LEVELS.map((l) => (
+                <button
+                  key={l.key}
+                  onClick={() => setLevel(l.key)}
+                  style={{ flex: "1 1 180px", textAlign: "left", background: level === l.key ? ACCENT_TINT : "#FFF", border: `2px solid ${level === l.key ? ACCENT : "#E5DDD1"}`, borderRadius: 14, padding: "14px 16px", cursor: "pointer", fontFamily: SERIF, transition: "all .18s" }}
+                >
+                  <span style={{ display: "block", fontSize: 17, color: INK, marginBottom: 3 }}>{l.label}</span>
+                  <span style={{ display: "block", fontFamily: SANS, fontSize: 13, color: "#857B70", lineHeight: 1.4 }}>{l.blurb}</span>
+                </button>
+              ))}
+            </div>
 
             <p style={{ ...miniLabel, marginBottom: 10 }}>The evidence</p>
             <textarea
@@ -159,8 +212,8 @@ Roast me gently with my own words. Show me the costume, then show me the lines w
             />
 
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 22, flexWrap: "wrap" }}>
-              <button className="mw-btn" onClick={() => { track("roast_started"); roast(); }} disabled={!text.trim()} style={{ ...primaryBtn, opacity: text.trim() ? 1 : 0.4, cursor: text.trim() ? "pointer" : "not-allowed" }}>
-                Roast me, gently
+              <button className="mw-btn" onClick={() => { track("roast_" + level); roast(); }} disabled={!text.trim()} style={{ ...primaryBtn, opacity: text.trim() ? 1 : 0.4, cursor: text.trim() ? "pointer" : "not-allowed" }}>
+                {level === "friend" ? "Roast me, gently" : level === "stranger" ? "Give it to me straight" : "Don't hold back"}
               </button>
               {voiceSupported && (
                 <button onClick={toggleMic} className={listening ? "mw-mic-live" : ""} style={{ display: "flex", alignItems: "center", gap: 8, background: listening ? ACCENT : "#FFF", color: listening ? "#FFF" : INK, border: `2px solid ${listening ? ACCENT : "#E5DDD1"}`, borderRadius: 100, padding: "11px 18px", cursor: "pointer", fontFamily: SANS, fontSize: 14, fontWeight: 600, transition: "all .18s" }}>
@@ -196,30 +249,37 @@ Roast me gently with my own words. Show me the costume, then show me the lines w
           </div>
         )}
 
-        {/* RESULT — the roast first, then the notes one at a time, first move last */}
-        {result && !loading && (
+        {/* RESULT — Strong first (what to keep), then the gentle fixes one at a time */}
+        {result && !loading && hero && (
           <div className="mw-fade">
             <p style={miniLabel}>Your gentle roast</p>
-            <div className="mw-deal" style={{ ...heroCard, marginTop: 8 }}>
-              <DropQuote />
-              <p style={{ fontSize: 21, lineHeight: 1.55, margin: 0, color: INK, position: "relative", whiteSpace: "pre-wrap", fontWeight: 350 }}>{result.roast}</p>
+            <div className="mw-deal" style={{ ...heroCard, marginTop: 8, background: VERDICT_STYLE[hero.kind].tint, borderLeftColor: VERDICT_STYLE[hero.kind].border }}>
+              <DropQuote color={VERDICT_STYLE[hero.kind].ink} />
+              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: VERDICT_STYLE[hero.kind].ink, fontWeight: 700, margin: "0 0 10px", position: "relative" }}>
+                {hero.kind} · {VERDICT_STYLE[hero.kind].tag}
+              </p>
+              {hero.line && <p style={{ fontSize: 21, lineHeight: 1.5, margin: "0 0 12px", color: INK, fontStyle: "italic", position: "relative" }}>&ldquo;{hero.line}&rdquo;</p>}
+              <p style={{ fontSize: 18, lineHeight: 1.55, margin: 0, color: INK, position: "relative", whiteSpace: "pre-wrap" }}>{hero.note}</p>
             </div>
 
             <div style={{ marginTop: 24 }}>
-              {cards.slice(0, reveal).map((c) => (
-                <div key={c.key} className="mw-deal" style={plainCard}>
-                  <p style={{ ...miniLabel, marginBottom: 8, position: "relative" }}>{c.label}</p>
-                  <p style={{ fontSize: 19, lineHeight: 1.5, margin: 0, color: INK, position: "relative", whiteSpace: "pre-wrap" }}>{c.body}</p>
+              {rest.slice(0, reveal).map((v, i) => (
+                <div key={i} className="mw-deal" style={{ ...plainCard, background: VERDICT_STYLE[v.kind].tint, borderColor: VERDICT_STYLE[v.kind].border }}>
+                  <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: VERDICT_STYLE[v.kind].ink, fontWeight: 700, margin: "0 0 8px" }}>
+                    {v.kind} · {VERDICT_STYLE[v.kind].tag}
+                  </p>
+                  {v.line && <p style={{ fontSize: 18, lineHeight: 1.5, margin: "0 0 10px", color: INK, fontStyle: "italic" }}>&ldquo;{v.line}&rdquo;</p>}
+                  <p style={{ fontSize: 17, lineHeight: 1.55, margin: 0, color: INK, whiteSpace: "pre-wrap" }}>{v.note}</p>
                 </div>
               ))}
-              {reveal < cards.length && (
+              {reveal < rest.length && (
                 <button className="mw-btn" onClick={() => setReveal(reveal + 1)} style={{ ...primaryBtn, marginTop: 10 }}>
-                  {reveal === 0 ? "Okay, what are my tells?" : "Show me the next bit"}
+                  {reveal === 0 ? "Okay, what's worth a gentle fix?" : "Show me the next one"}
                 </button>
               )}
             </div>
 
-            {reveal >= cards.length && (
+            {reveal >= rest.length && (
               <div className="mw-fade" style={{ marginTop: 26 }}>
                 {result.today && (
                   <div style={todayBox}>
@@ -237,6 +297,8 @@ Roast me gently with my own words. Show me the costume, then show me the lines w
             )}
           </div>
         )}
+
+        <PageQuote id="roast" />
       </div>
 
       {/* FOOTER — full-bleed ink teal, same promise as everywhere */}

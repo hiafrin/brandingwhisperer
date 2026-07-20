@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse,
   useVoiceInput, MicIcon,
-  GrainOverlay, DoodleShield, GhostNumber, DropQuote,
+  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -26,25 +26,25 @@ const QUESTIONS = [
     id: "fan",
     label: "Who quietly loves what you make? Describe one real person.",
     help: "Someone specific, not \"my audience.\"",
-    placeholder: "My neighbor who buys a candle every time I restock, never says much, just shows up",
+    placeholder: "My neighbor who buys a candle every restock and never says much. Or the client who quietly refers me to everyone they know.",
   },
   {
     id: "trusted",
     label: "Think of a brand or artist you love, where you've never seen the founder's face or heard them hype themselves. What made you trust them?",
     help: "The craft? The consistency? The vibe? Whatever it was for you.",
-    placeholder: "A ceramics studio I follow, I trust them because every piece just speaks for itself",
+    placeholder: "A ceramics studio whose pieces speak for themselves. Or a newsletter I trusted for years without ever seeing the writer's face.",
   },
   {
     id: "place",
     label: "If your work were a place, what would it feel like to walk into?",
     help: "The mood, not the decor.",
-    placeholder: "A small shop that smells like cedar, quiet, nobody rushing you",
+    placeholder: "A small shop that smells like cedar, nobody rushing you. Or a calm room where someone finally has time to actually listen.",
   },
   {
     id: "wish",
     label: "What do you wish someone would say about your work, that you'd never say yourself?",
     help: "The praise you'd be embarrassed to write, but would love to hear.",
-    placeholder: "That it's the most honest thing they've bought all year",
+    placeholder: "The most honest thing they bought all year. Or the advice that finally made something click.",
   },
 ];
 
@@ -404,8 +404,10 @@ These answers are also your voice sample. Study how they wrote them, not just wh
 
       </div>
 
+      <PageQuote id="voice" />
+
       {/* FOOTER — full-bleed ink teal */}
-      <footer style={{ background: INK_TEAL, marginTop: 80 }}>
+      <footer style={{ background: INK_TEAL, marginTop: 60 }}>
         <div style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 40px" }}>
           <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.55)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
             Nothing you type here is saved, and I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.

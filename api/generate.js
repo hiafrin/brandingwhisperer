@@ -6,10 +6,20 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { system, user } = req.body || {};
+  // `image` is optional: { data: base64-without-prefix, media_type: "image/jpeg" }.
+  // When present, the user turn carries the photo first, then the text prompt,
+  // so Claude can actually look at what the maker uploaded.
+  const { system, user, image } = req.body || {};
   if (!system || !user) {
     return res.status(400).json({ error: "Missing prompt" });
   }
+
+  const content = image && image.data && image.media_type
+    ? [
+        { type: "image", source: { type: "base64", media_type: image.media_type, data: image.data } },
+        { type: "text", text: user },
+      ]
+    : user;
 
   try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -26,7 +36,7 @@ export default async function handler(req, res) {
         // and thinking tokens count against max_tokens (they starved the output).
         thinking: { type: "disabled" },
         system,
-        messages: [{ role: "user", content: user }],
+        messages: [{ role: "user", content }],
       }),
     });
 

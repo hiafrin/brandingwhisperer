@@ -2,14 +2,17 @@ import React, { useState, useRef, useEffect } from "react";
 import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, ACCENT_RGB, INK_TEAL, CORAL, BUTTER, ACCENT_TINT,
-  SERIF, SANS, GLOBAL_CSS,
+  SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
+  remember, recall, forgetAll, QUIET_MOVES,
   parseWhisperResponse,
   useVoiceInput, MicIcon,
-  GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote,
+  GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 
-// ── The six questions — worded to fit anyone building a brand: a business OR a personal one ──
+// ── The six questions — engineered to extract psychological raw material
+//    (stories, sensory detail, identity, refusals, repeatable signatures),
+//    because that's what the science says brands are actually made of. ──
 const QUESTIONS = [
   {
     id: "business",
@@ -18,34 +21,34 @@ const QUESTIONS = [
     placeholder: "I make soy candles, or I'm building my name as a career coach",
   },
   {
-    id: "customer",
-    label: "Picture one real person you want to reach. Who are they?",
-    help: "A type of person, not \"everyone.\" The more specific, the better.",
-    placeholder: "Women in their 30s into cozy self-care, or new managers who feel out of their depth",
+    id: "origin",
+    label: "Tell me about the moment this started. Where were you, what happened?",
+    help: "The real scene, not the polished version. Brains remember stories, not summaries.",
+    placeholder: "My kitchen at 2am making a candle that didn't give me a headache. Or the meeting where I explained the numbers and the whole room changed its mind.",
   },
   {
-    id: "different",
-    label: "Why would someone choose you over the others out there?",
-    help: "Even if it feels small. Your style, your story, your point of view, made by you.",
-    placeholder: "Clean small-batch candles, or I've actually done the job I'm coaching on",
+    id: "switch",
+    label: "Think about the last person who actually bought from you or hired you. What was going on in their life that day?",
+    help: "Not who they are. What was happening. Nobody buys without a reason that day.",
+    placeholder: "A friend was moving and wanted a gift that wasn't off a list. Or a founder needed their pitch to make sense before a meeting in two days.",
   },
   {
-    id: "feeling",
-    label: "When someone discovers you, what's the ONE thing you want them to feel?",
-    help: "Pick a single feeling. This becomes the soul of your brand.",
-    placeholder: "Calm, or \"finally, someone who gets it\"",
+    id: "referral",
+    label: "What do people already come to you for? The advice they ask, or what they say when they recommend you.",
+    help: "In their words, not yours. This is your brand as it exists today, whether you chose it or not.",
+    placeholder: "Everyone asks me how to word hard emails, or: talk to this shop, the mugs feel made for you",
   },
   {
-    id: "where",
-    label: "Where do the people you want to reach already spend time?",
-    help: "Online or in real life. Instagram, LinkedIn, Pinterest, a niche forum, local events...",
-    placeholder: "Instagram and Pinterest, or LinkedIn and industry Slack groups",
+    id: "tradeoff",
+    label: "What do you do that a competitor would call a waste of time or money?",
+    help: "The inefficient thing you insist on is usually the strategy. Things you refuse to do count too.",
+    placeholder: "I hand write a note in every order. Or I spend a whole day learning a client's business before I touch it.",
   },
   {
-    id: "goal",
-    label: "What would make the next 3 months a win?",
-    help: "Be honest about where you are. \"First 10 sales\" or \"500 real followers\" both count.",
-    placeholder: "My first 30 sales, or known as a go-to voice in my niche",
+    id: "own",
+    label: "When your name comes up and you're not in the room, what's the ONE thing you want people to think? And what could you repeat forever to plant it?",
+    help: "A word to own, and a signature to keep it alive. Memory loves repetition.",
+    placeholder: "Calm, and every candle named after a time of day. Or clarity, and every report that ends in one plain sentence.",
   },
 ];
 
@@ -56,12 +59,98 @@ const MORE_WHISPERS = [
     quote: "Posting feels like exposing myself, not my work.",
     href: "#/shield",
     event: "opened_shield",
-    cta: "Find a voice that sounds like you →",
+    cta: "Hear the voice you already have →",
+  },
+  {
+    key: "roast",
+    quote: "I wrote the post. Then I deleted it, it didn't sound like me.",
+    href: "#/roast",
+    event: "opened_roast",
+    cta: "Get roasted, gently →",
+  },
+  {
+    key: "plan",
+    quote: "I can't post every day. Honestly, I don't want to.",
+    href: "#/plan",
+    event: "opened_plan",
+    cta: "Find the plan you won't dread →",
+  },
+  {
+    key: "scan",
+    quote: "I don't even know where I'm stuck, let alone where to start.",
+    href: "#/scan",
+    event: "opened_scan",
+    cta: "Find your inward pattern, 8 taps →",
   },
 ];
 
+// The stuck-picker: name your blocker in one tap, get routed to the right tool
+// with one first move. href null means "start the six questions right here."
+const STUCK = [
+  {
+    key: "different",
+    label: "I don't know what makes me different.",
+    path: "Start with your foundation",
+    href: null,
+    why: "Six questions find the un-copyable thing hiding in your own story, not a claim you have to invent.",
+    today: "Answer just one: where were you the moment this started?",
+  },
+  {
+    key: "voice",
+    label: "I sound unlike myself online.",
+    path: "Hear your own voice",
+    href: "#/shield",
+    why: "Your voice already exists. The voice tool watches how you actually write, then hands it back, named.",
+    today: "Paste three things you've written anywhere. Let it notice what you can't see.",
+  },
+  {
+    key: "deleting",
+    label: "I keep deleting everything.",
+    path: "Rescue it, don't rewrite it",
+    href: "#/roast",
+    why: "You don't need a new draft. You need the one you deleted, edited toward you instead of away from you.",
+    today: "Find the last thing you deleted. Paste it in before you reread it.",
+  },
+  {
+    key: "exhausting",
+    label: "Marketing is exhausting.",
+    path: "Get a plan built under your energy",
+    href: "#/plan",
+    why: "You were handed an extrovert's plan. This one hides most of marketing and keeps only what fits your battery.",
+    today: "Say how much time you can give without resenting it. The plan fits inside that.",
+  },
+  {
+    key: "focus",
+    label: "I don't know where to focus.",
+    path: "Let one path get chosen for you",
+    href: "#/plan",
+    why: "Choosing is the exhausting part, so the plan picks one path, never a menu of twelve.",
+    today: "Name what you make. One path comes back, with permission to ignore the rest.",
+  },
+  {
+    key: "ideas",
+    label: "I have too many ideas.",
+    path: "Find the one word they all circle",
+    href: null,
+    why: "Too many ideas is a focus problem in disguise. Your foundation names the word to own, and the rest gets quieter.",
+    today: "Answer just one: what do you want people to think when your name comes up?",
+  },
+];
+
+// Pattern facts shared with the scan page: display name + where their path starts.
+const PATTERN_HOME = {
+  hider: { name: "The Hider", start: "#/shield", startName: "the voice tool" },
+  pusher: { name: "The Pusher", start: "#/plan", startName: "the quieter plan" },
+  deleter: { name: "The Deleter", start: "#/roast", startName: "the gentle roast" },
+  perfectionist: { name: "The Perfectionist", start: "#/roast", startName: "the gentle roast" },
+  scatterer: { name: "The Scatterer", start: "#/plan", startName: "the quieter plan" },
+};
+
 export default function BrandingWhisperer() {
   const [step, setStep] = useState(-1);
+  const [storedPattern, setStoredPattern] = useState(() => recall("pattern"));
+  const [energy, setEnergy] = useState(null);
+  const [stuck, setStuck] = useState(null);
   const [answers, setAnswers] = useState({});
   const [draft, setDraft] = useState("");
   const [loading, setLoading] = useState(false);
@@ -86,11 +175,14 @@ export default function BrandingWhisperer() {
   function buildSummary() {
     if (!result) return "";
     let t = "MY BRAND, from Branding Inward\n\n";
-    if (result.pain) t += `The real reason they'd choose me:\n${result.pain}\n\n`;
     if (result.reframe) t += `What I'm really about:\n${result.reframe}\n\n`;
+    if (result.moment) t += `The moment I'm for:\n${result.moment}\n\n`;
+    if (result.mirror) t += `Who my customer gets to be:\n${result.mirror}\n\n`;
     if (result.edge) t += `What makes me un-copyable:\n${result.edge}\n\n`;
-    if (result.personality) t += `My brand's personality:\n${result.personality}\n\n`;
     if (result.against) t += `What I stand against:\n${result.against}\n\n`;
+    if (result.gap) t += `The gap to close:\n${result.gap}\n\n`;
+    if (result.personality) t += `My brand's personality:\n${result.personality}\n\n`;
+    if (result.assets?.length) t += `My signature moves (repeat forever):\n${result.assets.join(", ")}\n\n`;
     if (posts?.posts?.length) {
       t += "POST IDEAS:\n";
       posts.posts.forEach((p, i) => { t += `${i + 1}. ${p.hook}${p.idea ? `: ${p.idea}` : ""}\n`; });
@@ -154,42 +246,59 @@ export default function BrandingWhisperer() {
     setStep(QUESTIONS.length);
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
-    // ── CALL 1: The brand foundation. Director-level depth, said simply. ──
-    const systemPrompt = `You are a seasoned brand director giving advice to a nervous person building a brand, a small business OR a personal brand (freelancer, creator, coach, someone building their name). Treat them like a friend, not a client. Notice which kind they are and speak to their real situation. Go DEEP like a real director, but say everything simply. They're intimidated by marketing.
+    // ── CALL 1: The brand foundation, grounded in the psychology library. ──
+    const systemPrompt = `You are a warm, perceptive guide, half brand strategist, half therapist, helping a nervous person see the brand that already exists in their own answers. Treat them like a friend, not a client. They're intimidated by marketing, and most marketing advice was written for extroverts. Your craft: everything you say is quietly grounded in real psychology, but it reads like a gentle observation about them, never a lesson.
 
-LANGUAGE: For a product business, "selling" is fine. For a PERSONAL brand, don't say "selling," say what they "offer," want to be "known for," or the value people come to them for.
+${PSYCH_LIBRARY}
 
-YOUR THINKING:
-1. PAIN & ASPIRATION: the ache the person they want to reach hasn't named yet, and the dream pulling them. Understand it before they've felt it. Find the real human moment.
-2. THE REFRAME: what they're REALLY about, not surface features. A jolt: "oh, THAT'S what I'm really offering." Specific and surprising. This is the centerpiece.
-3. WHAT'S UN-COPYABLE + the one person most drawn to them: same insight, two sides. For a personal brand it's usually their story or lived experience.
-4. BRAND PERSONALITY: if this brand were a person, how do they talk and carry themselves? Give 3 vivid traits.
-5. WHAT THEY STAND AGAINST: the thing in their world they push back on. Brands get sharp by having an enemy (a bad norm, a tired way of doing things).
+LANGUAGE: For a product business, "selling" is fine. For a PERSONAL brand, don't say "selling," say what they "offer" or want to be "known for."
 
-VOICE: Direct but warm. Truth, then belief they can do it. No jargon. Short sentences. Write plainly, the way a real person texts. Do not use em-dashes or en-dashes anywhere; use commas and periods instead.
+YOUR THINKING (each step is a real strategist's instrument, worn lightly):
+1. THE REFRAME: from their origin story and their customer's switch moment, name the job people actually hire them for. Not the product, the change it makes in someone's day. A jolt: "oh, THAT'S what I'm really offering." This is the centerpiece.
+2. THE MOMENT: from the switch-moment answer, name the exact life situation where their person suddenly needs them, so they know which moment their brand should live next to in people's memory. Brands are recalled by situations, not by ads.
+3. THE MIRROR: from the referral sentence and the switch moment, name who their person GETS TO BE by choosing them. The referral words are the customer describing their own taste.
+4. THE EDGE: what's un-copyable, hiding in the origin story's specifics plus the thing competitors would call wasteful. A chosen inefficiency is a moat, not a flaw.
+5. WHAT THEY STAND AGAINST: sharpen their profitable waste into a stance against the industry norm it defies.
+6. THE GAP: compare what people ALREADY come to them for with the one thing they WANT people to think. If they match, say so, that's rare and worth celebrating. If they differ, name the distance honestly and give ONE bridge move: how to use what they're already known for as the doorway to what they want to own. Never shame the gap, it's just the work, now visible.
+7. BRAND PERSONALITY: 3 vivid traits + how it talks, drawn from how THEY wrote their answers.
+8. SIGNATURE MOVES: frame these as the EVIDENCE they hand people on repeat. Claims are forgotten, evidence is remembered. From their one word and their repeatable thing, name the word they should own, plus 2 or 3 repeatable signatures that quietly prove it every time. Small brands win by unique-and-repeated, not famous.
 
-NEVER assume the gender of the people they want to reach. You cannot know it. Write about that person as "they" or "them", or as "your person" or "this reader". Never use he, she, him, her, his, or hers.
+EVERY field gets a matching "_why" line: ONE short sentence explaining why this works, drawn from the library but with the name left out (e.g. "Things made by one person's hands feel made with love, and people quietly pay more for that."). No terms, no researcher or institution names, never academic, never invented.
 
-Depth means insight, not length. Be specific to THIS brand and the exact answers they gave. If a sentence could be copy-pasted onto a totally different business, it is too generic, rewrite it until it could only be about them. No field longer than 2 sentences.
+VOICE: Direct but warm. No jargon. Short sentences, the way a real person texts. Do not use em-dashes or en-dashes anywhere; use commas and periods instead.
 
-Return ONLY valid JSON, no markdown, no preamble:
+NEVER assume anyone's gender, including people they name. Use "they" and "them" always, no matter how a name sounds.
+
+Be specific to THIS brand. If a sentence could be copy-pasted onto a different business, rewrite it until it could only be about them. No field longer than 2 sentences.
+
+Return ONLY valid JSON, no markdown, no preamble. Output it compactly with no blank lines between fields, make sure every key is exactly "name": with a colon, and NEVER use double quote marks inside a field's text, use single quotes there instead:
 {
-  "pain": "the real ache + aspiration as a vivid human moment (max 2 sentences)",
-  "reframe": "'you're not just doing X, you're really offering Y', surprising and specific (max 2 sentences)",
-  "edge": "what's un-copyable AND the one person most drawn to them, as one linked insight (max 2 sentences)",
+  "reframe": "'you're not just doing X, you're really offering Y', the job people hire them for, surprising and specific (max 2 sentences)",
+  "reframe_why": "one plain sentence on why this works, no terms or names",
+  "moment": "the exact life situation where their person suddenly needs them, written as a scene ('it's the night before...'), so they know which moment to attach their brand to (max 2 sentences)",
+  "moment_why": "one plain sentence on why owning a moment beats chasing attention, no terms or names",
+  "mirror": "who their customer gets to be by choosing them, built from the referral sentence and switch moment (max 2 sentences)",
+  "mirror_why": "one plain sentence on why this works, no terms or names",
+  "edge": "the un-copyable thing, found in their origin story's specifics (max 2 sentences)",
+  "edge_why": "one plain sentence on why this works, no terms or names",
+  "against": "the norm or tired way of doing things this brand pushes against, built from their refusals (max 2 sentences)",
+  "against_why": "one plain sentence on why this works, no terms or names",
+  "gap": "the honest distance between what people already come to them for and the one thing they want owned, plus ONE bridge move. If they already match, say so plainly. (max 2 sentences)",
+  "gap_why": "one plain sentence on why building from what you're already known for beats starting over, no terms or names",
   "personality": "3 vivid personality traits of the brand + how it talks (max 2 sentences)",
-  "against": "the norm or tired way of doing things this brand pushes against (max 2 sentences)"
+  "assets": ["first entry: 'The word to own: X' using their chosen word, then 1 or 2 signature moves to repeat forever, each a short concrete phrase drawn from their answers"],
+  "assets_why": "one plain sentence on why repeating a few signatures works, no terms or names"
 }`;
 
     const userPrompt = `Here's what I'm building, from a few quick questions:
 - What I'm building: ${finalAnswers.business}
-- The person I want to reach: ${finalAnswers.customer}
-- Why someone would choose me: ${finalAnswers.different}
-- The one feeling I want them to have: ${finalAnswers.feeling}
-- Where those people spend time: ${finalAnswers.where}
-- My 3-month win: ${finalAnswers.goal}
+- The moment it started: ${finalAnswers.origin}
+- What was happening in my last customer's life the day they bought: ${finalAnswers.switch}
+- What people already come to me for (their words): ${finalAnswers.referral}
+- What a competitor would call my waste of time or money: ${finalAnswers.tradeoff}
+- What I want people to think when my name comes up, and the thing I'd repeat forever: ${finalAnswers.own}
 
-Give me my brand foundation. Find the pain, the reframe, what's un-copyable, my brand's personality, and what I stand against.`;
+Give me my brand foundation, grounded in the psychology.`;
 
     try {
       const response = await fetch("/api/generate", {
@@ -201,8 +310,10 @@ Give me my brand foundation. Find the pain, the reframe, what's un-copyable, my 
       const data = await response.json();
       const parsed = parseWhisperResponse(data);
       if (!parsed) throw new Error("The AI's answer got cut short. Tap to try again, it usually works on a second pass.");
-      parsed.pain = parsed.pain || ""; parsed.reframe = parsed.reframe || ""; parsed.edge = parsed.edge || "";
-      parsed.personality = parsed.personality || ""; parsed.against = parsed.against || "";
+      parsed.reframe = parsed.reframe || ""; parsed.moment = parsed.moment || ""; parsed.mirror = parsed.mirror || "";
+      parsed.edge = parsed.edge || ""; parsed.personality = parsed.personality || ""; parsed.against = parsed.against || "";
+      parsed.gap = parsed.gap || "";
+      parsed.assets = Array.isArray(parsed.assets) ? parsed.assets : [];
       // stash the answers so the 7-day plan call can use them
       parsed._answers = finalAnswers;
       setResult(parsed);
@@ -243,7 +354,7 @@ Return ONLY valid JSON, no markdown:
 { "posts": [ { "hook": "the scroll-stopping first line, in their voice (max 15 words)", "idea": "the format in plain words, then exactly what to post and its angle, so a non-marketer could make it today (one or two sentences)" } ] }
 Give exactly 5. Make each genuinely different from the others. (variety seed: ${seed})`;
 
-    const usr = `Reaching: ${a.customer}. On: ${a.where}. Give me 5 post ideas I could publish this week.`;
+    const usr = `The moment people need me: ${a.switch}. What people say when they recommend me: ${a.referral}. What a competitor would call my waste of time: ${a.tradeoff}. Give me 5 post ideas I could publish this week.`;
 
     try {
       const r = await fetch("/api/generate", {
@@ -284,8 +395,8 @@ Return ONLY valid JSON, no markdown, no preamble:
 }
 Give exactly 7 days. Keep every field short so all 7 fit.`;
 
-    const usr = `My brand: ${a.business}. Who I'm reaching: ${a.customer}. Where they spend time: ${a.where}. My 3-month win: ${a.goal}.
-Build my gentle 7-day plan, one small action per day.`;
+    const usr = `My brand: ${a.business}. The moment people need me: ${a.switch}. What people say when they recommend me: ${a.referral}. My signature moves to repeat: ${(result?.assets || []).join(", ")}.
+Build my gentle 7-day plan, one small action per day. Weave my signature moves into the days so repetition starts now.`;
 
     try {
       const response = await fetch("/api/generate", {
@@ -314,11 +425,14 @@ Build my gentle 7-day plan, one small action per day.`;
 
   // The foundation cards, revealed one at a time so it never overwhelms
   const cards = result ? [
-    { label: "The real reason they'd choose you", body: result.pain },
-    { label: "Here's what you're really about", body: result.reframe, hero: true },
-    { label: "What makes you un-copyable", body: result.edge },
+    { label: "Here's what you're really about", body: result.reframe, why: result.reframe_why, hero: true },
+    { label: "The moment you're for", body: result.moment, why: result.moment_why },
+    { label: "Who your customer gets to be", body: result.mirror, why: result.mirror_why },
+    { label: "What makes you un-copyable", body: result.edge, why: result.edge_why },
+    { label: "What you stand against", body: result.against, why: result.against_why },
+    { label: "The gap to close", body: result.gap, why: result.gap_why },
     { label: "Your brand's personality", body: result.personality },
-    { label: "What you stand against", body: result.against },
+    { label: "Your signature moves, repeat these forever", body: result.assets?.length ? result.assets.join("  ·  ") : "", why: result.assets_why },
   ].filter((c) => c.body) : [];
 
   return (
@@ -360,8 +474,47 @@ Build my gentle 7-day plan, one small action per day.`;
               <p style={{ fontSize: 14, color: "rgba(251,247,240,.6)", marginTop: 18, fontFamily: SANS }}>
                 No account. One question at a time, I promise.
               </p>
+              <p style={{ fontSize: 15, marginTop: 10, fontFamily: SANS }}>
+                <a href="#/scan" onClick={() => track("opened_scan")} style={{ color: "#F7D06B", textDecoration: "none", fontWeight: 600 }}>
+                  Not sure where to start? Find your inward pattern, 8 taps →
+                </a>
+              </p>
             </div>
           </section>
+
+          {/* ── WELCOME BACK: only for visitors who chose to keep their pattern on this device ── */}
+          {storedPattern && PATTERN_HOME[storedPattern] && (
+            <section style={{ maxWidth: 920, margin: "0 auto", padding: "40px 24px 0" }}>
+              <div style={{ background: ACCENT_TINT, border: "1px solid #DCEFEA", borderLeft: `5px solid ${ACCENT}`, borderRadius: "0 16px 16px 0", padding: "24px 26px" }}>
+                <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 6px" }}>Welcome back</p>
+                <p style={{ fontSize: 22, fontWeight: 350, margin: "0 0 14px" }}>
+                  You're {PATTERN_HOME[storedPattern].name.replace("The", "a")}. How's the battery today?
+                </p>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: energy ? 16 : 0 }}>
+                  {[["low", "Running low"], ["okay", "Okay"], ["good", "Actually good"]].map(([k, label]) => (
+                    <button key={k} className="mw-btn" onClick={() => setEnergy(k)}
+                      style={{ background: energy === k ? ACCENT : "#FFF", color: energy === k ? "#FFF" : INK, border: `2px solid ${energy === k ? ACCENT : "#E5DDD1"}`, borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "all .18s" }}>
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                {energy && (
+                  <div className="mw-fade">
+                    <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 6px" }}>This week's one move</p>
+                    <p style={{ fontSize: 18, lineHeight: 1.55, margin: "0 0 12px" }}>
+                      {QUIET_MOVES[energy][(Math.floor(Date.now() / 604800000) + Object.keys(PATTERN_HOME).indexOf(storedPattern)) % QUIET_MOVES[energy].length]}
+                    </p>
+                    <p style={{ fontSize: 14, fontFamily: SANS, margin: 0 }}>
+                      That's enough for this week. Want more anyway?{" "}
+                      <a href={PATTERN_HOME[storedPattern].start} style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>
+                        Continue with {PATTERN_HOME[storedPattern].startName} →
+                      </a>
+                    </p>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
 
           {/* ── EDITORIAL BAND: photos + the belief line ── */}
           <section style={{ maxWidth: 920, margin: "0 auto", padding: "72px 24px 8px" }}>
@@ -376,13 +529,90 @@ Build my gentle 7-day plan, one small action per day.`;
                   <span style={{ fontStyle: "italic", color: ACCENT }}>This place isn't.</span>
                 </p>
                 <p style={{ fontSize: 16, lineHeight: 1.6, color: "#5C534B", margin: "16px 0 0", fontFamily: SANS }}>
-                  Free little tools for makers, musicians, freelancers, and small businesses who love
-                  the work and hate the performing. Promotion without performing, depth over reach.
+                  Free little tools for makers, musicians, coaches, consultants, writers, professors,
+                  and quiet experts of every kind, anyone who loves the work and hates the performing.
+                  Promotion without performing, depth over reach.
                 </p>
               </div>
               <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "3/4", boxShadow: "0 16px 40px rgba(11,59,52,.14)" }}>
                 <img src="/media/quiet-desk.jpg" alt="A quiet chair in morning light with coffee and a notebook" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", animationDelay: "-12s" }} />
               </div>
+            </div>
+          </section>
+
+          {/* ── STUCK PICKER: name your blocker in one tap, get routed instantly ── */}
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "64px 24px 8px" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The fast lane</p>
+            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 34px)", lineHeight: 1.2, margin: "0 0 22px", fontWeight: 350 }}>
+              Where do you <span style={{ fontStyle: "italic", color: ACCENT }}>get stuck?</span>
+            </h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
+              {STUCK.map((s) => (
+                <button
+                  key={s.key}
+                  className="mw-btn"
+                  onClick={() => { setStuck(s.key); track("stuck_" + s.key); }}
+                  style={{ textAlign: "left", background: stuck === s.key ? ACCENT_TINT : "#FFF", color: INK, border: `2px solid ${stuck === s.key ? ACCENT : "#EFE7DA"}`, borderRadius: 14, padding: "16px 18px", fontSize: 18, fontFamily: SERIF, cursor: "pointer", lineHeight: 1.4, transition: "all .18s", display: "flex", alignItems: "center", gap: 12 }}
+                >
+                  <span style={{ flexShrink: 0, width: 16, height: 16, borderRadius: "50%", border: `2px solid ${stuck === s.key ? ACCENT : "#CFC6B8"}`, background: stuck === s.key ? ACCENT : "transparent", transition: "all .18s" }} />
+                  {s.label}
+                </button>
+              ))}
+            </div>
+
+            {stuck && (() => {
+              const s = STUCK.find((x) => x.key === stuck);
+              return (
+                <div className="mw-fade" style={{ marginTop: 18, background: ACCENT_TINT, border: "1px solid #DCEFEA", borderLeft: `5px solid ${ACCENT}`, borderRadius: "0 16px 16px 0", padding: "24px 26px" }}>
+                  <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>Here's your path</p>
+                  <p style={{ fontSize: 24, fontWeight: 400, margin: "0 0 8px" }}>{s.path}</p>
+                  <p style={{ fontSize: 16, lineHeight: 1.6, color: "#3D3630", margin: "0 0 18px", fontFamily: SANS }}>{s.why}</p>
+                  <div style={{ background: INK_TEAL, borderRadius: 14, padding: "16px 18px", marginBottom: 18 }}>
+                    <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#F7D06B", fontWeight: 600, margin: "0 0 5px" }}>Today</p>
+                    <p style={{ fontSize: 16, lineHeight: 1.5, color: CREAM, margin: 0 }}>{s.today}</p>
+                  </div>
+                  {s.href ? (
+                    <a href={s.href} className="mw-btn" style={{ ...primaryBtn, display: "inline-block", textDecoration: "none" }}>{s.path} →</a>
+                  ) : (
+                    <button className="mw-btn" onClick={() => { track("started"); setStep(0); window.scrollTo({ top: 0 }); }} style={primaryBtn}>{s.path} →</button>
+                  )}
+                </div>
+              );
+            })()}
+          </section>
+
+          {/* ── THE SCIENCE BAND: the research that vindicates quiet people. Static, cited, no AI. ── */}
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "64px 24px 8px" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The science of quiet branding</p>
+            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 34px)", lineHeight: 1.2, margin: "0 0 22px", fontWeight: 350 }}>
+              Everything here is built on research, <span style={{ fontStyle: "italic", color: ACCENT }}>not vibes.</span>
+            </h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
+              {[
+                {
+                  myth: "“I should promote myself more.”",
+                  fact: "In a 2015 Carnegie Mellon study, self-promoters were liked less and judged no more competent. Your instinct to not brag isn't a weakness. It's correct.",
+                  source: "A Carnegie Mellon study, 2015",
+                },
+                {
+                  myth: "“I need to be everywhere, loudly.”",
+                  fact: "About 95% of your future buyers aren't ready to buy today. A brand's real job is being quietly remembered later, and simply showing up regularly builds trust on its own.",
+                  source: "Decades of buyer-behavior research",
+                },
+                {
+                  myth: "“Small and handmade looks amateur.”",
+                  fact: "Buyers pay more for handmade because it feels made with love, especially as gifts. One person at a kitchen table is the premium, not the problem.",
+                  source: "Consumer research on handmade goods",
+                },
+              ].map((c, i) => (
+                <div key={i} style={{ ...plainCard, marginBottom: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                  <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: CORAL, fontWeight: 700, margin: 0 }}>The myth</p>
+                  <p style={{ fontSize: 20, fontStyle: "italic", lineHeight: 1.35, margin: 0 }}>{c.myth}</p>
+                  <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 700, margin: "6px 0 0" }}>The research</p>
+                  <p style={{ fontSize: 16, lineHeight: 1.55, margin: 0, color: "#3D3630" }}>{c.fact}</p>
+                  <p style={{ fontFamily: SANS, fontSize: 12, color: "#9A8F82", margin: "auto 0 0", paddingTop: 6 }}>{c.source}</p>
+                </div>
+              ))}
             </div>
           </section>
 
@@ -491,6 +721,12 @@ Build my gentle 7-day plan, one small action per day.`;
                       {c.hero && <DropQuote />}
                       <p style={{ ...miniLabel, marginBottom: 8, position: "relative" }}>{c.label}</p>
                       <p style={{ fontSize: c.hero ? 24 : 19, lineHeight: 1.42, margin: 0, color: INK, position: "relative", fontWeight: c.hero ? 350 : 400 }}>{c.body}</p>
+                      {c.why && (
+                        <p style={{ fontSize: 14, lineHeight: 1.5, margin: "12px 0 0", color: "#857B70", fontStyle: "italic", position: "relative", borderTop: "1px solid rgba(11,59,52,.08)", paddingTop: 10 }}>
+                          <span style={{ fontFamily: SANS, fontStyle: "normal", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: ACCENT, fontWeight: 700, marginRight: 8 }}>Why this works</span>
+                          {c.why}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -623,10 +859,11 @@ Build my gentle 7-day plan, one small action per day.`;
           </div>
         )}
 
+        <PageQuote id="home" />
       </div>
 
       {/* FOOTER — full-bleed ink teal, the human behind the whisperer */}
-      <footer style={{ background: INK_TEAL, marginTop: step === -1 ? 0 : 80 }}>
+      <footer style={{ background: INK_TEAL, marginTop: step === -1 ? 40 : 80 }}>
         <div style={{ maxWidth: 920, margin: "0 auto", padding: "56px 24px 48px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 26 }}>
             <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
@@ -648,6 +885,14 @@ Build my gentle 7-day plan, one small action per day.`;
           <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.5)", margin: "0 0 22px", fontFamily: SANS, maxWidth: 620 }}>
             Nothing you type here is saved, and I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.
             Photos and film from Pexels artists, with thanks.
+            {storedPattern && (
+              <>
+                {" "}Your pattern lives only in this browser.{" "}
+                <button onClick={() => { forgetAll(); setStoredPattern(null); setEnergy(null); }} style={{ background: "none", border: "none", padding: 0, color: "rgba(251,247,240,.7)", textDecoration: "underline", cursor: "pointer", fontFamily: SANS, fontSize: 13 }}>
+                  Forget it
+                </button>.
+              </>
+            )}
           </p>
           <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>
             — <span style={{ color: BUTTER }}>S. Afrin</span>
