@@ -468,9 +468,8 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 </span>
               </h1>
               <p style={{ fontSize: 19, lineHeight: 1.65, color: "rgba(251,247,240,.88)", maxWidth: 540, margin: "0 0 38px" }}>
-                Building a business or building your own name. Either way, no marketing words needed.
-                Answer one question at a time, type or talk, and you'll walk away knowing the real reason
-                people will choose you, and the one small thing to do today.
+                A business or your own name, either way. No marketing words needed. One question at a
+                time, and you'll walk away knowing the real reason people choose you.
               </p>
               <button className="mw-btn" onClick={() => { track("started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Start (takes 3 minutes)</button>
               <p style={{ fontSize: 14, color: "rgba(251,247,240,.6)", marginTop: 18, fontFamily: SANS }}>
@@ -634,29 +633,20 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </div>
           </section>
 
-          {/* ── WHY THIS EXISTS: her credibility + point of view, in her voice ── */}
+          {/* ── WHY THIS EXISTS: short teaser, full story lives on #/about ── */}
           <section id="why" style={{ background: INK_TEAL }}>
-            <div style={{ maxWidth: 760, margin: "0 auto", padding: "72px 24px" }}>
+            <div style={{ maxWidth: 760, margin: "0 auto", padding: "56px 24px" }}>
               <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: "#F7D06B", fontWeight: 600, margin: "0 0 14px" }}>Why this exists</p>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 40px)", lineHeight: 1.15, margin: "0 0 24px", fontWeight: 350, color: CREAM }}>
+              <h2 style={{ fontSize: "clamp(26px, 4vw, 38px)", lineHeight: 1.15, margin: "0 0 18px", fontWeight: 350, color: CREAM }}>
                 Digital media is a channel.<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>Not a destination.</span>
               </h2>
-              <p style={{ fontSize: 18, lineHeight: 1.7, color: "rgba(251,247,240,.86)", margin: "0 0 18px" }}>
-                I've spent more than a decade in brand work, at agencies and with clients, learning what
-                actually makes people remember a brand. I learned most of it before social media existed,
-                and all of it before AI did. The fundamentals never depended on either.
+              <p style={{ fontSize: 17, lineHeight: 1.65, color: "rgba(251,247,240,.86)", margin: "0 0 22px", maxWidth: 560 }}>
+                Built by a brand strategist, not a tech company. A decade of agency work, from before
+                AI or social media existed, made free so it works for people who never came from marketing.
               </p>
-              <p style={{ fontSize: 18, lineHeight: 1.7, color: "rgba(251,247,240,.86)", margin: "0 0 18px" }}>
-                A platform is just a place to put the work. It is not the brand, and it is not the point.
-                So I built these tools around the part that lasts: who you are, how you sound, what you
-                stand for. The AI helps you express it, never the other way around.
-              </p>
-              <p style={{ fontSize: 18, lineHeight: 1.7, color: CREAM, fontWeight: 500, margin: 0 }}>
-                All of it free, so it works for people who never came from marketing.
-              </p>
-              <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: "22px 0 0" }}>
-                &mdash; <span style={{ color: "#F7D06B" }}>S. Afrin</span>
-              </p>
+              <a href="#/about" onClick={() => track("opened_about")} style={{ fontFamily: SANS, fontSize: 16, color: "#F7D06B", textDecoration: "none", fontWeight: 600 }}>
+                Read my story &rarr;
+              </a>
             </div>
           </section>
 
@@ -910,12 +900,8 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </span>
           </div>
           <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(251,247,240,.75)", margin: "0 0 16px", fontFamily: SANS, maxWidth: 620 }}>
-            This tool exists purely to help you. No catch, no fine print. I'm a brand marketer
-            teaching myself AI, and as I get better at it, I want to build more things like
-            this for people who don't come from a marketing background.
-          </p>
-          <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(251,247,240,.75)", margin: "0 0 16px", fontFamily: SANS, maxWidth: 620 }}>
-            Ready to go deeper? Email me for a brand audit and one-on-one advice at{" "}
+            Free tools, no catch. <a href="#/about" onClick={() => track("footer_about")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>Read my story</a>, or email me for a brand
+            audit at{" "}
             <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" onClick={() => track("clicked_email")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>
               thecuriousafrin@gmail.com
             </a>.

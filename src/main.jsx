@@ -6,6 +6,7 @@ import ShieldWhisper from "./ShieldWhisper.jsx";
 import RoastWhisper from "./RoastWhisper.jsx";
 import PlanWhisper from "./PlanWhisper.jsx";
 import InwardScan from "./InwardScan.jsx";
+import AboutInward from "./AboutInward.jsx";
 
 const ROUTES = {
   "#/shield": ShieldWhisper,
@@ -13,6 +14,7 @@ const ROUTES = {
   "#/editor": RoastWhisper, // old URL, briefly live, kept as a silent alias
   "#/plan": PlanWhisper,
   "#/scan": InwardScan,
+  "#/about": AboutInward,
 };
 
 function Router() {

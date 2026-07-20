@@ -111,6 +111,7 @@ export const GLOBAL_CSS = `
   .mw-menu-row { transition: background .14s ease; }
   .mw-menu-row:hover { background:#FBF7F0; }
   .mw-menu-trigger:hover { background:#0B3B34 !important; }
+  @media (max-width: 640px) { .mw-about-grid { grid-template-columns: 1fr !important; gap: 28px !important; } .mw-about-grid > div:first-child { max-width: 240px; } }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
     video { display: none !important; }
@@ -126,6 +127,7 @@ export const QUOTES = {
   voice: { q: "Be yourself; everyone else is already taken.", a: "Often attributed to Oscar Wilde" },
   roast: { q: "Perfectionism is the voice of the oppressor.", a: "Anne Lamott" },
   plan: { q: "Great things are done by a series of small things brought together.", a: "Vincent van Gogh" },
+  about: { q: "People don't buy what you do; they buy why you do it.", a: "Simon Sinek" },
 };
 export function PageQuote({ id }) {
   const item = QUOTES[id];
@@ -257,6 +259,7 @@ export function ToolsMenu() {
   const items = [
     { href: "#/", name: "Home", cta: "Start here", dot: BUTTER },
     ...["scan", "foundation", "voice", "roast", "plan"].map((k) => ({ ...TOOLS[k], dot: TOOLS[k].accent })),
+    { href: "#/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
   ];
 
   return (
