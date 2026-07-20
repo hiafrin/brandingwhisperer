@@ -4,11 +4,13 @@ import { Analytics } from "@vercel/analytics/react";
 import App from "./App.jsx";
 import ShieldWhisper from "./ShieldWhisper.jsx";
 import RoastWhisper from "./RoastWhisper.jsx";
+import PlanWhisper from "./PlanWhisper.jsx";
 
 const ROUTES = {
   "#/shield": ShieldWhisper,
   "#/roast": RoastWhisper,
   "#/editor": RoastWhisper, // old URL, briefly live, kept as a silent alias
+  "#/plan": PlanWhisper,
 };
 
 function Router() {
