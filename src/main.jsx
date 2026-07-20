@@ -3,11 +3,12 @@ import ReactDOM from "react-dom/client";
 import { Analytics } from "@vercel/analytics/react";
 import App from "./App.jsx";
 import ShieldWhisper from "./ShieldWhisper.jsx";
-import EditorWhisper from "./EditorWhisper.jsx";
+import RoastWhisper from "./RoastWhisper.jsx";
 
 const ROUTES = {
   "#/shield": ShieldWhisper,
-  "#/editor": EditorWhisper,
+  "#/roast": RoastWhisper,
+  "#/editor": RoastWhisper, // old URL, briefly live, kept as a silent alias
 };
 
 function Router() {
