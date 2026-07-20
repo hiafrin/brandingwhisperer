@@ -7,7 +7,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS,
+  TOOLS, SuccessProof,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 
@@ -660,33 +660,12 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           </section>
 
           {/* ── PROOF: real, documented quiet people. Never invented testimonials. ── */}
-          <section id="proof-people" style={{ maxWidth: 920, margin: "0 auto", padding: "72px 24px 8px" }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>Quiet people who built it anyway</p>
-            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 34px)", lineHeight: 1.2, margin: "0 0 8px", fontWeight: 350 }}>
-              You don't have to perform <span style={{ fontStyle: "italic", color: ACCENT }}>to be found.</span>
-            </h2>
-            <p style={{ fontSize: 16, lineHeight: 1.6, color: "#857B70", margin: "0 0 26px", fontFamily: SANS, maxWidth: 620 }}>
-              Real people, not testimonials. None of them use this site. They just prove the quiet way works.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
-              {[
-                { who: "Cal Newport", what: "Writer, professor", how: "Has never opened a single social media account. Built a huge readership through long-form writing and an email list, and sold millions of books.", href: "https://en.wikipedia.org/wiki/Cal_Newport" },
-                { who: "Florian Gadsby", what: "Potter", how: "Grew to millions of followers on slow, quiet videos of his hands at the wheel, captions instead of hype, his face mostly out of shot. The work carries it.", href: "https://www.craftscouncil.org.uk/stories/a-potter-of-influence" },
-                { who: "Burial", what: "Musician", how: "Refused even press photos and has never played a single live show. His second album is still called a landmark. The music did the talking.", href: "https://en.wikipedia.org/wiki/Burial_(musician)" },
-              ].map((p, i) => (
-                <div key={i} style={{ ...plainCard, marginBottom: 0, display: "flex", flexDirection: "column" }}>
-                  <p style={{ fontSize: 22, fontWeight: 400, margin: "0 0 2px" }}>{p.who}</p>
-                  <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".04em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 12px" }}>{p.what}</p>
-                  <p style={{ fontSize: 16, lineHeight: 1.55, color: "#3D3630", margin: "0 0 14px" }}>{p.how}</p>
-                  <a href={p.href} style={{ fontFamily: SANS, fontSize: 13, color: "#9A8F82", textDecoration: "underline", marginTop: "auto" }}>Read their story &rarr;</a>
-                </div>
-              ))}
-            </div>
-            <p style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: 20, lineHeight: 1.45, color: INK, textAlign: "center", margin: "40px auto 0", maxWidth: 560 }}>
-              &ldquo;There is no greater agony than bearing an untold story inside you.&rdquo;
-              <span style={{ display: "block", fontFamily: SANS, fontStyle: "normal", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, marginTop: 10 }}>Maya Angelou</span>
-            </p>
-          </section>
+          <SuccessProof
+            id="proof-people"
+            headline={<>You don't have to perform <span style={{ fontStyle: "italic", color: ACCENT }}>to be found.</span></>}
+            intro="Real people, not testimonials. None of them use this site. They just prove the quiet way works."
+            quote={{ q: "There is no greater agony than bearing an untold story inside you.", a: "Maya Angelou" }}
+          />
         </>
       )}
 

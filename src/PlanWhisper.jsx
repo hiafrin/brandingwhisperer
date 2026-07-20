@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY, CHANNEL_LIBRARY,
   parseWhisperResponse, recall,
   useVoiceInput, MicIcon,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, TOOLS,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, SuccessProof, TOOLS,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -530,6 +530,12 @@ Look at the photo and write 3 posts around it, in my voice.`;
         )}
       </div>
 
+      <SuccessProof
+        eyebrow="People who never posted daily"
+        headline={<>No daily posting. <span style={{ fontStyle: "italic", color: ACCENT }}>Built anyway.</span></>}
+        intro="Each of them found the few channels that fit them and ignored the rest. None of them use this site. They prove a quiet plan is enough."
+        quote={{ q: "There are no secrets to success. It is the result of preparation, hard work, and learning from failure.", a: "Colin Powell" }}
+      />
       <NextTools current="plan" />
       <PageQuote id="plan" />
 

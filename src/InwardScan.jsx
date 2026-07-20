@@ -3,7 +3,7 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, ACCENT_TINT, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, DoodleScan,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, SuccessProof, DoodleScan,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard,
   remember,
 } from "./lib/whisperKit.jsx";
@@ -385,6 +385,12 @@ export default function InwardScan() {
 
       </div>
 
+      <SuccessProof
+        eyebrow="People who worked with their pattern"
+        headline={<>They knew how they worked. <span style={{ fontStyle: "italic", color: ACCENT }}>Then built around it.</span></>}
+        intro="None of them fought their own wiring. None of them use this site. They just prove that knowing your pattern is where it starts."
+        quote={{ q: "Success is liking yourself, liking what you do, and liking how you do it.", a: "Maya Angelou" }}
+      />
       <NextTools current="scan" />
       <PageQuote id="scan" />
 

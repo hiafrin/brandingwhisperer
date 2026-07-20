@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse,
   useVoiceInput, MicIcon,
-  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, WhatThisDoes, NextTools,
+  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, WhatThisDoes, NextTools, SuccessProof,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -409,6 +409,12 @@ These answers are also your voice sample. Study how they wrote them, not just wh
 
       </div>
 
+      <SuccessProof
+        eyebrow="People who never performed either"
+        headline={<>They hated the spotlight. <span style={{ fontStyle: "italic", color: ACCENT }}>People still found their voice.</span></>}
+        intro="None of them use this site. They just prove you can be known for the work without performing yourself."
+        quote={{ q: "The only way to do great work is to love what you do.", a: "Steve Jobs" }}
+      />
       <NextTools current="voice" />
       <PageQuote id="voice" />
 

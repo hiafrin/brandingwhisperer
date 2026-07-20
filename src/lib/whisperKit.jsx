@@ -234,6 +234,48 @@ export function NextTools({ current }) {
   );
 }
 
+// ── Real, documented people who built brands without performing. NEVER
+//    invented testimonials, and none of them use this site. Single source
+//    of truth, shared by the home band and every tool page. ──
+export const PROOF_PEOPLE = [
+  { who: "Cal Newport", what: "Writer, professor", how: "Has never opened a single social media account. Built a huge readership through long-form writing and an email list, and sold millions of books.", href: "https://en.wikipedia.org/wiki/Cal_Newport" },
+  { who: "Florian Gadsby", what: "Potter", how: "Grew to millions of followers on slow, quiet videos of his hands at the wheel, captions instead of hype, his face mostly out of shot. The work carries it.", href: "https://www.craftscouncil.org.uk/stories/a-potter-of-influence" },
+  { who: "Burial", what: "Musician", how: "Refused even press photos and has never played a single live show. His second album is still called a landmark. The music did the talking.", href: "https://en.wikipedia.org/wiki/Burial_(musician)" },
+];
+
+// ── The proof band: same shape everywhere. Home passes its own copy; each
+//    tool page passes a headline, intro, and a real motivational quote that
+//    fits that tool, so every page reveals the mission, not just home. ──
+export function SuccessProof({ id, eyebrow = "Quiet people who built it anyway", headline, intro, quote, people = PROOF_PEOPLE }) {
+  return (
+    <section id={id} style={{ maxWidth: 920, margin: "0 auto", padding: "72px 24px 8px" }}>
+      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>{eyebrow}</p>
+      {headline && (
+        <h2 style={{ fontSize: "clamp(26px, 3.6vw, 34px)", lineHeight: 1.2, margin: "0 0 8px", fontWeight: 350 }}>{headline}</h2>
+      )}
+      {intro && (
+        <p style={{ fontSize: 16, lineHeight: 1.6, color: "#857B70", margin: "0 0 26px", fontFamily: SANS, maxWidth: 620 }}>{intro}</p>
+      )}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
+        {people.map((p, i) => (
+          <div key={i} style={{ ...plainCard, marginBottom: 0, display: "flex", flexDirection: "column" }}>
+            <p style={{ fontSize: 22, fontWeight: 400, margin: "0 0 2px" }}>{p.who}</p>
+            <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".04em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 12px" }}>{p.what}</p>
+            <p style={{ fontSize: 16, lineHeight: 1.55, color: "#3D3630", margin: "0 0 14px" }}>{p.how}</p>
+            <a href={p.href} style={{ fontFamily: SANS, fontSize: 13, color: "#9A8F82", textDecoration: "underline", marginTop: "auto" }}>Read their story &rarr;</a>
+          </div>
+        ))}
+      </div>
+      {quote && (
+        <p style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: 20, lineHeight: 1.45, color: INK, textAlign: "center", margin: "40px auto 0", maxWidth: 560 }}>
+          &ldquo;{quote.q}&rdquo;
+          <span style={{ display: "block", fontFamily: SANS, fontStyle: "normal", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, marginTop: 10 }}>{quote.a}</span>
+        </p>
+      )}
+    </section>
+  );
+}
+
 // ── Shared editorial hero band: full-bleed photo + dark wash + oversized doodle
 //    + ghost label + big mixed-weight headline, so every tool page gets home's
 //    richness instead of flat cream. prefers-reduced-motion kills the zoom. ──
