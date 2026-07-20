@@ -106,6 +106,11 @@ export const GLOBAL_CSS = `
   .mw-mic-live { animation: ring 1.6s infinite;}
   .mw-card-hover { transition: transform .25s ease, box-shadow .25s ease; }
   .mw-card-hover:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(11,59,52,.10); }
+  @keyframes menuIn { from { opacity:0; transform: translateY(-6px);} to { opacity:1; transform: translateY(0);} }
+  .mw-menu-panel { animation: menuIn .16s ease both; }
+  .mw-menu-row { transition: background .14s ease; }
+  .mw-menu-row:hover { background:#FBF7F0; }
+  .mw-menu-trigger:hover { background:#0B3B34 !important; }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
     video { display: none !important; }
@@ -231,6 +236,52 @@ export function NextTools({ current }) {
         ))}
       </div>
     </section>
+  );
+}
+
+// ── Persistent floating nav so no tool is ever buried. Fixed to the
+//    top-right of every page and every scroll position; opens a menu of
+//    all five tools plus Home. Closes on Escape, outside click, or pick. ──
+export function ToolsMenu() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
+  }, [open]);
+
+  const items = [
+    { href: "#/", name: "Home", cta: "Start here", dot: BUTTER },
+    ...["scan", "foundation", "voice", "roast", "plan"].map((k) => ({ ...TOOLS[k], dot: TOOLS[k].accent })),
+  ];
+
+  return (
+    <div ref={ref} style={{ position: "fixed", top: 16, right: 16, zIndex: 300, fontFamily: SANS }}>
+      <button className="mw-menu-trigger" onClick={() => setOpen((o) => !o)} aria-haspopup="true" aria-expanded={open} aria-label="Open the tools menu"
+        style={{ display: "flex", alignItems: "center", gap: 9, background: "rgba(11,59,52,.94)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,.18)", borderRadius: 100, padding: "9px 16px", cursor: "pointer", boxShadow: "0 6px 20px rgba(11,59,52,.28)" }}>
+        <span style={{ width: 8, height: 8, borderRadius: "50%", background: BUTTER }} />
+        <span style={{ color: CREAM, fontSize: 13, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase" }}>Tools</span>
+        <span aria-hidden="true" style={{ color: CREAM, fontSize: 10, transform: open ? "rotate(180deg)" : "none", transition: "transform .18s" }}>&#9662;</span>
+      </button>
+      {open && (
+        <div role="menu" className="mw-menu-panel" style={{ position: "absolute", top: 52, right: 0, width: "min(300px, calc(100vw - 32px))", background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, boxShadow: "0 16px 40px rgba(11,59,52,.22)", padding: 8 }}>
+          {items.map((t, i) => (
+            <a key={i} href={t.href} onClick={() => setOpen(false)} role="menuitem" className="mw-menu-row"
+              style={{ display: "flex", alignItems: "flex-start", gap: 12, textDecoration: "none", color: INK, padding: "11px 12px", borderRadius: 10, borderTop: i ? "1px solid #F4EFE6" : "none" }}>
+              <span style={{ flexShrink: 0, width: 9, height: 9, borderRadius: "50%", background: t.dot, marginTop: 6 }} />
+              <span>
+                <span style={{ display: "block", fontSize: 15, fontWeight: 600, color: INK }}>{t.name}</span>
+                <span style={{ display: "block", fontSize: 12.5, color: "#857B70", marginTop: 2 }}>{t.cta}</span>
+              </span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

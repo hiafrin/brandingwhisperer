@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse,
   useVoiceInput, MicIcon,
-  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, WhatThisDoes, NextTools, SuccessProof,
+  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, WhatThisDoes, NextTools, SuccessProof, ToolsMenu,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -219,6 +219,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
+      <ToolsMenu />
 
       {/* ── EDITORIAL INTRO: your voice, written down, still authentically you. Still image, no video, deliberately unlike the home hero. ── */}
       {step === -1 && (

@@ -3,7 +3,7 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, ACCENT_TINT, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, SuccessProof, DoodleScan,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, SuccessProof, ToolsMenu, DoodleScan,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard,
   remember,
 } from "./lib/whisperKit.jsx";
@@ -217,6 +217,7 @@ export default function InwardScan() {
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
+      <ToolsMenu />
 
       {/* ── HERO (intro only): a quiet private corner, butter identity ── */}
       {step === -1 && (

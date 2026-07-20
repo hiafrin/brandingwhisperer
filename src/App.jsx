@@ -7,7 +7,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS, SuccessProof,
+  TOOLS, SuccessProof, ToolsMenu,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 
@@ -440,6 +440,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
+      <ToolsMenu />
 
       {/* ── FULL-BLEED HERO with ambient video (landing only) ── */}
       {step === -1 && (

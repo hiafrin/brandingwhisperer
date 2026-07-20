@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY, CHANNEL_LIBRARY,
   parseWhisperResponse, recall,
   useVoiceInput, MicIcon,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, SuccessProof, TOOLS,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, SuccessProof, ToolsMenu, TOOLS,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -314,6 +314,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
+      <ToolsMenu />
 
       {/* ── HERO (intro only): calm planning surface, teal identity ── */}
       {step === -1 && (
