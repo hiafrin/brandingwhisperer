@@ -16,6 +16,22 @@ export const BUTTER = "#F7D06B";      // hand-drawn underline and highlight stro
 export const SERIF = "'Fraunces', 'Georgia', serif";
 export const SANS = "'Inter', 'Helvetica Neue', sans-serif";
 
+// ── The psychology library: real, cited principles every tool's prompt draws from.
+//    This is the product's moat: outputs grounded in named science matched to the
+//    user's own answers, never generic advice and NEVER invented studies. ──
+export const PSYCH_LIBRARY = `THE PSYCHOLOGY LIBRARY (the ONLY science you may cite; never invent studies or numbers):
+1. BRAGGING BACKFIRES (Carnegie Mellon study, 2015): people who self-promote are liked LESS and judged NO more competent, and they misjudge how their bragging lands on listeners. Use when: validating that their instinct against self-promotion is correct, dissolving shame.
+2. THE 95-5 RULE (Ehrenberg-Bass Institute research): about 95% of your future buyers are not ready to buy today. A brand's real job is being remembered later, not converting now. Use when: they feel pressure to sell hard or post salesy content.
+3. DISTINCTIVE ASSETS (researcher Jenni Romaniuk): small brands should not chase fame, they should pick a few unique repeatable things (a phrase, a color, a type of image) and never change them, so memory does the marketing. Use when: they ask how to be different. Different is a memory hook, not a louder claim.
+4. MERE EXPOSURE (psychologist Robert Zajonc, 1968): simply showing up repeatedly makes people like and trust you more, no persuasion needed. A calm, regular rhythm beats bursts of loud effort. Use when: they worry they are not doing enough.
+5. NEURAL COUPLING (Princeton neuroscientist Uri Hasson): when you tell a story, the listener's brain activity syncs with yours, and emotional detail is what makes memories stick. Origin stories and sensory specifics beat credentials and adjectives. Use when: shaping what they should actually say or post.
+6. THE HANDMADE EFFECT (Journal of Marketing research): buyers pay more for handmade things because they feel "made with love," especially as gifts. Being one small maker is the premium, not the weakness. Use when: they feel too small or unprofessional.
+7. SELF-CONGRUITY (psychologist Joseph Sirgy, 1982): people buy brands that match who THEY are or want to be. Your brand is a mirror for your customer, not a megaphone for you. Use when: reframing what the brand is about, away from self-exposure.
+
+RULES FOR USING THE LIBRARY: the library is YOUR thinking, not their reading. NEVER name a principle, researcher, institution, study, year, or term in your output. Never write "neural coupling", "self-congruity", "mere exposure", "the 95-5 rule", "distinctive assets", "the handmade effect", or any phrase like "that's called X" or "researchers at Y". Instead, translate the mechanism into one plain human sentence, e.g. instead of "that's neural coupling" say "real details from your actual life are what people's minds hold onto", instead of "self-congruity" say "people buy things that let them be a little more of who they want to be". ONE exception: the phrase "researchers found" is allowed, at most once across your whole response, only for the finding that self-promoters are liked less, because there the proof itself is the comfort.
+
+TONE: you are a warm therapist helping someone see their own brand clearly, not a lecturer. Reflect their own words back ("you said it yourself: ..."), notice patterns gently ("notice how your answers keep coming back to..."), never prescribe from authority. Match every insight to what THIS person actually said. If no principle fits naturally, say the plain truth without leaning on anything. Never fabricate research.`;
+
 // ── Global CSS shared by every page: animations, texture, calm guards ──
 export const GLOBAL_CSS = `
   * { box-sizing: border-box; }
@@ -93,13 +109,51 @@ export function salvagePartialJson(str) {
   return null;
 }
 
+// Last-resort field extraction: pull every "key": "string" and "key": [array]
+// pair individually, so ONE malformed key can't take down the whole response.
+function extractFields(str) {
+  const out = {};
+  // value runs to the next quote that is followed by , } or a newline+key — this
+  // survives UNESCAPED inner quotes, which the model produces now and then
+  const strPairs = str.matchAll(/"([A-Za-z0-9_]+)\s*"+\s*:\s*"([\s\S]*?)"(?=\s*(?:,\s*"|[,}\n]))/g);
+  for (const m of strPairs) {
+    if (m[1] in out) continue;
+    try { out[m[1]] = JSON.parse(`"${m[2].replace(/\\?"/g, '\\"')}"`); } catch (_) { out[m[1]] = m[2]; }
+  }
+  const arrPairs = str.matchAll(/"([A-Za-z0-9_]+)\s*"+\s*:\s*(\[[^\]]*\])/g);
+  for (const m of arrPairs) { try { out[m[1]] = JSON.parse(m[2]); } catch (_) {} }
+  return Object.keys(out).length ? out : null;
+}
+
 export function parseWhisperResponse(data) {
   const raw = (data.content || []).filter((b) => b && b.type === "text" && typeof b.text === "string").map((b) => b.text).join("").trim();
   if (!raw) return null;
   let cleaned = raw.replace(/```json/gi, "").replace(/```/g, "").trim();
   const f = cleaned.indexOf("{"), l = cleaned.lastIndexOf("}");
   if (f !== -1 && l !== -1 && l > f) cleaned = cleaned.slice(f, l + 1);
-  try { return JSON.parse(cleaned); } catch (_) { return salvagePartialJson(cleaned); }
+  try { return JSON.parse(cleaned); } catch (_) {}
+  // repair common model glitches (stray quotes/spaces in keys, missing colons, trailing commas), then retry
+  const repaired = cleaned
+    .replace(/"([A-Za-z0-9_]+)\s*"+\s*:/g, '"$1":')
+    .replace(/([{,]\s*)"([A-Za-z0-9_]+)\s+"([^"])/g, '$1"$2": "$3')
+    .replace(/,\s*([}\]])/g, "$1");
+  try { return JSON.parse(repaired); } catch (_) {}
+  // last resort: combine backward-truncation salvage with per-field extraction,
+  // so one mangled key mid-document can't drop everything after it. Per field,
+  // keep whichever recovery found MORE (salvage can end a string early).
+  const salvaged = salvagePartialJson(repaired) || {};
+  const extracted = extractFields(repaired) || extractFields(cleaned) || {};
+  const keys = new Set([...Object.keys(salvaged), ...Object.keys(extracted)]);
+  if (!keys.size) return null;
+  const merged = {};
+  for (const k of keys) {
+    const a = salvaged[k], b = extracted[k];
+    if (a == null) merged[k] = b;
+    else if (b == null) merged[k] = a;
+    else if (typeof a === "string" && typeof b === "string") merged[k] = b.length > a.length ? b : a;
+    else merged[k] = Array.isArray(a) && Array.isArray(b) && b.length > a.length ? b : a;
+  }
+  return merged;
 }
 
 // ── Voice input: browser SpeechRecognition, feature-detected with a text-only fallback ──

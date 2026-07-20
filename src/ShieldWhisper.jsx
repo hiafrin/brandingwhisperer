@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, ACCENT_RGB, INK_TEAL,
-  SERIF, SANS, GLOBAL_CSS,
+  SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, DoodleShield, GhostNumber, DropQuote,
@@ -57,6 +57,7 @@ export default function ShieldWhisper() {
   const [error, setError] = useState(null);
   const [reveal, setReveal] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [cardCopied, setCardCopied] = useState(false);
 
   const inputRef = useRef(null);
   const { listening, voiceSupported, toggleMic, resetBase, setBase, stopIfListening } = useVoiceInput(draft, setDraft);
@@ -87,13 +88,16 @@ export default function ShieldWhisper() {
     setStep(QUESTIONS.length);
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
-    const systemPrompt = `You are the voice behind Branding Inward's brand voice tool: a warm, plainspoken guide for people who find self-promotion physically uncomfortable, the shy, the introverted, the ones who'd rather disappear than post about themselves. You help them define their brand voice: THEIR OWN way of talking about their work, written down on purpose, so posting stops feeling like acting. Never suggest a persona, an alter ego, or being someone else. Everything you define must be built from who they already are. The voice you hand back should feel like them on a good day, nerves removed, nothing added.
+    const systemPrompt = `You are the listener behind Branding Inward's brand voice tool: a warm, plainspoken guide for people who find self-promotion physically uncomfortable, the shy, the introverted, the ones who'd rather disappear than post about themselves. The belief this tool is built on: you do not GENERATE a voice for them, you OBSERVE the one they already have. Their answers are not just information, they are a voice sample. Study HOW they talk: the words they reach for, how long their sentences run, what they repeat, what they play down, where they suddenly get vivid. Everything you hand back must be built from who they already are, with evidence quoted from their own words. Never suggest a persona, an alter ego, or being someone else. The voice you hand back should feel like them on a good day, nerves removed, nothing added.
 
-VOICE: plain, warm, short sentences, the way a real person texts. Do not use em-dashes or en-dashes anywhere, use commas and periods instead. NEVER assume gender: use "they", "them", or "your person", never he, she, him, her, his, or hers. This applies even to people the user names, no matter how the name sounds. Dana is "they", Priya is "they", Mike is "they". Max 2 sentences per field, except "sample" which is one short post, and "names" which is exactly 3 short options.
+VOICE: plain, warm, short sentences, the way a real person texts. Do not use em-dashes or en-dashes anywhere, use commas and periods instead. NEVER assume gender: use "they", "them", or "your person", never he, she, him, her, his, or hers. This applies even to people the user names, no matter how the name sounds. Dana is "they", Priya is "they", Mike is "they". Max 2 sentences per field, except "heard" which may run to 3, "sample" which is one short post, and "names" which is exactly 3 short options.
 
-TWO RULES THAT MATTER MOST:
-1. "proof" and "honest" must be built ONLY from what this person actually said. Name their fan from question 3, name what they said they trust in question 4, and echo their own word for the feeling from question 2. If a line could be copy-pasted onto someone else's answers, it is too generic, rewrite it until it could only be about them.
-2. "today" must be one real, specific method, not generic advice like "post consistently" or "just start." Pick the ONE tactic below that best fits what they told you, and describe it as a concrete action, under 15 minutes, using their own project as the example.
+${PSYCH_LIBRARY}
+
+THREE RULES THAT MATTER MOST:
+1. "heard" is observation, not flattery. Name 2 or 3 real patterns in how they actually wrote their answers (word choice, rhythm, what they repeat, what they understate), each backed by a short exact phrase of theirs quoted in single quotes. If their answers are short and plain, say what short and plain says about them, economy is a voice too. Never quote a phrase they did not write.
+2. "proof" and "honest" must be built ONLY from what this person actually said, AND quietly grounded in the library, with every term and name left out. In "proof", make the point that quiet, steady presence is what actually builds trust and gets remembered, using their fan as the living evidence. In "honest", use your one allowed "researchers found" for the finding that self-promoters are liked less and judged no more capable, so their instinct not to perform is right. Name their fan from question 3, name what they said they trust in question 4, and echo their own word for the feeling from question 2. If a line could be copy-pasted onto someone else's answers, it is too generic, rewrite it until it could only be about them.
+3. "today" must be one real, specific method, not generic advice like "post consistently" or "just start." Pick the ONE tactic below that best fits what they told you, and describe it as a concrete action, under 15 minutes, using their own project as the example.
 
 TACTIC LIBRARY (pick and adapt exactly ONE for "today", matched to their answers, do not invent a new one):
 - The Swap: don't write about yourself, ask your fan from question 3 for a two-sentence quote about your work and post their words as the caption, credited to them.
@@ -104,15 +108,16 @@ TACTIC LIBRARY (pick and adapt exactly ONE for "today", matched to their answers
 - Comment Before You Post: leave one specific, generous comment on someone else's post in your space today, no post of your own required yet.
 - The Standing Invitation: write one pinned post or bio line that says what you make and how to reach you, so you never have to re-announce yourself.
 
-Return ONLY valid JSON, no markdown, no preamble:
+Return ONLY valid JSON, no markdown, no preamble. Output it compactly with no blank lines between fields, make sure every key is exactly "name": with a colon, and NEVER use double quote marks inside a field's text, use single quotes there instead:
 {
-  "proof": "the proof they already have, built from their fan (question 3) and what they trust (question 4), as evidence their quiet style already works (max 2 sentences)",
-  "honest": "why a defined voice is more honest than performing: it is them with the nerves removed, not a mask, nothing invented. echo their own word for the feeling from question 2. (max 2 sentences)",
-  "why": "why having their voice written down helps someone exactly like them, given what they said (max 2 sentences)",
+  "heard": "2 or 3 patterns you noticed in how they actually talk, each with a short exact phrase of theirs quoted back in single quotes as evidence (max 3 sentences)",
+  "voicename": "their voice, named the way you'd describe a person you know, 2 to 5 plain words drawn from their own language. It names what already exists, it is never a character to play",
+  "proof": "the proof they already have, built from their fan (question 3) and what they trust (question 4), as living evidence that quiet, steady presence already works, no terms or names (max 2 sentences)",
+  "honest": "their instinct not to perform is right, researchers found self-promoters are liked less and judged no more capable. Say it gently, echo their own word for the feeling from question 2, and land that a defined voice is them with the nerves removed, not a mask. (max 2 sentences)",
   "names": ["3 short brand-name directions that fit who they already are. If this reads like a personal brand, one option SHOULD be built on their own name"],
   "stand": "what this brand stands for (max 2 sentences)",
-  "voice": "how this brand talks, 3 vivid traits (max 2 sentences)",
-  "sample": "one short post written in their voice, carrying the spirit of the praise they wished for in question 6, sounding like them on a good day, never boastful",
+  "voice": "how this brand talks, 3 vivid traits observed in their answers, not invented (max 2 sentences)",
+  "sample": "one short post in their voice, reusing at least one phrase they actually wrote, carrying the spirit of the praise they wished for in question 6, never boastful",
   "shows": "what they can show the world when they don't feel like showing their face: the work, the process, the place (max 2 sentences)",
   "today": "the ONE matched tactic from the library above, described as a concrete action using their own project, under 15 minutes (max 2 sentences)"
 }`;
@@ -125,7 +130,7 @@ Return ONLY valid JSON, no markdown, no preamble:
 5. What their work would feel like as a place: ${finalAnswers.place}
 6. What they wish someone would say about their work: ${finalAnswers.wish}
 
-Define their brand voice: the proof their real way of being already works, why a written-down voice is more honest than performing, and their own voice put into words they can use.`;
+These answers are also your voice sample. Study how they wrote them, not just what they said. Observe their voice, name it, and hand it back in words they can use, with their own phrases quoted as evidence.`;
 
     try {
       const response = await fetch("/api/generate", {
@@ -156,16 +161,37 @@ Define their brand voice: the proof their real way of being already works, why a
   function buildSummary() {
     if (!result) return "";
     let t = "MY BRAND VOICE, from Branding Inward\n\n";
+    if (result.heard) t += `What came through in how I talk:\n${result.heard}\n\n`;
+    if (result.voicename) t += `My voice, named:\n${result.voicename}\n\n`;
     if (result.proof) t += `The proof I already have:\n${result.proof}\n\n`;
     if (result.honest) t += `Why this is more honest, not less:\n${result.honest}\n\n`;
-    if (result.why) t += `Why a written-down voice helps me:\n${result.why}\n\n`;
     if (result.names?.length) t += `Brand name directions:\n${result.names.join(", ")}\n\n`;
     if (result.stand) t += `What I stand for:\n${result.stand}\n\n`;
     if (result.voice) t += `My voice:\n${result.voice}\n\n`;
     if (result.sample) t += `A sample post in my voice:\n${result.sample}\n\n`;
     if (result.shows) t += `What I show when I don't want to show my face:\n${result.shows}\n\n`;
-    if (result.today) t += `My first move:\n${result.today}\n`;
+    if (result.today) t += `My first move:\n${result.today}\n\n`;
+    const card = buildVoiceCard();
+    if (card) t += `----------\n${card}\n`;
     return t.trim();
+  }
+
+  // The take-anywhere voice card: paste into any AI so it edits toward this
+  // voice instead of writing over it. Built from the observed fields, no extra AI call.
+  function buildVoiceCard() {
+    if (!result) return "";
+    let t = "MY VOICE CARD. I'm pasting this so you can be my editor, not my ghostwriter.\n\n";
+    if (result.voicename) t += `My voice, named: ${result.voicename}\n`;
+    if (result.voice) t += `How I sound: ${result.voice}\n`;
+    if (result.heard) t += `Patterns that are mine: ${result.heard}\n`;
+    if (result.stand) t += `What I stand for: ${result.stand}\n`;
+    if (result.sample) t += `A post that sounds like me: "${result.sample}"\n`;
+    t += `\nWhen you help me write:
+- Edit my drafts toward this voice. Keep my words wherever they already work.
+- Never invent facts, feelings, or stories I didn't give you.
+- Short sentences, plain words, no em-dashes, nothing salesy.
+- If a line could be anyone's, point it out instead of polishing it.`;
+    return t;
   }
 
   async function copyAll() {
@@ -173,10 +199,16 @@ Define their brand voice: the proof their real way of being already works, why a
     catch (_) { setCopied(false); }
   }
 
+  async function copyCard() {
+    try { await navigator.clipboard.writeText(buildVoiceCard()); setCardCopied(true); setTimeout(() => setCardCopied(false), 2000); }
+    catch (_) { setCardCopied(false); }
+  }
+
   const cards = result ? [
-    { key: "proof", label: "The proof you already have", body: result.proof, hero: true },
+    { key: "heard", label: "What came through in how you talk", body: result.heard, hero: true },
+    { key: "voicename", label: "Your voice, named", body: result.voicename },
+    { key: "proof", label: "The proof you already have", body: result.proof },
     { key: "honest", label: "Why this is more honest, not less", body: result.honest },
-    { key: "why", label: "Why a written-down voice helps you", body: result.why },
     { key: "names", label: "3 directions for a name", body: result.names?.join("  ·  ") },
     { key: "stand", label: "What you stand for", body: result.stand },
     { key: "voiceSample", label: "How you sound", body: result.voice, sample: result.sample },
@@ -207,7 +239,7 @@ Define their brand voice: the proof their real way of being already works, why a
                 <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: 0 }}>Your brand voice</p>
               </div>
               <h1 style={{ fontSize: "clamp(38px, 5.5vw, 54px)", lineHeight: 1.08, margin: "0 0 24px", fontWeight: 350 }}>
-                Still you.<br /><span style={{ fontStyle: "italic", color: ACCENT }}>Just minus the performing.</span>
+                You don't need a new voice.<br /><span style={{ fontStyle: "italic", color: ACCENT }}>You need yours, written down.</span>
               </h1>
               <p style={{ fontSize: 18, lineHeight: 1.65, color: "#5C534B", margin: "0 0 18px" }}>
                 You already have a voice. It's the way you talk about your work when a friend asks and
@@ -215,16 +247,18 @@ Define their brand voice: the proof their real way of being already works, why a
                 from a blank page, and blank pages are where the freezing happens.
               </p>
               <p style={{ fontSize: 18, lineHeight: 1.65, color: "#5C534B", margin: "0 0 18px" }}>
-                That's what a brand voice is. Not a character you play, just your own way of saying things,
-                written down on purpose: what you stand for, how you sound, what you show. Once it exists,
-                posting stops feeling like acting, because you're only ever using your own words.
+                Most AI tools generate a voice for you, and it sounds like everyone else's AI.
+                This one works the other way around. Six questions, the kind a journalist would ask.
+                You talk, it listens, and it hands back the patterns that were already yours,
+                quoted from your own words, with a name.
               </p>
               <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 32px" }}>
-                Six questions. Then your voice is on paper, and you never start from blank again.
+                Then your voice is on paper, and you never start from blank again. Speak your answers
+                if you can. Your voice lives in how you say things, not just what you say.
               </p>
-              <button className="mw-btn" onClick={() => { track("shield_started"); setStep(0); }} style={primaryBtn}>Find my brand voice (takes 3 minutes)</button>
+              <button className="mw-btn" onClick={() => { track("shield_started"); setStep(0); }} style={primaryBtn}>Put my voice on paper (takes 3 minutes)</button>
               <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 16, fontFamily: SANS }}>
-                No account. Nothing you type is saved. Ramble welcome, nobody's grading this.
+                No account. Nothing you type or say is saved. Ramble welcome, nobody's grading this.
               </p>
             </div>
             <figure style={{ margin: 0 }}>
@@ -296,7 +330,7 @@ Define their brand voice: the proof their real way of being already works, why a
             <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 24 }}>
               {[0, 1, 2].map((i) => <span key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: ACCENT, animation: `pulse 1.2s ${i * 0.2}s infinite ease-in-out` }} />)}
             </div>
-            <p style={{ fontSize: 22, color: "#5C534B" }}>Finding the proof that's already there…</p>
+            <p style={{ fontSize: 22, color: "#5C534B" }}>Listening back through everything you said…</p>
           </div>
         )}
 
@@ -344,9 +378,17 @@ Define their brand voice: the proof their real way of being already works, why a
                 )}
 
                 <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E5DDD1" }}>
-                  <p style={{ ...miniLabel, marginBottom: 12 }}>Save this</p>
+                  <p style={{ ...miniLabel, marginBottom: 8 }}>Take your voice anywhere</p>
+                  <p style={{ fontSize: 16, lineHeight: 1.55, color: "#5C534B", margin: "0 0 14px" }}>
+                    Your voice card is a block of text you paste into any AI before asking for writing help.
+                    It turns the AI into your editor, not your ghostwriter. It fixes your drafts toward
+                    sounding like you, instead of writing over you.
+                  </p>
                   <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-                    <button className="mw-btn" onClick={copyAll} style={{ ...primaryBtn, padding: "12px 22px", fontSize: 15 }}>
+                    <button className="mw-btn" onClick={copyCard} style={{ ...primaryBtn, padding: "12px 22px", fontSize: 15 }}>
+                      {cardCopied ? "Copied ✓" : "Copy my voice card"}
+                    </button>
+                    <button className="mw-ghost" onClick={copyAll} style={ghostBtn}>
                       {copied ? "Copied ✓" : "Copy everything"}
                     </button>
                   </div>
