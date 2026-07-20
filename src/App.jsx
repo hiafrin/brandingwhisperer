@@ -7,6 +7,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
+  TOOLS,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 
@@ -616,18 +617,75 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </div>
           </section>
 
-          {/* ── MORE WHISPERS ── */}
+          {/* ── ALL THE TOOLS, from the shared registry so each has its own doodle ── */}
           <section style={{ maxWidth: 920, margin: "0 auto", padding: "56px 24px 72px" }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 18px" }}>More tools</p>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The tools</p>
+            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 20px", fontFamily: SANS }}>Five small tools, one voice. Start anywhere, they connect.</p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
-              {MORE_WHISPERS.map((w) => (
-                <a key={w.key} href={w.href} onClick={() => track(w.event)} className="mw-card-hover" style={{ ...bridgeBox, display: "block", textDecoration: "none", color: INK, padding: "26px 26px" }}>
-                  <DoodleShield />
-                  <p style={{ fontSize: 19, lineHeight: 1.45, fontStyle: "italic", margin: "14px 0 14px" }}>"{w.quote}"</p>
-                  <span style={{ color: ACCENT, fontWeight: 600, fontFamily: SANS, fontSize: 16 }}>{w.cta}</span>
+              {["scan", "voice", "roast", "plan"].map((k) => TOOLS[k]).map((t) => (
+                <a key={t.key} href={t.href} onClick={() => track("opened_" + t.key)} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "26px 26px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
+                  <t.Doodle color={t.accent} />
+                  <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: t.accent === BUTTER ? "#854F0B" : t.accent, fontWeight: 700, margin: "12px 0 6px" }}>{t.name}</p>
+                  <p style={{ fontSize: 19, lineHeight: 1.45, fontStyle: "italic", margin: "0 0 14px" }}>&ldquo;{t.pain}&rdquo;</p>
+                  <span style={{ color: ACCENT, fontWeight: 600, fontFamily: SANS, fontSize: 16 }}>{t.cta} &rarr;</span>
                 </a>
               ))}
             </div>
+          </section>
+
+          {/* ── WHY THIS EXISTS: her credibility + point of view, in her voice ── */}
+          <section id="why" style={{ background: INK_TEAL }}>
+            <div style={{ maxWidth: 760, margin: "0 auto", padding: "72px 24px" }}>
+              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: "#F7D06B", fontWeight: 600, margin: "0 0 14px" }}>Why this exists</p>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 40px)", lineHeight: 1.15, margin: "0 0 24px", fontWeight: 350, color: CREAM }}>
+                Digital media is a channel.<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>Not a destination.</span>
+              </h2>
+              <p style={{ fontSize: 18, lineHeight: 1.7, color: "rgba(251,247,240,.86)", margin: "0 0 18px" }}>
+                I've spent more than a decade in brand work, at agencies and with clients, learning what
+                actually makes people remember a brand. I learned most of it before social media existed,
+                and all of it before AI did. The fundamentals never depended on either.
+              </p>
+              <p style={{ fontSize: 18, lineHeight: 1.7, color: "rgba(251,247,240,.86)", margin: "0 0 18px" }}>
+                A platform is just a place to put the work. It is not the brand, and it is not the point.
+                So I built these tools around the part that lasts: who you are, how you sound, what you
+                stand for. The AI helps you express it, never the other way around.
+              </p>
+              <p style={{ fontSize: 18, lineHeight: 1.7, color: CREAM, fontWeight: 500, margin: 0 }}>
+                All of it free, so it works for people who never came from marketing.
+              </p>
+              <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: "22px 0 0" }}>
+                &mdash; <span style={{ color: "#F7D06B" }}>S. Afrin</span>
+              </p>
+            </div>
+          </section>
+
+          {/* ── PROOF: real, documented quiet people. Never invented testimonials. ── */}
+          <section id="proof-people" style={{ maxWidth: 920, margin: "0 auto", padding: "72px 24px 8px" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>Quiet people who built it anyway</p>
+            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 34px)", lineHeight: 1.2, margin: "0 0 8px", fontWeight: 350 }}>
+              You don't have to perform <span style={{ fontStyle: "italic", color: ACCENT }}>to be found.</span>
+            </h2>
+            <p style={{ fontSize: 16, lineHeight: 1.6, color: "#857B70", margin: "0 0 26px", fontFamily: SANS, maxWidth: 620 }}>
+              Real people, not testimonials. None of them use this site. They just prove the quiet way works.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
+              {[
+                { who: "Cal Newport", what: "Writer, professor", how: "Has never opened a single social media account. Built a huge readership through long-form writing and an email list, and sold millions of books.", href: "https://en.wikipedia.org/wiki/Cal_Newport" },
+                { who: "Florian Gadsby", what: "Potter", how: "Grew to millions of followers on slow, quiet videos of his hands at the wheel, captions instead of hype, his face mostly out of shot. The work carries it.", href: "https://www.craftscouncil.org.uk/stories/a-potter-of-influence" },
+                { who: "Burial", what: "Musician", how: "Refused even press photos and has never played a single live show. His second album is still called a landmark. The music did the talking.", href: "https://en.wikipedia.org/wiki/Burial_(musician)" },
+              ].map((p, i) => (
+                <div key={i} style={{ ...plainCard, marginBottom: 0, display: "flex", flexDirection: "column" }}>
+                  <p style={{ fontSize: 22, fontWeight: 400, margin: "0 0 2px" }}>{p.who}</p>
+                  <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".04em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 12px" }}>{p.what}</p>
+                  <p style={{ fontSize: 16, lineHeight: 1.55, color: "#3D3630", margin: "0 0 14px" }}>{p.how}</p>
+                  <a href={p.href} style={{ fontFamily: SANS, fontSize: 13, color: "#9A8F82", textDecoration: "underline", marginTop: "auto" }}>Read their story &rarr;</a>
+                </div>
+              ))}
+            </div>
+            <p style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: 20, lineHeight: 1.45, color: INK, textAlign: "center", margin: "40px auto 0", maxWidth: 560 }}>
+              &ldquo;There is no greater agony than bearing an untold story inside you.&rdquo;
+              <span style={{ display: "block", fontFamily: SANS, fontStyle: "normal", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, marginTop: 10 }}>Maya Angelou</span>
+            </p>
           </section>
         </>
       )}

@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse,
   useVoiceInput, MicIcon,
-  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote,
+  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, WhatThisDoes, NextTools,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -252,10 +252,15 @@ These answers are also your voice sample. Study how they wrote them, not just wh
                 You talk, it listens, and it hands back the patterns that were already yours,
                 quoted from your own words, with a name.
               </p>
-              <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 32px" }}>
+              <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 24px" }}>
                 Then your voice is on paper, and you never start from blank again. Speak your answers
                 if you can. Your voice lives in how you say things, not just what you say.
               </p>
+              <WhatThisDoes
+                walkaway="Your voice named and quoted back from your own words, plus one thing to post today."
+                time="About three minutes"
+                forwho="Anyone who sounds like a stranger the moment they go public."
+              />
               <button className="mw-btn" onClick={() => { track("shield_started"); setStep(0); }} style={primaryBtn}>Put my voice on paper (takes 3 minutes)</button>
               <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 16, fontFamily: SANS }}>
                 No account. Nothing you type or say is saved. Ramble welcome, nobody's grading this.
@@ -404,6 +409,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
 
       </div>
 
+      <NextTools current="voice" />
       <PageQuote id="voice" />
 
       {/* FOOTER — full-bleed ink teal */}

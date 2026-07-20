@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { track } from "@vercel/analytics";
 import {
-  ACCENT, INK, CREAM, INK_TEAL, ACCENT_TINT,
+  ACCENT, INK, CREAM, INK_TEAL, ACCENT_TINT, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, DoodleScan,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard,
   remember,
 } from "./lib/whisperKit.jsx";
@@ -218,30 +218,39 @@ export default function InwardScan() {
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
 
-      <div style={{ maxWidth: 680, margin: "0 auto", padding: "48px 24px 80px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 40 }}>
-          <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
-            <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
-            <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-              Branding Inward
-            </span>
-          </a>
-        </div>
+      {/* ── HERO (intro only): a quiet private corner, butter identity ── */}
+      {step === -1 && (
+        <ToolHero
+          label="The inward pattern scan"
+          photo="/media/scan-hero.jpg"
+          accent={BUTTER}
+          Doodle={DoodleScan}
+          headline={<>Everyone gets stuck<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>in their own particular way.</span></>}
+          sub="Some people hide. Some burst and crash. Some write the post and delete it. Eight quick taps, and you'll know your pattern, the behaviors that give it away, and which of these tools to use first."
+        />
+      )}
 
-        {/* INTRO */}
+      <div style={{ maxWidth: 680, margin: "0 auto", padding: step === -1 ? "40px 24px 80px" : "48px 24px 80px" }}>
+        {step !== -1 && (
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 40 }}>
+            <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
+              <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
+              <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
+                Branding Inward
+              </span>
+            </a>
+          </div>
+        )}
+
+        {/* INTRO: what it does, then start */}
         {step === -1 && (
           <div className="mw-fade">
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>The inward pattern scan</p>
-            <h1 style={{ fontSize: "clamp(36px, 5.5vw, 50px)", lineHeight: 1.1, margin: "0 0 20px", fontWeight: 350 }}>
-              Everyone gets stuck<br />
-              <span style={{ fontStyle: "italic", color: ACCENT }}>in their own particular way.</span>
-            </h1>
-            <p style={{ fontSize: 18, lineHeight: 1.65, color: "#5C534B", maxWidth: 520, margin: "0 0 12px" }}>
-              Some people hide. Some burst and crash. Some write the post and delete it. Some polish
-              it forever. Some have too many ideas to pick one. Eight quick taps, and you'll know your
-              pattern, the behaviors that give it away, and which of these tools to use first.
-            </p>
-            <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", maxWidth: 520, margin: "0 0 32px", fontFamily: SANS }}>
+            <WhatThisDoes
+              walkaway="Your visibility pattern named, the behaviors behind it, and which tool to open first."
+              time="About one minute, eight taps"
+              forwho="Anyone who doesn't know where they're stuck, or where to start."
+            />
+            <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", maxWidth: 520, margin: "0 0 28px", fontFamily: SANS }}>
               No typing, no right answers, nothing saved. It runs entirely on this page.
             </p>
             <button className="mw-btn" onClick={start} style={primaryBtn}>Find my pattern (8 taps)</button>
@@ -374,8 +383,10 @@ export default function InwardScan() {
           </div>
         )}
 
-        <PageQuote id="scan" />
       </div>
+
+      <NextTools current="scan" />
+      <PageQuote id="scan" />
 
       {/* FOOTER */}
       <footer style={{ background: INK_TEAL, marginTop: 40 }}>

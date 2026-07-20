@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY, CHANNEL_LIBRARY,
   parseWhisperResponse, recall,
   useVoiceInput, MicIcon,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, TOOLS,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -315,40 +315,41 @@ Look at the photo and write 3 posts around it, in my voice.`;
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
 
-      <div style={{ maxWidth: 680, margin: "0 auto", padding: "56px 24px 80px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 48 }}>
-          <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
-            <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
-            <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-              Branding Inward
-            </span>
-          </a>
-        </div>
+      {/* ── HERO (intro only): calm planning surface, teal identity ── */}
+      {step === -1 && (
+        <ToolHero
+          label="The quieter plan"
+          photo="/media/plan-hero.jpg"
+          accent={ACCENT}
+          Doodle={TOOLS.plan.Doodle}
+          headline={<>A plan you won't dread.<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>Built from what you can stand.</span></>}
+          sub="Every marketing plan you've been handed assumes you'll perform every day. This one starts from what you can honestly bear and the time you really have, then chooses one path for you. Maybe that's no social media at all."
+        />
+      )}
 
-        {/* ── INTRO: the plan built under your energy, not over it ── */}
+      <div style={{ maxWidth: 680, margin: "0 auto", padding: step === -1 ? "40px 24px 40px" : "56px 24px 80px" }}>
+        {step !== -1 && (
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 48 }}>
+            <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
+              <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
+              <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
+                Branding Inward
+              </span>
+            </a>
+          </div>
+        )}
+
+        {/* ── INTRO: what it does, then start ── */}
         {step === -1 && (
           <div className="mw-fade">
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-              <DoodleCompass size={30} />
-              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: 0 }}>The quieter plan</p>
-            </div>
-            <h1 style={{ fontSize: "clamp(36px, 5vw, 50px)", lineHeight: 1.1, margin: "0 0 22px", fontWeight: 350 }}>
-              A plan you won't dread.<br /><span style={{ fontStyle: "italic", color: ACCENT }}>Built from what you can actually stand.</span>
-            </h1>
-            <p style={{ fontSize: 18, lineHeight: 1.65, color: "#5C534B", margin: "0 0 16px" }}>
-              Every marketing plan you've been handed assumes you'll perform on social media every
-              day. When you couldn't keep it up, it felt like you failed. You didn't. You were
-              given an extrovert's plan, and you're not one.
-            </p>
-            <p style={{ fontSize: 18, lineHeight: 1.65, color: "#5C534B", margin: "0 0 16px" }}>
-              Six questions about what you make, what you can honestly bear, and the time you
-              really have. Then one path, chosen for you. Maybe that's social media with content
-              that's actually you. Maybe it's no social at all: a short letter people sign up for,
-              real rooms, or the corners of the internet where your people already hang out.
-            </p>
+            <WhatThisDoes
+              walkaway="One path chosen for you, a list of what to ignore, and a first move under 15 minutes."
+              time="About three minutes"
+              forwho="Anyone who can't keep up a daily-posting plan, and doesn't want to."
+            />
             <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 28px" }}>
-              And one idea nobody puts in the plan: you don't have to grow alone. Two quiet
-              creators can speak for each other when neither can speak for themselves.
+              One idea nobody puts in the plan: you don't have to grow alone. Two quiet creators can
+              speak for each other when neither can speak for themselves.
             </p>
             <button className="mw-btn" onClick={() => { track("plan_started"); setStep(0); }} style={primaryBtn}>Find my plan (takes 3 minutes)</button>
             <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 16, fontFamily: SANS }}>
@@ -529,6 +530,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
         )}
       </div>
 
+      <NextTools current="plan" />
       <PageQuote id="plan" />
 
       {/* FOOTER — full-bleed ink teal, same promise as everywhere */}

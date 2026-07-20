@@ -116,8 +116,9 @@ export const GLOBAL_CSS = `
 //    because this audience recoils from "crush it" energy. Attributed. ──
 export const QUOTES = {
   home: { q: "The only journey is the one within.", a: "Rainer Maria Rilke" },
-  scan: { q: "What you seek is seeking you.", a: "Rumi" },
-  voice: { q: "There is no greater agony than bearing an untold story inside you.", a: "Maya Angelou" },
+  scan: { q: "Too many people overvalue what they are not and undervalue what they are.", a: "Malcolm Forbes" },
+  // Widely quoted, but not found in Wilde's writing, so we attribute it honestly.
+  voice: { q: "Be yourself; everyone else is already taken.", a: "Often attributed to Oscar Wilde" },
   roast: { q: "Perfectionism is the voice of the oppressor.", a: "Anne Lamott" },
   plan: { q: "Great things are done by a series of small things brought together.", a: "Vincent van Gogh" },
 };
@@ -170,6 +171,113 @@ export function DoodleFlame({ color = CORAL, size = 44 }) {
       <path d="M24 5 c2 7 10 10 10 19 a10 10 0 0 1-20 0 c0-5 3-8 5-11 1.5 2.5 3 3.5 5 4 -1-4-1-8 0-12 Z" />
       <path d="M24 41 c-1.5-1.8-1.5-4.2 0-6 1.5 1.8 1.5 4.2 0 6 Z" strokeWidth="1.8" />
     </svg>
+  );
+}
+
+export function DoodleCompass({ color = ACCENT, size = 44 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="24" cy="24" r="17" />
+      <path d="M31 17 L27 27 L17 31 L21 21 Z" />
+      <circle cx="24" cy="24" r="1.6" fill={color} />
+    </svg>
+  );
+}
+export function DoodleScan({ color = ACCENT, size = 44 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="21" cy="21" r="13" />
+      <path d="M30.5 30.5 L40 40" />
+      <path d="M15 21 a6 6 0 0 1 6 -6" />
+    </svg>
+  );
+}
+
+// ── The tool registry: single source of truth for every page. Home cards, the
+//    scan's routing, and the NextTools bridge all read from here, so a tool is
+//    described in exactly one place. ──
+export const TOOLS = {
+  scan: { key: "scan", href: "#/scan", name: "The inward scan", pain: "I don't even know where I'm stuck, let alone where to start.", cta: "Find your pattern, 8 taps", accent: BUTTER, Doodle: DoodleScan },
+  foundation: { key: "foundation", href: "#/", name: "The six questions", pain: "I don't know what actually makes me different.", cta: "Find what you're really about", accent: ACCENT, Doodle: DoodleBubble },
+  voice: { key: "voice", href: "#/shield", name: "Your brand voice", pain: "Posting feels like exposing myself, not my work.", cta: "Hear the voice you already have", accent: ACCENT, Doodle: DoodleShield },
+  roast: { key: "roast", href: "#/roast", name: "The gentle roast", pain: "I wrote the post. Then I deleted it, it didn't sound like me.", cta: "Get it read, kindly", accent: CORAL, Doodle: DoodleFlame },
+  plan: { key: "plan", href: "#/plan", name: "The quieter plan", pain: "I can't post every day. Honestly, I don't want to.", cta: "Find the plan you won't dread", accent: ACCENT, Doodle: DoodleCompass },
+};
+
+// Which two siblings to show at the end of each tool, so no page is a dead end.
+const NEXT = {
+  scan: ["voice", "plan"],
+  foundation: ["voice", "roast"],
+  voice: ["roast", "plan"],
+  roast: ["voice", "plan"],
+  plan: ["voice", "roast"],
+};
+
+// ── The "where to next" bridge, at the end of every tool page. ──
+export function NextTools({ current }) {
+  const pair = (NEXT[current] || ["voice", "plan"]).map((k) => TOOLS[k]).filter(Boolean);
+  return (
+    <section style={{ maxWidth: 920, margin: "56px auto 0", padding: "0 24px" }}>
+      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 4px" }}>Where to next</p>
+      <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 18px", fontFamily: SANS }}>These tools work together. Same voice, one small step at a time.</p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
+        {pair.map((t) => (
+          <a key={t.key} href={t.href} onClick={() => track("next_" + current + "_" + t.key)} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "22px 24px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
+            <t.Doodle color={t.accent} />
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: t.accent === BUTTER ? "#854F0B" : t.accent, fontWeight: 700, margin: "12px 0 6px" }}>{t.name}</p>
+            <p style={{ fontSize: 18, lineHeight: 1.4, fontStyle: "italic", margin: "0 0 12px" }}>&ldquo;{t.pain}&rdquo;</p>
+            <span style={{ color: ACCENT, fontWeight: 600, fontFamily: SANS, fontSize: 15 }}>{t.cta} &rarr;</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── Shared editorial hero band: full-bleed photo + dark wash + oversized doodle
+//    + ghost label + big mixed-weight headline, so every tool page gets home's
+//    richness instead of flat cream. prefers-reduced-motion kills the zoom. ──
+export function ToolHero({ label, photo, accent = ACCENT, Doodle, headline, sub, children }) {
+  const labelInk = accent === BUTTER ? "#F7D06B" : accent === CORAL ? "#F0997B" : "#9FE1CB";
+  return (
+    <section style={{ position: "relative", overflow: "hidden", background: INK_TEAL }}>
+      {photo && (
+        <img src={photo} alt="" aria-hidden="true" className="mw-kenburns"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.55 }} />
+      )}
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(175deg, rgba(11,59,52,.82) 0%, rgba(11,59,52,.66) 45%, rgba(11,59,52,.9) 100%)" }} />
+      <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "48px 24px 64px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 48 }}>
+          <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+            <span style={{ width: 11, height: 11, borderRadius: "50%", background: accent }} />
+            <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
+          </a>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+          {Doodle && <Doodle color={accent} size={40} />}
+          <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: labelInk, fontWeight: 600, margin: 0 }}>{label}</p>
+        </div>
+        <h1 style={{ fontSize: "clamp(38px, 5.5vw, 56px)", lineHeight: 1.08, margin: "0 0 20px", fontWeight: 350, color: CREAM }}>{headline}</h1>
+        {sub && <p style={{ fontSize: 18, lineHeight: 1.65, color: "rgba(251,247,240,.85)", maxWidth: 560, margin: "0 0 28px" }}>{sub}</p>}
+        {children}
+      </div>
+    </section>
+  );
+}
+
+// ── Every tool says what it does before it asks for anything. ──
+export function WhatThisDoes({ walkaway, time, forwho }) {
+  const rows = [["You walk away with", walkaway], ["Time", time], ["Made for", forwho]].filter((r) => r[1]);
+  return (
+    <div style={{ background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "20px 24px", margin: "0 0 28px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
+      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 12px" }}>What this does for you</p>
+      {rows.map(([k, v], i) => (
+        <div key={i} style={{ display: "flex", gap: 14, alignItems: "baseline", padding: i ? "10px 0 0" : 0, borderTop: i ? "1px solid #F1EDE4" : "none", marginTop: i ? 10 : 0 }}>
+          <span style={{ flexShrink: 0, fontFamily: SANS, fontSize: 13, color: "#9A8F82", minWidth: 128 }}>{k}</span>
+          <span style={{ fontSize: 17, lineHeight: 1.45, color: INK }}>{v}</span>
+        </div>
+      ))}
+    </div>
   );
 }
 

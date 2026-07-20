@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse,
   useVoiceInput, MicIcon,
-  GrainOverlay, DropQuote, PageQuote,
+  GrainOverlay, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, TOOLS,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -148,37 +148,38 @@ Read it closely. Tell me first what to keep and never change, then the few thing
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
 
-      <div style={{ maxWidth: 720, margin: "0 auto", padding: "56px 24px 80px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 48 }}>
-          <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
-            <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
-            <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-              Branding Inward
-            </span>
-          </a>
-        </div>
+      {/* ── HERO (intro only): full-bleed photo band, own coral identity ── */}
+      {!result && !loading && (
+        <ToolHero
+          label="The gentle roast"
+          photo="/media/roast-hero.jpg"
+          accent={CORAL}
+          Doodle={TOOLS.roast.Doodle}
+          headline={<>Get roasted.<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>Your words. Your call on how hard.</span></>}
+          sub="When posting feels like performing, a costume goes on: the ad voice, the excitement you don't feel, the little apology for existing. Paste what you wrote, and this reads only your words, tells you first what to keep, then the few lines worth a gentle fix."
+        />
+      )}
 
-        {/* ── INTRO + THE ONE BOX. Roasted by what you already revealed, nothing else. ── */}
+      <div style={{ maxWidth: 720, margin: "0 auto", padding: (result || loading) ? "56px 24px 80px" : "40px 24px 40px" }}>
+        {(result || loading) && (
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 48 }}>
+            <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
+              <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
+              <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
+                Branding Inward
+              </span>
+            </a>
+          </div>
+        )}
+
+        {/* ── INTRO CONTENT: what it does, then the level + paste box ── */}
         {!result && !loading && (
           <div className="mw-fade">
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-              <DoodleFlame size={30} />
-              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: 0 }}>The gentle roast</p>
-            </div>
-            <h1 style={{ fontSize: "clamp(36px, 5vw, 50px)", lineHeight: 1.1, margin: "0 0 22px", fontWeight: 350 }}>
-              Get roasted.<br /><span style={{ fontStyle: "italic", color: ACCENT }}>Your words. Your call on how hard.</span>
-            </h1>
-            <p style={{ fontSize: 18, lineHeight: 1.65, color: "#5C534B", margin: "0 0 16px" }}>
-              When posting feels like performing, a costume goes on: the ad voice, the excitement
-              you don't actually feel, the hashtag pile, the little apology for taking up space.
-              You can hear it's not you. That's exactly why posting feels bad.
-            </p>
-            <p style={{ fontSize: 18, lineHeight: 1.65, color: "#5C534B", margin: "0 0 16px" }}>
-              So paste it all in: your bio, your last few captions, the draft you never posted.
-              This won't compare you to anyone. It reads only what you gave it, and it starts by
-              telling you what to keep and never change, then the few lines worth a gentle fix, all
-              in your own words.
-            </p>
+            <WhatThisDoes
+              walkaway="What to keep and never change, then the few lines worth a gentle fix, in your own voice."
+              time="About two minutes"
+              forwho="Anyone whose bio or captions stopped sounding like them."
+            />
             <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 28px" }}>
               Confidence first. Most critique tools forget that the thing you most need to hear is
               which parts are already good.
@@ -298,8 +299,10 @@ Read it closely. Tell me first what to keep and never change, then the few thing
           </div>
         )}
 
-        <PageQuote id="roast" />
       </div>
+
+      <NextTools current="roast" />
+      <PageQuote id="roast" />
 
       {/* FOOTER — full-bleed ink teal, same promise as everywhere */}
       <footer style={{ background: INK_TEAL, marginTop: 80 }}>
