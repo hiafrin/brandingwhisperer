@@ -82,7 +82,8 @@ export default function AboutInward() {
           <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 10px" }}>Say hi</p>
           <p style={{ fontSize: 17, lineHeight: 1.6, margin: "0 0 6px", color: INK }}>
             Got a thought, or a tool broke, or you just want to say hi? I'm at{" "}
-            <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" onClick={() => track("about_email")} style={{ color: ACCENT, textDecoration: "none", fontWeight: 600 }}>thecuriousafrin@gmail.com</a>.
+            <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" onClick={() => track("about_email")} style={{ color: ACCENT, textDecoration: "none", fontWeight: 600 }}>thecuriousafrin@gmail.com</a>, or on{" "}
+            <a href="https://www.linkedin.com/in/sabihaafrin" target="_blank" rel="noopener noreferrer" onClick={() => track("about_linkedin")} style={{ color: ACCENT, textDecoration: "none", fontWeight: 600 }}>LinkedIn</a>.
           </p>
         </div>
       </div>

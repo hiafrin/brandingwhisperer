@@ -947,9 +947,12 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </span>
           </div>
           <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(251,247,240,.75)", margin: "0 0 16px", fontFamily: SANS, maxWidth: 620 }}>
-            Free tools, no catch. <a href="#/about" onClick={() => track("footer_about")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>Read my story</a>, or say hi at{" "}
+            Free tools, no catch. <a href="#/about" onClick={() => track("footer_about")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>Read my story</a>, say hi at{" "}
             <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" onClick={() => track("clicked_email")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>
               thecuriousafrin@gmail.com
+            </a>, or find me on{" "}
+            <a href="https://www.linkedin.com/in/sabihaafrin" target="_blank" rel="noopener noreferrer" onClick={() => track("footer_linkedin")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>
+              LinkedIn
             </a>.
           </p>
           <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.5)", margin: "0 0 22px", fontFamily: SANS, maxWidth: 620 }}>
