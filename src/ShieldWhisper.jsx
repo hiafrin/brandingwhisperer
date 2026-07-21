@@ -3,9 +3,9 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, ACCENT_RGB, INK_TEAL,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
-  parseWhisperResponse,
+  parseWhisperResponse, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, WhatThisDoes, NextTools, SuccessProof, ToolsMenu,
+  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, WhatThisDoes, FrameworkStrip, VoiceStory, ToolsMenu,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -65,6 +65,13 @@ export default function ShieldWhisper() {
   useEffect(() => {
     if (step >= 0 && step < QUESTIONS.length && inputRef.current) inputRef.current.focus();
   }, [step]);
+
+  // Auto-save the named voice to THIS device (never sent) for the Inward Brief.
+  useEffect(() => {
+    if (!result) return;
+    if (result.voicename) remember("voice", result.voicename);
+    if (result.sample) remember("voicesample", result.sample);
+  }, [result]);
 
   const q = step >= 0 && step < QUESTIONS.length ? QUESTIONS[step] : null;
 
@@ -264,7 +271,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
               />
               <button className="mw-btn" onClick={() => { track("shield_started"); setStep(0); }} style={primaryBtn}>Put my voice on paper (takes 3 minutes)</button>
               <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 16, fontFamily: SANS }}>
-                No account. Nothing you type or say is saved. Ramble welcome, nobody's grading this.
+                No account. Your answers stay on your device, never sent to me. Ramble welcome, nobody's grading this.
               </p>
             </div>
             <figure style={{ margin: 0 }}>
@@ -410,20 +417,15 @@ These answers are also your voice sample. Study how they wrote them, not just wh
 
       </div>
 
-      <SuccessProof
-        eyebrow="People who never performed either"
-        headline={<>They hated the spotlight. <span style={{ fontStyle: "italic", color: ACCENT }}>People still found their voice.</span></>}
-        intro="None of them use this site. They just prove you can be known for the work without performing yourself."
-        quote={{ q: "The only way to do great work is to love what you do.", a: "Steve Jobs" }}
-      />
-      <NextTools current="voice" />
+      <VoiceStory />
+      <FrameworkStrip current="voice" />
       <PageQuote id="voice" />
 
       {/* FOOTER — full-bleed ink teal */}
       <footer style={{ background: INK_TEAL, marginTop: 60 }}>
         <div style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 40px" }}>
           <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.55)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
-            Nothing you type here is saved, and I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.
+            What you build here is saved only on your device, in this browser, so your Inward Brief remembers you. I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.
           </p>
           <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>
             — <span style={{ color: "#F7D06B" }}>S. Afrin</span>

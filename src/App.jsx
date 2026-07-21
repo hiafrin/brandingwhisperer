@@ -7,7 +7,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS, SuccessProof, ToolsMenu,
+  TOOLS, FrameworkStrip, FRAMEWORK, ToolsMenu,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 
@@ -224,6 +224,13 @@ export default function BrandingWhisperer() {
   useEffect(() => {
     if (step >= 0 && step < QUESTIONS.length && inputRef.current) inputRef.current.focus();
   }, [step]);
+
+  // Auto-save the foundation result to THIS device (never sent) for the Inward Brief.
+  useEffect(() => {
+    if (!result) return;
+    if (result.reframe) remember("reallyabout", result.reframe);
+    if (result.edge) remember("edge", result.edge);
+  }, [result]);
 
   const q = step >= 0 && step < QUESTIONS.length ? QUESTIONS[step] : null;
 
@@ -459,17 +466,15 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 </span>
               </div>
               <h1 style={{ fontSize: "clamp(42px, 7vw, 72px)", lineHeight: 1.04, margin: "0 0 24px", fontWeight: 350, color: CREAM, letterSpacing: "-0.01em" }}>
-                Six little questions.<br />
-                <span style={{ fontStyle: "italic", fontWeight: 400, color: BUTTER }}>Then I'll tell you</span><br />
-                what you're{" "}
+                Get known.<br />
                 <span style={{ display: "inline-block" }}>
-                  really about.
-                  <UnderlineStroke width={230} />
+                  <span style={{ fontStyle: "italic", fontWeight: 400, color: BUTTER }}>Without performing.</span>
+                  <UnderlineStroke width={300} />
                 </span>
               </h1>
               <p style={{ fontSize: 19, lineHeight: 1.65, color: "rgba(251,247,240,.88)", maxWidth: 540, margin: "0 0 38px" }}>
-                A business or your own name, either way. No marketing words needed. One question at a
-                time, and you'll walk away knowing the real reason people choose you.
+                For people who'd rather let the work talk. The way in is six small questions, no marketing
+                words needed, and you'll walk away knowing the real reason people choose you.
               </p>
               <button className="mw-btn" onClick={() => { track("started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Start (takes 3 minutes)</button>
               <p style={{ fontSize: 14, color: "rgba(251,247,240,.6)", marginTop: 18, fontFamily: SANS }}>
@@ -479,6 +484,32 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 <a href="#/scan" onClick={() => track("opened_scan")} style={{ color: "#F7D06B", textDecoration: "none", fontWeight: 600 }}>
                   Not sure where to start? Find your inward pattern, 8 taps →
                 </a>
+              </p>
+            </div>
+          </section>
+
+          {/* ── WHO IT'S FOR: inclusive, by the feeling, never by a label. Lands the distinction fast. ── */}
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "48px 24px 8px" }}>
+            <div style={{ background: ACCENT_TINT, border: "1px solid #DCEFEA", borderRadius: 20, padding: "34px 34px 30px" }}>
+              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 10px" }}>Who it's for</p>
+              <h2 style={{ fontSize: "clamp(24px, 3.4vw, 32px)", lineHeight: 1.25, margin: "0 0 22px", fontWeight: 350 }}>
+                This is for you if putting yourself out there <span style={{ fontStyle: "italic", color: ACCENT }}>feels like a cost.</span>
+              </h2>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "12px 28px", marginBottom: 22 }}>
+                {[
+                  "Self-promotion makes you feel a little gross.",
+                  "You'd rather be found than be seen.",
+                  "You freeze when it's time to post.",
+                  "You want to sound like yourself, not like everyone else.",
+                ].map((t, i) => (
+                  <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                    <span style={{ flexShrink: 0, color: ACCENT, fontWeight: 700, fontSize: 18, lineHeight: 1.4 }}>&#10003;</span>
+                    <span style={{ fontSize: 17, lineHeight: 1.45, color: INK }}>{t}</span>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontSize: 16, lineHeight: 1.65, color: "#5C534B", margin: 0, fontFamily: SANS }}>
+                You don't have to call yourself an introvert, or anything at all. Makers, coaches, writers, musicians, quiet experts, first-timers, seasoned pros. If being visible feels like a cost, you're in the right place.
               </p>
             </div>
           </section>
@@ -499,6 +530,9 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                     </button>
                   ))}
                 </div>
+                <p style={{ margin: energy ? "16px 0 0" : "16px 0 0" }}>
+                  <a href="#/brief" onClick={() => track("welcomeback_brief")} style={{ fontFamily: SANS, fontSize: 14, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>See your Inward Brief so far &rarr;</a>
+                </p>
                 {energy && (
                   <div className="mw-fade">
                     <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 6px" }}>This week's one move</p>
@@ -617,19 +651,35 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </div>
           </section>
 
-          {/* ── ALL THE TOOLS, from the shared registry so each has its own doodle ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "56px 24px 72px" }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The tools</p>
-            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 20px", fontFamily: SANS }}>Five small tools, one voice. Start anywhere, they connect.</p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
-              {["scan", "voice", "roast", "plan"].map((k) => TOOLS[k]).map((t) => (
-                <a key={t.key} href={t.href} onClick={() => track("opened_" + t.key)} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "26px 26px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
-                  <t.Doodle color={t.accent} />
-                  <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: t.accent === BUTTER ? "#854F0B" : t.accent, fontWeight: 700, margin: "12px 0 6px" }}>{t.name}</p>
-                  <p style={{ fontSize: 19, lineHeight: 1.45, fontStyle: "italic", margin: "0 0 14px" }}>&ldquo;{t.pain}&rdquo;</p>
-                  <span style={{ color: ACCENT, fontWeight: 600, fontFamily: SANS, fontSize: 16 }}>{t.cta} &rarr;</span>
-                </a>
-              ))}
+          {/* ── THE INWARD FRAMEWORK: the ordered spine, so nothing reads as scattered ── */}
+          <section style={{ maxWidth: 820, margin: "0 auto", padding: "56px 24px 72px" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The Inward Framework</p>
+            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 34px)", lineHeight: 1.2, margin: "0 0 10px", fontWeight: 350 }}>
+              Five steps. <span style={{ fontStyle: "italic", color: ACCENT }}>One clear you at the end.</span>
+            </h2>
+            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 28px", fontFamily: SANS, maxWidth: 600 }}>
+              Not sure where you're stuck? Start with the Scan. Otherwise jump to any step. They build on each other, and everything you find collects into your Inward Brief.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {FRAMEWORK.map((s) => {
+                const isFoundation = s.key === "foundation";
+                const inner = (
+                  <>
+                    <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: "50%", background: INK_TEAL, color: BUTTER, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 20, fontWeight: 500 }}>{s.n}</span>
+                    <span style={{ flex: 1 }}>
+                      <span style={{ display: "block", fontSize: 20, fontWeight: 400, color: INK, marginBottom: 2 }}>{s.name}</span>
+                      <span style={{ display: "block", fontSize: 15, color: "#857B70", fontFamily: SANS }}>{s.blurb}</span>
+                    </span>
+                    <span style={{ color: ACCENT, fontWeight: 700, fontFamily: SANS, fontSize: 20, flexShrink: 0 }}>&rarr;</span>
+                  </>
+                );
+                const cardStyle = { display: "flex", alignItems: "center", gap: 18, textAlign: "left", width: "100%", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "18px 22px", boxShadow: "0 8px 24px rgba(11,59,52,.05)", cursor: "pointer", fontFamily: SERIF };
+                return isFoundation ? (
+                  <button key={s.key} className="mw-card-hover" onClick={() => { track("started"); setStep(0); window.scrollTo({ top: 0 }); }} style={cardStyle}>{inner}</button>
+                ) : (
+                  <a key={s.key} href={s.href} onClick={() => track("opened_" + s.key)} className="mw-card-hover" style={cardStyle}>{inner}</a>
+                );
+              })}
             </div>
           </section>
 
@@ -650,13 +700,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </div>
           </section>
 
-          {/* ── PROOF: real, documented quiet people. Never invented testimonials. ── */}
-          <SuccessProof
-            id="proof-people"
-            headline={<>You don't have to perform <span style={{ fontStyle: "italic", color: ACCENT }}>to be found.</span></>}
-            intro="Real people, not testimonials. None of them use this site. They just prove the quiet way works."
-            quote={{ q: "There is no greater agony than bearing an untold story inside you.", a: "Maya Angelou" }}
-          />
+          {/* Success stories now live only on the Inward Scan, not on every page. */}
         </>
       )}
 
@@ -890,6 +934,9 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
         <PageQuote id="home" />
       </div>
 
+      {/* Once the six questions are done, show where they are in the framework. */}
+      {step === QUESTIONS.length && result && <FrameworkStrip current="foundation" />}
+
       {/* FOOTER — full-bleed ink teal, the human behind the whisperer */}
       <footer style={{ background: INK_TEAL, marginTop: step === -1 ? 40 : 80 }}>
         <div style={{ maxWidth: 920, margin: "0 auto", padding: "56px 24px 48px" }}>
@@ -900,23 +947,18 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </span>
           </div>
           <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(251,247,240,.75)", margin: "0 0 16px", fontFamily: SANS, maxWidth: 620 }}>
-            Free tools, no catch. <a href="#/about" onClick={() => track("footer_about")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>Read my story</a>, or email me for a brand
-            audit at{" "}
+            Free tools, no catch. <a href="#/about" onClick={() => track("footer_about")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>Read my story</a>, or say hi at{" "}
             <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" onClick={() => track("clicked_email")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>
               thecuriousafrin@gmail.com
             </a>.
           </p>
           <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.5)", margin: "0 0 22px", fontFamily: SANS, maxWidth: 620 }}>
-            Nothing you type here is saved, and I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.
+            What you build here is saved only on your device, in this browser, so your Inward Brief remembers you. I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.
             Photos and film from Pexels artists, with thanks.
-            {storedPattern && (
-              <>
-                {" "}Your pattern lives only in this browser.{" "}
-                <button onClick={() => { forgetAll(); setStoredPattern(null); setEnergy(null); }} style={{ background: "none", border: "none", padding: 0, color: "rgba(251,247,240,.7)", textDecoration: "underline", cursor: "pointer", fontFamily: SANS, fontSize: 13 }}>
-                  Forget it
-                </button>.
-              </>
-            )}
+            {" "}
+            <button onClick={() => { forgetAll(); setStoredPattern(null); setEnergy(null); }} style={{ background: "none", border: "none", padding: 0, color: "rgba(251,247,240,.7)", textDecoration: "underline", cursor: "pointer", fontFamily: SANS, fontSize: 13 }}>
+              Forget everything on this device
+            </button>.
           </p>
           <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>
             — <span style={{ color: BUTTER }}>S. Afrin</span>

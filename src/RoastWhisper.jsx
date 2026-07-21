@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse,
   useVoiceInput, MicIcon,
-  GrainOverlay, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, SuccessProof, ToolsMenu, TOOLS,
+  GrainOverlay, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, RoastOrigin, ToolsMenu, TOOLS,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -302,13 +302,8 @@ Read it closely. Tell me first what to keep and never change, then the few thing
 
       </div>
 
-      <SuccessProof
-        eyebrow="People who kept the words that were theirs"
-        headline={<>They faced the delete button too. <span style={{ fontStyle: "italic", color: CORAL }}>And kept going.</span></>}
-        intro="None of them use this site. They just prove that the quiet, steady version of your own voice is enough to build on."
-        quote={{ q: "Fall seven times, stand up eight.", a: "Japanese proverb" }}
-      />
-      <NextTools current="roast" />
+      <RoastOrigin />
+      <FrameworkStrip current="roast" />
       <PageQuote id="roast" />
 
       {/* FOOTER — full-bleed ink teal, same promise as everywhere */}

@@ -3,7 +3,7 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, ToolsMenu, PageQuote, primaryBtn, TOOLS,
+  GrainOverlay, ToolsMenu, PageQuote, BuddyForm, primaryBtn, TOOLS,
 } from "./lib/whisperKit.jsx";
 
 // ── The portrait: shows Afrin's real photo the moment /media/afrin-portrait.jpg
@@ -64,24 +64,24 @@ export default function AboutInward() {
           stand for. The AI helps you express it, never the other way around.
         </p>
         <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
-          I'm also a brand marketer teaching myself AI, partly because I have ADHD and needed tools
-          that reduce the friction instead of adding to it. As I get better at it, I want to build
-          more things like this for people who never came from marketing.
+          I built these because the loud, perform-every-day version of marketing never fit me, and I
+          watched it not fit a lot of talented people who then went quiet. As I get better at this, I
+          want to keep making tools like it for people who never came from marketing.
         </p>
         <p style={{ fontSize: 19, lineHeight: 1.75, margin: 0, color: INK, fontWeight: 500 }}>
-          All of it free, so it works for everyone, not just the people who could hire someone like me.
+          All of it free, so it works for everyone, not just people with a marketing budget.
         </p>
         <p style={{ fontSize: 18, fontStyle: "italic", color: ACCENT, margin: "26px 0 0" }}>
           &mdash; S. Afrin
         </p>
       </div>
 
-      {/* ── WORK WITH ME ── */}
+      {/* ── SAY HI ── */}
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "36px 24px 0" }}>
         <div style={{ background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "26px 28px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
-          <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 10px" }}>Want to go deeper?</p>
+          <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 10px" }}>Say hi</p>
           <p style={{ fontSize: 17, lineHeight: 1.6, margin: "0 0 6px", color: INK }}>
-            Email me for a brand audit or one-on-one advice at{" "}
+            Got a thought, or a tool broke, or you just want to say hi? I'm at{" "}
             <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" onClick={() => track("about_email")} style={{ color: ACCENT, textDecoration: "none", fontWeight: 600 }}>thecuriousafrin@gmail.com</a>.
           </p>
         </div>
@@ -90,7 +90,7 @@ export default function AboutInward() {
       {/* ── START WITH A TOOL ── */}
       <section style={{ maxWidth: 920, margin: "56px auto 0", padding: "0 24px" }}>
         <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 4px" }}>Start where you're stuck</p>
-        <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 18px", fontFamily: SANS }}>All free, nothing saved, one small step at a time.</p>
+        <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 18px", fontFamily: SANS }}>All free, private by default, one small step at a time.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
           {three.map((t) => (
             <a key={t.key} href={t.href} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "22px 24px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
@@ -102,6 +102,9 @@ export default function AboutInward() {
           ))}
         </div>
       </section>
+
+      {/* The community: matchmaking, through me */}
+      <BuddyForm />
 
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
         <PageQuote id="about" />
@@ -115,7 +118,7 @@ export default function AboutInward() {
             <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
           </a>
           <p style={{ fontSize: 14, lineHeight: 1.7, color: "rgba(251,247,240,.6)", margin: 0, fontFamily: SANS }}>
-            Free tools, nothing saved. Photos and film from Pexels artists, with thanks.
+            Free tools, saved only on your device. Photos and film from Pexels artists, with thanks.
           </p>
         </div>
       </footer>

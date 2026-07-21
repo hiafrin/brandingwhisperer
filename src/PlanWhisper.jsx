@@ -3,9 +3,9 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY, CHANNEL_LIBRARY,
-  parseWhisperResponse, recall,
+  parseWhisperResponse, recall, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, SuccessProof, ToolsMenu, TOOLS,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, Playbook, ToolsMenu, TOOLS,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -116,6 +116,13 @@ export default function PlanWhisper() {
   useEffect(() => {
     if (step >= 0 && step < QUESTIONS.length && inputRef.current) inputRef.current.focus();
   }, [step]);
+
+  // Auto-save the plan to THIS device (never sent) for the Inward Brief.
+  useEffect(() => {
+    if (!result) return;
+    if (result.path) remember("playbook", result.path);
+    if (result.today) remember("firstmove", result.today);
+  }, [result]);
 
   const q = step >= 0 && step < QUESTIONS.length ? QUESTIONS[step] : null;
 
@@ -354,7 +361,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
             </p>
             <button className="mw-btn" onClick={() => { track("plan_started"); setStep(0); }} style={primaryBtn}>Find my plan (takes 3 minutes)</button>
             <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 16, fontFamily: SANS }}>
-              No account. Nothing you type is saved. Ramble welcome, nobody's grading this.
+              No account. Your answers stay on your device, never sent to me. Ramble welcome, nobody's grading this.
             </p>
           </div>
         )}
@@ -531,20 +538,15 @@ Look at the photo and write 3 posts around it, in my voice.`;
         )}
       </div>
 
-      <SuccessProof
-        eyebrow="People who never posted daily"
-        headline={<>No daily posting. <span style={{ fontStyle: "italic", color: ACCENT }}>Built anyway.</span></>}
-        intro="Each of them found the few channels that fit them and ignored the rest. None of them use this site. They prove a quiet plan is enough."
-        quote={{ q: "There are no secrets to success. It is the result of preparation, hard work, and learning from failure.", a: "Colin Powell" }}
-      />
-      <NextTools current="plan" />
+      <Playbook />
+      <FrameworkStrip current="plan" />
       <PageQuote id="plan" />
 
       {/* FOOTER — full-bleed ink teal, same promise as everywhere */}
       <footer style={{ background: INK_TEAL, marginTop: 60 }}>
         <div style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 40px" }}>
           <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.55)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
-            Nothing you type here is saved, and I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.
+            What you build here is saved only on your device, in this browser, so your Inward Brief remembers you. I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.
           </p>
           <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>
             — <span style={{ color: "#F7D06B" }}>S. Afrin</span>

@@ -88,6 +88,19 @@ Quiet stacks by creator type (adapt to their craft, keep it to 2-3 pieces):
 
 RULES: every plan names what to deliberately IGNORE and says it's safe to ignore it, because a channel that costs more energy than it returns is a leak, not a strategy. The stack must fit inside the time they actually gave. One post a week on one channel, kept up for a year, beats everything they've been told.`;
 
+// ── The seven quiet tactics, as public-facing copy for the Plan's playbook.
+//    The AI prompts keep their own inline phrasing; this is the readable version
+//    people can see, so the Quieter Plan reads as the strategy library it is. ──
+export const TACTIC_LIBRARY = [
+  { name: "The Swap", what: "Don't write about yourself. Ask one real fan for two sentences and post their words, credited. You show up as the maker, not the promoter." },
+  { name: "The Curator Seat", what: "Feature other people's work in your niche, a shoutout or a small roundup. Curators get watched for months without ever selling themselves." },
+  { name: "Record Once, Cut Many", what: "Talk out loud to a friend for five minutes, transcribe it, and slice it into a week of captions. You perform once, privately, instead of daily." },
+  { name: "The Process Feed", what: "Post work-in-progress, hands, materials, drafts, with little or no caption. No persona required, just proof of craft over time." },
+  { name: "Apply, Don't Pitch", what: "Seek out open calls, directories, and features-wanted threads. Being chosen replaces self-promotion, someone else does the introducing." },
+  { name: "Comment Before You Post", what: "Leave specific, generous comments on others' work in your space. Visibility builds through recognition, not broadcast." },
+  { name: "The Standing Invitation", what: "One pinned post or bio line that says what you make and how to reach you, so you never have to re-announce yourself." },
+];
+
 // ── Global CSS shared by every page: animations, texture, calm guards ──
 export const GLOBAL_CSS = `
   * { box-sizing: border-box; }
@@ -111,6 +124,8 @@ export const GLOBAL_CSS = `
   .mw-menu-row { transition: background .14s ease; }
   .mw-menu-row:hover { background:#FBF7F0; }
   .mw-menu-trigger:hover { background:#0B3B34 !important; }
+  .mw-buddy-input::placeholder { color: rgba(251,247,240,.5); }
+  .mw-buddy-input:focus { border-color: rgba(247,208,107,.6) !important; }
   @media (max-width: 640px) { .mw-about-grid { grid-template-columns: 1fr !important; gap: 28px !important; } .mw-about-grid > div:first-child { max-width: 240px; } }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -128,6 +143,7 @@ export const QUOTES = {
   roast: { q: "Perfectionism is the voice of the oppressor.", a: "Anne Lamott" },
   plan: { q: "Great things are done by a series of small things brought together.", a: "Vincent van Gogh" },
   about: { q: "People don't buy what you do; they buy why you do it.", a: "Simon Sinek" },
+  brief: { q: "Now I become myself.", a: "May Sarton" },
 };
 export function PageQuote({ id }) {
   const item = QUOTES[id];
@@ -241,6 +257,50 @@ export function NextTools({ current }) {
   );
 }
 
+// ── THE INWARD FRAMEWORK: the ordered spine. One source of truth for the
+//    numbering, the strip, the menu, and the brief. ──
+export const FRAMEWORK = [
+  { n: 1, key: "scan", href: "#/scan", name: "The Inward Scan", short: "Scan", blurb: "See how you get stuck." },
+  { n: 2, key: "foundation", href: "#/", name: "What you're really about", short: "Foundation", blurb: "Six questions to your core." },
+  { n: 3, key: "voice", href: "#/shield", name: "Your Brand Voice", short: "Voice", blurb: "The voice you already have." },
+  { n: 4, key: "plan", href: "#/plan", name: "The Quieter Plan", short: "Plan", blurb: "Your playbook, minus the dread." },
+  { n: 5, key: "roast", href: "#/roast", name: "The Gentle Roast", short: "Roast", blurb: "Refine what you actually post." },
+];
+
+// ── The ordered breadcrumb: shows the whole journey with the current step lit,
+//    the next step emphasized, and a link to the assembled brief. Replaces the
+//    old NextTools on every page so nothing reads as a scattered dead end. ──
+export function FrameworkStrip({ current }) {
+  const idx = FRAMEWORK.findIndex((s) => s.key === current);
+  const next = idx >= 0 ? FRAMEWORK[idx + 1] : null;
+  return (
+    <section style={{ maxWidth: 920, margin: "56px auto 0", padding: "0 24px" }}>
+      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>The Inward Framework</p>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: next ? 20 : 14 }}>
+        {FRAMEWORK.map((s) => {
+          const on = s.key === current;
+          return (
+            <a key={s.key} href={s.href} style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", background: on ? INK_TEAL : "#FFF", color: on ? CREAM : INK, border: `1px solid ${on ? INK_TEAL : "#EFE7DA"}`, borderRadius: 100, padding: "7px 15px 7px 7px", fontFamily: SANS, fontSize: 14, fontWeight: 600 }}>
+              <span style={{ width: 22, height: 22, borderRadius: "50%", background: on ? BUTTER : ACCENT_TINT, color: on ? INK_TEAL : ACCENT, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{s.n}</span>
+              {s.short}
+            </a>
+          );
+        })}
+      </div>
+      {next && (
+        <a href={next.href} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: INK, background: ACCENT_TINT, border: "1px solid #DCEFEA", borderRadius: 16, padding: "18px 22px" }}>
+          <span style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: ACCENT, fontWeight: 700 }}>Next &middot; step {next.n}</span>
+          <p style={{ fontSize: 20, margin: "6px 0 2px", fontWeight: 400 }}>{next.name}</p>
+          <p style={{ fontSize: 15, color: "#5C6B63", margin: 0, fontFamily: SANS }}>{next.blurb} &rarr;</p>
+        </a>
+      )}
+      <p style={{ margin: "16px 0 0" }}>
+        <a href="#/brief" style={{ fontFamily: SANS, fontSize: 15, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>See your Inward Brief &rarr;</a>
+      </p>
+    </section>
+  );
+}
+
 // ── Persistent floating nav so no tool is ever buried. Fixed to the
 //    top-right of every page and every scroll position; opens a menu of
 //    all five tools plus Home. Closes on Escape, outside click, or pick. ──
@@ -257,17 +317,17 @@ export function ToolsMenu() {
   }, [open]);
 
   const items = [
-    { href: "#/", name: "Home", cta: "Start here", dot: BUTTER },
-    ...["scan", "foundation", "voice", "roast", "plan"].map((k) => ({ ...TOOLS[k], dot: TOOLS[k].accent })),
+    ...FRAMEWORK.map((s) => ({ href: s.href, name: s.name, cta: `Step ${s.n} · ${s.blurb}`, dot: (TOOLS[s.key] && TOOLS[s.key].accent) || ACCENT })),
+    { href: "#/brief", name: "Your Inward Brief", cta: "Everything you've found, in one place", dot: BUTTER },
     { href: "#/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
   ];
 
   return (
     <div ref={ref} style={{ position: "fixed", top: 16, right: 16, zIndex: 300, fontFamily: SANS }}>
-      <button className="mw-menu-trigger" onClick={() => setOpen((o) => !o)} aria-haspopup="true" aria-expanded={open} aria-label="Open the tools menu"
+      <button className="mw-menu-trigger" onClick={() => setOpen((o) => !o)} aria-haspopup="true" aria-expanded={open} aria-label="Open the Inward Framework menu"
         style={{ display: "flex", alignItems: "center", gap: 9, background: "rgba(11,59,52,.94)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,.18)", borderRadius: 100, padding: "9px 16px", cursor: "pointer", boxShadow: "0 6px 20px rgba(11,59,52,.28)" }}>
         <span style={{ width: 8, height: 8, borderRadius: "50%", background: BUTTER }} />
-        <span style={{ color: CREAM, fontSize: 13, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase" }}>Tools</span>
+        <span style={{ color: CREAM, fontSize: 13, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase" }}>Framework</span>
         <span aria-hidden="true" style={{ color: CREAM, fontSize: 10, transform: open ? "rotate(180deg)" : "none", transition: "transform .18s" }}>&#9662;</span>
       </button>
       {open && (
@@ -326,6 +386,193 @@ export function SuccessProof({ id, eyebrow = "Quiet people who built it anyway",
           <span style={{ display: "block", fontFamily: SANS, fontStyle: "normal", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, marginTop: 10 }}>{quote.a}</span>
         </p>
       )}
+    </section>
+  );
+}
+
+// ── Voice page's own proof: one real introvert who found a voice the quiet way.
+//    Documented, sourced, never invented. Different in kind from the scan's grid. ──
+export function VoiceStory() {
+  return (
+    <section style={{ maxWidth: 760, margin: "0 auto", padding: "64px 24px 8px" }}>
+      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>One quiet voice, on her own terms</p>
+      <h2 style={{ fontSize: "clamp(24px, 3.4vw, 32px)", lineHeight: 1.2, margin: "0 0 20px", fontWeight: 350 }}>
+        She dreaded the spotlight. <span style={{ fontStyle: "italic", color: ACCENT }}>Millions heard her anyway.</span>
+      </h2>
+      <div style={{ ...plainCard, marginBottom: 0 }}>
+        <p style={{ fontSize: 22, fontWeight: 400, margin: "0 0 2px" }}>Susan Cain</p>
+        <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".04em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>Writer</p>
+        <p style={{ fontSize: 17, lineHeight: 1.65, color: "#3D3630", margin: "0 0 14px" }}>
+          A self-described introvert and former lawyer who was genuinely afraid of public speaking. She
+          didn't build a following by being everywhere. She spent years on one deeply-researched book,
+          <span style={{ fontStyle: "italic" }}> Quiet</span>, and gave one carefully-prepared talk. Both reached millions. The depth did the work
+          that constant self-promotion never could.
+        </p>
+        <p style={{ fontSize: 16, lineHeight: 1.6, color: INK, margin: "0 0 14px", fontStyle: "italic" }}>
+          Her voice landed because it was unmistakably hers. So is the one this tool hands back to you.
+        </p>
+        <a href="https://en.wikipedia.org/wiki/Susan_Cain" style={{ fontFamily: SANS, fontSize: 13, color: "#9A8F82", textDecoration: "underline" }}>Read her story &rarr;</a>
+      </div>
+    </section>
+  );
+}
+
+// ── The Quieter Plan's playbook: the strategy library, made visible. The tactics
+//    and channel logic that are usually only baked into the AI, laid out to read. ──
+export function Playbook() {
+  const channels = [
+    { cost: "Low cost, high return", items: ["An email list, you write alone and automation sends it", "A calm one-page site people find by search, not by you being 'on'", "Search and pin platforms, discovery that compounds quietly"] },
+    { cost: "Medium, only if it fits", items: ["Scheduled social, batch it privately and let a tool publish"] },
+    { cost: "High cost, optional at most", items: ["Lives, stories, daily video, never the backbone of your plan"] },
+  ];
+  return (
+    <section style={{ maxWidth: 920, margin: "64px auto 0", padding: "0 24px" }}>
+      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The quiet playbook</p>
+      <h2 style={{ fontSize: "clamp(24px, 3.4vw, 32px)", lineHeight: 1.2, margin: "0 0 10px", fontWeight: 350 }}>
+        Every strategy in here, <span style={{ fontStyle: "italic", color: ACCENT }}>laid out to keep.</span>
+      </h2>
+      <p style={{ fontSize: 16, lineHeight: 1.6, color: "#857B70", margin: "0 0 26px", fontFamily: SANS, maxWidth: 620 }}>
+        Your plan pulls from these. Here they are in full, so you can see the whole thing, not just the piece you were handed.
+      </p>
+
+      <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".06em", textTransform: "uppercase", color: INK, fontWeight: 700, margin: "0 0 14px" }}>Seven ways to be seen without performing</p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14, marginBottom: 34 }}>
+        {TACTIC_LIBRARY.map((t, i) => (
+          <div key={i} style={{ ...plainCard, marginBottom: 0 }}>
+            <p style={{ fontSize: 18, fontWeight: 500, margin: "0 0 6px", color: INK }}>{t.name}</p>
+            <p style={{ fontSize: 15, lineHeight: 1.55, color: "#3D3630", margin: 0 }}>{t.what}</p>
+          </div>
+        ))}
+      </div>
+
+      <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".06em", textTransform: "uppercase", color: INK, fontWeight: 700, margin: "0 0 14px" }}>Channels, by what they cost you</p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14, marginBottom: 30 }}>
+        {channels.map((c, i) => (
+          <div key={i} style={{ ...plainCard, marginBottom: 0 }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".04em", textTransform: "uppercase", color: ACCENT, fontWeight: 700, margin: "0 0 10px" }}>{c.cost}</p>
+            {c.items.map((it, j) => (
+              <p key={j} style={{ fontSize: 15, lineHeight: 1.5, color: "#3D3630", margin: j ? "8px 0 0" : 0 }}>{it}</p>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div style={{ background: INK_TEAL, borderRadius: 16, padding: "22px 26px" }}>
+        <p style={{ fontSize: 18, lineHeight: 1.55, color: CREAM, margin: 0 }}>
+          Every good plan names what to <span style={{ color: BUTTER, fontStyle: "italic" }}>ignore.</span> A channel that costs
+          more energy than it returns is a leak, not a strategy. One post a week on one channel, kept up for a
+          year, beats everything you've been told to do.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+// ── The Roast's origin, styled like a forum thread. Transparently labeled as
+//    Afrin's paraphrase, NOT real posts, so nothing is misattributed. Real
+//    attributed quotes can replace `notes` once she supplies links. ──
+export function RoastOrigin() {
+  const notes = [
+    { up: "312", text: "Strangers will say the true thing about your writing that your friends keep softening." },
+    { up: "204", text: "A blunt thread fixed my bio in ten minutes. It also stung for a week." },
+    { up: "97", text: "The honest part was right. The cruelty was the part I didn't need." },
+  ];
+  return (
+    <section style={{ maxWidth: 760, margin: "64px auto 0", padding: "0 24px" }}>
+      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: CORAL, fontWeight: 600, margin: "0 0 8px" }}>Where the gentle roast came from</p>
+      <h2 style={{ fontSize: "clamp(24px, 3.4vw, 32px)", lineHeight: 1.2, margin: "0 0 20px", fontWeight: 350 }}>
+        The internet is brutally honest. <span style={{ fontStyle: "italic", color: CORAL }}>I kept the honest, dropped the brutal.</span>
+      </h2>
+      <div style={{ border: "1px solid #EBE3D6", borderRadius: 16, overflow: "hidden", background: "#FFF", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
+        <div style={{ background: "#F7F2E9", padding: "12px 20px", borderBottom: "1px solid #EBE3D6", fontFamily: SANS, fontSize: 13, color: "#857B70", fontWeight: 600 }}>
+          the feedback threads that started this
+        </div>
+        {notes.map((n, i) => (
+          <div key={i} style={{ display: "flex", gap: 14, padding: "16px 20px", borderTop: i ? "1px solid #F1EDE4" : "none" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", color: CORAL, fontFamily: SANS, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
+              <span style={{ fontSize: 15 }}>&#9650;</span>{n.up}
+            </div>
+            <p style={{ fontSize: 16, lineHeight: 1.55, color: INK, margin: 0 }}>{n.text}</p>
+          </div>
+        ))}
+      </div>
+      <p style={{ fontFamily: SANS, fontSize: 13, lineHeight: 1.6, color: "#9A8F82", margin: "12px 0 0" }}>
+        Not real posts, my honest paraphrase of a hundred of them. The tool gives you that same honesty, aimed at the words and never at you.
+      </p>
+    </section>
+  );
+}
+
+// ── The buddy layer: quiet people matched with each other, through Afrin, for an
+//    endorsement swap or just coffee. Posts to /api/email (lands in her sheet);
+//    falls back to a pre-filled mailto so it never dead-ends. ──
+export function BuddyForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [want, setWant] = useState("endorsement");
+  const [about, setAbout] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [err, setErr] = useState(null);
+
+  function mailtoFallback() {
+    const subject = encodeURIComponent("Branding Inward, buddy match");
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nI want: ${want}\nAbout me: ${about}`);
+    window.location.href = `mailto:thecuriousafrin@gmail.com?subject=${subject}&body=${body}`;
+  }
+
+  async function submit(e) {
+    e.preventDefault();
+    if (!name.trim() || !email.trim()) { setErr("Your name and email, so I can introduce you."); return; }
+    setSending(true); setErr(null);
+    const summary = `BUDDY REQUEST\nName: ${name.trim()}\nWants: ${want}\nAbout: ${about.trim()}`;
+    try {
+      const r = await fetch("/api/email", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ to: email.trim(), summary }) });
+      if (!r.ok) throw new Error("fallback");
+      setSent(true);
+    } catch {
+      mailtoFallback();
+      setSent(true);
+    } finally { setSending(false); }
+  }
+
+  const inputStyle = { width: "100%", background: "rgba(251,247,240,.08)", border: "1px solid rgba(251,247,240,.22)", borderRadius: 12, padding: "13px 15px", fontSize: 16, fontFamily: SANS, color: CREAM, outline: "none" };
+
+  return (
+    <section style={{ maxWidth: 760, margin: "64px auto 0", padding: "0 24px" }}>
+      <div style={{ background: INK_TEAL, borderRadius: 22, padding: "34px 32px", boxShadow: "0 14px 34px rgba(11,59,52,.25)" }}>
+        <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: BUTTER, fontWeight: 600, margin: "0 0 12px" }}>Find your buddy</p>
+        <h2 style={{ fontSize: "clamp(24px, 3.4vw, 32px)", lineHeight: 1.2, margin: "0 0 12px", fontWeight: 350, color: CREAM }}>
+          A room for the ones who feel <span style={{ fontStyle: "italic", color: BUTTER }}>a little too much.</span>
+        </h2>
+        <p style={{ fontSize: 16, lineHeight: 1.6, color: "rgba(251,247,240,.85)", margin: "0 0 24px", fontFamily: SANS, maxWidth: 560 }}>
+          Depth-seekers and the not-quite-normal, matched by me, one to one. For an endorsement swap, where you vouch for each other's work, or just coffee with someone who gets it. This is where the quiet ones find normalcy.
+        </p>
+
+        {sent ? (
+          <p style={{ fontSize: 17, lineHeight: 1.6, color: CREAM, margin: 0 }}>
+            Got it. I'll be in touch to make the introduction. <span style={{ color: BUTTER }}>Thank you for trusting me with it.</span>
+          </p>
+        ) : (
+          <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <input className="mw-buddy-input" style={inputStyle} placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} />
+            <input className="mw-buddy-input" style={inputStyle} type="email" placeholder="Your email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              {[["endorsement", "An endorsement swap"], ["coffee", "Just coffee"]].map(([v, label]) => (
+                <button type="button" key={v} onClick={() => setWant(v)} style={{ flex: "1 1 180px", background: want === v ? BUTTER : "transparent", color: want === v ? INK_TEAL : CREAM, border: `1px solid ${want === v ? BUTTER : "rgba(251,247,240,.3)"}`, borderRadius: 100, padding: "12px 16px", fontFamily: SANS, fontSize: 15, fontWeight: 600, cursor: "pointer", transition: "all .18s" }}>
+                  {label}
+                </button>
+              ))}
+            </div>
+            <textarea className="mw-buddy-input" style={{ ...inputStyle, minHeight: 80, resize: "vertical" }} placeholder="A line about you and what you make (optional)" value={about} onChange={(e) => setAbout(e.target.value)} />
+            {err && <p style={{ fontSize: 14, color: "#F0997B", margin: 0, fontFamily: SANS }}>{err}</p>}
+            <button type="submit" disabled={sending} style={{ ...primaryBtn, background: BUTTER, color: INK_TEAL, alignSelf: "flex-start", opacity: sending ? 0.7 : 1 }}>
+              {sending ? "Sending…" : "Send to Afrin →"}
+            </button>
+            <p style={{ fontSize: 12.5, color: "rgba(251,247,240,.5)", margin: 0, fontFamily: SANS }}>Goes straight to me. No list, no spam, just an introduction when there's a good match.</p>
+          </form>
+        )}
+      </div>
     </section>
   );
 }

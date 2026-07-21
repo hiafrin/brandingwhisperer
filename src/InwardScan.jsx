@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, ACCENT_TINT, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, NextTools, SuccessProof, ToolsMenu, DoodleScan,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, SuccessProof, ToolsMenu, DoodleScan,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard,
   remember,
 } from "./lib/whisperKit.jsx";
@@ -203,6 +203,15 @@ export default function InwardScan() {
   const pattern = primary ? PATTERNS[primary] : null;
   const sec = secondary ? PATTERNS[secondary] : null;
 
+  // Auto-save the pattern to THIS device (never sent) for the Inward Brief.
+  useEffect(() => {
+    if (done && primary && pattern) {
+      remember("pattern", primary);
+      remember("patternName", pattern.name);
+      setKept(true);
+    }
+  }, [done, primary]);
+
   function copyResult() {
     if (!pattern) return;
     let t = `MY VISIBILITY PATTERN, from Branding Inward\n\nPrimary: ${pattern.name}${sec ? `\nSecondary: ${sec.name}` : ""}\n\n${pattern.validate}\n\nWHAT GIVES IT AWAY:\nWhen I'm excited, ${pattern.moments.excited}.\nWhen it's time to publish, ${pattern.moments.publish}.\nWhen someone praises me, ${pattern.moments.praise}.\n\nPEOPLE LIKE ME SUCCEED WITH:\n${pattern.succeed.with.map((x) => "- " + x).join("\n")}\nNot: ${pattern.succeed.without}\n\nMY PATH, IN ORDER:\n`;
@@ -252,7 +261,7 @@ export default function InwardScan() {
               forwho="Anyone who doesn't know where they're stuck, or where to start."
             />
             <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", maxWidth: 520, margin: "0 0 28px", fontFamily: SANS }}>
-              No typing, no right answers, nothing saved. It runs entirely on this page.
+              No typing, no right answers. Your pattern is kept only on this device for your Inward Brief.
             </p>
             <button className="mw-btn" onClick={start} style={primaryBtn}>Find my pattern (8 taps)</button>
           </div>
@@ -373,7 +382,7 @@ export default function InwardScan() {
                 </>
               ) : (
                 <p style={{ fontSize: 14, color: ACCENT, margin: 0, fontFamily: SANS, fontWeight: 600 }}>
-                  Kept, on this device only. The home page will remember you now.
+                  Saved on this device only, never sent. It's in your <a href="#/brief" style={{ color: ACCENT }}>Inward Brief</a> now, and the home page will remember you. Clear it anytime from the footer.
                 </p>
               )}
             </div>
@@ -392,14 +401,14 @@ export default function InwardScan() {
         intro="None of them fought their own wiring. None of them use this site. They just prove that knowing your pattern is where it starts."
         quote={{ q: "Success is liking yourself, liking what you do, and liking how you do it.", a: "Maya Angelou" }}
       />
-      <NextTools current="scan" />
+      <FrameworkStrip current="scan" />
       <PageQuote id="scan" />
 
       {/* FOOTER */}
       <footer style={{ background: INK_TEAL, marginTop: 40 }}>
         <div style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 40px" }}>
           <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.55)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
-            The scan runs entirely in your browser. Nothing you tap is saved or sent anywhere, just an anonymous count of how many people finish.
+            The scan runs entirely in your browser. Your pattern is saved only on this device for your Inward Brief, never sent anywhere, just an anonymous count of how many people finish.
           </p>
           <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>
             &mdash; <span style={{ color: "#F7D06B" }}>S. Afrin</span>
