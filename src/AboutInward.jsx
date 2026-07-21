@@ -68,11 +68,19 @@ export default function AboutInward() {
           watched it not fit a lot of talented people who then went quiet. As I get better at this, I
           want to keep making tools like it for people who never came from marketing.
         </p>
-        <p style={{ fontSize: 19, lineHeight: 1.75, margin: 0, color: INK, fontWeight: 500 }}>
+        <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: INK, fontWeight: 500 }}>
           All of it free, so it works for everyone, not just people with a marketing budget.
+        </p>
+        <p style={{ fontSize: 18, lineHeight: 1.7, margin: 0, color: "#5C534B" }}>
+          One honest thing: I'm not a professional web developer. I'm just someone obsessed with making
+          things, a pot on a wheel, an app, a site, whatever's in front of me. I'm learning AI as I build
+          these, so if something breaks or reads off, I'd genuinely appreciate the grace, and a quick heads-up.
         </p>
         <p style={{ fontSize: 18, fontStyle: "italic", color: ACCENT, margin: "26px 0 0" }}>
           &mdash; S. Afrin
+        </p>
+        <p style={{ fontFamily: SANS, fontSize: 14, lineHeight: 1.6, color: "#9A8F82", margin: "10px 0 0" }}>
+          Yes, the same S. Afrin signing the bottom of every page. And no, no relation to the nasal spray. Different Afrin.
         </p>
       </div>
 
