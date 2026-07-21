@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse,
   useVoiceInput, MicIcon,
-  GrainOverlay, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, RoastOrigin, ToolsMenu, TOOLS,
+  GrainOverlay, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, RoastOrigin, ToolsMenu, SiteFooter, TOOLS,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -306,17 +306,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
       <FrameworkStrip current="roast" />
       <PageQuote id="roast" />
 
-      {/* FOOTER — full-bleed ink teal, same promise as everywhere */}
-      <footer style={{ background: INK_TEAL, marginTop: 80 }}>
-        <div style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 40px" }}>
-          <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.55)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
-            Nothing you paste here is saved, and I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.
-          </p>
-          <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>
-            — <span style={{ color: "#F7D06B" }}>S. Afrin</span>
-          </p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

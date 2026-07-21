@@ -3,8 +3,8 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, ToolsMenu, FrameworkStrip, PageQuote, BuddyForm,
-  recall, forgetAll, primaryBtn,
+  GrainOverlay, ToolsMenu, FrameworkStrip, PageQuote, BuddyForm, SiteFooter,
+  recall, primaryBtn,
 } from "./lib/whisperKit.jsx";
 
 // Each brief line, the device key it reads, and the step that fills it.
@@ -141,21 +141,7 @@ export default function InwardBrief() {
         <PageQuote id="brief" />
       </div>
 
-      {/* FOOTER with the persistent Forget control */}
-      <footer style={{ background: INK_TEAL, marginTop: 40 }}>
-        <div style={{ maxWidth: 820, margin: "0 auto", padding: "44px 24px" }}>
-          <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", marginBottom: 14 }}>
-            <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
-            <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
-          </a>
-          <p style={{ fontSize: 14, lineHeight: 1.7, color: "rgba(251,247,240,.6)", margin: 0, fontFamily: SANS }}>
-            Your brief lives only on this device, never sent to me.{" "}
-            <button onClick={() => { forgetAll(); window.location.reload(); }} style={{ background: "none", border: "none", padding: 0, color: "rgba(251,247,240,.75)", textDecoration: "underline", cursor: "pointer", fontFamily: SANS, fontSize: 14 }}>
-              Forget everything on this device
-            </button>.
-          </p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

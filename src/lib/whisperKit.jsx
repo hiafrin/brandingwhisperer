@@ -348,6 +348,42 @@ export function ToolsMenu() {
   );
 }
 
+// ── One footer, every page. Carries the "real professional, not a tech
+//    company" positioning, the link to her story + LinkedIn, and the
+//    device-only privacy line with a Forget control. ──
+export function SiteFooter() {
+  const link = { color: BUTTER, textDecoration: "none", fontWeight: 600 };
+  const sep = { color: "rgba(251,247,240,.3)", margin: "0 11px" };
+  return (
+    <footer style={{ background: INK_TEAL, marginTop: 60 }}>
+      <div style={{ maxWidth: 920, margin: "0 auto", padding: "52px 24px 46px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 22 }}>
+          <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
+          <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
+        </div>
+        <p style={{ fontSize: 18, lineHeight: 1.55, color: CREAM, margin: "0 0 8px", maxWidth: 620 }}>
+          Built by a real branding professional, <span style={{ fontStyle: "italic", color: BUTTER }}>not another tech company.</span>
+        </p>
+        <p style={{ fontSize: 15, lineHeight: 1.65, color: "rgba(251,247,240,.72)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
+          A decade of agency work, from before AI or social media existed, made free for people who never came from marketing.
+        </p>
+        <p style={{ fontSize: 15, lineHeight: 1.9, margin: "0 0 20px", fontFamily: SANS }}>
+          <a href="#/about" style={link}>Read my story</a>
+          <span style={sep}>&middot;</span>
+          <a href="https://www.linkedin.com/in/sabihaafrin" target="_blank" rel="noopener noreferrer" style={link}>LinkedIn</a>
+          <span style={sep}>&middot;</span>
+          <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" style={link}>Say hi</a>
+        </p>
+        <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.5)", margin: "0 0 20px", fontFamily: SANS, maxWidth: 620 }}>
+          What you build stays only on your device, in this browser. I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool. Photos and film from Pexels artists, with thanks.{" "}
+          <button onClick={() => { forgetAll(); window.location.reload(); }} style={{ background: "none", border: "none", padding: 0, color: "rgba(251,247,240,.7)", textDecoration: "underline", cursor: "pointer", fontFamily: SANS, fontSize: 13 }}>Forget everything on this device</button>.
+        </p>
+        <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>&mdash; <span style={{ color: BUTTER }}>S. Afrin</span></p>
+      </div>
+    </footer>
+  );
+}
+
 // ── Real, documented people who built brands without performing. NEVER
 //    invented testimonials, and none of them use this site. Single source
 //    of truth, shared by the home band and every tool page. ──

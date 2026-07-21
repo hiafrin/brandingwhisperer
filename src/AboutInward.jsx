@@ -3,7 +3,7 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, ToolsMenu, PageQuote, BuddyForm, primaryBtn, TOOLS,
+  GrainOverlay, ToolsMenu, PageQuote, BuddyForm, SiteFooter, primaryBtn, TOOLS,
 } from "./lib/whisperKit.jsx";
 
 // ── The portrait: shows Afrin's real photo the moment /media/afrin-portrait.jpg
@@ -111,18 +111,7 @@ export default function AboutInward() {
         <PageQuote id="about" />
       </div>
 
-      {/* FOOTER */}
-      <footer style={{ background: INK_TEAL, marginTop: 40 }}>
-        <div style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px" }}>
-          <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", marginBottom: 14 }}>
-            <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
-            <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
-          </a>
-          <p style={{ fontSize: 14, lineHeight: 1.7, color: "rgba(251,247,240,.6)", margin: 0, fontFamily: SANS }}>
-            Free tools, saved only on your device. Photos and film from Pexels artists, with thanks.
-          </p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

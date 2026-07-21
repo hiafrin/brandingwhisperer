@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY, CHANNEL_LIBRARY,
   parseWhisperResponse, recall, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, Playbook, ToolsMenu, TOOLS,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, Playbook, ToolsMenu, SiteFooter, TOOLS,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -542,17 +542,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
       <FrameworkStrip current="plan" />
       <PageQuote id="plan" />
 
-      {/* FOOTER — full-bleed ink teal, same promise as everywhere */}
-      <footer style={{ background: INK_TEAL, marginTop: 60 }}>
-        <div style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 40px" }}>
-          <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.55)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
-            What you build here is saved only on your device, in this browser, so your Inward Brief remembers you. I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.
-          </p>
-          <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>
-            — <span style={{ color: "#F7D06B" }}>S. Afrin</span>
-          </p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

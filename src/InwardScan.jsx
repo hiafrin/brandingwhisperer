@@ -3,7 +3,7 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, ACCENT_TINT, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, SuccessProof, ToolsMenu, DoodleScan,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, SuccessProof, ToolsMenu, SiteFooter, DoodleScan,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard,
   remember,
 } from "./lib/whisperKit.jsx";
@@ -404,17 +404,7 @@ export default function InwardScan() {
       <FrameworkStrip current="scan" />
       <PageQuote id="scan" />
 
-      {/* FOOTER */}
-      <footer style={{ background: INK_TEAL, marginTop: 40 }}>
-        <div style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 40px" }}>
-          <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.55)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
-            The scan runs entirely in your browser. Your pattern is saved only on this device for your Inward Brief, never sent anywhere, just an anonymous count of how many people finish.
-          </p>
-          <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>
-            &mdash; <span style={{ color: "#F7D06B" }}>S. Afrin</span>
-          </p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

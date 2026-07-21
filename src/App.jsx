@@ -7,7 +7,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS, FrameworkStrip, FRAMEWORK, ToolsMenu,
+  TOOLS, FrameworkStrip, FRAMEWORK, ToolsMenu, SiteFooter,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 
@@ -683,23 +683,8 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </div>
           </section>
 
-          {/* ── WHY THIS EXISTS: short teaser, full story lives on #/about ── */}
-          <section id="why" style={{ background: INK_TEAL }}>
-            <div style={{ maxWidth: 760, margin: "0 auto", padding: "56px 24px" }}>
-              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: "#F7D06B", fontWeight: 600, margin: "0 0 14px" }}>Why this exists</p>
-              <h2 style={{ fontSize: "clamp(26px, 4vw, 38px)", lineHeight: 1.15, margin: "0 0 18px", fontWeight: 350, color: CREAM }}>
-                Digital media is a channel.<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>Not a destination.</span>
-              </h2>
-              <p style={{ fontSize: 17, lineHeight: 1.65, color: "rgba(251,247,240,.86)", margin: "0 0 22px", maxWidth: 560 }}>
-                Built by a brand strategist, not a tech company. A decade of agency work, from before
-                AI or social media existed, made free so it works for people who never came from marketing.
-              </p>
-              <a href="#/about" onClick={() => track("opened_about")} style={{ fontFamily: SANS, fontSize: 16, color: "#F7D06B", textDecoration: "none", fontWeight: 600 }}>
-                Read my story &rarr;
-              </a>
-            </div>
-          </section>
-
+          {/* The "why this exists" positioning now lives in the shared SiteFooter,
+              so it isn't repeated here. Full story is on #/about. */}
           {/* Success stories now live only on the Inward Scan, not on every page. */}
         </>
       )}
@@ -937,37 +922,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
       {/* Once the six questions are done, show where they are in the framework. */}
       {step === QUESTIONS.length && result && <FrameworkStrip current="foundation" />}
 
-      {/* FOOTER — full-bleed ink teal, the human behind the whisperer */}
-      <footer style={{ background: INK_TEAL, marginTop: step === -1 ? 40 : 80 }}>
-        <div style={{ maxWidth: 920, margin: "0 auto", padding: "56px 24px 48px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 26 }}>
-            <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
-            <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>
-              Branding Inward
-            </span>
-          </div>
-          <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(251,247,240,.75)", margin: "0 0 16px", fontFamily: SANS, maxWidth: 620 }}>
-            Free tools, no catch. <a href="#/about" onClick={() => track("footer_about")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>Read my story</a>, say hi at{" "}
-            <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" onClick={() => track("clicked_email")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>
-              thecuriousafrin@gmail.com
-            </a>, or find me on{" "}
-            <a href="https://www.linkedin.com/in/sabihaafrin" target="_blank" rel="noopener noreferrer" onClick={() => track("footer_linkedin")} style={{ color: BUTTER, textDecoration: "none", fontWeight: 600 }}>
-              LinkedIn
-            </a>.
-          </p>
-          <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.5)", margin: "0 0 22px", fontFamily: SANS, maxWidth: 620 }}>
-            What you build here is saved only on your device, in this browser, so your Inward Brief remembers you. I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool.
-            Photos and film from Pexels artists, with thanks.
-            {" "}
-            <button onClick={() => { forgetAll(); setStoredPattern(null); setEnergy(null); }} style={{ background: "none", border: "none", padding: 0, color: "rgba(251,247,240,.7)", textDecoration: "underline", cursor: "pointer", fontFamily: SANS, fontSize: 13 }}>
-              Forget everything on this device
-            </button>.
-          </p>
-          <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>
-            — <span style={{ color: BUTTER }}>S. Afrin</span>
-          </p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
