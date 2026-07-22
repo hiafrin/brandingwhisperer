@@ -56,7 +56,7 @@ export default function AboutInward() {
       {/* ── THE STORY ── */}
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "56px 24px 8px" }}>
         <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
-          I've spent more than a decade in brand work, at agencies and with clients, learning what
+          I've spent more than a decade in brand marketing, agency-side then client-side, learning what
           actually makes people remember a brand. I learned most of it before social media existed,
           and all of it before AI did. The fundamentals never depended on either.
         </p>
