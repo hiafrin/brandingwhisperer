@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 
 // ── Shared design tokens, used by every whisper page ──
-export const ACCENT = "#0F7C6C";      // teal, the primary
+export const ACCENT = "#0F7C77";      // warm teal, the primary (teal, but blue kept just under green so it stays warm, not cyan)
 export const INK = "#2A2422";
-export const CREAM = "#FBF7F0";
-export const ACCENT_TINT = "#E8F4F2";
-export const ACCENT_TINT_STRONG = "#DCEFEA";
-export const ACCENT_RGB = "15,124,108";
-export const INK_TEAL = "#0B3B34";    // deep teal for dark sections and the footer
+export const CREAM = "#FDFBF5";
+export const ACCENT_TINT = "#E8F4F1";
+export const ACCENT_TINT_STRONG = "#DCEFEB";
+export const ACCENT_RGB = "15,124,119";
+export const INK_TEAL = "#054648";    // deep teal for dark sections and the footer
 export const CORAL = "#E76F51";       // warm secondary, the Kind Roast's color
 export const CORAL_TINT = "#FBEAE3";
 export const BUTTER = "#F7D06B";      // hand-drawn underline and highlight strokes
@@ -364,8 +364,11 @@ export function SiteFooter() {
         <p style={{ fontSize: 18, lineHeight: 1.55, color: CREAM, margin: "0 0 8px", maxWidth: 620 }}>
           Built by a real branding professional, <span style={{ fontStyle: "italic", color: BUTTER }}>not another tech company.</span>
         </p>
-        <p style={{ fontSize: 15, lineHeight: 1.65, color: "rgba(251,247,240,.72)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
+        <p style={{ fontSize: 15, lineHeight: 1.65, color: "rgba(251,247,240,.72)", margin: "0 0 14px", fontFamily: SANS, maxWidth: 620 }}>
           More than a decade in brand marketing, agency-side then client-side, made free for people who never came from marketing.
+        </p>
+        <p style={{ fontSize: 15, lineHeight: 1.65, color: "rgba(251,247,240,.72)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
+          These aren't generic AI answers. Real questions from a real strategist, delivered by AI so they reach you in minutes, for free.
         </p>
         <p style={{ fontSize: 15, lineHeight: 1.9, margin: "0 0 20px", fontFamily: SANS }}>
           <a href="#/about" style={link}>Read my story</a>

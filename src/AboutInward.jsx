@@ -63,7 +63,14 @@ export default function AboutInward() {
         <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
           A platform is just a place to put the work. It is not the brand, and it is not the point.
           So I built these tools around the part that lasts: who you are, how you sound, what you
-          stand for. The AI helps you express it, never the other way around.
+          stand for.
+        </p>
+        <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
+          People ask if this is just ChatGPT. It isn't. I built the framework myself, over a lot of
+          research and more than a few sleepless nights, figuring out how to make AI work for us instead
+          of flattening everyone into the same voice. The questions come from a real strategist, because
+          knowing the right one to ask is a human instinct, not something a machine hands you. The AI is
+          just what lets me hand that to you in three minutes, for free.
         </p>
         <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
           I built these because the loud, perform-every-day version of marketing never fit me, and I
