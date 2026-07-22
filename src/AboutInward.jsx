@@ -57,28 +57,21 @@ export default function AboutInward() {
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "56px 24px 8px" }}>
         <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
           I've spent more than a decade in brand marketing, agency-side then client-side, learning what
-          actually makes people remember a brand. I learned most of it before social media existed,
-          and all of it before AI did. The fundamentals never depended on either.
-        </p>
-        <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
-          A platform is just a place to put the work. It is not the brand, and it is not the point.
-          So I built these tools around the part that lasts: who you are, how you sound, what you
-          stand for.
+          actually makes people remember a brand, most of it before social media existed and all of it
+          before AI did. A platform is just a place to put the work. So I built these tools around the
+          part that lasts: who you are, how you sound, what you stand for.
         </p>
         <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
           People ask if this is just ChatGPT. It isn't. I built the framework myself, over a lot of
-          research and more than a few sleepless nights, figuring out how to make AI work for us instead
-          of flattening everyone into the same voice. The questions come from a real strategist, because
-          knowing the right one to ask is a human instinct, not something a machine hands you. The AI is
-          just what lets me hand that to you in three minutes, for free.
-        </p>
-        <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
-          I built these because the loud, perform-every-day version of marketing never fit me, and I
-          watched it not fit a lot of talented people who then went quiet. As I get better at this, I
-          want to keep making tools like it for people who never came from marketing.
+          research and more than a few sleepless nights, so the AI works for us instead of flattening
+          everyone into the same voice. The questions come from a real strategist, because knowing the
+          right one to ask is a human instinct. The AI is just what lets me hand that to you in three
+          minutes, for free.
         </p>
         <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: INK, fontWeight: 500 }}>
-          All of it free, so it works for everyone, not just people with a marketing budget.
+          I built these because the loud, perform-every-day version of marketing never fit me, and I
+          watched it not fit a lot of talented people who then went quiet. All of it is free, so it works
+          for everyone, not just people with a marketing budget.
         </p>
         <p style={{ fontSize: 18, lineHeight: 1.7, margin: 0, color: "#5C534B" }}>
           One honest thing: I'm not a professional web developer. I'm just someone obsessed with making
