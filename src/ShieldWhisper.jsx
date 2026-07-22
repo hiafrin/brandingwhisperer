@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, WhatThisDoes, FrameworkStrip, VoiceStory, SiteFooter, ToolsMenu,
+  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, VoiceStory, SiteFooter, ToolsMenu,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -228,62 +228,49 @@ These answers are also your voice sample. Study how they wrote them, not just wh
       <GrainOverlay />
       <ToolsMenu />
 
-      {/* ── EDITORIAL INTRO: your voice, written down, still authentically you. Still image, no video, deliberately unlike the home hero. ── */}
+      {/* ── HERO (intro only): full-bleed photo band, own teal identity, task on top — matches the other tools ── */}
       {step === -1 && (
-        <section className="mw-fade" style={{ maxWidth: 920, margin: "0 auto", padding: "56px 24px 72px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 56 }}>
-            <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
-              <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
-              <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-                Branding Inward
-              </span>
-            </a>
-          </div>
+        <>
+          <ToolHero
+            label="Your brand voice"
+            photo="/media/shield-still.jpg"
+            accent={ACCENT}
+            Doodle={DoodleShield}
+            headline={<>You don't need a new voice.<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>You need yours, written down.</span></>}
+            sub="Six questions, the kind a journalist would ask. You talk, it listens, and hands your own voice back, named and quoted from your own words."
+          />
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 40, alignItems: "center" }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                <DoodleShield size={30} />
-                <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: 0 }}>Your brand voice</p>
-              </div>
-              <h1 style={{ fontSize: "clamp(38px, 5.5vw, 54px)", lineHeight: 1.08, margin: "0 0 24px", fontWeight: 350 }}>
-                You don't need a new voice.<br /><span style={{ fontStyle: "italic", color: ACCENT }}>You need yours, written down.</span>
-              </h1>
-              <p style={{ fontSize: 18, lineHeight: 1.65, color: "#5C534B", margin: "0 0 18px" }}>
-                You already have a voice. It's the way you talk about your work when a friend asks and
-                you forget to be nervous. Nobody ever helped you put words to it, so every post starts
-                from a blank page, and blank pages are where the freezing happens.
-              </p>
-              <p style={{ fontSize: 18, lineHeight: 1.65, color: "#5C534B", margin: "0 0 18px" }}>
-                Most AI tools generate a voice for you, and it sounds like everyone else's AI.
-                This one works the other way around. Six questions, the kind a journalist would ask.
-                You talk, it listens, and it hands back the patterns that were already yours,
-                quoted from your own words, with a name.
-              </p>
-              <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 24px" }}>
-                Then your voice is on paper, and you never start from blank again. Speak your answers
-                if you can. Your voice lives in how you say things, not just what you say.
-              </p>
-              <WhatThisDoes
-                walkaway="Your voice named and quoted back from your own words, plus one thing to post today."
-                time="About three minutes"
-                forwho="Anyone who sounds like a stranger the moment they go public."
-              />
-              <button className="mw-btn" onClick={() => { track("shield_started"); setStep(0); }} style={primaryBtn}>Put my voice on paper (takes 3 minutes)</button>
-              <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 16, fontFamily: SANS }}>
-                No account. Your answers stay on your device, never sent to me. Ramble welcome, nobody's grading this.
-              </p>
-            </div>
-            <figure style={{ margin: 0 }}>
-              <div style={{ borderRadius: 20, overflow: "hidden", boxShadow: "0 18px 44px rgba(11,59,52,.16)", transform: "rotate(1.2deg)" }}>
-                <img src="/media/shield-still.jpg" alt="An artist holding their painting up in front of their face" style={{ width: "100%", display: "block" }} />
-              </div>
-              <figcaption style={{ fontFamily: SANS, fontSize: 13, color: "#9A8F82", marginTop: 12, fontStyle: "italic", textAlign: "center" }}>
-                Your work does the talking. Your voice makes it sound like you.
-              </figcaption>
-            </figure>
+          <section className="mw-fade" style={{ maxWidth: 720, margin: "0 auto", padding: "44px 24px 64px" }}>
+            {/* THE TASK, right under the hero */}
+            <WhatThisDoes
+              walkaway="Your voice named and quoted back from your own words, plus one thing to post today."
+              time="About three minutes"
+              forwho="Anyone who sounds like a stranger the moment they go public."
+            />
+            <button className="mw-btn" onClick={() => { track("shield_started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 34px" }}>Put my voice on paper (takes 3 minutes)</button>
+            <p style={{ fontSize: 14, color: "#9A8F82", margin: "16px 0 0", fontFamily: SANS }}>
+              No account. Your answers stay on your device, never sent to me. Ramble welcome, nobody's grading this.
+            </p>
+
+            {/* THE STORY, below the task */}
+            <div style={{ marginTop: 48, maxWidth: 620 }}>
+            <p style={{ fontSize: 18, lineHeight: 1.7, color: "#5C534B", margin: "0 0 18px" }}>
+              You already have a voice. It's the way you talk about your work when a friend asks and
+              you forget to be nervous. Nobody ever helped you put words to it, so every post starts
+              from a blank page, and blank pages are where the freezing happens.
+            </p>
+            <p style={{ fontSize: 18, lineHeight: 1.7, color: "#5C534B", margin: "0 0 18px" }}>
+              Most AI tools generate a voice for you, and it sounds like everyone else's AI.
+              This one works the other way around. It listens to how you already talk and hands
+              back the patterns that were always yours, quoted from your own words, with a name.
+            </p>
+            <p style={{ fontSize: 18, lineHeight: 1.7, color: INK, fontWeight: 500, margin: 0 }}>
+              Then your voice is on paper, and you never start from blank again. Speak your answers
+              if you can. Your voice lives in how you say things, not just what you say.
+            </p>
           </div>
-        </section>
+          </section>
+        </>
       )}
 
       <div style={{ maxWidth: 660, margin: "0 auto", padding: step === -1 ? "0 24px" : "48px 24px 80px" }}>

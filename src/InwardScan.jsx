@@ -115,7 +115,7 @@ const PATTERNS = {
   hider: {
     name: "The Hider",
     validate:
-      "You built something good, then built a wall around it. Hiding protected you, nobody could judge what nobody saw. It worked too well, that's the only problem with it. Your instinct not to perform is right, researchers even back you on that. The advice you were handed was built for extroverts. The work was never the issue.",
+      "You built something good, then built a wall around it. Hiding protected you, nobody could judge what nobody saw. It worked too well, that's the only problem with it. Your instinct not to perform is right, researchers even back you on that. The advice you were handed was built for people who find promotion easy. The work was never the issue.",
     moments: { excited: "you make the thing, then quietly file it away", publish: "you find a reason not to", praise: "you change the subject" },
     succeed: { with: ["a quiet website or portfolio", "a small newsletter people opt into", "letting other people's words vouch for you"], without: "lives, stories, and daily posting" },
     path: ["voice", "foundation", "roast"],

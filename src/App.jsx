@@ -117,7 +117,7 @@ const STUCK = [
     label: "Marketing is exhausting.",
     path: "Get a plan built under your energy",
     href: "#/plan",
-    why: "You were handed an extrovert's plan. This one hides most of marketing and keeps only what fits your battery.",
+    why: "You were handed a plan built for people who love promotion. This one hides most of marketing and keeps only what fits your battery.",
     today: "Say how much time you can give without resenting it. The plan fits inside that.",
   },
   {
@@ -255,7 +255,7 @@ export default function BrandingWhisperer() {
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
     // ── CALL 1: The brand foundation, grounded in the psychology library. ──
-    const systemPrompt = `You are a warm, perceptive guide, half brand strategist, half therapist, helping a nervous person see the brand that already exists in their own answers. Treat them like a friend, not a client. They're intimidated by marketing, and most marketing advice was written for extroverts. Your craft: everything you say is quietly grounded in real psychology, but it reads like a gentle observation about them, never a lesson.
+    const systemPrompt = `You are a warm, perceptive guide, half brand strategist, half therapist, helping a nervous person see the brand that already exists in their own answers. Treat them like a friend, not a client. They're intimidated by marketing, and most marketing advice was written for people who find self-promotion easy. Your craft: everything you say is quietly grounded in real psychology, but it reads like a gentle observation about them, never a lesson.
 
 ${PSYCH_LIBRARY}
 
@@ -458,60 +458,65 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               <source src="/media/hero.mp4" type="video/mp4" />
             </video>
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(175deg, rgba(11,59,52,.72) 0%, rgba(11,59,52,.55) 45%, rgba(11,59,52,.85) 100%)" }} />
-            <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "56px 24px 96px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 64 }}>
+            <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "44px 24px 60px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 44 }}>
                 <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
                 <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>
                   Branding Inward
                 </span>
               </div>
-              <h1 style={{ fontSize: "clamp(42px, 7vw, 72px)", lineHeight: 1.04, margin: "0 0 24px", fontWeight: 350, color: CREAM, letterSpacing: "-0.01em" }}>
+              <h1 style={{ fontSize: "clamp(36px, 6.2vw, 58px)", lineHeight: 1.05, margin: "0 0 20px", fontWeight: 350, color: CREAM, letterSpacing: "-0.01em" }}>
                 Get known.<br />
                 <span style={{ display: "inline-block" }}>
                   <span style={{ fontStyle: "italic", fontWeight: 400, color: BUTTER }}>Without performing.</span>
-                  <UnderlineStroke width={300} />
+                  <UnderlineStroke width={280} />
                 </span>
               </h1>
-              <p style={{ fontSize: 19, lineHeight: 1.65, color: "rgba(251,247,240,.88)", maxWidth: 540, margin: "0 0 38px" }}>
-                For people who'd rather let the work talk. The way in is six small questions, no marketing
-                words needed, and you'll walk away knowing the real reason people choose you.
+              <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.88)", maxWidth: 500, margin: "0 0 30px" }}>
+                Six small questions, no marketing words, and you'll know the real reason people choose you.
               </p>
               <button className="mw-btn" onClick={() => { track("started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Start (takes 3 minutes)</button>
-              <p style={{ fontSize: 14, color: "rgba(251,247,240,.6)", marginTop: 18, fontFamily: SANS }}>
+              <p style={{ fontSize: 14, color: "rgba(251,247,240,.6)", marginTop: 16, fontFamily: SANS }}>
                 No account. One question at a time, I promise.
-              </p>
-              <p style={{ fontSize: 15, marginTop: 10, fontFamily: SANS }}>
-                <a href="#/scan" onClick={() => track("opened_scan")} style={{ color: "#F7D06B", textDecoration: "none", fontWeight: 600 }}>
-                  Not sure where to start? Find your inward pattern, 8 taps →
-                </a>
               </p>
             </div>
           </section>
 
           {/* ── WHO IT'S FOR: inclusive, by the feeling, never by a label. Lands the distinction fast. ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "48px 24px 8px" }}>
-            <div style={{ background: ACCENT_TINT, border: "1px solid #DCEFEA", borderRadius: 20, padding: "34px 34px 30px" }}>
-              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 10px" }}>Who it's for</p>
-              <h2 style={{ fontSize: "clamp(24px, 3.4vw, 32px)", lineHeight: 1.25, margin: "0 0 22px", fontWeight: 350 }}>
-                This is for you if putting yourself out there <span style={{ fontStyle: "italic", color: ACCENT }}>feels like a cost.</span>
-              </h2>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "12px 28px", marginBottom: 22 }}>
-                {[
-                  "Self-promotion makes you feel a little gross.",
-                  "You'd rather be found than be seen.",
-                  "You freeze when it's time to post.",
-                  "You want to sound like yourself, not like everyone else.",
-                ].map((t, i) => (
-                  <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                    <span style={{ flexShrink: 0, color: ACCENT, fontWeight: 700, fontSize: 18, lineHeight: 1.4 }}>&#10003;</span>
-                    <span style={{ fontSize: 17, lineHeight: 1.45, color: INK }}>{t}</span>
-                  </div>
-                ))}
+          {/* ── WHO IT'S FOR: the "for the quiet ones" belief + the checklist, blended, with the two photos ── */}
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 8px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 22, alignItems: "center", marginBottom: 28 }}>
+              <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "3/4", boxShadow: "0 16px 40px rgba(11,59,52,.14)" }}>
+                <img src="/media/pottery-hands.jpg" alt="Hands shaping clay on a pottery wheel" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               </div>
-              <p style={{ fontSize: 16, lineHeight: 1.65, color: "#5C534B", margin: 0, fontFamily: SANS }}>
-                You don't have to call yourself an introvert, or anything at all. Makers, coaches, writers, musicians, quiet experts, first-timers, seasoned pros. If being visible feels like a cost, you're in the right place.
-              </p>
+              <div style={{ padding: "8px 6px" }}>
+                <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 12px" }}>Who it's for</p>
+                <p style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.25, margin: 0, fontWeight: 350 }}>
+                  Most marketing advice assumes self-promotion comes easy.<br />
+                  <span style={{ fontStyle: "italic", color: ACCENT }}>This place is for when it doesn't.</span>
+                </p>
+              </div>
+              <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "3/4", boxShadow: "0 16px 40px rgba(11,59,52,.14)" }}>
+                <img src="/media/writing-notebook.jpg" alt="A hand writing in a notebook by a window, coffee and glasses nearby" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", animationDelay: "-12s" }} />
+              </div>
             </div>
+            <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".04em", textTransform: "uppercase", color: "#857B70", fontWeight: 600, margin: "0 0 14px" }}>This is for you if&hellip;</p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "12px 28px", marginBottom: 18 }}>
+              {[
+                "Self-promotion makes you feel a little gross.",
+                "You'd rather be found than be seen.",
+                "You freeze when it's time to post.",
+                "You want to sound like yourself, not like everyone else.",
+              ].map((t, i) => (
+                <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                  <span style={{ flexShrink: 0, color: ACCENT, fontWeight: 700, fontSize: 18, lineHeight: 1.4 }}>&#10003;</span>
+                  <span style={{ fontSize: 17, lineHeight: 1.45, color: INK }}>{t}</span>
+                </div>
+              ))}
+            </div>
+            <p style={{ fontSize: 16, lineHeight: 1.65, color: "#5C534B", margin: 0, fontFamily: SANS }}>
+              You don't have to call yourself an introvert, or anything at all. Makers, coaches, writers, musicians, professors, quiet experts, first-timers, seasoned pros. If being visible feels like a cost, you're in the right place.
+            </p>
           </section>
 
           {/* ── WELCOME BACK: only for visitors who chose to keep their pattern on this device ── */}
@@ -551,34 +556,12 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </section>
           )}
 
-          {/* ── EDITORIAL BAND: photos + the belief line ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "72px 24px 8px" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 22, alignItems: "center" }}>
-              <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "3/4", boxShadow: "0 16px 40px rgba(11,59,52,.14)" }}>
-                <img src="/media/pottery-hands.jpg" alt="Hands shaping clay on a pottery wheel" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-              </div>
-              <div style={{ padding: "12px 6px" }}>
-                <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>For the quiet ones</p>
-                <p style={{ fontSize: "clamp(24px, 3.4vw, 32px)", lineHeight: 1.25, margin: 0, fontWeight: 350 }}>
-                  Most marketing advice was written for extroverts.<br />
-                  <span style={{ fontStyle: "italic", color: ACCENT }}>This place isn't.</span>
-                </p>
-                <p style={{ fontSize: 16, lineHeight: 1.6, color: "#5C534B", margin: "16px 0 0", fontFamily: SANS }}>
-                  Free little tools for makers, musicians, coaches, consultants, writers, professors,
-                  and quiet experts of every kind, anyone who loves the work and hates the performing.
-                  Promotion without performing, depth over reach.
-                </p>
-              </div>
-              <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "3/4", boxShadow: "0 16px 40px rgba(11,59,52,.14)" }}>
-                <img src="/media/quiet-desk.jpg" alt="A quiet chair in morning light with coffee and a notebook" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", animationDelay: "-12s" }} />
-              </div>
-            </div>
-          </section>
+          {/* The "for the quiet ones" editorial band was merged into the "Who it's for" section above. */}
 
           {/* ── STUCK PICKER: name your blocker in one tap, get routed instantly ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "64px 24px 8px" }}>
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 8px" }}>
             <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The fast lane</p>
-            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 34px)", lineHeight: 1.2, margin: "0 0 22px", fontWeight: 350 }}>
+            <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 22px", fontWeight: 350 }}>
               Where do you <span style={{ fontStyle: "italic", color: ACCENT }}>get stuck?</span>
             </h2>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
@@ -611,15 +594,20 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   ) : (
                     <button className="mw-btn" onClick={() => { track("started"); setStep(0); window.scrollTo({ top: 0 }); }} style={primaryBtn}>{s.path} →</button>
                   )}
+                  <div style={{ marginTop: 16 }}>
+                    <button onClick={() => { track("stuck_see_all"); document.getElementById("framework")?.scrollIntoView({ behavior: "smooth" }); }} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontFamily: SANS, fontSize: 14, color: ACCENT, fontWeight: 600 }}>
+                      Not quite it? See all five tools →
+                    </button>
+                  </div>
                 </div>
               );
             })()}
           </section>
 
           {/* ── THE SCIENCE BAND: the research that vindicates quiet people. Static, cited, no AI. ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "64px 24px 8px" }}>
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "48px 24px 8px" }}>
             <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The science of quiet branding</p>
-            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 34px)", lineHeight: 1.2, margin: "0 0 22px", fontWeight: 350 }}>
+            <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 20px", fontWeight: 350 }}>
               Everything here is built on research, <span style={{ fontStyle: "italic", color: ACCENT }}>not vibes.</span>
             </h2>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
@@ -634,11 +622,6 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   fact: "About 95% of your future buyers aren't ready to buy today. A brand's real job is being quietly remembered later, and simply showing up regularly builds trust on its own.",
                   source: "Decades of buyer-behavior research",
                 },
-                {
-                  myth: "“Small and handmade looks amateur.”",
-                  fact: "Buyers pay more for handmade because it feels made with love, especially as gifts. One person at a kitchen table is the premium, not the problem.",
-                  source: "Consumer research on handmade goods",
-                },
               ].map((c, i) => (
                 <div key={i} style={{ ...plainCard, marginBottom: 0, display: "flex", flexDirection: "column", gap: 10 }}>
                   <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: CORAL, fontWeight: 700, margin: 0 }}>The myth</p>
@@ -652,28 +635,25 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           </section>
 
           {/* ── THE INWARD FRAMEWORK: the ordered spine, so nothing reads as scattered ── */}
-          <section style={{ maxWidth: 820, margin: "0 auto", padding: "56px 24px 72px" }}>
+          <section id="framework" style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 20px", scrollMarginTop: 20 }}>
             <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The Inward Framework</p>
-            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 34px)", lineHeight: 1.2, margin: "0 0 10px", fontWeight: 350 }}>
+            <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 10px", fontWeight: 350 }}>
               Five steps. <span style={{ fontStyle: "italic", color: ACCENT }}>One clear you at the end.</span>
             </h2>
-            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 28px", fontFamily: SANS, maxWidth: 600 }}>
+            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 24px", fontFamily: SANS, maxWidth: 600 }}>
               Not sure where you're stuck? Start with the Scan. Otherwise jump to any step. They build on each other, and everything you find collects into your Inward Brief.
             </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 6, scrollSnapType: "x proximity", WebkitOverflowScrolling: "touch" }}>
               {FRAMEWORK.map((s) => {
                 const isFoundation = s.key === "foundation";
                 const inner = (
                   <>
-                    <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: "50%", background: INK_TEAL, color: BUTTER, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 20, fontWeight: 500 }}>{s.n}</span>
-                    <span style={{ flex: 1 }}>
-                      <span style={{ display: "block", fontSize: 20, fontWeight: 400, color: INK, marginBottom: 2 }}>{s.name}</span>
-                      <span style={{ display: "block", fontSize: 15, color: "#857B70", fontFamily: SANS }}>{s.blurb}</span>
-                    </span>
-                    <span style={{ color: ACCENT, fontWeight: 700, fontFamily: SANS, fontSize: 20, flexShrink: 0 }}>&rarr;</span>
+                    <span style={{ flexShrink: 0, width: 38, height: 38, borderRadius: "50%", background: INK_TEAL, color: BUTTER, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 19, fontWeight: 500 }}>{s.n}</span>
+                    <span style={{ display: "block", fontSize: 16, fontWeight: 400, color: INK, margin: "12px 0 4px", lineHeight: 1.25 }}>{s.name}</span>
+                    <span style={{ display: "block", fontSize: 13, color: "#857B70", fontFamily: SANS, lineHeight: 1.4 }}>{s.blurb}</span>
                   </>
                 );
-                const cardStyle = { display: "flex", alignItems: "center", gap: 18, textAlign: "left", width: "100%", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "18px 22px", boxShadow: "0 8px 24px rgba(11,59,52,.05)", cursor: "pointer", fontFamily: SERIF };
+                const cardStyle = { flexShrink: 0, width: 158, display: "block", textAlign: "left", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "16px 16px", boxShadow: "0 8px 24px rgba(11,59,52,.05)", cursor: "pointer", fontFamily: SERIF, scrollSnapAlign: "start" };
                 return isFoundation ? (
                   <button key={s.key} className="mw-card-hover" onClick={() => { track("started"); setStep(0); window.scrollTo({ top: 0 }); }} style={cardStyle}>{inner}</button>
                 ) : (
