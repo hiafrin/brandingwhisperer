@@ -80,7 +80,7 @@ export default function AboutInward() {
           I'm still building and optimizing all of this, so your feedback is honestly how it gets better.
         </p>
         <p style={{ fontSize: 18, fontStyle: "italic", color: ACCENT, margin: "26px 0 0" }}>
-          &mdash; S. Afrin
+          &mdash; Sabiha Afrin
         </p>
       </div>
 
