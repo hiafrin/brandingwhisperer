@@ -77,6 +77,7 @@ export default function AboutInward() {
           One honest thing: I'm not a professional web developer. I'm just someone obsessed with making
           things, a pot on a wheel, an app, a site, whatever's in front of me. I'm learning AI as I build
           these, so if something breaks or reads off, I'd genuinely appreciate the grace, and a quick heads-up.
+          I'm still building and optimizing all of this, so your feedback is honestly how it gets better.
         </p>
         <p style={{ fontSize: 18, fontStyle: "italic", color: ACCENT, margin: "26px 0 0" }}>
           &mdash; S. Afrin
