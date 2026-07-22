@@ -479,6 +479,9 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               <p style={{ fontSize: 14, color: "rgba(251,247,240,.6)", marginTop: 16, fontFamily: SANS }}>
                 No account. One question at a time, I promise.
               </p>
+              <p style={{ fontSize: 13, color: "rgba(251,247,240,.5)", marginTop: 8, fontFamily: SANS }}>
+                AI-powered, guided by a real strategist's framework.
+              </p>
             </div>
           </section>
 
