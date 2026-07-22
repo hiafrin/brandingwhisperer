@@ -559,7 +559,12 @@ export function BuddyForm() {
 
   async function submit(e) {
     e.preventDefault();
-    if (!name.trim() || !email.trim()) { setErr("Your name and email, so I can introduce you."); return; }
+    const noName = !name.trim();
+    const badEmail = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    if (noName || badEmail) {
+      setErr(noName && badEmail ? "Your name and email, so I can introduce you." : noName ? "Your name, so I can introduce you." : "A valid email, so I can reach you.");
+      return;
+    }
     setSending(true); setErr(null);
     const summary = `BUDDY REQUEST\nName: ${name.trim()}\nWants: ${want}\nAbout: ${about.trim()}`;
     try {

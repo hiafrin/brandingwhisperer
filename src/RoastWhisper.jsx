@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, CORAL, ACCENT_TINT,
@@ -53,6 +53,13 @@ export default function RoastWhisper() {
   const [reveal, setReveal] = useState(0);
   const [copied, setCopied] = useState(false);
   const [level, setLevel] = useState("friend");
+  const resultRef = useRef(null);
+
+  // When the roast finishes, bring the result card to the top so it's seen right
+  // away (the tall intro unmounting otherwise leaves the scroll near the footer).
+  useEffect(() => {
+    if (result && resultRef.current) resultRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [result]);
 
   const { listening, voiceSupported, toggleMic, setBase, stopIfListening } = useVoiceInput(text, setText);
 
@@ -253,7 +260,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
 
         {/* RESULT — Strong first (what to keep), then the gentle fixes one at a time */}
         {result && !loading && hero && (
-          <div className="mw-fade">
+          <div className="mw-fade" ref={resultRef} style={{ scrollMarginTop: 16 }}>
             <p style={miniLabel}>Your gentle roast</p>
             <div className="mw-deal" style={{ ...heroCard, marginTop: 8, background: VERDICT_STYLE[hero.kind].tint, borderLeftColor: VERDICT_STYLE[hero.kind].border }}>
               <DropQuote color={VERDICT_STYLE[hero.kind].ink} />
