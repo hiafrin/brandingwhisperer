@@ -41,10 +41,12 @@ export default function AboutInward() {
             <div>
               <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: BUTTER, fontWeight: 600, margin: "0 0 14px" }}>About the strategist</p>
               <h1 style={{ fontSize: "clamp(30px, 4.6vw, 46px)", lineHeight: 1.12, margin: "0 0 18px", fontWeight: 350, color: CREAM }}>
-                Digital media is a channel.<br /><span style={{ fontStyle: "italic", color: BUTTER }}>Not a destination.</span>
+                Digital media is a channel.<br />
+                <span style={{ fontStyle: "italic", color: BUTTER }}>Not a destination.</span><br />
+                Build a brand, <span style={{ fontStyle: "italic", color: BUTTER }}>not just a feed.</span>
               </h1>
               <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.85)", margin: 0 }}>
-                I'm Afrin. I build these tools, and this is why they work the way they do.
+                I'm the S. Afrin at the bottom of every page, and no, no relation to the nasal spray. I build these tools, and this is why they work the way they do.
               </p>
             </div>
           </div>
@@ -78,9 +80,6 @@ export default function AboutInward() {
         </p>
         <p style={{ fontSize: 18, fontStyle: "italic", color: ACCENT, margin: "26px 0 0" }}>
           &mdash; S. Afrin
-        </p>
-        <p style={{ fontFamily: SANS, fontSize: 14, lineHeight: 1.6, color: "#9A8F82", margin: "10px 0 0" }}>
-          Yes, the same S. Afrin signing the bottom of every page. And no, no relation to the nasal spray. Different Afrin.
         </p>
       </div>
 
