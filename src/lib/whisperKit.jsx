@@ -365,7 +365,7 @@ export function SiteFooter() {
           Built by a real branding professional, <span style={{ fontStyle: "italic", color: BUTTER }}>not another tech company.</span>
         </p>
         <p style={{ fontSize: 15, lineHeight: 1.65, color: "rgba(251,247,240,.72)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
-          A decade of agency work, from before AI or social media existed, made free for people who never came from marketing.
+          More than a decade in brand marketing, agency-side then client-side, made free for people who never came from marketing.
         </p>
         <p style={{ fontSize: 15, lineHeight: 1.9, margin: "0 0 20px", fontFamily: SANS }}>
           <a href="#/about" style={link}>Read my story</a>
