@@ -42,8 +42,7 @@ export default function AboutInward() {
               <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: BUTTER, fontWeight: 600, margin: "0 0 14px" }}>About the strategist</p>
               <h1 style={{ fontSize: "clamp(30px, 4.6vw, 46px)", lineHeight: 1.12, margin: "0 0 18px", fontWeight: 350, color: CREAM }}>
                 Digital media is a channel.<br />
-                <span style={{ fontStyle: "italic", color: BUTTER }}>Not a destination.</span><br />
-                Build a brand, <span style={{ fontStyle: "italic", color: BUTTER }}>not just a feed.</span>
+                <span style={{ fontStyle: "italic", color: BUTTER }}>Not a destination.</span>
               </h1>
               <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.85)", margin: 0 }}>
                 I'm the S. Afrin at the bottom of every page, and no, no relation to the nasal spray. I'm a brand strategist, and I built these to help you take the first step, and take it with confidence.
