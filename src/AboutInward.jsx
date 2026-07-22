@@ -46,7 +46,7 @@ export default function AboutInward() {
                 Build a brand, <span style={{ fontStyle: "italic", color: BUTTER }}>not just a feed.</span>
               </h1>
               <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.85)", margin: 0 }}>
-                I'm the S. Afrin at the bottom of every page, and no, no relation to the nasal spray. I'm a brand strategist, and I built these to do for you, for free, what I'd do sitting across the table from you.
+                I'm the S. Afrin at the bottom of every page, and no, no relation to the nasal spray. I'm a brand strategist, and I built these to help you take the first step, and take it with confidence.
               </p>
             </div>
           </div>
