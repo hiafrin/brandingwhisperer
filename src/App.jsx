@@ -501,7 +501,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               </div>
             </div>
             <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".04em", textTransform: "uppercase", color: "#857B70", fontWeight: 600, margin: "0 0 14px" }}>This is for you if&hellip;</p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "12px 28px", marginBottom: 18 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "14px 40px", marginBottom: 18 }}>
               {[
                 "Self-promotion makes you feel a little gross.",
                 "You'd rather be found than be seen.",
@@ -509,7 +509,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 "You want to sound like yourself, not like everyone else.",
               ].map((t, i) => (
                 <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                  <span style={{ flexShrink: 0, color: ACCENT, fontWeight: 700, fontSize: 18, lineHeight: 1.4 }}>&#10003;</span>
+                  <span style={{ flexShrink: 0, color: INK_TEAL, fontWeight: 700, fontSize: 18, lineHeight: 1.4 }}>&#10003;</span>
                   <span style={{ fontSize: 17, lineHeight: 1.45, color: INK }}>{t}</span>
                 </div>
               ))}
