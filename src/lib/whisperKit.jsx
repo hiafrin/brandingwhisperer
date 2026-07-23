@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Fragment } from "react";
 
 // ── Shared design tokens, used by every whisper page ──
 export const ACCENT = "#0F7C77";      // warm teal, the primary (teal, but blue kept just under green so it stays warm, not cyan)
@@ -317,10 +317,10 @@ export function ToolsMenu() {
   }, [open]);
 
   const items = [
-    ...FRAMEWORK.map((s) => ({ href: s.href, name: s.name, cta: `Step ${s.n} · ${s.blurb}`, dot: (TOOLS[s.key] && TOOLS[s.key].accent) || ACCENT })),
-    { href: "#/brief", name: "Your Inward Brief", cta: "Everything you've found, in one place", dot: BUTTER },
-    { href: "/resources", name: "Resources", cta: "How-tos for getting known without performing", dot: ACCENT },
-    { href: "#/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
+    ...FRAMEWORK.map((s) => ({ section: "The Inward Framework", href: s.href, name: s.name, cta: `Step ${s.n} · ${s.blurb}`, dot: (TOOLS[s.key] && TOOLS[s.key].accent) || ACCENT })),
+    { section: "The Inward Framework", href: "#/brief", name: "Your Inward Brief", cta: "Everything you've found, in one place", dot: BUTTER },
+    { section: "More", href: "/resources", name: "Resources", cta: "How-tos for getting known without performing", dot: ACCENT },
+    { section: "More", href: "#/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
   ];
 
   return (
@@ -333,16 +333,24 @@ export function ToolsMenu() {
       </button>
       {open && (
         <div role="menu" className="mw-menu-panel" style={{ position: "absolute", top: 52, right: 0, width: "min(300px, calc(100vw - 32px))", background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, boxShadow: "0 16px 40px rgba(11,59,52,.22)", padding: 8 }}>
-          {items.map((t, i) => (
-            <a key={i} href={t.href} onClick={() => setOpen(false)} role="menuitem" className="mw-menu-row"
-              style={{ display: "flex", alignItems: "flex-start", gap: 12, textDecoration: "none", color: INK, padding: "11px 12px", borderRadius: 10, borderTop: i ? "1px solid #F4EFE6" : "none" }}>
-              <span style={{ flexShrink: 0, width: 9, height: 9, borderRadius: "50%", background: t.dot, marginTop: 6 }} />
-              <span>
-                <span style={{ display: "block", fontSize: 15, fontWeight: 600, color: INK }}>{t.name}</span>
-                <span style={{ display: "block", fontSize: 12.5, color: "#857B70", marginTop: 2 }}>{t.cta}</span>
-              </span>
-            </a>
-          ))}
+          {items.map((t, i) => {
+            const newSection = i === 0 || items[i - 1].section !== t.section;
+            return (
+              <Fragment key={i}>
+                {newSection && (
+                  <p style={{ margin: i ? "10px 0 2px" : "2px 0 2px", padding: "6px 12px 4px", fontSize: 11, letterSpacing: ".13em", textTransform: "uppercase", color: "#B0A79A", fontWeight: 700, borderTop: i ? "1px solid #EFE7DA" : "none" }}>{t.section}</p>
+                )}
+                <a href={t.href} onClick={() => setOpen(false)} role="menuitem" className="mw-menu-row"
+                  style={{ display: "flex", alignItems: "flex-start", gap: 12, textDecoration: "none", color: INK, padding: "11px 12px", borderRadius: 10, borderTop: !newSection ? "1px solid #F4EFE6" : "none" }}>
+                  <span style={{ flexShrink: 0, width: 9, height: 9, borderRadius: "50%", background: t.dot, marginTop: 6 }} />
+                  <span>
+                    <span style={{ display: "block", fontSize: 15, fontWeight: 600, color: INK }}>{t.name}</span>
+                    <span style={{ display: "block", fontSize: 12.5, color: "#857B70", marginTop: 2 }}>{t.cta}</span>
+                  </span>
+                </a>
+              </Fragment>
+            );
+          })}
         </div>
       )}
     </div>

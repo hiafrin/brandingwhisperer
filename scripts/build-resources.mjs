@@ -89,6 +89,7 @@ const STYLE = `
   article .prose strong { font-weight:600; }
   article .prose em { font-style:italic; }
   article .prose blockquote { margin:0 0 20px; padding:4px 0 4px 20px; border-left:3px solid ${BUTTER}; font-style:italic; color:#5C534B; }
+  .disclosure { font-family:'Inter',sans-serif; font-size:13px; line-height:1.55; color:#9A8F82; font-style:italic; background:${ACCENT_TINT}; border-radius:10px; padding:12px 16px; margin:0 0 32px; }
   article .prose code { font-family:'Inter',sans-serif; font-size:.9em; background:${ACCENT_TINT}; padding:2px 6px; border-radius:5px; }
   /* CTA + signup */
   .cta { background:${ACCENT_TINT}; border:1px solid #DCEFEB; border-radius:16px; padding:24px 26px; margin:44px 0; }
@@ -232,7 +233,8 @@ function renderPost(p) {
       <article>
         <p class="eyebrow" style="margin-bottom:12px">${esc(p.tag || "Writing")}</p>
         <h1 class="page">${esc(p.title)}</h1>
-        <p class="meta" style="margin:0 0 32px">${fmtDate(p.date)} &middot; ${p.reading}</p>
+        <p class="meta" style="margin:0 0 ${p.affiliate === "true" ? "20px" : "32px"}">${fmtDate(p.date)} &middot; ${p.reading}</p>
+        ${p.affiliate === "true" ? `<p class="disclosure">Some links here are affiliate links. I may earn a small commission at no cost to you, and I only ever recommend tools I actually use.</p>` : ""}
         <div class="prose">${p.html}</div>
       </article>
       <div class="cta">
