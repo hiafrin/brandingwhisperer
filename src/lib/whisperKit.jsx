@@ -319,6 +319,7 @@ export function ToolsMenu() {
   const items = [
     ...FRAMEWORK.map((s) => ({ href: s.href, name: s.name, cta: `Step ${s.n} · ${s.blurb}`, dot: (TOOLS[s.key] && TOOLS[s.key].accent) || ACCENT })),
     { href: "#/brief", name: "Your Inward Brief", cta: "Everything you've found, in one place", dot: BUTTER },
+    { href: "/resources", name: "Resources", cta: "How-tos for getting known without performing", dot: ACCENT },
     { href: "#/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
   ];
 
@@ -371,6 +372,8 @@ export function SiteFooter() {
           These aren't generic AI answers. Real questions from a real strategist, delivered by AI so they reach you in minutes, for free.
         </p>
         <p style={{ fontSize: 15, lineHeight: 1.9, margin: "0 0 20px", fontFamily: SANS }}>
+          <a href="/resources" style={link}>Resources</a>
+          <span style={sep}>&middot;</span>
           <a href="#/about" style={link}>Read my story</a>
           <span style={sep}>&middot;</span>
           <a href="https://www.linkedin.com/in/sabihaafrin" target="_blank" rel="noopener noreferrer" style={link}>LinkedIn</a>

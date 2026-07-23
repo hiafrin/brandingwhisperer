@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/build-resources.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
+    "marked": "^18.0.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
