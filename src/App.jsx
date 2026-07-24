@@ -10,6 +10,7 @@ import {
   TOOLS, FrameworkStrip, FRAMEWORK, ToolsMenu, SiteFooter,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
+import InwardScan from "./InwardScan.jsx";
 
 // ── The six questions — engineered to extract psychological raw material
 //    (stories, sensory detail, identity, refusals, repeatable signatures),
@@ -92,7 +93,7 @@ const STUCK = [
     key: "different",
     label: "I don't know what makes me different.",
     path: "Start with your foundation",
-    href: null,
+    href: "#/foundation",
     why: "Six questions find the un-copyable thing hiding in your own story, not a claim you have to invent.",
     today: "Answer just one: where were you the moment this started?",
   },
@@ -132,7 +133,7 @@ const STUCK = [
     key: "ideas",
     label: "I have too many ideas.",
     path: "Find the one word they all circle",
-    href: null,
+    href: "#/foundation",
     why: "Too many ideas is a focus problem in disguise. Your foundation names the word to own, and the rest gets quieter.",
     today: "Answer just one: what do you want people to think when your name comes up?",
   },
@@ -148,7 +149,10 @@ const PATTERN_HOME = {
 };
 
 export default function BrandingWhisperer() {
-  const [step, setStep] = useState(-1);
+  // The home (#/) is the landing (step -1) with the Scan embedded; the six
+  // questions live at #/foundation (step 0+). Same engine, driven by the hash.
+  const [step, setStep] = useState(() => (window.location.hash === "#/foundation" ? 0 : -1));
+  const scanRef = useRef(null);
   const [storedPattern, setStoredPattern] = useState(() => recall("pattern"));
   const [energy, setEnergy] = useState(null);
   const [stuck, setStuck] = useState(null);
@@ -224,6 +228,17 @@ export default function BrandingWhisperer() {
   useEffect(() => {
     if (step >= 0 && step < QUESTIONS.length && inputRef.current) inputRef.current.focus();
   }, [step]);
+
+  // Keep the view in sync with the hash: #/foundation shows the six questions,
+  // everything else (#/, #/scan) shows the landing with the Scan embedded.
+  useEffect(() => {
+    const sync = () => {
+      if (window.location.hash === "#/foundation") setStep((s) => (s === -1 ? 0 : s));
+      else setStep(-1);
+    };
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
 
   // Auto-save the foundation result to THIS device (never sent) for the Inward Brief.
   useEffect(() => {
@@ -472,17 +487,26 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   <UnderlineStroke width={280} />
                 </span>
               </h1>
-              <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.88)", maxWidth: 500, margin: "0 0 30px" }}>
-                Six small questions, no marketing words, and you'll know the real reason people choose you.
+              <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.88)", maxWidth: 520, margin: "0 0 30px" }}>
+                A five-step framework for building a brand when self-promotion drains you. Start with a one-minute scan to find where you get stuck.
               </p>
-              <button className="mw-btn" onClick={() => { track("started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Start (takes 3 minutes)</button>
+              <button className="mw-btn" onClick={() => { track("start_scan"); scanRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Take the 1-minute scan</button>
               <p style={{ fontSize: 14, color: "rgba(251,247,240,.6)", marginTop: 16, fontFamily: SANS }}>
-                No account. One question at a time, I promise.
+                No account, no typing. Eight taps to see where you get stuck.
               </p>
               <p style={{ fontSize: 13, color: "rgba(251,247,240,.5)", marginTop: 8, fontFamily: SANS }}>
                 AI-powered, guided by a real strategist's framework.
               </p>
             </div>
+          </section>
+
+          {/* ── STEP 1, THE SCAN: embedded right on the home so the scan is the front door ── */}
+          <section ref={scanRef} style={{ maxWidth: 720, margin: "0 auto", padding: "48px 24px 8px", scrollMarginTop: 16 }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>Step 1 · Start here</p>
+            <h2 style={{ fontSize: "clamp(26px, 4vw, 36px)", lineHeight: 1.15, margin: "0 0 20px", fontWeight: 350 }}>
+              Everyone gets stuck <span style={{ fontStyle: "italic", color: ACCENT }}>in their own particular way.</span>
+            </h2>
+            <InwardScan embedded />
           </section>
 
           {/* ── WHO IT'S FOR: inclusive, by the feeling, never by a label. Lands the distinction fast. ── */}
@@ -643,12 +667,11 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 10px", fontWeight: 350 }}>
               Five steps. <span style={{ fontStyle: "italic", color: ACCENT }}>One clear you at the end.</span>
             </h2>
-            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 24px", fontFamily: SANS, maxWidth: 600 }}>
-              Not sure where you're stuck? Start with the Scan. Otherwise jump to any step. They build on each other, and everything you find collects into your Inward Brief.
+            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 24px", fontFamily: SANS, maxWidth: 620 }}>
+              Five small steps, in order: see where you get stuck, find what you're really about, put your voice on paper, get a plan that fits your energy, and refine what you post. Do them in sequence or jump to any one. Everything you find collects into your Inward Brief.
             </p>
             <div style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 6, scrollSnapType: "x proximity", WebkitOverflowScrolling: "touch" }}>
               {FRAMEWORK.map((s) => {
-                const isFoundation = s.key === "foundation";
                 const inner = (
                   <>
                     <span style={{ flexShrink: 0, width: 38, height: 38, borderRadius: "50%", background: INK_TEAL, color: BUTTER, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 19, fontWeight: 500 }}>{s.n}</span>
@@ -657,9 +680,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   </>
                 );
                 const cardStyle = { flexShrink: 0, width: 158, display: "block", textAlign: "left", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "16px 16px", boxShadow: "0 8px 24px rgba(11,59,52,.05)", cursor: "pointer", fontFamily: SERIF, scrollSnapAlign: "start" };
-                return isFoundation ? (
-                  <button key={s.key} className="mw-card-hover" onClick={() => { track("started"); setStep(0); window.scrollTo({ top: 0 }); }} style={cardStyle}>{inner}</button>
-                ) : (
+                return (
                   <a key={s.key} href={s.href} onClick={() => track("opened_" + s.key)} className="mw-card-hover" style={cardStyle}>{inner}</a>
                 );
               })}

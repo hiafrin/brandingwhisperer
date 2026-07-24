@@ -220,8 +220,8 @@ export function DoodleScan({ color = ACCENT, size = 44 }) {
 //    scan's routing, and the NextTools bridge all read from here, so a tool is
 //    described in exactly one place. ──
 export const TOOLS = {
-  scan: { key: "scan", href: "#/scan", name: "The inward scan", pain: "I don't even know where I'm stuck, let alone where to start.", cta: "Find your pattern, 8 taps", accent: BUTTER, Doodle: DoodleScan },
-  foundation: { key: "foundation", href: "#/", name: "The six questions", pain: "I don't know what actually makes me different.", cta: "Find what you're really about", accent: ACCENT, Doodle: DoodleBubble },
+  scan: { key: "scan", href: "#/", name: "The inward scan", pain: "I don't even know where I'm stuck, let alone where to start.", cta: "Find your pattern, 8 taps", accent: BUTTER, Doodle: DoodleScan },
+  foundation: { key: "foundation", href: "#/foundation", name: "The six questions", pain: "I don't know what actually makes me different.", cta: "Find what you're really about", accent: ACCENT, Doodle: DoodleBubble },
   voice: { key: "voice", href: "#/shield", name: "Your brand voice", pain: "Posting feels like exposing myself, not my work.", cta: "Hear the voice you already have", accent: ACCENT, Doodle: DoodleShield },
   roast: { key: "roast", href: "#/roast", name: "The gentle roast", pain: "I wrote the post. Then I deleted it, it didn't sound like me.", cta: "Get it read, kindly", accent: CORAL, Doodle: DoodleFlame },
   plan: { key: "plan", href: "#/plan", name: "The quieter plan", pain: "I can't post every day. Honestly, I don't want to.", cta: "Find the plan you won't dread", accent: ACCENT, Doodle: DoodleCompass },
@@ -260,8 +260,8 @@ export function NextTools({ current }) {
 // ── THE INWARD FRAMEWORK: the ordered spine. One source of truth for the
 //    numbering, the strip, the menu, and the brief. ──
 export const FRAMEWORK = [
-  { n: 1, key: "scan", href: "#/scan", name: "The Inward Scan", short: "Scan", blurb: "See how you get stuck." },
-  { n: 2, key: "foundation", href: "#/", name: "What you're really about", short: "Foundation", blurb: "Six questions to your core." },
+  { n: 1, key: "scan", href: "#/", name: "The Inward Scan", short: "Scan", blurb: "See how you get stuck." },
+  { n: 2, key: "foundation", href: "#/foundation", name: "What you're really about", short: "Foundation", blurb: "Six questions to your core." },
   { n: 3, key: "voice", href: "#/shield", name: "Your Brand Voice", short: "Voice", blurb: "The voice you already have." },
   { n: 4, key: "plan", href: "#/plan", name: "The Quieter Plan", short: "Plan", blurb: "Your playbook, minus the dread." },
   { n: 5, key: "roast", href: "#/roast", name: "The Gentle Roast", short: "Roast", blurb: "Refine what you actually post." },

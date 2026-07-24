@@ -162,7 +162,7 @@ const PATTERNS = {
 // Tie-break toward the gentler, more self-protective read.
 const TIE_ORDER = ["hider", "deleter", "perfectionist", "scatterer", "pusher"];
 
-export default function InwardScan() {
+export default function InwardScan({ embedded = false }) {
   const [step, setStep] = useState(-1);
   const [votes, setVotes] = useState([]);
   const [copied, setCopied] = useState(false);
@@ -223,13 +223,13 @@ export default function InwardScan() {
   const q = step >= 0 && step < QUESTIONS.length ? QUESTIONS[step] : null;
 
   return (
-    <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
-      <style>{GLOBAL_CSS}</style>
-      <GrainOverlay />
-      <ToolsMenu />
+    <div style={embedded ? {} : { minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
+      {!embedded && <style>{GLOBAL_CSS}</style>}
+      {!embedded && <GrainOverlay />}
+      {!embedded && <ToolsMenu />}
 
       {/* ── HERO (intro only): a quiet private corner, butter identity ── */}
-      {step === -1 && (
+      {!embedded && step === -1 && (
         <ToolHero
           label="The inward pattern scan"
           photo="/media/scan-hero.jpg"
@@ -240,8 +240,8 @@ export default function InwardScan() {
         />
       )}
 
-      <div style={{ maxWidth: 680, margin: "0 auto", padding: step === -1 ? "40px 24px 80px" : "48px 24px 80px" }}>
-        {step !== -1 && (
+      <div style={{ maxWidth: 680, margin: "0 auto", padding: embedded ? 0 : (step === -1 ? "40px 24px 80px" : "48px 24px 80px") }}>
+        {!embedded && step !== -1 && (
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 40 }}>
             <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
@@ -395,16 +395,18 @@ export default function InwardScan() {
 
       </div>
 
-      <SuccessProof
-        eyebrow="People who worked with their pattern"
-        headline={<>They knew how they worked. <span style={{ fontStyle: "italic", color: ACCENT }}>Then built around it.</span></>}
-        intro="None of them fought their own wiring. None of them use this site. They just prove that knowing your pattern is where it starts."
-        quote={{ q: "Success is liking yourself, liking what you do, and liking how you do it.", a: "Maya Angelou" }}
-      />
-      <FrameworkStrip current="scan" />
-      <PageQuote id="scan" />
+      {!embedded && (
+        <SuccessProof
+          eyebrow="People who worked with their pattern"
+          headline={<>They knew how they worked. <span style={{ fontStyle: "italic", color: ACCENT }}>Then built around it.</span></>}
+          intro="None of them fought their own wiring. None of them use this site. They just prove that knowing your pattern is where it starts."
+          quote={{ q: "Success is liking yourself, liking what you do, and liking how you do it.", a: "Maya Angelou" }}
+        />
+      )}
+      {!embedded && <FrameworkStrip current="scan" />}
+      {!embedded && <PageQuote id="scan" />}
 
-      <SiteFooter />
+      {!embedded && <SiteFooter />}
     </div>
   );
 }

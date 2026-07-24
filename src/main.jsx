@@ -5,7 +5,6 @@ import App from "./App.jsx";
 import ShieldWhisper from "./ShieldWhisper.jsx";
 import RoastWhisper from "./RoastWhisper.jsx";
 import PlanWhisper from "./PlanWhisper.jsx";
-import InwardScan from "./InwardScan.jsx";
 import AboutInward from "./AboutInward.jsx";
 import InwardBrief from "./InwardBrief.jsx";
 
@@ -14,17 +13,22 @@ const ROUTES = {
   "#/roast": RoastWhisper,
   "#/editor": RoastWhisper, // old URL, briefly live, kept as a silent alias
   "#/plan": PlanWhisper,
-  "#/scan": InwardScan,
   "#/about": AboutInward,
   "#/brief": InwardBrief,
+  // The Scan now lives on the home (#/); the six questions live at #/foundation.
+  // Both render App, which reads the hash. #/scan is redirected to #/ below.
 };
 
 function Router() {
   const [hash, setHash] = useState(window.location.hash);
   useEffect(() => {
-    const onChange = () => setHash(window.location.hash);
-    window.addEventListener("hashchange", onChange);
-    return () => window.removeEventListener("hashchange", onChange);
+    const norm = () => {
+      if (window.location.hash === "#/scan") { window.location.hash = "/"; return; } // old scan URL -> home
+      setHash(window.location.hash);
+    };
+    norm(); // handle a direct load on #/scan
+    window.addEventListener("hashchange", norm);
+    return () => window.removeEventListener("hashchange", norm);
   }, []);
   const Page = ROUTES[hash] || App;
   return <Page />;
