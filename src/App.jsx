@@ -7,7 +7,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS, FrameworkStrip, FRAMEWORK, ToolsMenu, SiteFooter,
+  TOOLS, FrameworkStrip, FRAMEWORK, ToolsMenu, SiteFooter, ToolHero, WhatThisDoes,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 import InwardScan from "./InwardScan.jsx";
@@ -151,7 +151,7 @@ const PATTERN_HOME = {
 export default function BrandingWhisperer() {
   // The home (#/) is the landing (step -1) with the Scan embedded; the six
   // questions live at #/foundation (step 0+). Same engine, driven by the hash.
-  const [step, setStep] = useState(() => (window.location.hash === "#/foundation" ? 0 : -1));
+  const [step, setStep] = useState(() => (window.location.hash === "#/foundation" ? -2 : -1));
   const scanRef = useRef(null);
   const [storedPattern, setStoredPattern] = useState(() => recall("pattern"));
   const [energy, setEnergy] = useState(null);
@@ -233,7 +233,7 @@ export default function BrandingWhisperer() {
   // everything else (#/, #/scan) shows the landing with the Scan embedded.
   useEffect(() => {
     const sync = () => {
-      if (window.location.hash === "#/foundation") setStep((s) => (s === -1 ? 0 : s));
+      if (window.location.hash === "#/foundation") setStep((s) => (s === -1 ? -2 : s));
       else setStep(-1);
     };
     window.addEventListener("hashchange", sync);
@@ -693,8 +693,33 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
         </>
       )}
 
-      <div style={{ maxWidth: 660, margin: "0 auto", padding: step === -1 ? "0 24px" : "48px 24px 80px" }}>
-        {step !== -1 && (
+      {/* ── #/foundation INTRO: a hero + what-this-does, so Step 2 matches the other tools ── */}
+      {step === -2 && (
+        <>
+          <ToolHero
+            label="What you're really about"
+            photo="/media/quiet-desk.jpg"
+            accent={ACCENT}
+            Doodle={DoodleBubble}
+            headline={<>Six small questions.<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>One clear you at the end.</span></>}
+            sub="No marketing words. Answer like you'd tell a friend, and you'll know the real reason people choose you."
+          />
+          <section className="mw-fade" style={{ maxWidth: 660, margin: "0 auto", padding: "40px 24px 8px" }}>
+            <WhatThisDoes
+              walkaway="What you're really about, in your own words, plus the signature moves to repeat."
+              time="About three minutes"
+              forwho="Anyone who can't name what makes them different."
+            />
+            <button className="mw-btn" onClick={() => { track("started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 34px" }}>Start the six questions</button>
+            <p style={{ fontSize: 14, color: "#9A8F82", margin: "16px 0 0", fontFamily: SANS }}>
+              No account. One question at a time, and nothing leaves your device.
+            </p>
+          </section>
+        </>
+      )}
+
+      <div style={{ maxWidth: 660, margin: "0 auto", padding: step < 0 ? "0 24px" : "48px 24px 80px" }}>
+        {step >= 0 && (
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 40 }}>
             <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
             <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
@@ -920,7 +945,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           </div>
         )}
 
-        <PageQuote id="home" />
+        {step !== -2 && <PageQuote id="home" />}
       </div>
 
       {/* Once the six questions are done, show where they are in the framework. */}
