@@ -101,6 +101,11 @@ export const TACTIC_LIBRARY = [
   { name: "The Standing Invitation", what: "One pinned post or bio line that says what you make and how to reach you, so you never have to re-announce yourself." },
 ];
 
+// ── Which tactics are shown in full on the site. The rest are named but their
+//    method is held for the book. The AI still draws on ALL seven when it builds
+//    someone's plan, so the free tool loses nothing. ──
+export const FREE_TACTICS = ["The Swap", "The Process Feed"];
+
 // ── Global CSS shared by every page: animations, texture, calm guards ──
 export const GLOBAL_CSS = `
   * { box-sizing: border-box; }
@@ -477,22 +482,36 @@ export function Playbook() {
   ];
   return (
     <section style={{ maxWidth: 920, margin: "64px auto 0", padding: "0 24px" }}>
-      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The strategy library</p>
+      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>From the strategy library</p>
       <h2 style={{ fontSize: "clamp(24px, 3.4vw, 32px)", lineHeight: 1.2, margin: "0 0 10px", fontWeight: 350 }}>
-        Every strategy in here, <span style={{ fontStyle: "italic", color: ACCENT }}>laid out to keep.</span>
+        Two of the seven, <span style={{ fontStyle: "italic", color: ACCENT }}>on the house.</span>
       </h2>
       <p style={{ fontSize: 16, lineHeight: 1.6, color: "#857B70", margin: "0 0 26px", fontFamily: SANS, maxWidth: 620 }}>
-        Your plan pulls from these. Here they are in full, so you can see the whole thing, not just the piece you were handed.
+        Seven quiet tactics sit behind these tools, ways to be found that don't ask you to perform. Here are two of them in full, so you can see how they actually work.
       </p>
 
-      <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".06em", textTransform: "uppercase", color: INK, fontWeight: 700, margin: "0 0 14px" }}>Seven ways to be seen without performing</p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14, marginBottom: 34 }}>
-        {TACTIC_LIBRARY.map((t, i) => (
+      <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".06em", textTransform: "uppercase", color: INK, fontWeight: 700, margin: "0 0 14px" }}>Two ways to be seen without performing</p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14, marginBottom: 20 }}>
+        {TACTIC_LIBRARY.filter((t) => FREE_TACTICS.includes(t.name)).map((t, i) => (
           <div key={i} style={{ ...plainCard, marginBottom: 0 }}>
             <p style={{ fontSize: 18, fontWeight: 500, margin: "0 0 6px", color: INK }}>{t.name}</p>
             <p style={{ fontSize: 15, lineHeight: 1.55, color: "#3D3630", margin: 0 }}>{t.what}</p>
           </div>
         ))}
+      </div>
+
+      {/* The other five: named, so you know what exists, method held for the book. */}
+      <div style={{ border: `1px dashed #CFC6B8`, borderRadius: 16, padding: "22px 26px", marginBottom: 34, background: "rgba(255,255,255,.5)" }}>
+        <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: "#9A8F82", fontWeight: 700, margin: "0 0 12px" }}>The other five</p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 10px", marginBottom: 16 }}>
+          {TACTIC_LIBRARY.filter((t) => !FREE_TACTICS.includes(t.name)).map((t, i) => (
+            <span key={i} style={{ fontFamily: SANS, fontSize: 14, color: "#5C534B", background: "#F4EFE6", border: "1px solid #EFE7DA", borderRadius: 100, padding: "7px 14px" }}>{t.name}</span>
+          ))}
+        </div>
+        <p style={{ fontSize: 15, lineHeight: 1.6, color: "#5C534B", margin: 0, fontFamily: SANS, maxWidth: 620 }}>
+          The full method for all seven, with the scripts and when to use each, is going in a short book I'm writing. It'll be nine dollars.{" "}
+          <a href="/resources" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>I'll announce it in the writing &rarr;</a>
+        </p>
       </div>
 
       <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".06em", textTransform: "uppercase", color: INK, fontWeight: 700, margin: "0 0 14px" }}>Channels, by what they cost you</p>
