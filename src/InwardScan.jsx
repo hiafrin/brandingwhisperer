@@ -162,8 +162,15 @@ const PATTERNS = {
 // Tie-break toward the gentler, more self-protective read.
 const TIE_ORDER = ["hider", "deleter", "perfectionist", "scatterer", "pusher"];
 
-export default function InwardScan({ embedded = false }) {
+export default function InwardScan({ embedded = false, startSignal = 0 }) {
   const [step, setStep] = useState(-1);
+
+  // The home's hero button both scrolls here and starts the scan, so one click
+  // lands on question 1 instead of on a second button. A counter, not a boolean,
+  // so it still fires if someone retakes and starts again.
+  useEffect(() => {
+    if (startSignal > 0) { track("scan_started"); setStep(0); }
+  }, [startSignal]);
   const [votes, setVotes] = useState([]);
   const [copied, setCopied] = useState(false);
   const [kept, setKept] = useState(false);
