@@ -163,7 +163,9 @@ const PATTERNS = {
 const TIE_ORDER = ["hider", "deleter", "perfectionist", "scatterer", "pusher"];
 
 export default function InwardScan({ embedded = false, startSignal = 0 }) {
-  const [step, setStep] = useState(-1);
+  // Embedded on the home, the scan opens straight on question 1: the hero
+  // button is the page's only call to action, so there is no second one here.
+  const [step, setStep] = useState(embedded ? 0 : -1);
 
   // The home's hero button both scrolls here and starts the scan, so one click
   // lands on question 1 instead of on a second button. A counter, not a boolean,
@@ -190,7 +192,8 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
 
   function back() {
     if (step > 0) { setVotes(votes.slice(0, -1)); setStep(step - 1); }
-    else if (step === 0) setStep(-1);
+    // Embedded there is no intro to go back to, so question 1 is the floor.
+    else if (step === 0 && !embedded) setStep(-1);
   }
 
   function score(v) {
@@ -259,7 +262,8 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
           </div>
         )}
 
-        {/* INTRO: what it does, then start */}
+        {/* INTRO: what it does, then start. Embedded on the home it opens straight
+            on question 1 instead, so the hero button is the page's only CTA. */}
         {step === -1 && (
           <div className="mw-fade">
             <StepBadge stepKey="scan" />
@@ -274,6 +278,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
             <button className="mw-btn" onClick={start} style={primaryBtn}>Find my pattern (8 taps)</button>
           </div>
         )}
+
 
         {/* QUESTIONS */}
         {q && (
@@ -305,7 +310,9 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
                 </button>
               ))}
             </div>
-            <button className="mw-ghost" onClick={back} style={{ ...ghostBtn, marginLeft: 0, marginTop: 20 }}>Back</button>
+            {!(embedded && step === 0) && (
+              <button className="mw-ghost" onClick={back} style={{ ...ghostBtn, marginLeft: 0, marginTop: 20 }}>Back</button>
+            )}
           </div>
         )}
 

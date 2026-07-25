@@ -490,9 +490,9 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 </span>
               </h1>
               <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.88)", maxWidth: 520, margin: "0 0 30px" }}>
-                A five-step framework for building a brand when self-promotion drains you. Start with a one-minute scan to find where you get stuck.
+                A six-step framework for building a brand when self-promotion drains you. Start with a one-minute scan to find where you get stuck.
               </p>
-              <button className="mw-btn" onClick={() => { track("start_scan"); setScanStart((n) => n + 1); scanRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Take the 1-minute scan</button>
+              <button className="mw-btn" onClick={() => { track("start_scan"); setScanStart((n) => n + 1); scanRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Find my pattern</button>
               <p style={{ fontSize: 14, color: "rgba(251,247,240,.6)", marginTop: 16, fontFamily: SANS }}>
                 No account, no typing. Eight taps to see where you get stuck.
               </p>
