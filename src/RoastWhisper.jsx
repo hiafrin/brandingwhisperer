@@ -3,7 +3,7 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, CORAL, ACCENT_TINT,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
-  parseWhisperResponse,
+  parseWhisperResponse, remember,
   useVoiceInput, MicIcon,
   GrainOverlay, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, RoastOrigin, ToolsMenu, SiteFooter, TOOLS,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox,
@@ -115,6 +115,9 @@ Read it closely. Tell me first what to keep and never change, then the few thing
       // Strong always leads, then the gentle fixes, Missing last.
       parsed.verdicts.sort((a, b) => VERDICT_ORDER.indexOf(a.kind) - VERDICT_ORDER.indexOf(b.kind));
       setResult(parsed);
+      // Marks step 5 done for the framework's progress, on this device only.
+      const strong = parsed.verdicts.find((v) => v.kind === "Strong");
+      remember("roasted", (strong && strong.line) || "Refined a draft");
       track("roast_completed");
     } catch (e) {
       setError(e.message || "Something went wrong. Give it another try.");

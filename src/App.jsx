@@ -7,7 +7,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS, FrameworkStrip, FRAMEWORK, ToolsMenu, SiteFooter, ToolHero, WhatThisDoes,
+  TOOLS, FrameworkStrip, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ToolHero, WhatThisDoes,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 import InwardScan from "./InwardScan.jsx";
@@ -154,6 +154,7 @@ export default function BrandingWhisperer() {
   const [step, setStep] = useState(() => (window.location.hash === "#/foundation" ? -2 : -1));
   const scanRef = useRef(null);
   const [storedPattern, setStoredPattern] = useState(() => recall("pattern"));
+  const [doneSteps] = useState(stepsDone);
   const [energy, setEnergy] = useState(null);
   const [stuck, setStuck] = useState(null);
   const [answers, setAnswers] = useState({});
@@ -665,21 +666,26 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           <section id="framework" style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 20px", scrollMarginTop: 20 }}>
             <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The Inward Framework</p>
             <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 10px", fontWeight: 350 }}>
-              Five steps. <span style={{ fontStyle: "italic", color: ACCENT }}>One clear you at the end.</span>
+              Six steps. <span style={{ fontStyle: "italic", color: ACCENT }}>One clear you at the end.</span>
             </h2>
-            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 24px", fontFamily: SANS, maxWidth: 620 }}>
-              Five small steps, in order: see where you get stuck, find what you're really about, put your voice on paper, get a plan that fits your energy, and refine what you post. Do them in sequence or jump to any one. Everything you find collects into your Inward Brief.
+            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 8px", fontFamily: SANS, maxWidth: 640 }}>
+              See yourself, understand yourself, express yourself, share yourself, refine yourself, keep yourself. Do them in order or start anywhere. Each one works on its own, and everything you find is kept for you at the end.
+            </p>
+            <p style={{ fontSize: 15, color: ACCENT, margin: "0 0 22px", fontFamily: SANS, fontWeight: 600 }}>
+              {doneSteps.length ? `${doneSteps.length} of ${FRAMEWORK.length} done.` : ""}
             </p>
             <div style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 6, scrollSnapType: "x proximity", WebkitOverflowScrolling: "touch" }}>
               {FRAMEWORK.map((s) => {
+                const ok = doneSteps.includes(s.key);
                 const inner = (
                   <>
-                    <span style={{ flexShrink: 0, width: 38, height: 38, borderRadius: "50%", background: INK_TEAL, color: BUTTER, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 19, fontWeight: 500 }}>{s.n}</span>
-                    <span style={{ display: "block", fontSize: 16, fontWeight: 400, color: INK, margin: "12px 0 4px", lineHeight: 1.25 }}>{s.name}</span>
+                    <span style={{ flexShrink: 0, width: 38, height: 38, borderRadius: "50%", background: ok ? ACCENT : INK_TEAL, color: ok ? "#FFF" : BUTTER, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 19, fontWeight: 500 }}>{ok ? "✓" : s.n}</span>
+                    <span style={{ display: "block", fontSize: 16, fontWeight: 500, color: INK, margin: "12px 0 3px", lineHeight: 1.25 }}>{s.verb}</span>
+                    <span style={{ display: "block", fontSize: 12.5, color: ACCENT, fontFamily: SANS, lineHeight: 1.3, marginBottom: 5 }}>{s.name}</span>
                     <span style={{ display: "block", fontSize: 13, color: "#857B70", fontFamily: SANS, lineHeight: 1.4 }}>{s.blurb}</span>
                   </>
                 );
-                const cardStyle = { flexShrink: 0, width: 158, display: "block", textAlign: "left", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "16px 16px", boxShadow: "0 8px 24px rgba(11,59,52,.05)", cursor: "pointer", fontFamily: SERIF, scrollSnapAlign: "start" };
+                const cardStyle = { flexShrink: 0, width: 166, display: "block", textAlign: "left", textDecoration: "none", color: INK, background: ok ? ACCENT_TINT : "#FFF", border: `1px solid ${ok ? "#DCEFEB" : "#EFE7DA"}`, borderRadius: 16, padding: "16px 16px", boxShadow: "0 8px 24px rgba(11,59,52,.05)", cursor: "pointer", fontFamily: SERIF, scrollSnapAlign: "start" };
                 return (
                   <a key={s.key} href={s.href} onClick={() => track("opened_" + s.key)} className="mw-card-hover" style={cardStyle}>{inner}</a>
                 );

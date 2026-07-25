@@ -265,44 +265,88 @@ export function NextTools({ current }) {
 // ── THE INWARD FRAMEWORK: the ordered spine. One source of truth for the
 //    numbering, the strip, the menu, and the brief. ──
 export const FRAMEWORK = [
-  { n: 1, key: "scan", href: "#/", name: "The Inward Scan", short: "Scan", blurb: "See how you get stuck." },
-  { n: 2, key: "foundation", href: "#/foundation", name: "What you're really about", short: "Foundation", blurb: "Six questions to your core." },
-  { n: 3, key: "voice", href: "#/shield", name: "Your Brand Voice", short: "Voice", blurb: "The voice you already have." },
-  { n: 4, key: "plan", href: "#/plan", name: "The Quieter Plan", short: "Plan", blurb: "One path, matched to your energy." },
-  { n: 5, key: "roast", href: "#/roast", name: "The Gentle Roast", short: "Roast", blurb: "Refine what you actually post." },
+  { n: 1, key: "scan", href: "#/", verb: "See yourself", short: "See", name: "The Inward Scan", blurb: "The pattern you can't see on your own.", doneKey: "patternName" },
+  { n: 2, key: "foundation", href: "#/foundation", verb: "Understand yourself", short: "Understand", name: "What you're really about", blurb: "What you're actually made of.", doneKey: "reallyabout" },
+  { n: 3, key: "voice", href: "#/shield", verb: "Express yourself", short: "Express", name: "Your Brand Voice", blurb: "Your voice, in words you'd use.", doneKey: "voice" },
+  { n: 4, key: "plan", href: "#/plan", verb: "Share yourself", short: "Share", name: "The Quieter Plan", blurb: "Put it out at a cost you can bear.", doneKey: "playbook" },
+  { n: 5, key: "roast", href: "#/roast", verb: "Refine yourself", short: "Refine", name: "The Gentle Roast", blurb: "Sharpen what you already wrote.", doneKey: "roasted" },
+  { n: 6, key: "brief", href: "#/brief", verb: "Keep yourself", short: "Keep", name: "Your Inward Brief", blurb: "Everything you found, kept.", doneKey: null },
 ];
+
+// ── Which steps this device has finished, read from what each tool already
+//    saved. No new storage: the course tracks itself from real results. ──
+export function stepsDone() {
+  return FRAMEWORK.filter((s) => s.doneKey && recall(s.doneKey)).map((s) => s.key);
+}
 
 // ── The ordered breadcrumb: shows the whole journey with the current step lit,
 //    the next step emphasized, and a link to the assembled brief. Replaces the
 //    old NextTools on every page so nothing reads as a scattered dead end. ──
 export function FrameworkStrip({ current }) {
+  const [done] = useState(stepsDone);
   const idx = FRAMEWORK.findIndex((s) => s.key === current);
+  const here = idx >= 0 ? FRAMEWORK[idx] : null;
   const next = idx >= 0 ? FRAMEWORK[idx + 1] : null;
+  const count = done.length;
+
   return (
     <section style={{ maxWidth: 920, margin: "56px auto 0", padding: "0 24px" }}>
-      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>The Inward Framework</p>
+      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>
+        The Inward Framework{count ? ` · ${count} of ${FRAMEWORK.length} done` : ""}
+      </p>
+
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: next ? 20 : 14 }}>
         {FRAMEWORK.map((s) => {
           const on = s.key === current;
+          const ok = done.includes(s.key);
           return (
-            <a key={s.key} href={s.href} style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", background: on ? INK_TEAL : "#FFF", color: on ? CREAM : INK, border: `1px solid ${on ? INK_TEAL : "#EFE7DA"}`, borderRadius: 100, padding: "7px 15px 7px 7px", fontFamily: SANS, fontSize: 14, fontWeight: 600 }}>
-              <span style={{ width: 22, height: 22, borderRadius: "50%", background: on ? BUTTER : ACCENT_TINT, color: on ? INK_TEAL : ACCENT, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{s.n}</span>
+            <a key={s.key} href={s.href} title={s.name} style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", background: on ? INK_TEAL : ok ? ACCENT_TINT : "#FFF", color: on ? CREAM : INK, border: `1px solid ${on ? INK_TEAL : ok ? "#DCEFEB" : "#EFE7DA"}`, borderRadius: 100, padding: "7px 15px 7px 7px", fontFamily: SANS, fontSize: 14, fontWeight: 600 }}>
+              <span style={{ width: 22, height: 22, borderRadius: "50%", background: on ? BUTTER : ok ? ACCENT : ACCENT_TINT, color: on ? INK_TEAL : ok ? "#FFF" : ACCENT, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
+                {ok && !on ? "✓" : s.n}
+              </span>
               {s.short}
             </a>
           );
         })}
       </div>
+
       {next && (
-        <a href={next.href} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: INK, background: ACCENT_TINT, border: "1px solid #DCEFEA", borderRadius: 16, padding: "18px 22px" }}>
-          <span style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: ACCENT, fontWeight: 700 }}>Next &middot; step {next.n}</span>
-          <p style={{ fontSize: 20, margin: "6px 0 2px", fontWeight: 400 }}>{next.name}</p>
-          <p style={{ fontSize: 15, color: "#5C6B63", margin: 0, fontFamily: SANS }}>{next.blurb} &rarr;</p>
+        <a href={next.href} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: CREAM, background: INK_TEAL, borderRadius: 16, padding: "22px 26px" }}>
+          {here && (
+            <span style={{ display: "block", fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: BUTTER, fontWeight: 700, marginBottom: 8 }}>
+              {done.includes(here.key) ? `✓ Step ${here.n} done · ${here.verb}` : `Step ${here.n} · ${here.verb}`}
+            </span>
+          )}
+          <p style={{ fontSize: 24, margin: "0 0 4px", fontWeight: 350, color: CREAM }}>Next: {next.verb}</p>
+          <p style={{ fontSize: 15, color: "rgba(251,247,240,.8)", margin: "0 0 4px", fontFamily: SANS }}>{next.blurb}</p>
+          <p style={{ fontSize: 15, color: BUTTER, margin: 0, fontFamily: SANS, fontWeight: 600 }}>{next.name} &rarr;</p>
         </a>
       )}
-      <p style={{ margin: "16px 0 0" }}>
-        <a href="#/brief" style={{ fontFamily: SANS, fontSize: 15, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>See your Inward Brief &rarr;</a>
-      </p>
+
+      {current !== "brief" && (
+        <p style={{ margin: "16px 0 0" }}>
+          <a href="#/brief" style={{ fontFamily: SANS, fontSize: 15, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>
+            {count ? `Or see what you've kept so far (${count}) →` : "Or see your Inward Brief →"}
+          </a>
+        </p>
+      )}
     </section>
+  );
+}
+
+// ── Orientation for someone who landed here from search: tells them where they
+//    are without ever blocking them. Sits at the top of a tool page. ──
+export function StepBadge({ stepKey }) {
+  const s = FRAMEWORK.find((x) => x.key === stepKey);
+  if (!s) return null;
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, background: ACCENT_TINT, border: "1px solid #DCEFEB", borderRadius: 12, padding: "11px 16px", fontFamily: SANS, fontSize: 14, marginBottom: 22 }}>
+      <span style={{ background: ACCENT, color: "#FFF", borderRadius: 100, padding: "4px 11px", fontSize: 12, fontWeight: 700, letterSpacing: ".04em", flexShrink: 0 }}>
+        Step {s.n} of {FRAMEWORK.length} · {s.verb}
+      </span>
+      <span style={{ color: "#5C534B" }}>This works on its own, start right here.</span>
+      <a href="#/" style={{ color: ACCENT, fontWeight: 600 }}>New here? See all six &rarr;</a>
+    </div>
   );
 }
 
@@ -321,9 +365,15 @@ export function ToolsMenu() {
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
   }, [open]);
 
+  const done = stepsDone();
   const items = [
-    ...FRAMEWORK.map((s) => ({ section: "The Inward Framework", href: s.href, name: s.name, cta: `Step ${s.n} · ${s.blurb}`, dot: (TOOLS[s.key] && TOOLS[s.key].accent) || ACCENT })),
-    { section: "The Inward Framework", href: "#/brief", name: "Your Inward Brief", cta: "Your results from every step, collected", dot: BUTTER },
+    ...FRAMEWORK.map((s) => ({
+      section: `The Inward Framework${done.length ? ` · ${done.length} of ${FRAMEWORK.length}` : ""}`,
+      href: s.href,
+      name: `${s.n} · ${s.verb}${done.includes(s.key) ? " ✓" : ""}`,
+      cta: s.name,
+      dot: done.includes(s.key) ? ACCENT : "#D9D2C6",
+    })),
     { section: "More", href: "/resources", name: "Resources", cta: "How-tos for getting known without performing", dot: ACCENT },
     { section: "More", href: "#/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
   ];
