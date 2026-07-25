@@ -275,7 +275,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
             <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", maxWidth: 520, margin: "0 0 28px", fontFamily: SANS }}>
               No typing, no right answers. Your pattern is kept only on this device for your Inward Brief.
             </p>
-            <button className="mw-btn" onClick={start} style={primaryBtn}>Find my pattern (8 taps)</button>
+            <button className="mw-btn" onClick={start} style={primaryBtn}>Find my pattern</button>
           </div>
         )}
 

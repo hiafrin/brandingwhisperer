@@ -649,12 +649,17 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </p>
           </section>
 
-          {/* ── STUCK PICKER: name your blocker in one tap, get routed instantly ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 8px" }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The fast lane</p>
-            <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 22px", fontWeight: 350 }}>
-              Where do you <span style={{ fontStyle: "italic", color: ACCENT }}>get stuck?</span>
+          {/* ── STUCK PICKER: a fallback, not a rival to this page's own CTA. It
+                 sits after the six questions are offered, framed for the person
+                 who isn't sure this is their step. ── */}
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "56px 24px 8px", borderTop: "1px solid #EFE7DA" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: "#9A8F82", fontWeight: 600, margin: "26px 0 8px" }}>Not sure this is your step?</p>
+            <h2 style={{ fontSize: "clamp(20px, 2.8vw, 25px)", lineHeight: 1.25, margin: "0 0 8px", fontWeight: 350 }}>
+              Tell me where you <span style={{ fontStyle: "italic", color: ACCENT }}>get stuck</span>, and I'll point you to the right one.
             </h2>
+            <p style={{ fontSize: 15, color: "#857B70", margin: "0 0 22px", fontFamily: SANS, maxWidth: 560 }}>
+              Some of these lead back here. Some lead somewhere else entirely, and that's fine.
+            </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
               {STUCK.map((s) => (
                 <button

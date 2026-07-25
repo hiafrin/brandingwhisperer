@@ -360,7 +360,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
               One idea nobody puts in the plan: you don't have to grow alone. Two quiet creators can
               speak for each other when neither can speak for themselves.
             </p>
-            <button className="mw-btn" onClick={() => { track("plan_started"); setStep(0); }} style={primaryBtn}>Find my plan (takes 3 minutes)</button>
+            <button className="mw-btn" onClick={() => { track("plan_started"); setStep(0); }} style={primaryBtn}>Find my plan</button>
             <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 16, fontFamily: SANS }}>
               No account. Your answers stay on your device, never sent to me. Ramble welcome, nobody's grading this.
             </p>

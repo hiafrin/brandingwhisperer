@@ -248,7 +248,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
               time="About three minutes"
               forwho="Anyone who sounds like a stranger the moment they go public."
             />
-            <button className="mw-btn" onClick={() => { track("shield_started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 34px" }}>Put my voice on paper (takes 3 minutes)</button>
+            <button className="mw-btn" onClick={() => { track("shield_started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 34px" }}>Put my voice on paper</button>
             <p style={{ fontSize: 14, color: "#9A8F82", margin: "16px 0 0", fontFamily: SANS }}>
               No account. Your answers stay on your device, never sent to me. Ramble welcome, nobody's grading this.
             </p>
