@@ -263,7 +263,7 @@ export const FRAMEWORK = [
   { n: 1, key: "scan", href: "#/", name: "The Inward Scan", short: "Scan", blurb: "See how you get stuck." },
   { n: 2, key: "foundation", href: "#/foundation", name: "What you're really about", short: "Foundation", blurb: "Six questions to your core." },
   { n: 3, key: "voice", href: "#/shield", name: "Your Brand Voice", short: "Voice", blurb: "The voice you already have." },
-  { n: 4, key: "plan", href: "#/plan", name: "The Quieter Plan", short: "Plan", blurb: "Your playbook, minus the dread." },
+  { n: 4, key: "plan", href: "#/plan", name: "The Quieter Plan", short: "Plan", blurb: "One path, matched to your energy." },
   { n: 5, key: "roast", href: "#/roast", name: "The Gentle Roast", short: "Roast", blurb: "Refine what you actually post." },
 ];
 
@@ -318,7 +318,7 @@ export function ToolsMenu() {
 
   const items = [
     ...FRAMEWORK.map((s) => ({ section: "The Inward Framework", href: s.href, name: s.name, cta: `Step ${s.n} · ${s.blurb}`, dot: (TOOLS[s.key] && TOOLS[s.key].accent) || ACCENT })),
-    { section: "The Inward Framework", href: "#/brief", name: "Your Inward Brief", cta: "Everything you've found, in one place", dot: BUTTER },
+    { section: "The Inward Framework", href: "#/brief", name: "Your Inward Brief", cta: "Your results from every step, collected", dot: BUTTER },
     { section: "More", href: "/resources", name: "Resources", cta: "How-tos for getting known without performing", dot: ACCENT },
     { section: "More", href: "#/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
   ];
@@ -477,7 +477,7 @@ export function Playbook() {
   ];
   return (
     <section style={{ maxWidth: 920, margin: "64px auto 0", padding: "0 24px" }}>
-      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The quiet playbook</p>
+      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The strategy library</p>
       <h2 style={{ fontSize: "clamp(24px, 3.4vw, 32px)", lineHeight: 1.2, margin: "0 0 10px", fontWeight: 350 }}>
         Every strategy in here, <span style={{ fontStyle: "italic", color: ACCENT }}>laid out to keep.</span>
       </h2>

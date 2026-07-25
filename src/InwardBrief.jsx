@@ -75,7 +75,7 @@ export default function InwardBrief() {
             Everything you've found, <span style={{ fontStyle: "italic", color: BUTTER }}>in one place.</span>
           </h1>
           <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.85)", margin: 0, maxWidth: 560 }}>
-            It lives only on this device. Copy it, email it to yourself, keep it close.{nothingYet ? " Do a step or two and it starts to fill in." : ""}
+            Nothing new is made here. This gathers what each step already gave you, so it's yours in one piece. It lives only on this device. Copy it, email it to yourself, keep it close.{nothingYet ? " Do a step or two and it starts to fill in." : ""}
           </p>
         </div>
       </section>
