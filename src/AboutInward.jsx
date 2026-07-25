@@ -55,28 +55,29 @@ export default function AboutInward() {
       {/* ── THE STORY ── */}
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "56px 24px 8px" }}>
         <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
-          I've spent more than a decade in brand marketing, agency-side then client-side, learning what
-          actually makes people remember a brand, most of it before social media existed and all of it
-          before AI did. A platform is just a place to put the work. So I built these tools around the
-          part that lasts: who you are, how you sound, what you stand for.
+          I've spent more than a decade in brand marketing, first at agencies and later in-house. I learned
+          what makes people remember a brand long before social media became part of every job, and long
+          before AI entered the conversation. Platforms change all the time. What lasts is who you are, how
+          you communicate, and what people come to know you for. That's what these tools are built around.
         </p>
         <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
-          People ask if this is just ChatGPT. It isn't. I built the framework myself, over a lot of
-          research and more than a few sleepless nights, so the AI works for us instead of flattening
-          everyone into the same voice. The questions come from a real strategist, because knowing the
-          right one to ask is a human instinct. The AI is just what lets me hand that to you in three
-          minutes, for free.
+          A lot of people assume these are just ChatGPT prompts. They're not. I spent a long time
+          researching, testing, and building the framework behind them. The questions come from the same way
+          a brand strategist thinks through a problem. AI simply makes that process accessible in a few
+          minutes instead of a few hours.
         </p>
         <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: INK, fontWeight: 500 }}>
-          I built these because the loud, perform-every-day version of marketing never fit me, and I
-          watched it not fit a lot of talented people who then went quiet. All of it is free, so it works
-          for everyone, not just people with a marketing budget.
+          I made these tools because traditional marketing often rewards the loudest voices. That never felt
+          natural to me, and I've met plenty of thoughtful, talented people who felt like they had to become
+          someone else just to be seen. I wanted to build something that helps people communicate more
+          clearly without asking them to perform. Keeping everything free was important for the same reason.
+          Good guidance shouldn't depend on having a marketing budget.
         </p>
         <p style={{ fontSize: 18, lineHeight: 1.7, margin: 0, color: "#5C534B" }}>
-          One honest thing: I'm not a professional web developer. I'm just someone obsessed with making
-          things, a pot on a wheel, an app, a site, whatever's in front of me. I'm learning AI as I build
-          these, so if something breaks or reads off, I'd genuinely appreciate the grace, and a quick heads-up.
-          I'm still building and optimizing all of this, so your feedback is honestly how it gets better.
+          One more thing. I'm not a professional web developer. I just love making things, whether that's
+          shaping clay, building an app, or figuring out a website one problem at a time. I'm learning as I
+          go, so you'll probably come across a bug or something that feels a little off. When you do, I'd
+          really appreciate you letting me know. Every piece of feedback helps me make this better.
         </p>
         <p style={{ fontSize: 18, fontStyle: "italic", color: ACCENT, margin: "26px 0 0" }}>
           &mdash; Sabiha Afrin
