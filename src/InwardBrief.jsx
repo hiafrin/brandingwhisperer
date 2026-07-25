@@ -8,14 +8,18 @@ import {
 } from "./lib/whisperKit.jsx";
 
 // Each brief line, the device key it reads, and the step that fills it.
+// Ordered by the framework: See, Understand, Express, Share, Refine.
+// hrefs must match the real routes: the scan lives on the home, and the six
+// questions moved to #/foundation when the front door was swapped.
 const ITEMS = [
-  { key: "patternName", label: "How I get stuck", step: "The Inward Scan", href: "#/scan" },
-  { key: "reallyabout", label: "What I'm really about", step: "The six questions", href: "#/" },
-  { key: "edge", label: "What makes me un-copyable", step: "The six questions", href: "#/" },
-  { key: "voice", label: "My voice, named", step: "Your Brand Voice", href: "#/shield" },
-  { key: "voicesample", label: "A post that sounds like me", step: "Your Brand Voice", href: "#/shield" },
-  { key: "playbook", label: "The path I chose", step: "The Quieter Plan", href: "#/plan" },
-  { key: "firstmove", label: "My first move", step: "The Quieter Plan", href: "#/plan" },
+  { key: "patternName", label: "How I get stuck", step: "See yourself", href: "#/" },
+  { key: "reallyabout", label: "What I'm really about", step: "Understand yourself", href: "#/foundation" },
+  { key: "edge", label: "What makes me un-copyable", step: "Understand yourself", href: "#/foundation" },
+  { key: "voice", label: "My voice, named", step: "Express yourself", href: "#/shield" },
+  { key: "voicesample", label: "A post that sounds like me", step: "Express yourself", href: "#/shield" },
+  { key: "playbook", label: "The path I chose", step: "Share yourself", href: "#/plan" },
+  { key: "firstmove", label: "My first move", step: "Share yourself", href: "#/plan" },
+  { key: "roasted", label: "A line worth keeping", step: "Refine yourself", href: "#/roast" },
 ];
 
 export default function InwardBrief() {
@@ -27,12 +31,13 @@ export default function InwardBrief() {
 
   const data = ITEMS.map((it) => ({ ...it, value: recall(it.key) }));
   const filled = data.filter((d) => d.value);
-  // Steps that have produced nothing yet, in framework order.
+  // Steps that have produced nothing yet, in framework order. Derived from
+  // ITEMS rather than a hardcoded list, so renaming a step can't break this.
   const emptySteps = [];
-  ["The Inward Scan", "The six questions", "Your Brand Voice", "The Quieter Plan"].forEach((step) => {
+  [...new Set(ITEMS.map((i) => i.step))].forEach((step) => {
     if (!filled.some((f) => f.step === step)) {
       const first = ITEMS.find((i) => i.step === step);
-      emptySteps.push({ step, href: first.href });
+      if (first) emptySteps.push({ step, href: first.href });
     }
   });
 
@@ -86,7 +91,7 @@ export default function InwardBrief() {
             <p style={{ fontSize: 19, lineHeight: 1.55, margin: "0 0 16px", color: INK }}>
               Nothing here yet. Each step you finish adds a line, and it all stays on this device.
             </p>
-            <a href="#/scan" style={{ fontFamily: SANS, fontSize: 16, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>Start with the Inward Scan &rarr;</a>
+            <a href="#/" style={{ fontFamily: SANS, fontSize: 16, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>Start with the Inward Scan &rarr;</a>
           </div>
         ) : (
           <>

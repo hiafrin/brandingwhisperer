@@ -54,38 +54,6 @@ const QUESTIONS = [
   },
 ];
 
-// ── Other whispers, linked from the home page. Each new whisper just adds one entry here. ──
-const MORE_WHISPERS = [
-  {
-    key: "shield",
-    quote: "Posting feels like exposing myself, not my work.",
-    href: "#/shield",
-    event: "opened_shield",
-    cta: "Hear the voice you already have →",
-  },
-  {
-    key: "roast",
-    quote: "I wrote the post. Then I deleted it, it didn't sound like me.",
-    href: "#/roast",
-    event: "opened_roast",
-    cta: "Get roasted, gently →",
-  },
-  {
-    key: "plan",
-    quote: "I can't post every day. Honestly, I don't want to.",
-    href: "#/plan",
-    event: "opened_plan",
-    cta: "Find the plan you won't dread →",
-  },
-  {
-    key: "scan",
-    quote: "I don't even know where I'm stuck, let alone where to start.",
-    href: "#/scan",
-    event: "opened_scan",
-    cta: "Find your inward pattern, 8 taps →",
-  },
-];
-
 // The stuck-picker: name your blocker in one tap, get routed to the right tool
 // with one first move. href null means "start the six questions right here."
 const STUCK = [

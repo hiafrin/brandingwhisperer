@@ -106,7 +106,7 @@ const QUESTIONS = [
 
 const TOOLS = {
   voice: { href: "#/shield", name: "Hear your voice", desc: "A quiet interview that observes the voice you already have and hands it back, named." },
-  foundation: { href: "#/", name: "Define the brand", desc: "Six questions, then your foundation: what you're about, the moment you're for, the word to own." },
+  foundation: { href: "#/foundation", name: "Define the brand", desc: "Six questions, then your foundation: what you're about, the moment you're for, the word to own." },
   roast: { href: "#/roast", name: "Rescue what you wrote", desc: "Paste your page or a deleted draft. It tells you what to keep, then what's worth a gentle fix." },
   plan: { href: "#/plan", name: "Get a plan that fits your energy", desc: "What to ignore, and a rhythm you can actually keep without crashing." },
 };
