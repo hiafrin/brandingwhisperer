@@ -45,7 +45,7 @@ export default function AboutInward() {
                 <span style={{ fontStyle: "italic", color: BUTTER }}>Not a destination.</span>
               </h1>
               <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.85)", margin: 0 }}>
-                I'm the S. Afrin at the bottom of every page, and no, no relation to the nasal spray. I'm a brand strategist, and I built these to help you take the first step, and take it with confidence.
+                I'm the S. Afrin at the bottom of every page, and no, no relation to the nasal spray. I'm a brand strategist, and I built these to help you start from a place that actually feels like you.
               </p>
             </div>
           </div>
