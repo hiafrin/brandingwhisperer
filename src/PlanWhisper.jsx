@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY, CHANNEL_LIBRARY,
   parseWhisperResponse, recall, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, Playbook, ToolsMenu, SiteFooter, TOOLS,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, Playbook, ToolsMenu, SiteFooter, TOOLS,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -350,6 +350,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
         {/* ── INTRO: what it does, then start ── */}
         {step === -1 && (
           <div className="mw-fade">
+            <StepBadge stepKey="plan" />
             <WhatThisDoes
               walkaway="One path chosen for you, a list of what to ignore, and a first move under 15 minutes."
               time="About three minutes"

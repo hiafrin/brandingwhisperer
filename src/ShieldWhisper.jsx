@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, VoiceStory, SiteFooter, ToolsMenu,
+  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, VoiceStory, SiteFooter, ToolsMenu,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -241,6 +241,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
           />
 
           <section className="mw-fade" style={{ maxWidth: 720, margin: "0 auto", padding: "44px 24px 64px" }}>
+            <StepBadge stepKey="voice" />
             {/* THE TASK, right under the hero */}
             <WhatThisDoes
               walkaway="Your voice named and quoted back from your own words, plus one thing to post today."

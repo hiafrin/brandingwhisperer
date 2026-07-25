@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, RoastOrigin, ToolsMenu, SiteFooter, TOOLS,
+  GrainOverlay, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, RoastOrigin, ToolsMenu, SiteFooter, TOOLS,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -186,6 +186,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
         {/* ── INTRO CONTENT: what it does, then the level + paste box ── */}
         {!result && !loading && (
           <div className="mw-fade">
+            <StepBadge stepKey="roast" />
             <WhatThisDoes
               walkaway="What to keep and never change, then the few lines worth a gentle fix, in your own voice."
               time="About two minutes"

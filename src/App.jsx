@@ -7,7 +7,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS, FrameworkStrip, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ToolHero, WhatThisDoes,
+  TOOLS, FrameworkStrip, StepBadge, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ToolHero, WhatThisDoes,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 import InwardScan from "./InwardScan.jsx";
@@ -711,6 +711,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             sub="No marketing words. Answer like you'd tell a friend, and you'll know the real reason people choose you."
           />
           <section className="mw-fade" style={{ maxWidth: 660, margin: "0 auto", padding: "40px 24px 8px" }}>
+            <StepBadge stepKey="foundation" />
             <WhatThisDoes
               walkaway="What you're really about, in your own words, plus the signature moves to repeat."
               time="About three minutes"
@@ -954,8 +955,10 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
         {step !== -2 && <PageQuote id="home" />}
       </div>
 
-      {/* Once the six questions are done, show where they are in the framework. */}
-      {step === QUESTIONS.length && result && <FrameworkStrip current="foundation" />}
+      {/* The pathway shows on every screen of this step, not just at the end, so
+          someone who lands here cold can see the whole journey. The home landing
+          (step -1) has its own framework overview instead. */}
+      {step !== -1 && <FrameworkStrip current="foundation" />}
 
       <SiteFooter />
     </div>

@@ -3,7 +3,7 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, ACCENT_TINT, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, SuccessProof, ToolsMenu, SiteFooter, DoodleScan,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, SuccessProof, ToolsMenu, SiteFooter, DoodleScan,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard,
   remember,
 } from "./lib/whisperKit.jsx";
@@ -255,6 +255,7 @@ export default function InwardScan({ embedded = false }) {
         {/* INTRO: what it does, then start */}
         {step === -1 && (
           <div className="mw-fade">
+            <StepBadge stepKey="scan" />
             <WhatThisDoes
               walkaway="Your visibility pattern named, the behaviors behind it, and which tool to open first."
               time="About one minute, eight taps"
