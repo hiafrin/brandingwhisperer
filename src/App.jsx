@@ -586,52 +586,6 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
 
           {/* The "for the quiet ones" editorial band was merged into the "Who it's for" section above. */}
 
-          {/* ── STUCK PICKER: name your blocker in one tap, get routed instantly ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 8px" }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The fast lane</p>
-            <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 22px", fontWeight: 350 }}>
-              Where do you <span style={{ fontStyle: "italic", color: ACCENT }}>get stuck?</span>
-            </h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
-              {STUCK.map((s) => (
-                <button
-                  key={s.key}
-                  className="mw-btn"
-                  onClick={() => { setStuck(s.key); track("stuck_" + s.key); }}
-                  style={{ textAlign: "left", background: stuck === s.key ? ACCENT_TINT : "#FFF", color: INK, border: `2px solid ${stuck === s.key ? ACCENT : "#EFE7DA"}`, borderRadius: 14, padding: "16px 18px", fontSize: 18, fontFamily: SERIF, cursor: "pointer", lineHeight: 1.4, transition: "all .18s", display: "flex", alignItems: "center", gap: 12 }}
-                >
-                  <span style={{ flexShrink: 0, width: 16, height: 16, borderRadius: "50%", border: `2px solid ${stuck === s.key ? ACCENT : "#CFC6B8"}`, background: stuck === s.key ? ACCENT : "transparent", transition: "all .18s" }} />
-                  {s.label}
-                </button>
-              ))}
-            </div>
-
-            {stuck && (() => {
-              const s = STUCK.find((x) => x.key === stuck);
-              return (
-                <div className="mw-fade" style={{ marginTop: 18, background: ACCENT_TINT, border: "1px solid #DCEFEA", borderLeft: `5px solid ${ACCENT}`, borderRadius: "0 16px 16px 0", padding: "24px 26px" }}>
-                  <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>Here's your path</p>
-                  <p style={{ fontSize: 24, fontWeight: 400, margin: "0 0 8px" }}>{s.path}</p>
-                  <p style={{ fontSize: 16, lineHeight: 1.6, color: "#3D3630", margin: "0 0 18px", fontFamily: SANS }}>{s.why}</p>
-                  <div style={{ background: INK_TEAL, borderRadius: 14, padding: "16px 18px", marginBottom: 18 }}>
-                    <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#F7D06B", fontWeight: 600, margin: "0 0 5px" }}>Today</p>
-                    <p style={{ fontSize: 16, lineHeight: 1.5, color: CREAM, margin: 0 }}>{s.today}</p>
-                  </div>
-                  {s.href ? (
-                    <a href={s.href} className="mw-btn" style={{ ...primaryBtn, display: "inline-block", textDecoration: "none" }}>{s.path} →</a>
-                  ) : (
-                    <button className="mw-btn" onClick={() => { track("started"); setStep(0); window.scrollTo({ top: 0 }); }} style={primaryBtn}>{s.path} →</button>
-                  )}
-                  <div style={{ marginTop: 16 }}>
-                    <button onClick={() => { track("stuck_see_all"); document.getElementById("framework")?.scrollIntoView({ behavior: "smooth" }); }} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontFamily: SANS, fontSize: 14, color: ACCENT, fontWeight: 600 }}>
-                      Not quite it? See all five tools →
-                    </button>
-                  </div>
-                </div>
-              );
-            })()}
-          </section>
-
           {/* ── THE SCIENCE BAND: the research that vindicates quiet people. Static, cited, no AI. ── */}
           <section style={{ maxWidth: 920, margin: "0 auto", padding: "48px 24px 8px" }}>
             <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The science of quiet branding</p>
@@ -725,6 +679,53 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               No account. One question at a time, and nothing leaves your device.
             </p>
           </section>
+
+          {/* ── STUCK PICKER: name your blocker in one tap, get routed instantly ── */}
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 8px" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The fast lane</p>
+            <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 22px", fontWeight: 350 }}>
+              Where do you <span style={{ fontStyle: "italic", color: ACCENT }}>get stuck?</span>
+            </h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
+              {STUCK.map((s) => (
+                <button
+                  key={s.key}
+                  className="mw-btn"
+                  onClick={() => { setStuck(s.key); track("stuck_" + s.key); }}
+                  style={{ textAlign: "left", background: stuck === s.key ? ACCENT_TINT : "#FFF", color: INK, border: `2px solid ${stuck === s.key ? ACCENT : "#EFE7DA"}`, borderRadius: 14, padding: "16px 18px", fontSize: 18, fontFamily: SERIF, cursor: "pointer", lineHeight: 1.4, transition: "all .18s", display: "flex", alignItems: "center", gap: 12 }}
+                >
+                  <span style={{ flexShrink: 0, width: 16, height: 16, borderRadius: "50%", border: `2px solid ${stuck === s.key ? ACCENT : "#CFC6B8"}`, background: stuck === s.key ? ACCENT : "transparent", transition: "all .18s" }} />
+                  {s.label}
+                </button>
+              ))}
+            </div>
+
+            {stuck && (() => {
+              const s = STUCK.find((x) => x.key === stuck);
+              return (
+                <div className="mw-fade" style={{ marginTop: 18, background: ACCENT_TINT, border: "1px solid #DCEFEA", borderLeft: `5px solid ${ACCENT}`, borderRadius: "0 16px 16px 0", padding: "24px 26px" }}>
+                  <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>Here's your path</p>
+                  <p style={{ fontSize: 24, fontWeight: 400, margin: "0 0 8px" }}>{s.path}</p>
+                  <p style={{ fontSize: 16, lineHeight: 1.6, color: "#3D3630", margin: "0 0 18px", fontFamily: SANS }}>{s.why}</p>
+                  <div style={{ background: INK_TEAL, borderRadius: 14, padding: "16px 18px", marginBottom: 18 }}>
+                    <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#F7D06B", fontWeight: 600, margin: "0 0 5px" }}>Today</p>
+                    <p style={{ fontSize: 16, lineHeight: 1.5, color: CREAM, margin: 0 }}>{s.today}</p>
+                  </div>
+                  {s.href && s.href !== "#/foundation" ? (
+                    <a href={s.href} className="mw-btn" style={{ ...primaryBtn, display: "inline-block", textDecoration: "none" }}>{s.path} →</a>
+                  ) : (
+                    <button className="mw-btn" onClick={() => { track("started"); setStep(0); window.scrollTo({ top: 0 }); }} style={primaryBtn}>{s.path} →</button>
+                  )}
+                  <div style={{ marginTop: 16 }}>
+                    <button onClick={() => { track("stuck_see_all"); document.getElementById("framework")?.scrollIntoView({ behavior: "smooth" }); }} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontFamily: SANS, fontSize: 14, color: ACCENT, fontWeight: 600 }}>
+                      Not quite it? See all six steps →
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
+          </section>
+
         </>
       )}
 

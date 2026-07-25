@@ -314,7 +314,7 @@ export function FrameworkStrip({ current }) {
   const count = done.length;
 
   return (
-    <section style={{ maxWidth: 920, margin: "56px auto 0", padding: "0 24px" }}>
+    <section id="framework" style={{ maxWidth: 920, margin: "56px auto 0", padding: "0 24px", scrollMarginTop: 20 }}>
       <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>
         The Inward Framework{count ? ` · ${count} of ${FRAMEWORK.length} done` : ""}
       </p>
