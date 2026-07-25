@@ -124,6 +124,11 @@ export default function BrandingWhisperer() {
   const [scanStart, setScanStart] = useState(0);
   const [storedPattern, setStoredPattern] = useState(() => recall("pattern"));
   const [doneSteps] = useState(stepsDone);
+
+  // The scan only appears once they ask for it, so scroll after it mounts.
+  useEffect(() => {
+    if (scanStart > 0) scanRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [scanStart]);
   const [energy, setEnergy] = useState(null);
   const [stuck, setStuck] = useState(null);
   const [answers, setAnswers] = useState({});
@@ -460,7 +465,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.88)", maxWidth: 520, margin: "0 0 30px" }}>
                 A six-step framework for building a brand when self-promotion drains you. Start with a one-minute scan to find where you get stuck.
               </p>
-              <button className="mw-btn" onClick={() => { track("start_scan"); setScanStart((n) => n + 1); scanRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Find my pattern</button>
+              <button className="mw-btn" onClick={() => { track("start_scan"); setScanStart((n) => n + 1); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Find my pattern</button>
               <p style={{ fontSize: 14, color: "rgba(251,247,240,.6)", marginTop: 16, fontFamily: SANS }}>
                 No account, no typing. Eight taps to see where you get stuck.
               </p>
@@ -471,13 +476,15 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           </section>
 
           {/* ── STEP 1, THE SCAN: embedded right on the home so the scan is the front door ── */}
-          <section ref={scanRef} style={{ maxWidth: 720, margin: "0 auto", padding: "48px 24px 8px", scrollMarginTop: 16 }}>
+          {scanStart > 0 && (
+          <section ref={scanRef} className="mw-fade" style={{ maxWidth: 720, margin: "0 auto", padding: "48px 24px 8px", scrollMarginTop: 16 }}>
             <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>Step 1 · Start here</p>
             <h2 style={{ fontSize: "clamp(26px, 4vw, 36px)", lineHeight: 1.15, margin: "0 0 20px", fontWeight: 350 }}>
               Everyone gets stuck <span style={{ fontStyle: "italic", color: ACCENT }}>in their own particular way.</span>
             </h2>
             <InwardScan embedded startSignal={scanStart} />
           </section>
+          )}
 
           {/* ── WHO IT'S FOR: inclusive, by the feeling, never by a label. Lands the distinction fast. ── */}
           {/* ── WHO IT'S FOR: the "for the quiet ones" belief + the checklist, blended, with the two photos ── */}
