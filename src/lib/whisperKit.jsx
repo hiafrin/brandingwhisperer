@@ -509,8 +509,8 @@ export function Playbook() {
           ))}
         </div>
         <p style={{ fontSize: 15, lineHeight: 1.6, color: "#5C534B", margin: 0, fontFamily: SANS, maxWidth: 620 }}>
-          The full method for all seven, with the scripts and when to use each, is going in a short book I'm writing. It'll be nine dollars.{" "}
-          <a href="/resources" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>I'll announce it in the writing &rarr;</a>
+          The full method for each one, with the scripts and when to use them, is something I'm writing up properly.{" "}
+          <a href="/resources" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>I'll share it in the writing &rarr;</a>
         </p>
       </div>
 
