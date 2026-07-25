@@ -45,3 +45,21 @@ That prompt gets you the raw material. Turning it into an assistant you actually
 I put all of that, the full prompt pack and the worksheets, into a short book, because it is the part that took me the longest to work out and it is genuinely the useful bit. It is coming soon, for the price of a coffee. If you want to know when it is out, the writing lands in your inbox if you want it (the box is at the bottom, and the tools never ask for a thing).
 
 For now, run the voice prompt. Even on its own, it will change how you see everything you post next.
+
+## FAQ
+
+### How do I train AI to write in my voice?
+
+You do not train it in the machine-learning sense. You give it examples and instructions. Collect five to ten things you have genuinely written in your own words, ask the AI to describe the patterns in how you write rather than to rewrite you, then save that description and hand it back to the AI every time you ask for a draft. The examples are what make it sound like you, and they matter far more than clever wording in the prompt.
+
+### Why does ChatGPT sound so generic when it writes for me?
+
+Because a short request like "write a caption about my new product" gives it nothing personal to work from, so it falls back on the average of everything it has read, which reads as polished, upbeat and slightly corporate. The fix is to supply your own writing as raw material and to tell it explicitly what not to do, such as no hype words and no exclamation marks.
+
+### Do I need to know how to code to build an AI assistant?
+
+No. For most people an assistant is a saved set of instructions plus examples, which you can set up in a custom GPT or a Claude Project without writing any code. Everything in this post was built that way.
+
+### Is it dishonest to use AI to write my posts?
+
+Not if the substance is yours. The useful line is that the thinking, the experience and the voice should be yours, and the AI is helping you get it into words. What people object to is content with nothing real behind it, not the tool used to type it.

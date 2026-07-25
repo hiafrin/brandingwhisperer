@@ -18,6 +18,18 @@ const DIST = join(ROOT, "dist");
 const SITE_URL = "https://brandinginward.com";
 const SITE_NAME = "Branding Inward";
 
+// Shared entities. `sameAs` ties the writing to a real, findable person, which
+// is what answer engines use to attribute a quote to an author.
+const AUTHOR = {
+  "@type": "Person",
+  "@id": `${SITE_URL}/#afrin`,
+  name: "Sabiha Afrin",
+  jobTitle: "Brand strategist",
+  url: `${SITE_URL}/#/about`,
+  sameAs: ["https://www.linkedin.com/in/sabihaafrin"],
+};
+const PUBLISHER = { "@type": "Organization", "@id": `${SITE_URL}/#org`, name: SITE_NAME, url: `${SITE_URL}/` };
+
 // ── Brand tokens (kept in sync with src/lib/whisperKit.jsx) ──
 const ACCENT = "#0F7C77";
 const INK = "#2A2422";
@@ -36,6 +48,33 @@ const fmtDate = (iso) => {
 };
 const readingTime = (md) => Math.max(1, Math.round(md.split(/\s+/).length / 200)) + " min read";
 
+// ── FAQ extraction: authors just end a post with a `## FAQ` section and
+//    `### question?` subheads. The section stays VISIBLE in the rendered body
+//    (answer engines only trust Q&A they can actually see), and we also emit it
+//    as FAQPage structured data. ──
+function stripMd(s = "") {
+  return s
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")   // links → text
+    .replace(/[*_`>]/g, "")                     // emphasis/code marks
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function extractFaqs(body) {
+  const sec = body.match(/^##\s+(?:FAQ|Frequently asked questions)[^\n]*\n([\s\S]*)$/im);
+  if (!sec) return [];
+  const faqs = [];
+  // Each `### question` runs until the next ### / ## or the end of the section.
+  const re = /^###\s+(.+?)\s*$\n([\s\S]*?)(?=^###\s|^##\s|$(?![\s\S]))/gm;
+  let m;
+  while ((m = re.exec(sec[1])) !== null) {
+    const q = stripMd(m[1]);
+    const a = stripMd(m[2]);
+    if (q && a) faqs.push({ q, a });
+  }
+  return faqs;
+}
+
 // ── Frontmatter: simple `key: value` block between --- fences ──
 function parsePost(file) {
   const raw = readFileSync(join(POSTS_DIR, file), "utf8");
@@ -52,7 +91,10 @@ function parsePost(file) {
   if (!meta.title || !meta.date || !meta.description) {
     throw new Error(`Post ${file} needs title, date, and description in its frontmatter.`);
   }
-  return { slug, ...meta, body, html: marked.parse(body), reading: readingTime(body) };
+  // Wrap the rendered FAQ section (heading through end) so it can be styled as a block.
+  let html = marked.parse(body);
+  html = html.replace(/(<h2[^>]*>\s*(?:FAQ|Frequently asked questions)[\s\S]*)$/i, '<div class="faq">$1</div>');
+  return { slug, ...meta, body, html, reading: readingTime(body), faqs: extractFaqs(body) };
 }
 
 // ── Shared chrome ──
@@ -90,6 +132,11 @@ const STYLE = `
   article .prose em { font-style:italic; }
   article .prose blockquote { margin:0 0 20px; padding:4px 0 4px 20px; border-left:3px solid ${BUTTER}; font-style:italic; color:#5C534B; }
   .disclosure { font-family:'Inter',sans-serif; font-size:13px; line-height:1.55; color:#9A8F82; font-style:italic; background:${ACCENT_TINT}; border-radius:10px; padding:12px 16px; margin:0 0 32px; }
+  /* FAQ: a distinct, scannable block. Headings stay real h2/h3 so answer engines can parse them. */
+  article .prose .faq { margin-top:44px; padding-top:8px; border-top:1px solid #EFE7DA; }
+  article .prose .faq h2 { font-size:22px; margin:20px 0 4px; }
+  article .prose .faq h3 { font-size:19px; font-weight:600; margin:24px 0 6px; color:${INK_TEAL}; }
+  article .prose .faq h3 + p { margin-bottom:16px; }
   article .prose code { font-family:'Inter',sans-serif; font-size:.9em; background:${ACCENT_TINT}; padding:2px 6px; border-radius:5px; }
   /* CTA + signup */
   .cta { background:${ACCENT_TINT}; border:1px solid #DCEFEB; border-radius:16px; padding:24px 26px; margin:44px 0; }
@@ -158,7 +205,7 @@ const SIGNUP = `
     }
   </script>`;
 
-function pageShell({ title, description, canonical, jsonld, body }) {
+function pageShell({ title, description, canonical, jsonld, body, ogType = "website" }) {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -168,7 +215,7 @@ function pageShell({ title, description, canonical, jsonld, body }) {
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}" />
 <link rel="canonical" href="${canonical}" />
-<meta property="og:type" content="${jsonld ? "article" : "website"}" />
+<meta property="og:type" content="${ogType}" />
 <meta property="og:site_name" content="${SITE_NAME}" />
 <meta property="og:title" content="${esc(title)}" />
 <meta property="og:description" content="${esc(description)}" />
@@ -206,27 +253,72 @@ function renderIndex(posts) {
       <div style="margin-top:36px">${cards}</div>
       ${SIGNUP}
     </main>`;
+  const indexGraph = [
+    { "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: SITE_NAME, publisher: PUBLISHER },
+    {
+      "@type": "Blog",
+      "@id": `${SITE_URL}/resources#blog`,
+      url: `${SITE_URL}/resources`,
+      name: `${SITE_NAME} Resources`,
+      description: "How-tos on building a brand when self-promotion drains you.",
+      author: AUTHOR,
+      publisher: PUBLISHER,
+      blogPost: posts.map((p) => ({
+        "@type": "BlogPosting",
+        headline: p.title,
+        description: p.description,
+        datePublished: p.date,
+        url: `${SITE_URL}/resources/${p.slug}`,
+      })),
+    },
+  ];
   return pageShell({
     title: `Resources | ${SITE_NAME}`,
     description: "Plain, practical how-tos on building a brand when self-promotion drains you. Get known without performing.",
     canonical: `${SITE_URL}/resources`,
-    jsonld: null,
+    jsonld: JSON.stringify({ "@context": "https://schema.org", "@graph": indexGraph }),
     body,
   });
 }
 
 function renderPost(p) {
   const url = `${SITE_URL}/resources/${p.slug}`;
-  const jsonld = JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: p.title,
-    description: p.description,
-    datePublished: p.date,
-    author: { "@type": "Person", name: "Sabiha Afrin" },
-    publisher: { "@type": "Organization", name: SITE_NAME },
-    mainEntityOfPage: url,
-  });
+  const graph = [
+    {
+      "@type": "Article",
+      "@id": `${url}#article`,
+      headline: p.title,
+      description: p.description,
+      datePublished: p.date,
+      dateModified: p.updated || p.date,
+      author: AUTHOR,
+      publisher: PUBLISHER,
+      mainEntityOfPage: url,
+      isPartOf: { "@id": `${SITE_URL}/resources#blog` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${url}#breadcrumbs`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: SITE_NAME, item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Resources", item: `${SITE_URL}/resources` },
+        { "@type": "ListItem", position: 3, name: p.title, item: url },
+      ],
+    },
+  ];
+  // Only emit FAQPage when the post actually has visible Q&A on the page.
+  if (p.faqs && p.faqs.length) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": `${url}#faq`,
+      mainEntity: p.faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    });
+  }
+  const jsonld = JSON.stringify({ "@context": "https://schema.org", "@graph": graph });
   const body = `
     <main class="wrap" style="padding-top:40px; padding-bottom:8px">
       <p style="margin:0 0 24px"><a href="/resources" style="font-family:'Inter',sans-serif; font-size:14px; font-weight:600; text-decoration:none">&larr; Resources</a></p>
@@ -248,6 +340,7 @@ function renderPost(p) {
     description: p.description,
     canonical: url,
     jsonld,
+    ogType: "article",
     body,
   });
 }

@@ -31,3 +31,21 @@ There is a well-documented pattern behind this: people who promote themselves te
 4. **Do it again next month.** One quiet, credited post a month builds a wall of proof over a year, and you never once had to describe yourself.
 
 That is the whole method. You are not hiding. You are letting the work talk, which was always the plan. You are just making sure the sentence comes from the person best placed to say it, which is never you.
+
+## FAQ
+
+### How do I ask someone for a testimonial without feeling awkward?
+
+Keep the ask small and specific, and give them an easy out. Two sentences is a much smaller favour than "would you write me a testimonial," which sounds like homework. Try: "Would you mind writing two sentences, what you came to me for and what changed? No pressure at all if you would rather not." Naming the exact length is what makes people say yes, because they can picture the whole task.
+
+### What if nobody has ever said anything nice about my work?
+
+Almost always they have, and it just did not arrive labelled as a testimonial. Go looking in your messages, emails, and comments for the moment someone said thank you or described what your work did for them. A real sentence from a DM counts. If you genuinely have no customers yet, use the same structure on the process instead: post what you are making and what you are learning, and let the proof build over time.
+
+### Is posting someone else's words about me still self-promotion?
+
+Technically yes, and that is exactly why it works. The discomfort most people feel is not about being visible, it is about being the one making the claim. When the claim comes from someone else and you are simply showing the work, the part that made you flinch is gone, but the visibility is not.
+
+### How often should I post one of these?
+
+Once a month is plenty. Twelve credited, specific pieces of proof in a year is far more convincing than weekly posts about yourself, and it is a pace you can actually keep when you are tired.
