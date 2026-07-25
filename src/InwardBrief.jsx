@@ -3,7 +3,7 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, ToolsMenu, FrameworkStrip, PageQuote, BuddyForm, SiteFooter,
+  GrainOverlay, ToolsMenu, FrameworkStrip, PageQuote, BuddyForm, SiteFooter, ForgetButton,
   recall, primaryBtn,
 } from "./lib/whisperKit.jsx";
 
@@ -113,6 +113,10 @@ export default function InwardBrief() {
                 </div>
               )}
               {err && <p style={{ fontSize: 14, color: ACCENT, margin: "12px 0 0", fontFamily: SANS }}>{err}</p>}
+              {/* Reset lives here, where the saved results are actually shown. */}
+              <p style={{ margin: "20px 0 0" }}>
+                <ForgetButton label="Start fresh, forget my answers on this device" />
+              </p>
             </div>
           </>
         )}

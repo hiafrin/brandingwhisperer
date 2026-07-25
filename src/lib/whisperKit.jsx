@@ -279,6 +279,30 @@ export function stepsDone() {
   return FRAMEWORK.filter((s) => s.doneKey && recall(s.doneKey)).map((s) => s.key);
 }
 
+// ── Clearing everything is easy to reach but never one stray click away, so it
+//    arms first and asks. Used wherever saved results are actually shown. ──
+export function ForgetButton({ label = "Forget my answers on this device", tone = "light" }) {
+  const [armed, setArmed] = useState(false);
+  const c = tone === "dark"
+    ? { text: "rgba(251,247,240,.7)", strong: BUTTER, quiet: "rgba(251,247,240,.55)" }
+    : { text: "#857B70", strong: CORAL, quiet: "#9A8F82" };
+  const base = { background: "none", border: "none", padding: 0, cursor: "pointer", fontFamily: SANS, fontSize: 14 };
+
+  if (!armed) {
+    return (
+      <button onClick={() => setArmed(true)} style={{ ...base, color: c.text, textDecoration: "underline" }}>{label}</button>
+    );
+  }
+  return (
+    <span style={{ fontFamily: SANS, fontSize: 14, color: c.text }}>
+      This clears everything you've saved.{" "}
+      <button onClick={() => { forgetAll(); window.location.reload(); }} style={{ ...base, color: c.strong, fontWeight: 700, textDecoration: "underline" }}>Yes, clear it</button>
+      <span style={{ color: c.quiet }}> &middot; </span>
+      <button onClick={() => setArmed(false)} style={{ ...base, color: c.quiet }}>Keep it</button>
+    </span>
+  );
+}
+
 // ── The ordered breadcrumb: shows the whole journey with the current step lit,
 //    the next step emphasized, and a link to the assembled brief. Replaces the
 //    old NextTools on every page so nothing reads as a scattered dead end. ──
@@ -444,8 +468,10 @@ export function SiteFooter() {
           <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" style={link}>Say hi</a>
         </p>
         <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.5)", margin: "0 0 20px", fontFamily: SANS, maxWidth: 620 }}>
-          What you build stays only on your device, in this browser. I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool. Photos and film from Pexels artists, with thanks.{" "}
-          <button onClick={() => { forgetAll(); window.location.reload(); }} style={{ background: "none", border: "none", padding: 0, color: "rgba(251,247,240,.7)", textDecoration: "underline", cursor: "pointer", fontFamily: SANS, fontSize: 13 }}>Forget everything on this device</button>.
+          What you build stays only on your device, in this browser. I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool. Photos and film from Pexels artists, with thanks.
+        </p>
+        <p style={{ margin: "0 0 20px" }}>
+          <ForgetButton label="Forget everything on this device" tone="dark" />
         </p>
         <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>&mdash; <span style={{ color: BUTTER }}>S. Afrin</span></p>
       </div>

@@ -7,7 +7,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS, FrameworkStrip, StepBadge, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ToolHero, WhatThisDoes,
+  TOOLS, FrameworkStrip, StepBadge, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ForgetButton, ToolHero, WhatThisDoes,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 import InwardScan from "./InwardScan.jsx";
@@ -671,9 +671,12 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 8px", fontFamily: SANS, maxWidth: 640 }}>
               See yourself, understand yourself, express yourself, share yourself, refine yourself, keep yourself. Do them in order or start anywhere. Each one works on its own, and everything you find is kept for you at the end.
             </p>
-            <p style={{ fontSize: 15, color: ACCENT, margin: "0 0 22px", fontFamily: SANS, fontWeight: 600 }}>
-              {doneSteps.length ? `${doneSteps.length} of ${FRAMEWORK.length} done.` : ""}
-            </p>
+            {doneSteps.length > 0 && (
+              <p style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 14, margin: "0 0 22px" }}>
+                <span style={{ fontSize: 15, color: ACCENT, fontFamily: SANS, fontWeight: 600 }}>{doneSteps.length} of {FRAMEWORK.length} done.</span>
+                <ForgetButton label="Start fresh" />
+              </p>
+            )}
             <div style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 6, scrollSnapType: "x proximity", WebkitOverflowScrolling: "touch" }}>
               {FRAMEWORK.map((s) => {
                 const ok = doneSteps.includes(s.key);
