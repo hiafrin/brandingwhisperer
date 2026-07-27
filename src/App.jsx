@@ -566,13 +566,13 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </p>
             <a href="/ai-visibility" onClick={() => track("opened_aivis")} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: CREAM, background: INK_TEAL, borderRadius: 18, padding: "26px 28px" }}>
               <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 8px", fontWeight: 350, color: CREAM }}>
-                What does AI <span style={{ fontStyle: "italic", color: BUTTER }}>say about you?</span>
+                Is AI search finding you, <span style={{ fontStyle: "italic", color: BUTTER }}>or walking right past?</span>
               </h2>
               <p style={{ fontSize: 16, lineHeight: 1.6, color: "rgba(251,247,240,.82)", margin: "0 0 10px", fontFamily: SANS, maxWidth: 620 }}>
-                People ask AI assistants for recommendations now. Type your name, see the answer a stranger
-                would get, and leave with three fixes for being described correctly.
+                People ask AI assistants for recommendations now. Answer a few questions and get your
+                visibility score out of 100, with the three fixes that move it.
               </p>
-              <span style={{ fontFamily: SANS, fontSize: 15, color: BUTTER, fontWeight: 600 }}>Run the visibility check &rarr;</span>
+              <span style={{ fontFamily: SANS, fontSize: 15, color: BUTTER, fontWeight: 600 }}>Get my score &rarr;</span>
             </a>
           </section>
 

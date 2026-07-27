@@ -153,24 +153,28 @@ export const TOOL_PAGES = [
   {
     slug: "ai-visibility",
     step: null,
-    title: "The AI Visibility Check: what does AI say about you? | Branding Inward",
+    title: "The AI Visibility Snapshot: is AI search finding you? | Branding Inward",
     description:
-      "Type your name and see exactly what an AI assistant tells a stranger who asks about you, then get three tailored fixes for being found and described correctly. Free, no account.",
-    h1: "The AI Visibility Check",
+      "Answer a few questions about your brand and get a visibility score out of 100: how findable you currently are to AI search, the five-part breakdown behind it, and three tailored fixes. Free, no email.",
+    h1: "The AI Visibility Snapshot",
     summary:
-      "People now ask AI assistants for recommendations the way they used to ask a friend. This free check asks an AI about your name cold, shows you its verbatim answer, diagnoses what happened (it doesn't know you, it confused you with someone else, or it got your work wrong), and hands you three fixes under twenty minutes each. It sits outside the six-step Inward Framework: the steps build your brand, this checks how the machines currently see it.",
+      "People now ask AI assistants for recommendations the way they used to ask a friend. This free snapshot scores how findable your brand currently is to AI search, out of 100, across the five things answer engines actually check: name clarity, an anchor page, consistent bios, quotable answers, and third-party mentions. You leave with the breakdown and three fixes under twenty minutes each. It sits outside the six-step Inward Framework: the steps build your brand, this scores how findable it is.",
     faqs: [
       {
-        q: "What does the AI visibility check actually do?",
-        a: "It asks an AI assistant about your name blind, before the AI sees anything you typed about yourself, then compares the answer with what you actually do and diagnoses the gap: invisible, mistaken identity, half the story, or already visible. You leave with three tailored fixes.",
+        q: "What does the AI visibility snapshot actually do?",
+        a: "You describe your brand and answer four quick questions about your setup. It returns a score out of 100 with a band (Unseen, A faint trace, Coming into view, or Found), a five-part breakdown of where the points went, and three tailored fixes that move the score.",
       },
       {
-        q: "Is this a live search of what Google or ChatGPT says about me?",
-        a: "No, and the tool says so plainly. It reads what one AI model learned during training, which is exactly the kind of knowledge assistants answer from when someone asks about you. Other models may know more or less. Treat it as one mirror, not the verdict.",
+        q: "Is this a live scan of what AI search says about me?",
+        a: "No, and the page says so plainly. The score is estimated from your own answers plus AI judgment of your name itself. Treat it as a starting-point assessment, not a technical audit.",
+      },
+      {
+        q: "Do I have to give my email to see my results?",
+        a: "No. The full results, score, breakdown, and fixes appear right on the page. No account, no email, and nothing you type is saved.",
       },
       {
         q: "What kind of fixes does it give?",
-        a: "The quiet kind: a canonical About page, one bio sentence used identically everywhere, FAQ-shaped pages that answer engines can quote, pairing your name with your craft so you can't be confused with someone more famous, and getting one citable third-party mention. No posting schedule, no performing.",
+        a: "The quiet kind: one anchor page that says plainly who you are, one bio sentence used identically everywhere, FAQ-shaped pages engines can quote, pairing your name with your craft, and one citable third-party mention. No posting schedule, no performing.",
       },
     ],
   },
