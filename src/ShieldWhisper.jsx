@@ -322,6 +322,12 @@ These answers are also your voice sample. Study how they wrote them, not just wh
               )}
               <button className="mw-ghost" onClick={back} style={ghostBtn}>Back</button>
             </div>
+            {/* This page invites speaking, so say why the button is missing. */}
+            {!voiceSupported && (
+              <p style={{ fontSize: 13, color: "#B9AFA2", marginTop: 14, fontFamily: SANS }}>
+                Speaking needs Chrome, Edge or Safari. Typing works everywhere.
+              </p>
+            )}
           </div>
         )}
 

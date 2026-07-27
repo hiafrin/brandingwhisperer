@@ -732,7 +732,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </div>
             {!voiceSupported && (
               <p style={{ fontSize: 13, color: "#B9AFA2", marginTop: 14, fontFamily: SANS }}>
-                The “Speak” button turns on once this is on a live website.
+                Speaking needs Chrome, Edge or Safari. Typing works everywhere.
               </p>
             )}
           </div>
