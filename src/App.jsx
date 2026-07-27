@@ -533,7 +533,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               Six steps. <span style={{ fontStyle: "italic", color: ACCENT }}>One clear you at the end.</span>
             </h2>
             <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 8px", fontFamily: SANS, maxWidth: 640 }}>
-              See yourself, understand yourself, express yourself, share yourself, refine yourself, keep yourself. Do them in order or start anywhere. Each one works on its own, and everything you find is kept for you at the end.
+              Do them in order or start anywhere. Each one works on its own, and everything you find is kept for you.
             </p>
             {doneSteps.length > 0 && (
               <p style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 14, margin: "0 0 22px" }}>
