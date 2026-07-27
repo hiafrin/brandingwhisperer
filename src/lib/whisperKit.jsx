@@ -459,11 +459,8 @@ export function SiteFooter() {
         <p style={{ fontSize: 18, lineHeight: 1.55, color: CREAM, margin: "0 0 8px", maxWidth: 620 }}>
           Built by a real branding professional, <span style={{ fontStyle: "italic", color: BUTTER }}>not another tech company.</span>
         </p>
-        <p style={{ fontSize: 15, lineHeight: 1.65, color: "rgba(251,247,240,.72)", margin: "0 0 14px", fontFamily: SANS, maxWidth: 620 }}>
-          More than a decade in brand marketing, agency-side then client-side, made free for people who never came from marketing.
-        </p>
         <p style={{ fontSize: 15, lineHeight: 1.65, color: "rgba(251,247,240,.72)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
-          These aren't generic AI answers. Real questions from a real strategist, delivered by AI so they reach you in minutes, for free.
+          More than a decade in brand marketing, agency-side then client-side. The questions are mine, not generic AI prompts, and the AI just makes them fast. Free, always.
         </p>
         <p style={{ fontSize: 15, lineHeight: 1.9, margin: "0 0 20px", fontFamily: SANS }}>
           <a href="/resources" style={link}>Resources</a>
@@ -475,7 +472,7 @@ export function SiteFooter() {
           <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" style={link}>Say hi</a>
         </p>
         <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.5)", margin: "0 0 20px", fontFamily: SANS, maxWidth: 620 }}>
-          What you build stays only on your device, in this browser. I never see it. No cookies, no personal data, just anonymous counts of how many people use the tool. Photos and film from Pexels artists, with thanks.
+          Everything you make stays on your device. I never see it. No cookies, no personal data, just anonymous visit counts. Photos from Pexels.
         </p>
         <p style={{ margin: "0 0 20px" }}>
           <ForgetButton label="Forget everything on this device" tone="dark" />
