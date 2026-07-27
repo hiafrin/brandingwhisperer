@@ -404,7 +404,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
       <div style={{ maxWidth: 680, margin: "0 auto", padding: step === -1 ? "40px 24px 40px" : "56px 24px 80px" }}>
         {step !== -1 && (
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 48 }}>
-            <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
+            <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
               <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
                 Branding Inward

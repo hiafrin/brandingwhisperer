@@ -232,22 +232,22 @@ export function DoodleScan({ color = ACCENT, size = 44 }) {
 //    the scan's routing read from here, so a tool is described in exactly one
 //    place. ──
 export const TOOLS = {
-  scan: { key: "scan", href: "#/", name: "The inward scan", pain: "I don't even know where I'm stuck, let alone where to start.", cta: "Find your pattern, 8 taps", accent: BUTTER, Doodle: DoodleScan },
-  foundation: { key: "foundation", href: "#/foundation", name: "The six questions", pain: "I don't know what actually makes me different.", cta: "Find what you're really about", accent: ACCENT, Doodle: DoodleBubble },
-  voice: { key: "voice", href: "#/shield", name: "Your brand voice", pain: "Posting feels like exposing myself, not my work.", cta: "Hear the voice you already have", accent: ACCENT, Doodle: DoodleShield },
-  roast: { key: "roast", href: "#/roast", name: "The gentle roast", pain: "I wrote the post. Then I deleted it, it didn't sound like me.", cta: "Get it read, kindly", accent: CORAL, Doodle: DoodleFlame },
-  plan: { key: "plan", href: "#/plan", name: "The quieter plan", pain: "I can't post every day. Honestly, I don't want to.", cta: "Find the plan you won't dread", accent: ACCENT, Doodle: DoodleCompass },
+  scan: { key: "scan", href: "/scan", name: "The inward scan", pain: "I don't even know where I'm stuck, let alone where to start.", cta: "Find your pattern, 8 taps", accent: BUTTER, Doodle: DoodleScan },
+  foundation: { key: "foundation", href: "/foundation", name: "The six questions", pain: "I don't know what actually makes me different.", cta: "Find what you're really about", accent: ACCENT, Doodle: DoodleBubble },
+  voice: { key: "voice", href: "/brand-voice", name: "Your brand voice", pain: "Posting feels like exposing myself, not my work.", cta: "Hear the voice you already have", accent: ACCENT, Doodle: DoodleShield },
+  roast: { key: "roast", href: "/roast", name: "The gentle roast", pain: "I wrote the post. Then I deleted it, it didn't sound like me.", cta: "Get it read, kindly", accent: CORAL, Doodle: DoodleFlame },
+  plan: { key: "plan", href: "/plan", name: "The quieter plan", pain: "I can't post every day. Honestly, I don't want to.", cta: "Find the plan you won't dread", accent: ACCENT, Doodle: DoodleCompass },
 };
 
 // ── THE INWARD FRAMEWORK: the ordered spine. One source of truth for the
 //    numbering, the strip, the menu, and the brief. ──
 export const FRAMEWORK = [
-  { n: 1, key: "scan", href: "#/", verb: "See yourself", short: "See", name: "The Inward Scan", blurb: "The pattern you can't see on your own.", doneKey: "patternName" },
-  { n: 2, key: "foundation", href: "#/foundation", verb: "Understand yourself", short: "Understand", name: "What you're really about", blurb: "The un-copyable thing in your own story.", doneKey: "reallyabout" },
-  { n: 3, key: "voice", href: "#/shield", verb: "Express yourself", short: "Express", name: "Your Brand Voice", blurb: "How you already talk, written down.", doneKey: "voice" },
-  { n: 4, key: "plan", href: "#/plan", verb: "Share yourself", short: "Share", name: "The Quieter Plan", blurb: "Put it out at a cost you can bear.", doneKey: "playbook" },
-  { n: 5, key: "roast", href: "#/roast", verb: "Refine yourself", short: "Refine", name: "The Gentle Roast", blurb: "Sharpen what you already wrote.", doneKey: "roasted" },
-  { n: 6, key: "brief", href: "#/brief", verb: "Keep yourself", short: "Keep", name: "Your Inward Brief", blurb: "All of it, in one place.", doneKey: null },
+  { n: 1, key: "scan", href: "/scan", verb: "See yourself", short: "See", name: "The Inward Scan", blurb: "The pattern you can't see on your own.", doneKey: "patternName" },
+  { n: 2, key: "foundation", href: "/foundation", verb: "Understand yourself", short: "Understand", name: "What you're really about", blurb: "The un-copyable thing in your own story.", doneKey: "reallyabout" },
+  { n: 3, key: "voice", href: "/brand-voice", verb: "Express yourself", short: "Express", name: "Your Brand Voice", blurb: "How you already talk, written down.", doneKey: "voice" },
+  { n: 4, key: "plan", href: "/plan", verb: "Share yourself", short: "Share", name: "The Quieter Plan", blurb: "Put it out at a cost you can bear.", doneKey: "playbook" },
+  { n: 5, key: "roast", href: "/roast", verb: "Refine yourself", short: "Refine", name: "The Gentle Roast", blurb: "Sharpen what you already wrote.", doneKey: "roasted" },
+  { n: 6, key: "brief", href: "/brief", verb: "Keep yourself", short: "Keep", name: "Your Inward Brief", blurb: "All of it, in one place.", doneKey: null },
 ];
 
 // ── Which steps this device has finished, read from what each tool already
@@ -262,7 +262,7 @@ export function stepsDone() {
 export function KeptNote({ section }) {
   return (
     <p style={{ fontSize: 14, color: "#9A8F82", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
-      Saved on this device only, never sent. This is now the <strong style={{ color: "#5C534B", fontWeight: 600 }}>{section}</strong> section of your <a href="#/brief" style={{ color: ACCENT }}>Inward Brief</a>.
+      Saved on this device only, never sent. This is now the <strong style={{ color: "#5C534B", fontWeight: 600 }}>{section}</strong> section of your <a href="/brief" style={{ color: ACCENT }}>Inward Brief</a>.
     </p>
   );
 }
@@ -322,7 +322,7 @@ export function FrameworkStrip({ current }) {
 
       {current !== "brief" && (
         <p style={{ margin: "16px 0 0" }}>
-          <a href="#/brief" style={{ fontFamily: SANS, fontSize: 15, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>
+          <a href="/brief" style={{ fontFamily: SANS, fontSize: 15, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>
             {count ? `Or see what you've kept so far (${count}) →` : "Or see your Inward Brief →"}
           </a>
         </p>
@@ -342,7 +342,7 @@ export function StepBadge({ stepKey }) {
         Step {s.n} of {FRAMEWORK.length} · {s.verb}
       </span>
       <span style={{ color: "#5C534B" }}>This works on its own, start right here.</span>
-      <a href="#/" style={{ color: ACCENT, fontWeight: 600 }}>New here? See all six &rarr;</a>
+      <a href="/" style={{ color: ACCENT, fontWeight: 600 }}>New here? See all six &rarr;</a>
     </div>
   );
 }
@@ -372,7 +372,7 @@ export function ToolsMenu() {
       dot: done.includes(s.key) ? ACCENT : "#D9D2C6",
     })),
     { section: "More", href: "/resources", name: "Resources", cta: "How-tos for getting known without performing", dot: ACCENT },
-    { section: "More", href: "#/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
+    { section: "More", href: "/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
   ];
 
   return (
@@ -431,7 +431,7 @@ export function SiteFooter() {
         <p style={{ fontSize: 15, lineHeight: 1.9, margin: "0 0 20px", fontFamily: SANS }}>
           <a href="/resources" style={link}>Resources</a>
           <span style={sep}>&middot;</span>
-          <a href="#/about" style={link}>Read my story</a>
+          <a href="/about" style={link}>Read my story</a>
           <span style={sep}>&middot;</span>
           <a href="https://www.linkedin.com/in/sabihaafrin" target="_blank" rel="noopener noreferrer" style={link}>LinkedIn</a>
           <span style={sep}>&middot;</span>
@@ -711,7 +711,7 @@ export function ToolHero({ label, photo, accent = ACCENT, Doodle, headline, sub,
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(175deg, rgba(11,59,52,.82) 0%, rgba(11,59,52,.66) 45%, rgba(11,59,52,.9) 100%)" }} />
       <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "48px 24px 64px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 48 }}>
-          <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+          <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
             <span style={{ width: 11, height: 11, borderRadius: "50%", background: accent }} />
             <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
           </a>

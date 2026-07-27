@@ -32,7 +32,7 @@ export default function AboutInward() {
       {/* ── HERO: portrait + point of view ── */}
       <section style={{ background: INK_TEAL }}>
         <div className="mw-fade" style={{ maxWidth: 920, margin: "0 auto", padding: "48px 24px 60px" }}>
-          <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", marginBottom: 44 }}>
+          <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", marginBottom: 44 }}>
             <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
             <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
           </a>

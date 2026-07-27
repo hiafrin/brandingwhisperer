@@ -61,7 +61,7 @@ const STUCK = [
     key: "different",
     label: "I don't know what makes me different.",
     path: "Start with your foundation",
-    href: "#/foundation",
+    href: "/foundation",
     why: "Six questions find the un-copyable thing hiding in your own story, not a claim you have to invent.",
     today: "Answer just one: where were you the moment this started?",
   },
@@ -69,7 +69,7 @@ const STUCK = [
     key: "voice",
     label: "I sound unlike myself online.",
     path: "Hear your own voice",
-    href: "#/shield",
+    href: "/brand-voice",
     why: "Your voice already exists. The voice tool watches how you actually write, then hands it back, named.",
     today: "Paste three things you've written anywhere. Let it notice what you can't see.",
   },
@@ -77,7 +77,7 @@ const STUCK = [
     key: "deleting",
     label: "I keep deleting everything.",
     path: "Rescue it, don't rewrite it",
-    href: "#/roast",
+    href: "/roast",
     why: "You don't need a new draft. You need the one you deleted, edited toward you instead of away from you.",
     today: "Find the last thing you deleted. Paste it in before you reread it.",
   },
@@ -85,7 +85,7 @@ const STUCK = [
     key: "exhausting",
     label: "Marketing is exhausting.",
     path: "Get a plan built under your energy",
-    href: "#/plan",
+    href: "/plan",
     why: "You were handed a plan built for people who love promotion. This one hides most of marketing and keeps only what fits your battery.",
     today: "Say how much time you can give without resenting it. The plan fits inside that.",
   },
@@ -93,7 +93,7 @@ const STUCK = [
     key: "focus",
     label: "I don't know where to focus.",
     path: "Let one path get chosen for you",
-    href: "#/plan",
+    href: "/plan",
     why: "Choosing is the exhausting part, so the plan picks one path, never a menu of twelve.",
     today: "Name what you make. One path comes back, with permission to ignore the rest.",
   },
@@ -101,7 +101,7 @@ const STUCK = [
     key: "ideas",
     label: "I have too many ideas.",
     path: "Find the one word they all circle",
-    href: "#/foundation",
+    href: "/foundation",
     why: "Too many ideas is a focus problem in disguise. Your foundation names the word to own, and the rest gets quieter.",
     today: "Answer just one: what do you want people to think when your name comes up?",
   },
@@ -109,17 +109,18 @@ const STUCK = [
 
 // Pattern facts shared with the scan page: display name + where their path starts.
 const PATTERN_HOME = {
-  hider: { name: "The Hider", start: "#/shield", startName: "the voice tool" },
-  pusher: { name: "The Pusher", start: "#/plan", startName: "the quieter plan" },
-  deleter: { name: "The Deleter", start: "#/roast", startName: "the gentle roast" },
-  perfectionist: { name: "The Perfectionist", start: "#/roast", startName: "the gentle roast" },
-  scatterer: { name: "The Scatterer", start: "#/plan", startName: "the quieter plan" },
+  hider: { name: "The Hider", start: "/brand-voice", startName: "the voice tool" },
+  pusher: { name: "The Pusher", start: "/plan", startName: "the quieter plan" },
+  deleter: { name: "The Deleter", start: "/roast", startName: "the gentle roast" },
+  perfectionist: { name: "The Perfectionist", start: "/roast", startName: "the gentle roast" },
+  scatterer: { name: "The Scatterer", start: "/plan", startName: "the quieter plan" },
 };
 
-export default function BrandingWhisperer() {
-  // The home (#/) is the landing (step -1) with the Scan embedded; the six
-  // questions live at #/foundation (step 0+). Same engine, driven by the hash.
-  const [step, setStep] = useState(() => (window.location.hash === "#/foundation" ? -2 : -1));
+export default function BrandingWhisperer({ view = "home" }) {
+  // The home (/) is the landing (step -1) with the Scan embedded; the six
+  // questions live at /foundation (step 0+). Same engine, told apart by the
+  // router's view prop.
+  const [step, setStep] = useState(() => (view === "foundation" ? -2 : -1));
   const scanRef = useRef(null);
   const [scanStart, setScanStart] = useState(0);
   const [storedPattern, setStoredPattern] = useState(() => recall("pattern"));
@@ -204,16 +205,13 @@ export default function BrandingWhisperer() {
     if (step >= 0 && step < QUESTIONS.length && inputRef.current) inputRef.current.focus();
   }, [step]);
 
-  // Keep the view in sync with the hash: #/foundation shows the six questions,
-  // everything else (#/, #/scan) shows the landing with the Scan embedded.
+  // Keep the view in sync with the route: /foundation shows the six questions,
+  // the home shows the landing with the Scan embedded. The router remounts on
+  // popstate too, but a view change without a remount still lands here.
   useEffect(() => {
-    const sync = () => {
-      if (window.location.hash === "#/foundation") setStep((s) => (s === -1 ? -2 : s));
-      else setStep(-1);
-    };
-    window.addEventListener("hashchange", sync);
-    return () => window.removeEventListener("hashchange", sync);
-  }, []);
+    if (view === "foundation") setStep((s) => (s === -1 ? -2 : s));
+    else setStep(-1);
+  }, [view]);
 
   // Auto-save the foundation result to THIS device (never sent) for the Inward Brief.
   useEffect(() => {
@@ -504,7 +502,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   ))}
                 </div>
                 <p style={{ margin: energy ? "16px 0 0" : "16px 0 0" }}>
-                  <a href="#/brief" onClick={() => track("welcomeback_brief")} style={{ fontFamily: SANS, fontSize: 14, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>See your Inward Brief so far &rarr;</a>
+                  <a href="/brief" onClick={() => track("welcomeback_brief")} style={{ fontFamily: SANS, fontSize: 14, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>See your Inward Brief so far &rarr;</a>
                 </p>
                 {energy && (
                   <div className="mw-fade">
@@ -601,12 +599,12 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           </section>
 
           {/* The "why this exists" positioning now lives in the shared SiteFooter,
-              so it isn't repeated here. Full story is on #/about. */}
+              so it isn't repeated here. Full story is on /about. */}
           {/* Success stories now live only on the Inward Scan, not on every page. */}
         </>
       )}
 
-      {/* ── #/foundation INTRO: a hero + what-this-does, so Step 2 matches the other tools ── */}
+      {/* ── /foundation INTRO: a hero + what-this-does, so Step 2 matches the other tools ── */}
       {step === -2 && (
         <>
           <ToolHero
@@ -666,7 +664,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                     <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#F7D06B", fontWeight: 600, margin: "0 0 5px" }}>Today</p>
                     <p style={{ fontSize: 16, lineHeight: 1.5, color: CREAM, margin: 0 }}>{s.today}</p>
                   </div>
-                  {s.href && s.href !== "#/foundation" ? (
+                  {s.href && s.href !== "/foundation" ? (
                     <a href={s.href} className="mw-btn" style={{ ...primaryBtn, display: "inline-block", textDecoration: "none" }}>{s.path} →</a>
                   ) : (
                     <button className="mw-btn" onClick={() => { track("started"); setStep(0); window.scrollTo({ top: 0 }); }} style={primaryBtn}>{s.path} →</button>

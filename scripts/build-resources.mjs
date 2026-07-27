@@ -25,7 +25,7 @@ const AUTHOR = {
   "@id": `${SITE_URL}/#afrin`,
   name: "Sabiha Afrin",
   jobTitle: "Brand strategist",
-  url: `${SITE_URL}/#/about`,
+  url: `${SITE_URL}/about`,
   sameAs: ["https://www.linkedin.com/in/sabihaafrin"],
 };
 const PUBLISHER = { "@type": "Organization", "@id": `${SITE_URL}/#org`, name: SITE_NAME, url: `${SITE_URL}/` };
@@ -345,6 +345,54 @@ function renderPost(p) {
   });
 }
 
+// ── Tool pages: each real route gets its own dist/<slug>/index.html, cloned
+//    from the built SPA shell so the hashed asset tags stay correct, with its
+//    own head and crawlable text inside #root (search and AI answer engines
+//    mostly don't run JS; React replaces the text on mount). ──
+function renderToolPage(shell, t) {
+  const url = `${SITE_URL}/${t.slug}`;
+  let html = shell
+    .replace(/<title>[^<]*<\/title>/, `<title>${esc(t.title)}</title>`)
+    .replace(/(<meta name="description" content=")[^"]*(")/, `$1${esc(t.description)}$2`)
+    .replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${url}$2`)
+    .replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${esc(t.title)}$2`)
+    .replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${esc(t.description)}$2`)
+    .replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${url}$2`)
+    .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${esc(t.title)}$2`)
+    .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${esc(t.description)}$2`);
+
+  const graph = [
+    {
+      "@type": "SoftwareApplication",
+      name: t.h1,
+      url,
+      applicationCategory: "DesignApplication",
+      operatingSystem: "Web",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      description: t.description,
+      author: AUTHOR,
+      publisher: PUBLISHER,
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: t.faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ];
+  const jsonld = `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@graph": graph })}</script>`;
+  html = html.replace("</head>", `${jsonld}\n</head>`);
+
+  // Crawlable fallback content. React clears it on mount.
+  const fallback = `<h1>${esc(t.h1)}</h1>
+<p>${esc(t.step ? `Step ${t.step} of 6 in the Inward Framework. ` : "")}${esc(t.summary)}</p>
+${t.faqs.map((f) => `<h2>${esc(f.q)}</h2>\n<p>${esc(f.a)}</p>`).join("\n")}
+<p><a href="/">Branding Inward: all six steps</a> · <a href="/resources">Resources</a></p>`;
+  return html.replace('<div id="root"></div>', `<div id="root">${fallback}</div>`);
+}
+
 // ── Run ──
 if (!existsSync(POSTS_DIR)) { console.log("[resources] no src/posts dir, skipping."); process.exit(0); }
 const files = readdirSync(POSTS_DIR).filter((f) => f.endsWith(".md"));
@@ -358,12 +406,26 @@ for (const p of posts) {
   writeFileSync(join(dir, "index.html"), renderPost(p));
 }
 
+// tool pages
+const { TOOL_PAGES } = await import(join(ROOT, "src", "lib", "toolPages.js"));
+const shell = readFileSync(join(DIST, "index.html"), "utf8");
+for (const t of TOOL_PAGES) {
+  const dir = join(DIST, t.slug);
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, "index.html"), renderToolPage(shell, t));
+}
+
 // sitemap + robots
-const urls = [`${SITE_URL}/`, `${SITE_URL}/resources`, ...posts.map((p) => `${SITE_URL}/resources/${p.slug}`)];
+const urls = [
+  `${SITE_URL}/`,
+  ...TOOL_PAGES.map((t) => `${SITE_URL}/${t.slug}`),
+  `${SITE_URL}/resources`,
+  ...posts.map((p) => `${SITE_URL}/resources/${p.slug}`),
+];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
   .map((u) => `  <url><loc>${u}</loc></url>`)
   .join("\n")}\n</urlset>\n`;
 writeFileSync(join(DIST, "sitemap.xml"), sitemap);
 writeFileSync(join(DIST, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
-console.log(`[resources] built ${posts.length} post(s) + index, sitemap, robots.`);
+console.log(`[resources] built ${posts.length} post(s) + ${TOOL_PAGES.length} tool page(s) + index, sitemap (${urls.length} urls), robots.`);

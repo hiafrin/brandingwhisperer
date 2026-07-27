@@ -10,16 +10,16 @@ import {
 // Each brief line, the device key it reads, and the step that fills it.
 // Ordered by the framework: See, Understand, Express, Share, Refine.
 // hrefs must match the real routes: the scan lives on the home, and the six
-// questions moved to #/foundation when the front door was swapped.
+// questions moved to /foundation when the front door was swapped.
 const ITEMS = [
-  { key: "patternName", label: "How I get stuck", step: "See yourself", href: "#/" },
-  { key: "reallyabout", label: "What I'm really about", step: "Understand yourself", href: "#/foundation" },
-  { key: "edge", label: "What makes me un-copyable", step: "Understand yourself", href: "#/foundation" },
-  { key: "voice", label: "My voice, named", step: "Express yourself", href: "#/shield" },
-  { key: "voicesample", label: "A post that sounds like me", step: "Express yourself", href: "#/shield" },
-  { key: "playbook", label: "The path I chose", step: "Share yourself", href: "#/plan" },
-  { key: "firstmove", label: "My first move", step: "Share yourself", href: "#/plan" },
-  { key: "roasted", label: "A line worth keeping", step: "Refine yourself", href: "#/roast" },
+  { key: "patternName", label: "How I get stuck", step: "See yourself", href: "/scan" },
+  { key: "reallyabout", label: "What I'm really about", step: "Understand yourself", href: "/foundation" },
+  { key: "edge", label: "What makes me un-copyable", step: "Understand yourself", href: "/foundation" },
+  { key: "voice", label: "My voice, named", step: "Express yourself", href: "/brand-voice" },
+  { key: "voicesample", label: "A post that sounds like me", step: "Express yourself", href: "/brand-voice" },
+  { key: "playbook", label: "The path I chose", step: "Share yourself", href: "/plan" },
+  { key: "firstmove", label: "My first move", step: "Share yourself", href: "/plan" },
+  { key: "roasted", label: "A line worth keeping", step: "Refine yourself", href: "/roast" },
 ];
 
 export default function InwardBrief() {
@@ -71,7 +71,7 @@ export default function InwardBrief() {
       {/* HERO */}
       <section style={{ background: INK_TEAL }}>
         <div className="mw-fade" style={{ maxWidth: 820, margin: "0 auto", padding: "48px 24px 56px" }}>
-          <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", marginBottom: 40 }}>
+          <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", marginBottom: 40 }}>
             <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
             <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
           </a>
@@ -91,7 +91,7 @@ export default function InwardBrief() {
             <p style={{ fontSize: 19, lineHeight: 1.55, margin: "0 0 16px", color: INK }}>
               Nothing here yet. Each step you finish adds a line, and it all stays on this device.
             </p>
-            <a href="#/" style={{ fontFamily: SANS, fontSize: 16, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>Start with the Inward Scan &rarr;</a>
+            <a href="/" style={{ fontFamily: SANS, fontSize: 16, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>Start with the Inward Scan &rarr;</a>
           </div>
         ) : (
           <>

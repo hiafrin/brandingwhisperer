@@ -7,30 +7,87 @@ import RoastWhisper from "./RoastWhisper.jsx";
 import PlanWhisper from "./PlanWhisper.jsx";
 import AboutInward from "./AboutInward.jsx";
 import InwardBrief from "./InwardBrief.jsx";
+import InwardScan from "./InwardScan.jsx";
+import { TOOL_PAGES } from "./lib/toolPages.js";
 
+// Real, indexable paths — one per tool. Each is also pre-rendered to its own
+// dist/<slug>/index.html by scripts/build-resources.mjs so crawlers see it.
 const ROUTES = {
-  "#/shield": ShieldWhisper,
-  "#/roast": RoastWhisper,
-  "#/editor": RoastWhisper, // old URL, briefly live, kept as a silent alias
-  "#/plan": PlanWhisper,
-  "#/about": AboutInward,
-  "#/brief": InwardBrief,
-  // The Scan now lives on the home (#/); the six questions live at #/foundation.
-  // Both render App, which reads the hash. #/scan is redirected to #/ below.
+  "/": () => <App view="home" />,
+  "/scan": () => <InwardScan />,
+  "/foundation": () => <App view="foundation" />,
+  "/brand-voice": () => <ShieldWhisper />,
+  "/plan": () => <PlanWhisper />,
+  "/roast": () => <RoastWhisper />,
+  "/brief": () => <InwardBrief />,
+  "/about": () => <AboutInward />,
 };
 
+// Old hash URLs, briefly live and possibly bookmarked or shared. Each maps to
+// its new real path on load, so nothing anyone saved ever breaks.
+const LEGACY_HASH = {
+  "#/": "/",
+  "#/scan": "/scan",
+  "#/foundation": "/foundation",
+  "#/shield": "/brand-voice",
+  "#/roast": "/roast",
+  "#/editor": "/roast", // even older URL, kept as a silent alias
+  "#/plan": "/plan",
+  "#/about": "/about",
+  "#/brief": "/brief",
+};
+
+function normalizePath(p) {
+  return p.length > 1 && p.endsWith("/") ? p.slice(0, -1) : p;
+}
+
+// Per-page titles, from the same data the pre-render bakes into each page's
+// static HTML, so a soft navigation and a direct load always agree.
+const TITLES = Object.fromEntries(TOOL_PAGES.map((t) => [`/${t.slug}`, t.title]));
+
 function Router() {
-  const [hash, setHash] = useState(window.location.hash);
+  const [path, setPath] = useState(() => normalizePath(window.location.pathname));
+
   useEffect(() => {
-    const norm = () => {
-      if (window.location.hash === "#/scan") { window.location.hash = "/"; return; } // old scan URL -> home
-      setHash(window.location.hash);
+    // Legacy hash → real path, once, on boot.
+    const legacy = LEGACY_HASH[window.location.hash];
+    if (legacy) {
+      window.history.replaceState({}, "", legacy);
+      setPath(legacy);
+    }
+
+    const onPop = () => setPath(normalizePath(window.location.pathname));
+    window.addEventListener("popstate", onPop);
+
+    // One interceptor for every internal link: pushState instead of a full
+    // reload, so the site keeps its instant feel while every link stays a
+    // plain <a> that right-click and open-in-new-tab handle correctly.
+    const onClick = (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = e.target.closest("a[href]");
+      if (!a || a.target === "_blank" || a.origin !== window.location.origin) return;
+      if (a.getAttribute("href").startsWith("#")) return; // in-page anchors stay native
+      const href = normalizePath(a.pathname);
+      if (!(href in ROUTES)) return; // /resources and unknowns do a real load
+      e.preventDefault();
+      if (href !== normalizePath(window.location.pathname)) {
+        window.history.pushState({}, "", href);
+        setPath(href);
+        window.scrollTo({ top: 0 });
+      }
     };
-    norm(); // handle a direct load on #/scan
-    window.addEventListener("hashchange", norm);
-    return () => window.removeEventListener("hashchange", norm);
+    document.addEventListener("click", onClick);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      document.removeEventListener("click", onClick);
+    };
   }, []);
-  const Page = ROUTES[hash] || App;
+
+  useEffect(() => {
+    document.title = TITLES[path] || "Branding Inward";
+  }, [path]);
+
+  const Page = ROUTES[path] || ROUTES["/"];
   return <Page />;
 }
 

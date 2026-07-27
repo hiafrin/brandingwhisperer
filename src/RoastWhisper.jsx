@@ -174,7 +174,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
       <div style={{ maxWidth: 720, margin: "0 auto", padding: (result || loading) ? "56px 24px 80px" : "40px 24px 40px" }}>
         {(result || loading) && (
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 48 }}>
-            <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
+            <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
               <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
                 Branding Inward

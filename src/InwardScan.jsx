@@ -105,10 +105,10 @@ const QUESTIONS = [
 ];
 
 const TOOLS = {
-  voice: { href: "#/shield", name: "Hear your voice", desc: "A quiet interview that observes the voice you already have and hands it back, named." },
-  foundation: { href: "#/foundation", name: "Define the brand", desc: "Six questions, then your foundation: what you're about, the moment you're for, the word to own." },
-  roast: { href: "#/roast", name: "Rescue what you wrote", desc: "Paste your page or a deleted draft. It tells you what to keep, then what's worth a gentle fix." },
-  plan: { href: "#/plan", name: "Get a plan that fits your energy", desc: "What to ignore, and a rhythm you can actually keep without crashing." },
+  voice: { href: "/brand-voice", name: "Hear your voice", desc: "A quiet interview that observes the voice you already have and hands it back, named." },
+  foundation: { href: "/foundation", name: "Define the brand", desc: "Six questions, then your foundation: what you're about, the moment you're for, the word to own." },
+  roast: { href: "/roast", name: "Rescue what you wrote", desc: "Paste your page or a deleted draft. It tells you what to keep, then what's worth a gentle fix." },
+  plan: { href: "/plan", name: "Get a plan that fits your energy", desc: "What to ignore, and a rhythm you can actually keep without crashing." },
 };
 
 const PATTERNS = {
@@ -253,7 +253,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
       <div style={{ maxWidth: 680, margin: "0 auto", padding: embedded ? 0 : (step === -1 ? "40px 24px 80px" : "48px 24px 80px") }}>
         {!embedded && step !== -1 && (
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 40 }}>
-            <a href="#/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
+            <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
               <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
                 Branding Inward
@@ -397,7 +397,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
                 </>
               ) : (
                 <p style={{ fontSize: 14, color: ACCENT, margin: 0, fontFamily: SANS, fontWeight: 600 }}>
-                  Saved on this device only, never sent. It's in your <a href="#/brief" style={{ color: ACCENT }}>Inward Brief</a> now, and the home page will remember you. Clear it anytime from the footer.
+                  Saved on this device only, never sent. It's in your <a href="/brief" style={{ color: ACCENT }}>Inward Brief</a> now, and the home page will remember you. Clear it anytime from the footer.
                 </p>
               )}
             </div>
