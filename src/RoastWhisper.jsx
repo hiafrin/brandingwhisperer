@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, RoastOrigin, ToolsMenu, SiteFooter, TOOLS,
+  GrainOverlay, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, RoastOrigin, ToolsMenu, SiteFooter, TOOLS, KeptNote,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -306,6 +306,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
                   </button>
                   <button className="mw-ghost" onClick={restart} style={ghostBtn}>Roast something else</button>
                 </div>
+                <KeptNote section="Refine yourself" />
               </div>
             )}
           </div>

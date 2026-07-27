@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, VoiceStory, SiteFooter, ToolsMenu,
+  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, VoiceStory, SiteFooter, ToolsMenu, KeptNote,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -400,6 +400,8 @@ These answers are also your voice sample. Study how they wrote them, not just wh
                     </button>
                   </div>
                 </div>
+
+                <KeptNote section="Express yourself" />
 
                 <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E5DDD1" }}>
                   <button className="mw-ghost" onClick={restart} style={{ ...ghostBtn, marginLeft: 0 }}>Start over</button>

@@ -228,9 +228,9 @@ export function DoodleScan({ color = ACCENT, size = 44 }) {
   );
 }
 
-// ── The tool registry: single source of truth for every page. Home cards, the
-//    scan's routing, and the NextTools bridge all read from here, so a tool is
-//    described in exactly one place. ──
+// ── The tool registry: single source of truth for every page. Home cards and
+//    the scan's routing read from here, so a tool is described in exactly one
+//    place. ──
 export const TOOLS = {
   scan: { key: "scan", href: "#/", name: "The inward scan", pain: "I don't even know where I'm stuck, let alone where to start.", cta: "Find your pattern, 8 taps", accent: BUTTER, Doodle: DoodleScan },
   foundation: { key: "foundation", href: "#/foundation", name: "The six questions", pain: "I don't know what actually makes me different.", cta: "Find what you're really about", accent: ACCENT, Doodle: DoodleBubble },
@@ -238,36 +238,6 @@ export const TOOLS = {
   roast: { key: "roast", href: "#/roast", name: "The gentle roast", pain: "I wrote the post. Then I deleted it, it didn't sound like me.", cta: "Get it read, kindly", accent: CORAL, Doodle: DoodleFlame },
   plan: { key: "plan", href: "#/plan", name: "The quieter plan", pain: "I can't post every day. Honestly, I don't want to.", cta: "Find the plan you won't dread", accent: ACCENT, Doodle: DoodleCompass },
 };
-
-// Which two siblings to show at the end of each tool, so no page is a dead end.
-const NEXT = {
-  scan: ["voice", "plan"],
-  foundation: ["voice", "roast"],
-  voice: ["roast", "plan"],
-  roast: ["voice", "plan"],
-  plan: ["voice", "roast"],
-};
-
-// ── The "where to next" bridge, at the end of every tool page. ──
-export function NextTools({ current }) {
-  const pair = (NEXT[current] || ["voice", "plan"]).map((k) => TOOLS[k]).filter(Boolean);
-  return (
-    <section style={{ maxWidth: 920, margin: "56px auto 0", padding: "0 24px" }}>
-      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 4px" }}>Where to next</p>
-      <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 18px", fontFamily: SANS }}>These tools work together. Same voice, one small step at a time.</p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
-        {pair.map((t) => (
-          <a key={t.key} href={t.href} onClick={() => track("next_" + current + "_" + t.key)} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "22px 24px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
-            <t.Doodle color={t.accent} />
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: t.accent === BUTTER ? "#854F0B" : t.accent, fontWeight: 700, margin: "12px 0 6px" }}>{t.name}</p>
-            <p style={{ fontSize: 18, lineHeight: 1.4, fontStyle: "italic", margin: "0 0 12px" }}>&ldquo;{t.pain}&rdquo;</p>
-            <span style={{ color: ACCENT, fontWeight: 600, fontFamily: SANS, fontSize: 15 }}>{t.cta} &rarr;</span>
-          </a>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 // ── THE INWARD FRAMEWORK: the ordered spine. One source of truth for the
 //    numbering, the strip, the menu, and the brief. ──
@@ -284,6 +254,17 @@ export const FRAMEWORK = [
 //    saved. No new storage: the course tracks itself from real results. ──
 export function stepsDone() {
   return FRAMEWORK.filter((s) => s.doneKey && recall(s.doneKey)).map((s) => s.key);
+}
+
+// ── The standalone payoff line, shown on a tool's result screen: this one
+//    result is complete on its own AND just became a section of the Brief, so
+//    doing all six visibly compounds. One sentence, one link, device-only. ──
+export function KeptNote({ section }) {
+  return (
+    <p style={{ fontSize: 14, color: "#9A8F82", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
+      Saved on this device only, never sent. This is now the <strong style={{ color: "#5C534B", fontWeight: 600 }}>{section}</strong> section of your <a href="#/brief" style={{ color: ACCENT }}>Inward Brief</a>.
+    </p>
+  );
 }
 
 // ── Clearing everything is easy to reach but never one stray click away, so it
@@ -310,9 +291,9 @@ export function ForgetButton({ label = "Forget my answers on this device", tone 
   );
 }
 
-// ── The ordered breadcrumb: shows the whole journey with the current step lit,
-//    the next step emphasized, and a link to the assembled brief. Replaces the
-//    old NextTools on every page so nothing reads as a scattered dead end. ──
+// ── The single forward move at the bottom of every tool page: one dark card
+//    for the next step plus a quiet link to the assembled brief. The full six
+//    live only in the FRAMEWORK menu, so there is exactly one navigation. ──
 export function FrameworkStrip({ current }) {
   const [done] = useState(stepsDone);
   const idx = FRAMEWORK.findIndex((s) => s.key === current);
@@ -325,21 +306,6 @@ export function FrameworkStrip({ current }) {
       <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>
         The Inward Framework{count ? ` · ${count} of ${FRAMEWORK.length} done` : ""}
       </p>
-
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: next ? 20 : 14 }}>
-        {FRAMEWORK.map((s) => {
-          const on = s.key === current;
-          const ok = done.includes(s.key);
-          return (
-            <a key={s.key} href={s.href} title={s.name} style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", background: on ? INK_TEAL : ok ? ACCENT_TINT : "#FFF", color: on ? CREAM : INK, border: `1px solid ${on ? INK_TEAL : ok ? "#DCEFEB" : "#EFE7DA"}`, borderRadius: 100, padding: "7px 15px 7px 7px", fontFamily: SANS, fontSize: 14, fontWeight: 600 }}>
-              <span style={{ width: 22, height: 22, borderRadius: "50%", background: on ? BUTTER : ok ? ACCENT : ACCENT_TINT, color: on ? INK_TEAL : ok ? "#FFF" : ACCENT, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
-                {ok && !on ? "✓" : s.n}
-              </span>
-              {s.short}
-            </a>
-          );
-        })}
-      </div>
 
       {next && (
         <a href={next.href} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: CREAM, background: INK_TEAL, borderRadius: 16, padding: "22px 26px" }}>

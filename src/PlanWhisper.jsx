@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY, CHANNEL_LIBRARY,
   parseWhisperResponse, recall, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, Playbook, ToolsMenu, SiteFooter, TOOLS,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, Playbook, ToolsMenu, SiteFooter, TOOLS, KeptNote,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -542,6 +542,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
                   </button>
                   <button className="mw-ghost" onClick={restart} style={ghostBtn}>Start over</button>
                 </div>
+                <KeptNote section="Share yourself" />
 
                 {photoTool("Now try it, right here")}
               </div>

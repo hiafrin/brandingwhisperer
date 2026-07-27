@@ -7,7 +7,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS, FrameworkStrip, StepBadge, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ForgetButton, ToolHero, WhatThisDoes,
+  TOOLS, FrameworkStrip, StepBadge, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ForgetButton, KeptNote, ToolHero, WhatThisDoes,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 import InwardScan from "./InwardScan.jsx";
@@ -841,6 +841,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                           {copied ? "Copied ✓" : "Copy everything"}
                         </button>
                       </div>
+                      <KeptNote section="Understand yourself" />
                     </div>
 
                     <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E5DDD1" }}>
