@@ -371,7 +371,7 @@ export function ToolsMenu() {
       cta: s.name,
       dot: done.includes(s.key) ? ACCENT : "#D9D2C6",
     })),
-    { section: "More", href: "/ai-visibility", name: "AI visibility snapshot", cta: "Is AI search finding you? Score out of 100", dot: CORAL },
+    { section: "More", href: "/ai-visibility", name: "AI visibility snapshot", cta: "Your findability score, then the words that raise it", dot: CORAL },
     { section: "More", href: "/resources", name: "Resources", cta: "How-tos for getting known without performing", dot: ACCENT },
     { section: "More", href: "/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
   ];

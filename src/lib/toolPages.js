@@ -153,16 +153,20 @@ export const TOOL_PAGES = [
   {
     slug: "ai-visibility",
     step: null,
-    title: "The AI Visibility Snapshot: is AI search finding you? | Branding Inward",
+    title: "The AI Visibility Snapshot: your findability score, then the words that raise it | Branding Inward",
     description:
-      "Answer a few questions about your brand and get a visibility score out of 100: how findable you currently are to AI search, the five-part breakdown behind it, and three tailored fixes. Free, no email.",
+      "AI search can't hear volume, only clarity. Get your findability score out of 100, then a kit written in your voice: an About paragraph, one bio sentence, three quotable answers. Free, no email.",
     h1: "The AI Visibility Snapshot",
     summary:
-      "People now ask AI assistants for recommendations the way they used to ask a friend. This free snapshot scores how findable your brand currently is to AI search, out of 100, across the five things answer engines actually check: name clarity, an anchor page, consistent bios, quotable answers, and third-party mentions. You leave with the breakdown and three fixes under twenty minutes each. It sits outside the six-step Inward Framework: the steps build your brand, this scores how findable it is.",
+      "People now ask AI assistants for recommendations the way they used to ask a friend, and the engines can't tell who's loudest, only who's clearest. This free snapshot scores how findable your brand currently is across the five quiet signals answer engines actually check, then writes the findability kit that raises it: an anchor paragraph for your About page, one bio sentence to use identically everywhere, and three quotable answers, all in your own words. Not one signal requires posting, performing, or showing your face. It sits outside the six-step Inward Framework: the steps build your brand, this makes it findable.",
     faqs: [
       {
         q: "What does the AI visibility snapshot actually do?",
-        a: "You describe your brand and answer four quick questions about your setup. It returns a score out of 100 with a band (Unseen, A faint trace, Coming into view, or Found), a five-part breakdown of where the points went, and three tailored fixes that move the score.",
+        a: "You describe your brand and answer four quick questions about your setup. It returns a findability score out of 100 with a band (Unseen, A faint trace, Coming into view, or Found), the five-signal breakdown behind it, and then writes your findability kit: an anchor paragraph, one bio sentence, and three quotable answers, ready to paste.",
+      },
+      {
+        q: "How is this different from other AI visibility checkers?",
+        a: "Most tools grade you and hand you a to-do list. This one writes the actual words: the About paragraph, the bio sentence, the FAQ answers, built only from facts you gave it, in your voice. If you've done the six-step framework, it borrows the voice and story already saved on your device.",
       },
       {
         q: "Is this a live scan of what AI search says about me?",
@@ -170,11 +174,7 @@ export const TOOL_PAGES = [
       },
       {
         q: "Do I have to give my email to see my results?",
-        a: "No. The full results, score, breakdown, and fixes appear right on the page. No account, no email, and nothing you type is saved.",
-      },
-      {
-        q: "What kind of fixes does it give?",
-        a: "The quiet kind: one anchor page that says plainly who you are, one bio sentence used identically everywhere, FAQ-shaped pages engines can quote, pairing your name with your craft, and one citable third-party mention. No posting schedule, no performing.",
+        a: "No. The score, the breakdown, and the full kit appear right on the page. No account, no email, and nothing you type is saved.",
       },
     ],
   },
