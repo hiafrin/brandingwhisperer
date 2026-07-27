@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { track } from "@vercel/analytics";
 import {
-  ACCENT, INK, CREAM, ACCENT_RGB, INK_TEAL, CORAL, BUTTER, ACCENT_TINT,
+  ACCENT, INK, CREAM, ACCENT_RGB, INK_TEAL, BUTTER, ACCENT_TINT,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   remember, recall, forgetAll, QUIET_MOVES,
   parseWhisperResponse,
@@ -598,36 +598,6 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             <p style={{ fontSize: 16, lineHeight: 1.65, color: "#5C534B", margin: 0, fontFamily: SANS }}>
               Makers, coaches, writers, professors, quiet experts. Solo or a small team. No label required, and if being visible feels like a cost, you're in the right place.
             </p>
-          </section>
-
-          {/* ── THE SCIENCE BAND: the research that vindicates quiet people. Static, cited, no AI. ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "36px 24px 8px" }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The science of quiet branding</p>
-            <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 20px", fontWeight: 350 }}>
-              Everything here is built on research, <span style={{ fontStyle: "italic", color: ACCENT }}>not vibes.</span>
-            </h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
-              {[
-                {
-                  myth: "“I should promote myself more.”",
-                  fact: "Self-promoters are liked less, and judged no more capable. Your instinct not to brag is correct.",
-                  source: "A Carnegie Mellon study, 2015",
-                },
-                {
-                  myth: "“I need to be everywhere, loudly.”",
-                  fact: "About 95% of your future buyers aren't ready today. The job is being remembered later, not converting now.",
-                  source: "Decades of buyer-behavior research",
-                },
-              ].map((c, i) => (
-                <div key={i} style={{ ...plainCard, marginBottom: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-                  <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: CORAL, fontWeight: 700, margin: 0 }}>The myth</p>
-                  <p style={{ fontSize: 20, fontStyle: "italic", lineHeight: 1.35, margin: 0 }}>{c.myth}</p>
-                  <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 700, margin: "6px 0 0" }}>The research</p>
-                  <p style={{ fontSize: 16, lineHeight: 1.55, margin: 0, color: "#3D3630" }}>{c.fact}</p>
-                  <p style={{ fontFamily: SANS, fontSize: 12, color: "#9A8F82", margin: "auto 0 0", paddingTop: 6 }}>{c.source}</p>
-                </div>
-              ))}
-            </div>
           </section>
 
           {/* The "why this exists" positioning now lives in the shared SiteFooter,
