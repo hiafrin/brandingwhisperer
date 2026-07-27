@@ -455,16 +455,13 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   Branding Inward
                 </span>
               </div>
-              {/* The question names the fear, the line under it answers. */}
-              <h1 style={{ fontSize: "clamp(34px, 5.8vw, 54px)", lineHeight: 1.06, margin: "0 0 16px", fontWeight: 350, color: CREAM, letterSpacing: "-0.01em" }}>
-                Is your best work quietly <span style={{ fontStyle: "italic", color: BUTTER }}>going unseen?</span>
-              </h1>
-              <p style={{ fontSize: "clamp(20px, 2.6vw, 26px)", lineHeight: 1.2, margin: "0 0 20px", color: CREAM, fontWeight: 350 }}>
+              <h1 style={{ fontSize: "clamp(36px, 6.2vw, 58px)", lineHeight: 1.05, margin: "0 0 20px", fontWeight: 350, color: CREAM, letterSpacing: "-0.01em" }}>
+                Get known.<br />
                 <span style={{ display: "inline-block" }}>
-                  Get known. <span style={{ fontStyle: "italic", fontWeight: 400, color: BUTTER }}>Without performing.</span>
+                  <span style={{ fontStyle: "italic", fontWeight: 400, color: BUTTER }}>Without performing.</span>
                   <UnderlineStroke width={280} />
                 </span>
-              </p>
+              </h1>
               <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.88)", maxWidth: 520, margin: "0 0 30px" }}>
                 A six-step framework for building a brand when self-promotion drains you. Start with a one-minute scan to find where you get stuck.
               </p>
@@ -583,10 +580,10 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".04em", textTransform: "uppercase", color: "#857B70", fontWeight: 600, margin: "0 0 14px" }}>This is for you if&hellip;</p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "14px 40px", marginBottom: 18 }}>
               {[
-                "Self-promotion makes you feel a little gross.",
+                "Self-promotion feels a little gross.",
                 "You'd rather be found than be seen.",
                 "You freeze when it's time to post.",
-                "You want to sound like yourself, not like everyone else.",
+                "You want to sound like you, not everyone else.",
               ].map((t, i) => (
                 <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                   <span style={{ flexShrink: 0, color: INK_TEAL, fontWeight: 700, fontSize: 18, lineHeight: 1.4 }}>&#10003;</span>
@@ -595,7 +592,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               ))}
             </div>
             <p style={{ fontSize: 16, lineHeight: 1.65, color: "#5C534B", margin: 0, fontFamily: SANS }}>
-              You don't have to call yourself an introvert, or anything at all. Makers, coaches, writers, musicians, professors, quiet experts, first-timers, seasoned pros. If being visible feels like a cost, you're in the right place.
+              Makers, coaches, writers, professors, quiet experts. No label required. If being visible feels like a cost, you're in the right place.
             </p>
           </section>
 
