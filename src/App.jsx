@@ -584,20 +584,24 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 "You'd rather be found than be seen.",
                 "You freeze when it's time to post.",
                 "You want to sound like you, not everyone else.",
-              ].map((t, i) => (
-                <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                "You're building your own name, or a small business.",
+              ].map((t, i, arr) => (
+                // The last line is a different kind of statement (which are you,
+                // not how do you feel), so it spans the row instead of being
+                // orphaned alone in a half-empty one.
+                <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", gridColumn: i === arr.length - 1 ? "1 / -1" : "auto" }}>
                   <span style={{ flexShrink: 0, color: INK_TEAL, fontWeight: 700, fontSize: 18, lineHeight: 1.4 }}>&#10003;</span>
                   <span style={{ fontSize: 17, lineHeight: 1.45, color: INK }}>{t}</span>
                 </div>
               ))}
             </div>
             <p style={{ fontSize: 16, lineHeight: 1.65, color: "#5C534B", margin: 0, fontFamily: SANS }}>
-              Makers, coaches, writers, professors, quiet experts. No label required. If being visible feels like a cost, you're in the right place.
+              Makers, coaches, writers, professors, quiet experts. Solo or a small team. No label required, and if being visible feels like a cost, you're in the right place.
             </p>
           </section>
 
           {/* ── THE SCIENCE BAND: the research that vindicates quiet people. Static, cited, no AI. ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "48px 24px 8px" }}>
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "36px 24px 8px" }}>
             <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The science of quiet branding</p>
             <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 20px", fontWeight: 350 }}>
               Everything here is built on research, <span style={{ fontStyle: "italic", color: ACCENT }}>not vibes.</span>
@@ -606,12 +610,12 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               {[
                 {
                   myth: "“I should promote myself more.”",
-                  fact: "In a 2015 Carnegie Mellon study, self-promoters were liked less and judged no more competent. Your instinct to not brag isn't a weakness. It's correct.",
+                  fact: "Self-promoters are liked less, and judged no more capable. Your instinct not to brag is correct.",
                   source: "A Carnegie Mellon study, 2015",
                 },
                 {
                   myth: "“I need to be everywhere, loudly.”",
-                  fact: "About 95% of your future buyers aren't ready to buy today. A brand's real job is being quietly remembered later, and simply showing up regularly builds trust on its own.",
+                  fact: "About 95% of your future buyers aren't ready today. The job is being remembered later, not converting now.",
                   source: "Decades of buyer-behavior research",
                 },
               ].map((c, i) => (
