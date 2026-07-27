@@ -151,6 +151,30 @@ export const TOOL_PAGES = [
     ],
   },
   {
+    slug: "ai-visibility",
+    step: null,
+    title: "The AI Visibility Check: what does AI say about you? | Branding Inward",
+    description:
+      "Type your name and see exactly what an AI assistant tells a stranger who asks about you, then get three tailored fixes for being found and described correctly. Free, no account.",
+    h1: "The AI Visibility Check",
+    summary:
+      "People now ask AI assistants for recommendations the way they used to ask a friend. This free check asks an AI about your name cold, shows you its verbatim answer, diagnoses what happened (it doesn't know you, it confused you with someone else, or it got your work wrong), and hands you three fixes under twenty minutes each. It sits outside the six-step Inward Framework: the steps build your brand, this checks how the machines currently see it.",
+    faqs: [
+      {
+        q: "What does the AI visibility check actually do?",
+        a: "It asks an AI assistant about your name blind, before the AI sees anything you typed about yourself, then compares the answer with what you actually do and diagnoses the gap: invisible, mistaken identity, half the story, or already visible. You leave with three tailored fixes.",
+      },
+      {
+        q: "Is this a live search of what Google or ChatGPT says about me?",
+        a: "No, and the tool says so plainly. It reads what one AI model learned during training, which is exactly the kind of knowledge assistants answer from when someone asks about you. Other models may know more or less. Treat it as one mirror, not the verdict.",
+      },
+      {
+        q: "What kind of fixes does it give?",
+        a: "The quiet kind: a canonical About page, one bio sentence used identically everywhere, FAQ-shaped pages that answer engines can quote, pairing your name with your craft so you can't be confused with someone more famous, and getting one citable third-party mention. No posting schedule, no performing.",
+      },
+    ],
+  },
+  {
     slug: "about",
     step: null,
     title: "About: the strategist behind Branding Inward",
