@@ -560,20 +560,20 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </div>
           </section>
 
-          {/* ── WHO IT'S FOR: the "for the quiet ones" belief + the checklist, blended, with the two photos ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 8px" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 22, alignItems: "center", marginBottom: 28 }}>
-              <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "3/4", boxShadow: "0 16px 40px rgba(11,59,52,.14)" }}>
+          {/* ── WHO IT'S FOR: small photo accents, the words carry it ── */}
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "36px 24px 8px" }}>
+            <div className="mw-who-grid" style={{ marginBottom: 24 }}>
+              <div style={{ borderRadius: 16, overflow: "hidden", aspectRatio: "1/1", boxShadow: "0 10px 26px rgba(11,59,52,.12)" }}>
                 <img src="/media/pottery-hands.jpg" alt="Hands shaping clay on a pottery wheel" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               </div>
               <div style={{ padding: "8px 6px" }}>
                 <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 12px" }}>Who it's for</p>
-                <p style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.25, margin: 0, fontWeight: 350 }}>
-                  Most marketing advice assumes self-promotion comes easy.<br />
+                <p style={{ fontSize: "clamp(20px, 2.7vw, 25px)", lineHeight: 1.3, margin: 0, fontWeight: 350 }}>
+                  Most marketing advice assumes self-promotion comes easy.{" "}
                   <span style={{ fontStyle: "italic", color: ACCENT }}>This place is for when it doesn't.</span>
                 </p>
               </div>
-              <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "3/4", boxShadow: "0 16px 40px rgba(11,59,52,.14)" }}>
+              <div style={{ borderRadius: 16, overflow: "hidden", aspectRatio: "1/1", boxShadow: "0 10px 26px rgba(11,59,52,.12)" }}>
                 <img src="/media/writing-notebook.jpg" alt="A hand writing in a notebook by a window, coffee and glasses nearby" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", animationDelay: "-12s" }} />
               </div>
             </div>

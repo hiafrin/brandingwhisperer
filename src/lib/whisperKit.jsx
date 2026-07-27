@@ -132,6 +132,13 @@ export const GLOBAL_CSS = `
   .mw-buddy-input::placeholder { color: rgba(251,247,240,.5); }
   .mw-buddy-input:focus { border-color: rgba(247,208,107,.6) !important; }
   @media (max-width: 640px) { .mw-about-grid { grid-template-columns: 1fr !important; gap: 28px !important; } .mw-about-grid > div:first-child { max-width: 240px; } }
+  /* Who it's for: small photo accents, the words get the room. */
+  .mw-who-grid { display: grid; grid-template-columns: 150px 1fr 150px; gap: 26px; align-items: center; }
+  @media (max-width: 700px) {
+    .mw-who-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .mw-who-grid > div:nth-child(2) { grid-column: 1 / -1; order: -1; }
+    .mw-who-grid > div:first-child, .mw-who-grid > div:last-child { max-width: 150px; }
+  }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
     video { display: none !important; }
