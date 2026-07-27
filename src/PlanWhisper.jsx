@@ -257,6 +257,9 @@ Choose their path, build the plan inside their real time, and make the buddy pro
     setPhotoBusy(true); setPhotoErr(null);
     const a = answers;
     const memWord = recall("word");
+    // Usable without the plan: fall back to whatever earlier steps saved here.
+    const memVoice = recall("voice");
+    const memAbout = recall("reallyabout");
 
     const sys = `You help a shy maker turn ONE real photo of their own work into posts they could actually publish, written in their own voice. You can SEE the photo. Ground everything in what is genuinely in it. Never invent details that are not there, and if you are unsure what something is, describe it plainly instead of guessing a brand, a price, or a story that might be false.
 
@@ -283,7 +286,7 @@ Return ONLY valid JSON, no markdown, no preamble, compact, every key exactly "na
 - What I make or do: ${a.makes || "not sure yet"}
 - How I honestly feel about posting: ${a.social || ""}
 - When talking about my work has felt easy: ${a.easy || ""}
-${result?.path ? `- The path I chose: ${result.path}` : ""}${memWord ? `\n- The one word I want to own: ${memWord}` : ""}
+${result?.path ? `- The path I chose: ${result.path}` : ""}${memWord ? `\n- The one word I want to own: ${memWord}` : ""}${memAbout ? `\n- What I'm really about: ${memAbout}` : ""}${memVoice ? `\n- My brand voice is called: ${memVoice}` : ""}
 
 Look at the photo and write 3 posts around it, in my voice.`;
 
@@ -316,6 +319,69 @@ Look at the photo and write 3 posts around it, in my voice.`;
     { key: "plan", label: "The next two weeks, three moves, that's all", body: result.plan },
     { key: "buddy", label: "The buddy move, the one nobody puts in the plan", body: result.buddy, ask: result.ask },
   ].filter((c) => c.body) : [];
+
+  // The most immediately useful thing on this page, so it is offered up front
+  // as well as after the plan. It needs no plan answers: the prompt falls back
+  // to whatever the other steps already saved on this device.
+  const photoTool = (eyebrow) => (
+    <div style={{ marginTop: 34, border: `2px solid ${ACCENT}`, borderRadius: 18, padding: "26px 26px", background: "#FFF" }}>
+      <p style={miniLabel}>{eyebrow}</p>
+      <h3 style={{ fontSize: 26, lineHeight: 1.2, margin: "0 0 8px", fontWeight: 400 }}>Turn a photo into posts</h3>
+      <p style={{ fontSize: 16, lineHeight: 1.6, color: "#5C534B", margin: "0 0 18px", fontFamily: SANS }}>
+        Upload one photo, a shot of what you made, your workspace, a whiteboard you filled, your hands
+        mid-process, a short clip. I'll look at it and write three posts around it, in your voice. No face required.
+      </p>
+
+      <input ref={fileRef} type="file" accept="image/*,video/*" onChange={onPhoto} style={{ display: "none" }} />
+
+      {photoPreview && (
+        <div style={{ borderRadius: 14, overflow: "hidden", marginBottom: 16, maxWidth: 320, border: "1px solid #EFE7DA" }}>
+          <img src={photoPreview} alt="The photo you uploaded" style={{ width: "100%", display: "block" }} />
+        </div>
+      )}
+
+      <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+        <button className="mw-btn" onClick={() => fileRef.current && fileRef.current.click()} disabled={photoBusy}
+          style={{ ...primaryBtn, padding: "13px 24px", fontSize: 15, opacity: photoBusy ? 0.5 : 1, cursor: photoBusy ? "wait" : "pointer" }}>
+          {photoPreview ? "Choose a different photo" : "Choose a photo"}
+        </button>
+        <span style={{ fontSize: 13, color: "#9A8F82", fontFamily: SANS }}>Stays on your device while I look. Never saved.</span>
+      </div>
+
+      {photoBusy && (
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 20 }}>
+          <div style={{ display: "flex", gap: 6 }}>
+            {[0, 1, 2].map((i) => <span key={i} style={{ width: 7, height: 7, borderRadius: "50%", background: ACCENT, animation: `pulse 1.2s ${i * 0.2}s infinite ease-in-out` }} />)}
+          </div>
+          <p style={{ fontSize: 16, color: "#5C534B", margin: 0 }}>Looking at your photo, writing in your voice…</p>
+        </div>
+      )}
+
+      {photoErr && !photoBusy && (
+        <p style={{ fontSize: 15, color: ACCENT, lineHeight: 1.5, marginTop: 16 }}>{photoErr}</p>
+      )}
+
+      {postResult && !photoBusy && (
+        <div className="mw-fade" style={{ marginTop: 22 }}>
+          {postResult.seen && (
+            <p style={{ fontSize: 15, fontStyle: "italic", color: "#857B70", margin: "0 0 18px", fontFamily: SANS, lineHeight: 1.55 }}>
+              Here's what I see: {postResult.seen}
+            </p>
+          )}
+          {postResult.posts.map((p, i) => (
+            <div key={i} className="mw-deal" style={{ ...plainCard, boxShadow: "none" }}>
+              {p.where && <p style={{ ...miniLabel, marginBottom: 8 }}>{p.where}</p>}
+              <p style={{ fontSize: 18, lineHeight: 1.55, margin: "0 0 12px", color: INK, whiteSpace: "pre-wrap" }}>{p.caption}</p>
+              {p.why && <p style={{ fontSize: 13, color: "#857B70", fontStyle: "italic", fontFamily: SANS, margin: "0 0 12px", lineHeight: 1.5 }}>{p.why}</p>}
+              <button className="mw-btn" onClick={() => copyCaption(p.caption, i)} style={{ ...primaryBtn, background: "#FFF", color: ACCENT, border: `2px solid ${ACCENT}`, boxShadow: "none", padding: "9px 18px", fontSize: 14 }}>
+                {postCopied === i ? "Copied ✓" : "Copy this caption"}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
@@ -364,6 +430,8 @@ Look at the photo and write 3 posts around it, in my voice.`;
             <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 16, fontFamily: SANS }}>
               No account. Your answers stay on your device, never sent to me. Ramble welcome, nobody's grading this.
             </p>
+
+            {photoTool("Or start here, no plan needed")}
           </div>
         )}
 
@@ -475,64 +543,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
                   <button className="mw-ghost" onClick={restart} style={ghostBtn}>Start over</button>
                 </div>
 
-                {/* ── PHOTO TO POSTS: the plan tells you what to do, this helps you do it ── */}
-                <div style={{ marginTop: 34, border: `2px solid ${ACCENT}`, borderRadius: 18, padding: "26px 26px", background: "#FFF" }}>
-                  <p style={miniLabel}>Now try it, right here</p>
-                  <h3 style={{ fontSize: 26, lineHeight: 1.2, margin: "0 0 8px", fontWeight: 400 }}>Turn a photo into posts</h3>
-                  <p style={{ fontSize: 16, lineHeight: 1.6, color: "#5C534B", margin: "0 0 18px", fontFamily: SANS }}>
-                    Upload one photo, a shot of what you made, your workspace, a whiteboard you filled, your hands
-                    mid-process, a short clip. I'll look at it and write three posts around it, in your voice. No face required.
-                  </p>
-
-                  <input ref={fileRef} type="file" accept="image/*,video/*" onChange={onPhoto} style={{ display: "none" }} />
-
-                  {photoPreview && (
-                    <div style={{ borderRadius: 14, overflow: "hidden", marginBottom: 16, maxWidth: 320, border: "1px solid #EFE7DA" }}>
-                      <img src={photoPreview} alt="The photo you uploaded" style={{ width: "100%", display: "block" }} />
-                    </div>
-                  )}
-
-                  <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-                    <button className="mw-btn" onClick={() => fileRef.current && fileRef.current.click()} disabled={photoBusy}
-                      style={{ ...primaryBtn, padding: "13px 24px", fontSize: 15, opacity: photoBusy ? 0.5 : 1, cursor: photoBusy ? "wait" : "pointer" }}>
-                      {photoPreview ? "Choose a different photo" : "Choose a photo"}
-                    </button>
-                    <span style={{ fontSize: 13, color: "#9A8F82", fontFamily: SANS }}>Stays on your device while I look. Never saved.</span>
-                  </div>
-
-                  {photoBusy && (
-                    <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 20 }}>
-                      <div style={{ display: "flex", gap: 6 }}>
-                        {[0, 1, 2].map((i) => <span key={i} style={{ width: 7, height: 7, borderRadius: "50%", background: ACCENT, animation: `pulse 1.2s ${i * 0.2}s infinite ease-in-out` }} />)}
-                      </div>
-                      <p style={{ fontSize: 16, color: "#5C534B", margin: 0 }}>Looking at your photo, writing in your voice…</p>
-                    </div>
-                  )}
-
-                  {photoErr && !photoBusy && (
-                    <p style={{ fontSize: 15, color: ACCENT, lineHeight: 1.5, marginTop: 16 }}>{photoErr}</p>
-                  )}
-
-                  {postResult && !photoBusy && (
-                    <div className="mw-fade" style={{ marginTop: 22 }}>
-                      {postResult.seen && (
-                        <p style={{ fontSize: 15, fontStyle: "italic", color: "#857B70", margin: "0 0 18px", fontFamily: SANS, lineHeight: 1.55 }}>
-                          Here's what I see: {postResult.seen}
-                        </p>
-                      )}
-                      {postResult.posts.map((p, i) => (
-                        <div key={i} className="mw-deal" style={{ ...plainCard, boxShadow: "none" }}>
-                          {p.where && <p style={{ ...miniLabel, marginBottom: 8 }}>{p.where}</p>}
-                          <p style={{ fontSize: 18, lineHeight: 1.55, margin: "0 0 12px", color: INK, whiteSpace: "pre-wrap" }}>{p.caption}</p>
-                          {p.why && <p style={{ fontSize: 13, color: "#857B70", fontStyle: "italic", fontFamily: SANS, margin: "0 0 12px", lineHeight: 1.5 }}>{p.why}</p>}
-                          <button className="mw-btn" onClick={() => copyCaption(p.caption, i)} style={{ ...primaryBtn, background: "#FFF", color: ACCENT, border: `2px solid ${ACCENT}`, boxShadow: "none", padding: "9px 18px", fontSize: 14 }}>
-                            {postCopied === i ? "Copied ✓" : "Copy this caption"}
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                {photoTool("Now try it, right here")}
               </div>
             )}
           </div>
