@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, CORAL, BUTTER, ACCENT_TINT,
@@ -9,13 +9,13 @@ import {
 } from "./lib/whisperKit.jsx";
 
 // ── The AI Visibility Snapshot, the Branding Inward way. Outside the six-step
-//    framework: the steps build the brand, this scores how findable it is and
+//    framework: the steps build the brand, this checks how findable it is and
 //    then WRITES the words that fix it. The reframe the whole page stands on:
-//    AI search can't hear volume, only clarity. Being findable is a legibility
-//    problem, not a performance problem. So the result isn't advice, it's an
-//    artifact: an anchor paragraph, one bio sentence, three FAQ answers, built
-//    from their own words, and from whatever the six steps already saved on
-//    this device. Score + kit, no email gate, no live-scan pretending. ──
+//    AI search can't hear volume, only clarity. The scan is LIVE: the AI runs
+//    a few real web searches about the brand and reads their site if they gave
+//    one, so the score is built from evidence, the receipts are shown, and the
+//    kit is grounded in what actually exists. If the live scan fails, it falls
+//    back to estimating from their answers and says so. No email gate. ──
 
 function DoodleGlass({ size = 30 }) {
   return (
@@ -36,28 +36,26 @@ const BANDS = [
 ];
 const bandFor = (score) => BANDS.find((b) => score >= b.min && score <= b.max) || BANDS[0];
 
-// The five quiet signals, 20 points each. Quiet on purpose: not one of them
-// requires posting, performing, or showing your face.
-const AEO_LIBRARY = `THE FIVE QUIET SIGNALS (score each 0 to 20; note that not one requires performing, that framing matters to this person):
-1. NAME CLARITY: can an engine tell them apart from everyone else with a similar name? A distinctive brand name scores high. A common personal name shared with anyone more visible scores low unless it's always paired with the craft ("NAME, ceramicist in Austin"). Judge from the name itself.
-2. THE ANCHOR PAGE: one page they own that says plainly who they are, what they make, for whom, where. Engines anchor identity to it; without it they stay silent or guess. Judge from their self-report.
-3. SAME WORDS EVERYWHERE: engines cross-reference bios across site, LinkedIn, Instagram, directories. Identical wording everywhere concentrates identity; scattered wording fragments it. Judge from their self-report.
-4. QUOTABLE ANSWERS: answer engines lift literal question-and-answer text. A page that asks and answers the questions customers actually ask is the page that gets quoted. Judge from their self-report.
-5. BEING CITED: engines trust third-party sources: a directory, a local article, a podcast, a marketplace profile, a guest post. One citable mention outweighs a hundred of their own posts. Judge from their self-report.
-
-SCORING RULES, so the number is fair and repeatable: for self-reported dimensions, "yes" lands 15 to 19 (20 only when their other answers make it clearly strong), "not sure" lands 7 to 11, "no" lands 2 to 6. Having a website nudges the anchor dimension up a few points even on "not sure". NAME CLARITY you judge yourself from the name: distinctive coined brand names land 15 to 19, moderately distinctive names 10 to 15, common personal names 4 to 10. The total is the sum of the five. Be honest, not kind: most small brands genuinely land between 20 and 55, and an inflated score helps nobody.`;
-
-const TOGGLES = [
-  { id: "anchor", label: "One page online says plainly who you are and what you do", help: "An About page on your site counts. So does a complete profile you control." },
-  { id: "consistent", label: "Your bio reads the same everywhere it appears", help: "Site, LinkedIn, Instagram, directories. Same words, not just same vibe." },
-  { id: "quotable", label: "Somewhere online, you answer the questions customers actually ask", help: "An FAQ, or posts that literally ask and answer them." },
-  { id: "cited", label: "Someone else has published something about you", help: "A directory listing, an article, a podcast, a marketplace, a feature." },
+// What the scan is doing takes 20 to 60 seconds and real progress isn't
+// observable from here, so these rotate to carry the wait honestly.
+const SCAN_LINES = [
+  "Searching your name the way a stranger would.",
+  "Checking who surfaces for your niche.",
+  "Reading your site, if you shared one.",
+  "Looking for third-party mentions.",
+  "Scoring the five quiet signals.",
 ];
-const TOGGLE_OPTIONS = [
-  { key: "yes", label: "Yes" },
-  { key: "notsure", label: "Not sure" },
-  { key: "no", label: "No" },
-];
+
+// Fallback rubric, used only when the live scan fails: the AI estimates from
+// their answers alone, the way the tool worked before it could dig.
+const ESTIMATE_LIBRARY = `THE FIVE QUIET SIGNALS (score each 0 to 20; note that not one requires performing, that framing matters to this person):
+1. NAME CLARITY: can an engine tell them apart from everyone else with a similar name? A distinctive brand name scores high. A common personal name shared with anyone more visible scores low unless it's always paired with the craft. Judge from the name itself.
+2. THE ANCHOR PAGE: one page they own that says plainly who they are, what they make, for whom, where. Judge from whether they gave a website.
+3. SAME WORDS EVERYWHERE: identical bio wording across site, LinkedIn, Instagram, directories concentrates identity. You cannot verify this, so score it mid-range and say you couldn't check.
+4. QUOTABLE ANSWERS: literal question-and-answer text engines can lift. You cannot verify this, so score it mid-range and say you couldn't check.
+5. BEING CITED: third-party sources: directories, articles, podcasts, marketplaces. You cannot verify this, so score it mid-range and say you couldn't check.
+
+SCORING RULES: be honest, not kind. Most small brands genuinely land between 20 and 55, and an inflated score helps nobody. The total is the sum of the five.`;
 
 // Where each kit piece goes. Fixed and always true, so no AI is needed to say it.
 const KIT_HOMES = {
@@ -72,15 +70,31 @@ export default function AIVisibility() {
   const [niche, setNiche] = useState("");
   const [work, setWork] = useState("");
   const [rival, setRival] = useState("");
-  const [toggles, setToggles] = useState({});
-  const [phase, setPhase] = useState("intro"); // intro | scoring | done
+  const [phase, setPhase] = useState("intro"); // intro | scanning | done
+  const [scanLine, setScanLine] = useState(0);
   const [result, setResult] = useState(null);
+  const [estimated, setEstimated] = useState(false); // true when the fallback ran
   const [kit, setKit] = useState(null);
   const [kitState, setKitState] = useState("idle"); // idle | writing | done | error
   const [error, setError] = useState(null);
-  const [copied, setCopied] = useState(null); // which piece was just copied
+  const [copied, setCopied] = useState(null);
+  const lineTimer = useRef(null);
 
-  const ready = name.trim().length > 1 && niche.trim().length > 2 && work.trim().length > 3 && TOGGLES.every((t) => toggles[t.id]);
+  const ready = name.trim().length > 1 && niche.trim().length > 2 && work.trim().length > 3;
+
+  useEffect(() => {
+    if (phase === "scanning") {
+      lineTimer.current = setInterval(() => setScanLine((i) => (i + 1) % SCAN_LINES.length), 6000);
+    }
+    return () => clearInterval(lineTimer.current);
+  }, [phase]);
+
+  function brandFacts() {
+    return `Brand name: "${name.trim()}"
+Website: ${site.trim() ? `"${site.trim()}"` : "none given"}
+Niche: "${niche.trim()}"
+What they do, in their words: "${work.trim()}"`;
+  }
 
   // What the six steps already saved on this device. The kit gets sharper the
   // more of the framework they've done, which is the whole point of the bridge.
@@ -93,17 +107,82 @@ export default function AIVisibility() {
     return mem;
   }
 
-  function brandFacts() {
-    return `Brand name: "${name.trim()}"
-Website: ${site.trim() ? `"${site.trim()}" (self-reported, not visited)` : "none given"}
-Niche: "${niche.trim()}"
-What they do, in their words: "${work.trim()}"`;
+  // ── The live scan: the server runs real searches and reads their site. ──
+  async function runScan() {
+    const r = await fetch("/api/visibility", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name.trim(), site: site.trim(), niche: niche.trim(), work: work.trim(), rival: rival.trim() }),
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "scan failed");
+    const g = parseWhisperResponse(d);
+    if (!g || typeof g.score !== "number" || !Array.isArray(g.dimensions)) throw new Error("empty");
+    return g;
   }
 
-  async function writeKit() {
+  // ── The fallback: estimate from their answers alone, and say so. ──
+  async function runEstimate() {
+    const r = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        system: `You are the strategist behind Branding Inward's AI visibility snapshot. The live scan wasn't available, so you estimate from their answers alone. A low score must land as a clear starting point, never a scolding.
+
+${ESTIMATE_LIBRARY}
+
+HONESTY RULES: you have not visited their website and you have not searched the web. Never assert what their site or profiles contain. Where you could not check, the note says so plainly.
+
+VOICE: plain, warm, short sentences. Address the person directly as "you" everywhere; never assume anyone's gender. No em-dashes or en-dashes, use commas and periods.
+
+Return ONLY JSON, no markdown:
+{"score": <integer 0 to 100>,
+ "dimensions": [exactly 5, in the signals' order, each {"name": "...", "score": <0 to 20>, "note": "one sentence"}],
+ "read": "2 or 3 sentences, warm, honest",
+ "gap": "one plain sentence naming the weakest signal",
+ "rivalNote": ""}`,
+        user: `${brandFacts()}
+Competitor or peer: ${rival.trim() ? `"${rival.trim()}"` : "none given"}`,
+      }),
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "failed");
+    const g = parseWhisperResponse(d);
+    if (!g || typeof g.score !== "number" || !Array.isArray(g.dimensions)) throw new Error("empty");
+    return g;
+  }
+
+  async function run() {
+    if (!ready) return;
+    setError(null); setResult(null); setKit(null); setKitState("idle"); setEstimated(false); setScanLine(0);
+    setPhase("scanning");
+    try {
+      let g;
+      try {
+        g = await runScan();
+      } catch (_) {
+        g = await runEstimate();
+        setEstimated(true);
+        track("aivis_fallback");
+      }
+      g.score = Math.max(0, Math.min(100, Math.round(g.score)));
+      setResult(g);
+      setPhase("done");
+      track("aivis_score_" + bandFor(g.score).name.toLowerCase().replace(/\s+/g, "-"));
+    } catch (_) {
+      setError("Couldn't finish the snapshot. Nothing was saved, give it another try in a moment.");
+      setPhase("intro");
+    }
+  }
+
+  async function writeKit(current) {
+    const r0 = current || result;
     setKitState("writing");
     const mem = deviceMemory();
     const memLines = Object.entries(mem).map(([k, v]) => `- ${k === "voice" ? "Their voice, named by the voice tool" : k === "sample" ? "A post written in their voice" : k === "reallyabout" ? "What they're really about, from the six questions" : "Their un-copyable edge"}: "${String(v).slice(0, 400)}"`).join("\n");
+    const evidence = Array.isArray(r0?.found) && r0.found.length
+      ? `\nWHAT THE LIVE SCAN OF THEIR PRESENCE FOUND (ground the kit in this, close these gaps):\n${r0.found.map((f) => `- ${f}`).join("\n")}`
+      : "";
     try {
       const r = await fetch("/api/generate", {
         method: "POST",
@@ -111,16 +190,16 @@ What they do, in their words: "${work.trim()}"`;
         body: JSON.stringify({
           system: `You are the strategist behind Branding Inward's AI visibility snapshot, writing part two: the findability kit. The diagnosis is done; now you WRITE the three artifacts that make a quiet brand legible to AI search, ready to paste. The person finds self-promotion draining, so everything must sound like a calm human describing real work, never like marketing.
 
-HONESTY RULES, the most important thing: use ONLY the facts they gave you. Never invent credentials, years of experience, awards, clients, numbers, places, or product names that do not appear in their words. If a detail wasn't given, write around it. Plain, specific, true.
+HONESTY RULES, the most important thing: use ONLY the facts they gave you and the scan findings below. Never invent credentials, years of experience, awards, clients, numbers, places, or product names that do not appear in their words. If a detail wasn't given, write around it. Plain, specific, true.
 
-VOICE: write in the first person, as them. Plain, warm, short sentences. No hype words (passionate, journey, elevate, unlock). Do not use em-dashes or en-dashes anywhere, use commas and periods instead. Never assume gender.${memLines ? `\n\nTHEIR OWN MATERIAL, saved on their device by the six-step framework, use it so the kit sounds like them and only them:\n${memLines}` : ""}
+VOICE: write in the first person, as them. Plain, warm, short sentences. No hype words (passionate, journey, elevate, unlock). Do not use em-dashes or en-dashes anywhere, use commas and periods instead. Never assume gender.${memLines ? `\n\nTHEIR OWN MATERIAL, saved on their device by the six-step framework, use it so the kit sounds like them and only them:\n${memLines}` : ""}${evidence}
 
 Return ONLY JSON, no markdown:
 {"anchor": "the About-page paragraph, 70 to 110 words, first person: who they are, what they make, for whom, where if given, and the one thing that makes it theirs. This is the page an engine will anchor their identity to, so every sentence is a plain fact.",
  "bio": "one sentence, under 25 words, name + craft + who it's for + place if given. The sentence they paste everywhere, identically.",
  "faqs": [3 items, each {"q": "a question their actual customers would type or ask, in plain words", "a": "2 or 3 sentences, first person, answering it honestly with only the facts given"}]}`,
           user: `${brandFacts()}
-Their weakest signal, from the diagnosis: "${result?.gap || "not known"}"`,
+Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
         }),
       });
       const d = await r.json();
@@ -135,54 +214,9 @@ Their weakest signal, from the diagnosis: "${result?.gap || "not known"}"`,
     }
   }
 
-  async function run() {
-    if (!ready) return;
-    setError(null); setResult(null); setKit(null); setKitState("idle");
-    setPhase("scoring");
-    const answers = TOGGLES.map((t) => `${t.label}: ${TOGGLE_OPTIONS.find((o) => o.key === toggles[t.id])?.label}`).join("\n");
-    try {
-      const r = await fetch("/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          system: `You are the strategist behind Branding Inward's AI visibility snapshot. Someone told you about their brand and answered four yes/no questions about their setup. You estimate how visible they currently are to AI search and score it honestly. The page's whole belief, which your words should quietly carry: AI search can't hear volume, only clarity, so being findable never requires performing. A low score must land as a clear starting point, never a scolding.
-
-${AEO_LIBRARY}
-
-HONESTY RULES: you have not visited their website or profiles, and you have not searched the web. Everything is estimated from their own answers plus your judgment of the name itself. Never assert what their site currently contains beyond what they reported. If they named a competitor, one sentence on what likely makes that competitor easy for engines to find, as a model to learn from, never as a stick to beat them with.
-
-VOICE: plain, warm, short sentences. Address the person directly as "you" everywhere, including every dimension note; "they" is only for third parties, and never assume anyone's gender. Do not use em-dashes or en-dashes anywhere, use commas and periods instead.
-
-Return ONLY JSON, no markdown:
-{"score": <integer 0 to 100, the sum of the five signal scores>,
- "dimensions": [exactly 5, in the library's order, each {"name": "short plain name for the signal", "score": <integer 0 to 20>, "note": "one sentence, why this number, tied to their answers"}],
- "read": "2 or 3 sentences: the honest overall picture, warm, zero drama, and somewhere in it the quiet reassurance that none of what's missing requires performing",
- "gap": "one plain sentence naming the single weakest signal, the way a friend would say it",
- "rivalNote": "one sentence on the named competitor, or empty string if none was given"}`,
-          user: `${brandFacts()}
-Competitor or peer in their space: ${rival.trim() ? `"${rival.trim()}"` : "none given"}
-Their four answers:
-${answers}`,
-        }),
-      });
-      const d = await r.json();
-      if (!r.ok) throw new Error(d.error || "failed");
-      const g = parseWhisperResponse(d);
-      if (!g || typeof g.score !== "number" || !Array.isArray(g.dimensions)) throw new Error("empty");
-      g.score = Math.max(0, Math.min(100, Math.round(g.score)));
-      setResult(g);
-      setPhase("done");
-      track("aivis_score_" + bandFor(g.score).name.toLowerCase().replace(/\s+/g, "-"));
-    } catch (_) {
-      setError("Couldn't finish the snapshot. Nothing was saved, give it another try in a moment.");
-      setPhase("intro");
-      return;
-    }
-  }
-
   // Kick the kit off as soon as the score lands.
-  React.useEffect(() => {
-    if (phase === "done" && result && kitState === "idle") writeKit();
+  useEffect(() => {
+    if (phase === "done" && result && kitState === "idle") writeKit(result);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, result]);
 
@@ -193,7 +227,12 @@ ${answers}`,
   async function copyAll() {
     if (!result) return;
     const band = bandFor(result.score);
-    let t = `AI VISIBILITY SNAPSHOT: ${name.trim()}\n\nScore: ${result.score}/100, ${band.name}\n${result.read}\n\nTHE FIVE QUIET SIGNALS\n`;
+    let t = `AI VISIBILITY SNAPSHOT: ${name.trim()}\n\nScore: ${result.score}/100, ${band.name}\n${result.read}\n`;
+    if (Array.isArray(result.found) && result.found.length) {
+      t += `\nWHAT THE SCAN FOUND\n`;
+      result.found.forEach((f) => { t += `- ${f}\n`; });
+    }
+    t += `\nTHE FIVE QUIET SIGNALS\n`;
     result.dimensions.forEach((d) => { t += `${d.name}: ${d.score}/20. ${d.note}\n`; });
     if (result.rivalNote && rival.trim()) t += `\nOn ${rival.trim()}: ${result.rivalNote}\n`;
     if (kit) {
@@ -205,7 +244,7 @@ ${answers}`,
   }
 
   function restart() {
-    setPhase("intro"); setResult(null); setError(null); setKit(null); setKitState("idle");
+    setPhase("intro"); setResult(null); setError(null); setKit(null); setKitState("idle"); setEstimated(false);
   }
 
   const band = result ? bandFor(result.score) : null;
@@ -232,7 +271,7 @@ ${answers}`,
           photo="/media/visibility-hero.jpg"
           Doodle={DoodleGlass}
           headline={<>AI search can't hear volume.<br /><span style={{ fontStyle: "italic", color: BUTTER }}>Only clarity.</span></>}
-          sub="People ask AI assistants for recommendations now, and the engines can't tell who's loudest, only who's clearest. Answer a few questions and get your findability score, then the actual words that raise it: an About paragraph, one bio sentence, three quotable answers, written in your voice."
+          sub="People ask AI assistants for recommendations now, and the engines can't tell who's loudest, only who's clearest. Tell me about your brand and I'll actually go look: a few real searches, a read of your site, then your findability score and the words that raise it."
         />
       )}
 
@@ -255,12 +294,12 @@ ${answers}`,
               <span style={{ background: INK_TEAL, color: "#FFF", borderRadius: 100, padding: "4px 11px", fontSize: 12, fontWeight: 700, letterSpacing: ".04em", flexShrink: 0 }}>
                 Outside the framework
               </span>
-              <span style={{ color: "#5C534B" }}>The six steps build your brand. This makes it findable, and writes the words that do it.</span>
+              <span style={{ color: "#5C534B" }}>The six steps build your brand. This checks how findable it is, and writes the words that fix it.</span>
             </div>
 
             <WhatThisDoes
-              walkaway="Your findability score out of 100, and the kit that raises it: an anchor paragraph, one bio sentence, three quotable answers."
-              time="About three minutes"
+              walkaway="A live scan of how findable you are, scored out of 100, and the kit that raises it: an anchor paragraph, one bio sentence, three quotable answers."
+              time="Two to three minutes. The scan itself takes about a minute, it's really looking."
               forwho="Anyone whose customers might ask an AI before they ask a friend."
             />
 
@@ -269,7 +308,7 @@ ${answers}`,
               The same words everywhere. Honest answers to real questions. Not one of them requires performing.
             </p>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 18 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 22 }}>
               <div style={{ gridColumn: "1 / -1" }}>
                 <p style={{ ...miniLabel, marginBottom: 8 }}>Your brand name, or your own</p>
                 <input value={name} maxLength={80} onChange={(e) => setName(e.target.value)}
@@ -278,7 +317,7 @@ ${answers}`,
               <div style={{ gridColumn: "1 / -1" }}>
                 <p style={{ ...miniLabel, marginBottom: 8 }}>Website, if you have one</p>
                 <input value={site} maxLength={120} onChange={(e) => setSite(e.target.value)}
-                  placeholder="cedarandwick.com (optional)" style={inputStyle} {...focusRing} />
+                  placeholder="cedarandwick.com (optional, but then I can actually read it)" style={inputStyle} {...focusRing} />
               </div>
               <div style={{ gridColumn: "1 / -1" }}>
                 <p style={{ ...miniLabel, marginBottom: 8 }}>Your niche or topic area</p>
@@ -297,51 +336,32 @@ ${answers}`,
               </div>
             </div>
 
-            <p style={{ ...miniLabel, marginBottom: 4 }}>Four quick ones, honestly</p>
-            <p style={{ fontSize: 14, color: "#857B70", margin: "0 0 14px", fontFamily: SANS, lineHeight: 1.5 }}>
-              These are the quiet signals answer engines actually check. "Not sure" is a completely fine answer.
-            </p>
-            {TOGGLES.map((t) => (
-              <div key={t.id} style={{ background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "16px 18px", marginBottom: 12 }}>
-                <p style={{ fontSize: 17, lineHeight: 1.45, margin: "0 0 4px", color: INK }}>{t.label}</p>
-                <p style={{ fontSize: 13, color: "#9A8F82", fontFamily: SANS, margin: "0 0 12px", lineHeight: 1.5 }}>{t.help}</p>
-                <div style={{ display: "flex", gap: 8 }}>
-                  {TOGGLE_OPTIONS.map((o) => {
-                    const on = toggles[t.id] === o.key;
-                    return (
-                      <button key={o.key} onClick={() => setToggles((s) => ({ ...s, [t.id]: o.key }))}
-                        style={{ flex: 1, background: on ? ACCENT_TINT : "#FFF", color: on ? INK_TEAL : "#857B70", border: `2px solid ${on ? ACCENT : "#E5DDD1"}`, borderRadius: 100, padding: "9px 0", cursor: "pointer", fontFamily: SANS, fontSize: 14, fontWeight: 600, transition: "all .15s" }}>
-                        {o.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-
-            {error && <p style={{ fontFamily: SANS, fontSize: 15, color: CORAL, margin: "16px 0 0" }}>{error}</p>}
+            {error && <p style={{ fontFamily: SANS, fontSize: 15, color: CORAL, margin: "0 0 16px" }}>{error}</p>}
 
             <button className="mw-btn" onClick={() => { track("aivis_run"); run(); }} disabled={!ready}
-              style={{ ...primaryBtn, marginTop: 22, opacity: ready ? 1 : 0.4, cursor: ready ? "pointer" : "not-allowed" }}>
-              Score me, then write my kit
+              style={{ ...primaryBtn, opacity: ready ? 1 : 0.4, cursor: ready ? "pointer" : "not-allowed" }}>
+              Run my scan
             </button>
 
             <p style={{ fontSize: 14, color: "#9A8F82", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
-              Honest small print: the score comes from your own answers plus AI estimation, not a live scan of
-              the web. A starting point, not a technical audit. Results appear right here, no email, and nothing
-              you type is saved. If you've done the six steps, the kit borrows the voice and story already saved
-              on your device.
+              Honest small print: this runs a few real web searches about your name and reads your site if you
+              share one. It's a snapshot, not a full technical audit, and the web is bigger than one scan.
+              Results appear right here, no email, and nothing you type is saved. If you've done the six steps,
+              the kit borrows the voice and story already saved on your device.
             </p>
           </div>
         )}
 
-        {/* ── SCORING ── */}
-        {phase === "scoring" && (
+        {/* ── SCANNING ── */}
+        {phase === "scanning" && (
           <div className="mw-fade" style={{ textAlign: "center", padding: "60px 0" }}>
             <DoodleGlass size={40} />
-            <p style={{ fontSize: 22, margin: "18px 0 6px" }}>Scoring {name.trim()}.</p>
-            <p style={{ fontFamily: SANS, fontSize: 15, color: "#857B70", margin: 0 }}>
-              Five quiet signals, the ones answer engines actually check.
+            <p style={{ fontSize: 22, margin: "18px 0 6px" }}>Scanning for {name.trim()}.</p>
+            <p style={{ fontFamily: SANS, fontSize: 15, color: "#857B70", margin: "0 0 4px" }}>
+              {SCAN_LINES[scanLine]}
+            </p>
+            <p style={{ fontFamily: SANS, fontSize: 13, color: "#9A8F82", margin: 0 }}>
+              This takes about a minute. It's really looking.
             </p>
           </div>
         )}
@@ -349,6 +369,13 @@ ${answers}`,
         {/* ── RESULT ── */}
         {phase === "done" && result && band && (
           <div className="mw-fade">
+            {estimated && (
+              <p style={{ fontFamily: SANS, fontSize: 14, color: "#857B70", background: "#F1EFE8", border: "1px solid #E5DDD1", borderRadius: 10, padding: "10px 14px", margin: "0 0 18px", lineHeight: 1.5 }}>
+                The live scan didn't finish this time, so this one is estimated from your answers alone.
+                Run it again in a bit for the full version.
+              </p>
+            )}
+
             {/* the score */}
             <div style={{ background: band.tint, border: `2px solid ${band.border}`, borderRadius: 20, padding: "30px 28px", marginBottom: 26, display: "flex", gap: 26, alignItems: "center", flexWrap: "wrap" }}>
               <div style={{ position: "relative", width: 120, height: 120, flexShrink: 0 }}>
@@ -369,6 +396,20 @@ ${answers}`,
                 <p style={{ fontSize: 18, lineHeight: 1.6, margin: 0, color: INK }}>{result.read}</p>
               </div>
             </div>
+
+            {/* the receipts */}
+            {Array.isArray(result.found) && result.found.length > 0 && (
+              <>
+                <p style={{ ...miniLabel, marginBottom: 14 }}>What the scan actually found</p>
+                <div style={{ ...plainCard, borderLeft: `4px solid ${INK_TEAL}`, marginBottom: 26 }}>
+                  {result.found.slice(0, 5).map((f, i) => (
+                    <p key={i} style={{ fontSize: 16, lineHeight: 1.6, margin: i ? "10px 0 0" : 0, color: INK }}>
+                      <span style={{ color: ACCENT, fontWeight: 700, marginRight: 8 }}>·</span>{f}
+                    </p>
+                  ))}
+                </div>
+              </>
+            )}
 
             {/* the breakdown */}
             <p style={{ ...miniLabel, marginBottom: 4 }}>The five quiet signals</p>
@@ -418,7 +459,7 @@ ${answers}`,
               {kitState === "error" && (
                 <div style={{ ...plainCard, textAlign: "center", padding: "28px 24px" }}>
                   <p style={{ fontSize: 16, margin: "0 0 14px", fontFamily: SANS, color: "#5C534B" }}>The kit didn't come through. The score stands, try the kit again.</p>
-                  <button className="mw-btn" onClick={writeKit} style={{ ...primaryBtn, padding: "11px 20px", fontSize: 14 }}>Write my kit</button>
+                  <button className="mw-btn" onClick={() => writeKit()} style={{ ...primaryBtn, padding: "11px 20px", fontSize: 14 }}>Write my kit</button>
                 </div>
               )}
 
@@ -467,13 +508,15 @@ ${answers}`,
               <button className="mw-btn" onClick={copyAll} style={{ ...primaryBtn, padding: "12px 22px", fontSize: 15 }}>
                 {copied === "all" ? "Copied ✓" : "Copy everything"}
               </button>
-              <button className="mw-ghost" onClick={restart} style={ghostBtn}>Score another brand</button>
+              <button className="mw-ghost" onClick={restart} style={ghostBtn}>Scan another brand</button>
             </div>
 
             <p style={{ fontSize: 14, color: "#9A8F82", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
-              Scored from your own answers and AI estimation, not a live scan of the web. A starting point, not
-              a technical audit. Changes take weeks to months to show up in AI answers, quiet consistency is
-              exactly the game. Nothing you typed was saved.
+              {estimated
+                ? "Estimated from your own answers this time, not a live scan. A starting point, not a technical audit."
+                : "Built from a light live scan: a few real searches plus your site if you shared it. The web is bigger than one scan, so treat this as a snapshot, not a full technical audit."}
+              {" "}Changes take weeks to months to show up in AI answers, quiet consistency is exactly the game.
+              Nothing you typed was saved.
             </p>
 
             <div style={{ marginTop: 34, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "22px 24px" }}>
@@ -481,8 +524,9 @@ ${answers}`,
                 Want a sharper kit?
               </p>
               <p style={{ fontSize: 16, lineHeight: 1.55, margin: "0 0 12px", color: INK }}>
-                This kit was written from three minutes of answers. Do the six steps and it gets rebuilt from
-                your named voice and your un-copyable story, saved on your device, so it could only ever be yours.
+                This kit was written from a scan and three minutes of answers. Do the six steps and it gets
+                rebuilt from your named voice and your un-copyable story, saved on your device, so it could
+                only ever be yours.
               </p>
               <a href="/" style={{ fontFamily: SANS, fontSize: 15, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>
                 See the six steps &rarr;

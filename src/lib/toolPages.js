@@ -153,28 +153,28 @@ export const TOOL_PAGES = [
   {
     slug: "ai-visibility",
     step: null,
-    title: "The AI Visibility Snapshot: your findability score, then the words that raise it | Branding Inward",
+    title: "The AI Visibility Snapshot: a live scan of how findable you are, then the words that fix it | Branding Inward",
     description:
-      "AI search can't hear volume, only clarity. Get your findability score out of 100, then a kit written in your voice: an About paragraph, one bio sentence, three quotable answers. Free, no email.",
+      "AI search can't hear volume, only clarity. This free tool runs a few real web searches about your brand, reads your site, scores your findability out of 100, and writes the kit that raises it. No email.",
     h1: "The AI Visibility Snapshot",
     summary:
-      "People now ask AI assistants for recommendations the way they used to ask a friend, and the engines can't tell who's loudest, only who's clearest. This free snapshot scores how findable your brand currently is across the five quiet signals answer engines actually check, then writes the findability kit that raises it: an anchor paragraph for your About page, one bio sentence to use identically everywhere, and three quotable answers, all in your own words. Not one signal requires posting, performing, or showing your face. It sits outside the six-step Inward Framework: the steps build your brand, this makes it findable.",
+      "People now ask AI assistants for recommendations the way they used to ask a friend, and the engines can't tell who's loudest, only who's clearest. This free snapshot actually goes and looks: it runs a few real web searches about your brand the way a stranger and a shopping customer would, reads your website if you share one, and scores how findable you are across the five quiet signals answer engines actually check, with the receipts shown. Then it writes the findability kit that raises the score: an anchor paragraph for your About page, one bio sentence to use identically everywhere, and three quotable answers, all in your own words. Not one signal requires posting, performing, or showing your face. It sits outside the six-step Inward Framework: the steps build your brand, this makes it findable.",
     faqs: [
       {
         q: "What does the AI visibility snapshot actually do?",
-        a: "You describe your brand and answer four quick questions about your setup. It returns a findability score out of 100 with a band (Unseen, A faint trace, Coming into view, or Found), the five-signal breakdown behind it, and then writes your findability kit: an anchor paragraph, one bio sentence, and three quotable answers, ready to paste.",
+        a: "You describe your brand, and the tool runs a light live scan: a few real web searches about your name and niche, plus a read of your website if you gave one. It returns a findability score out of 100 with a band (Unseen, A faint trace, Coming into view, or Found), the evidence it found, the five-signal breakdown, and then writes your findability kit: an anchor paragraph, one bio sentence, and three quotable answers, ready to paste.",
+      },
+      {
+        q: "Is this a real live scan or an AI guess?",
+        a: "A real, light one. The tool performs actual web searches and actually fetches your site, and every claim in the results traces to something it found. It is still a snapshot, not a full technical audit: the web is bigger than a handful of searches, and different AI assistants may know more or less than the live web.",
       },
       {
         q: "How is this different from other AI visibility checkers?",
-        a: "Most tools grade you and hand you a to-do list. This one writes the actual words: the About paragraph, the bio sentence, the FAQ answers, built only from facts you gave it, in your voice. If you've done the six-step framework, it borrows the voice and story already saved on your device.",
-      },
-      {
-        q: "Is this a live scan of what AI search says about me?",
-        a: "No, and the page says so plainly. The score is estimated from your own answers plus AI judgment of your name itself. Treat it as a starting-point assessment, not a technical audit.",
+        a: "Most tools grade you and hand you a to-do list. This one shows you the receipts from a real scan and then writes the actual words: the About paragraph, the bio sentence, the FAQ answers, built only from facts you gave it and what the scan found, in your voice. If you've done the six-step framework, it borrows the voice and story already saved on your device.",
       },
       {
         q: "Do I have to give my email to see my results?",
-        a: "No. The score, the breakdown, and the full kit appear right on the page. No account, no email, and nothing you type is saved.",
+        a: "No. The score, the evidence, the breakdown, and the full kit appear right on the page. No account, no email, and nothing you type is saved.",
       },
     ],
   },
