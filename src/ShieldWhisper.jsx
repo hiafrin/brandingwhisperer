@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, VoiceStory, SiteFooter, ToolsMenu, KeptNote,
+  GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, ToolHero, ToolIntro, FrameworkStrip, VoiceStory, SiteFooter, ToolsMenu, KeptNote,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -241,12 +241,10 @@ These answers are also your voice sample. Study how they wrote them, not just wh
           />
 
           <section className="mw-fade" style={{ maxWidth: 720, margin: "0 auto", padding: "44px 24px 64px" }}>
-            <StepBadge stepKey="voice" />
-            {/* THE TASK, right under the hero */}
-            <WhatThisDoes
+            <ToolIntro
+              stepKey="voice"
               walkaway="Your voice named and quoted back from your own words, plus one thing to post today."
               time="About three minutes"
-              forwho="Anyone who sounds like a stranger the moment they go public."
             />
             <button className="mw-btn" onClick={() => { track("shield_started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 34px" }}>Put my voice on paper</button>
             <p style={{ fontSize: 14, color: "#9A8F82", margin: "16px 0 0", fontFamily: SANS }}>

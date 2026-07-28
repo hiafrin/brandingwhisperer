@@ -7,8 +7,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS, FrameworkStrip, StepBadge, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ForgetButton, KeptNote, ToolHero, WhatThisDoes,
-  primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
+  TOOLS, FrameworkStrip, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ForgetButton, KeptNote, ToolHero, ToolIntro, primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 import InwardScan from "./InwardScan.jsx";
 
@@ -634,11 +633,10 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             sub="No marketing words. Answer like you'd tell a friend, and you'll know the real reason people choose you."
           />
           <section className="mw-fade" style={{ maxWidth: 660, margin: "0 auto", padding: "40px 24px 8px" }}>
-            <StepBadge stepKey="foundation" />
-            <WhatThisDoes
+            <ToolIntro
+              stepKey="foundation"
               walkaway="What you're really about, in your own words, plus the signature moves to repeat."
               time="About three minutes"
-              forwho="Anyone who can't name what makes them different."
             />
             <button className="mw-btn" onClick={() => { track("started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 34px" }}>Start the six questions</button>
             <p style={{ fontSize: 14, color: "#9A8F82", margin: "16px 0 0", fontFamily: SANS }}>

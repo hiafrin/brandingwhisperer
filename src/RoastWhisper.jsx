@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
   parseWhisperResponse, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, RoastOrigin, ToolsMenu, SiteFooter, TOOLS, KeptNote,
+  GrainOverlay, DropQuote, PageQuote, ToolHero, ToolIntro, FrameworkStrip, RoastOrigin, ToolsMenu, SiteFooter, TOOLS, KeptNote,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -186,11 +186,10 @@ Read it closely. Tell me first what to keep and never change, then the few thing
         {/* ── INTRO CONTENT: what it does, then the level + paste box ── */}
         {!result && !loading && (
           <div className="mw-fade">
-            <StepBadge stepKey="roast" />
-            <WhatThisDoes
+            <ToolIntro
+              stepKey="roast"
               walkaway="What to keep and never change, then the few lines worth a gentle fix, in your own voice."
               time="About two minutes"
-              forwho="Anyone whose bio or captions stopped sounding like them."
             />
             <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 28px" }}>
               Confidence first. Most critique tools forget that the thing you most need to hear is

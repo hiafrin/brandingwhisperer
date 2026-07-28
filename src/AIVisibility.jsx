@@ -4,7 +4,7 @@ import {
   ACCENT, INK, CREAM, INK_TEAL, CORAL, BUTTER, ACCENT_TINT,
   SERIF, SANS, GLOBAL_CSS,
   parseWhisperResponse, recall,
-  GrainOverlay, ToolHero, WhatThisDoes, ToolsMenu, SiteFooter,
+  GrainOverlay, ToolHero, ToolIntro, ToolsMenu, SiteFooter,
   primaryBtn, ghostBtn, miniLabel, plainCard,
 } from "./lib/whisperKit.jsx";
 
@@ -291,17 +291,10 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
         {/* ── INTRO: the form ── */}
         {phase === "intro" && (
           <div className="mw-fade">
-            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, background: ACCENT_TINT, border: "1px solid #DCEFEB", borderRadius: 12, padding: "11px 16px", fontFamily: SANS, fontSize: 14, marginBottom: 22 }}>
-              <span style={{ background: INK_TEAL, color: "#FFF", borderRadius: 100, padding: "4px 11px", fontSize: 12, fontWeight: 700, letterSpacing: ".04em", flexShrink: 0 }}>
-                Outside the framework
-              </span>
-              <span style={{ color: "#5C534B" }}>The six steps build your brand. This checks how findable it is, and writes the words that fix it.</span>
-            </div>
-
-            <WhatThisDoes
+            <ToolIntro
+              outside
               walkaway="A live scan of how findable you are, scored out of 100, and the kit that raises it: an anchor paragraph, one bio sentence, three quotable answers."
-              time="A few minutes. The scan itself takes a minute or three, it's really looking."
-              forwho="Anyone whose customers might ask an AI before they ask a friend."
+              time="A few minutes, it's really looking"
             />
 
             <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 28px" }}>

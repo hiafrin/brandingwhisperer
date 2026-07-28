@@ -331,21 +331,27 @@ export function FrameworkStrip({ current }) {
   );
 }
 
-// ── Orientation for someone who landed here from search: tells them where they
-//    are without ever blocking them. Sits at the top of a tool page. ──
-export function StepBadge({ stepKey }) {
+// ── One compact strip instead of two stacked cards: step pill, time, and the
+//    walk-away promise in two lines. The heroes already sell the tool; this
+//    orients, then gets out of the way so the first tap sits near the fold. ──
+export function ToolIntro({ stepKey, walkaway, time, outside = false }) {
   const s = FRAMEWORK.find((x) => x.key === stepKey);
-  if (!s) return null;
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, background: ACCENT_TINT, border: "1px solid #DCEFEB", borderRadius: 12, padding: "11px 16px", fontFamily: SANS, fontSize: 14, marginBottom: 22 }}>
-      <span style={{ background: ACCENT, color: "#FFF", borderRadius: 100, padding: "4px 11px", fontSize: 12, fontWeight: 700, letterSpacing: ".04em", flexShrink: 0 }}>
-        Step {s.n} of {FRAMEWORK.length} · {s.verb}
-      </span>
-      <span style={{ color: "#5C534B" }}>This works on its own, start right here.</span>
-      <a href="/" style={{ color: ACCENT, fontWeight: 600 }}>New here? See all six &rarr;</a>
+    <div style={{ background: ACCENT_TINT, border: "1px solid #DCEFEB", borderRadius: 14, padding: "13px 17px", margin: "0 0 22px", fontFamily: SANS }}>
+      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "6px 12px", marginBottom: 7 }}>
+        <span style={{ background: outside ? INK_TEAL : ACCENT, color: "#FFF", borderRadius: 100, padding: "4px 11px", fontSize: 12, fontWeight: 700, letterSpacing: ".04em", flexShrink: 0 }}>
+          {outside ? "Outside the framework" : `Step ${s.n} of ${FRAMEWORK.length} \u00b7 ${s.verb}`}
+        </span>
+        <span style={{ fontSize: 13, color: "#5C534B" }}>{time}</span>
+        {!outside && (
+          <a href="/" style={{ fontSize: 13, color: ACCENT, fontWeight: 600, textDecoration: "none", marginLeft: "auto" }}>All six &rarr;</a>
+        )}
+      </div>
+      <p style={{ margin: 0, fontSize: 15, lineHeight: 1.5, color: "#443F39" }}>{walkaway}</p>
     </div>
   );
 }
+
 
 // ── Persistent floating nav so no tool is ever buried. Fixed to the
 //    top-right of every page and every scroll position; opens a menu of
@@ -710,8 +716,8 @@ export function ToolHero({ label, photo, accent = ACCENT, Doodle, headline, sub,
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.55 }} />
       )}
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(175deg, rgba(11,59,52,.82) 0%, rgba(11,59,52,.66) 45%, rgba(11,59,52,.9) 100%)" }} />
-      <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "48px 24px 64px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 48 }}>
+      <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "36px 24px 44px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 30 }}>
           <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
             <span style={{ width: 11, height: 11, borderRadius: "50%", background: accent }} />
             <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
@@ -729,21 +735,6 @@ export function ToolHero({ label, photo, accent = ACCENT, Doodle, headline, sub,
   );
 }
 
-// ── Every tool says what it does before it asks for anything. ──
-export function WhatThisDoes({ walkaway, time, forwho }) {
-  const rows = [["You walk away with", walkaway], ["Time", time], ["Made for", forwho]].filter((r) => r[1]);
-  return (
-    <div style={{ background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "20px 24px", margin: "0 0 28px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
-      <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 12px" }}>What this does for you</p>
-      {rows.map(([k, v], i) => (
-        <div key={i} style={{ display: "flex", gap: 14, alignItems: "baseline", padding: i ? "10px 0 0" : 0, borderTop: i ? "1px solid #F1EDE4" : "none", marginTop: i ? 10 : 0 }}>
-          <span style={{ flexShrink: 0, fontFamily: SANS, fontSize: 13, color: "#9A8F82", minWidth: 128 }}>{k}</span>
-          <span style={{ fontSize: 17, lineHeight: 1.45, color: INK }}>{v}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 // ── JSON parsing: the model sometimes wraps output in fences or gets cut short ──
 export function salvagePartialJson(str) {

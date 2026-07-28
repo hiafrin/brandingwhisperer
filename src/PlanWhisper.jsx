@@ -5,7 +5,7 @@ import {
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY, CHANNEL_LIBRARY,
   parseWhisperResponse, recall, remember,
   useVoiceInput, MicIcon,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, Playbook, ToolsMenu, SiteFooter, TOOLS, KeptNote,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, ToolIntro, FrameworkStrip, Playbook, ToolsMenu, SiteFooter, TOOLS, KeptNote,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
 } from "./lib/whisperKit.jsx";
 
@@ -416,11 +416,10 @@ Look at the photo and write 3 posts around it, in my voice.`;
         {/* ── INTRO: what it does, then start ── */}
         {step === -1 && (
           <div className="mw-fade">
-            <StepBadge stepKey="plan" />
-            <WhatThisDoes
+            <ToolIntro
+              stepKey="plan"
               walkaway="One path chosen for you, a list of what to ignore, and a first move under 15 minutes."
               time="About three minutes"
-              forwho="Anyone who can't keep up a daily-posting plan, and doesn't want to."
             />
             <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 28px" }}>
               One idea nobody puts in the plan: you don't have to grow alone. Two quiet creators can

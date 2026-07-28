@@ -3,7 +3,7 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, ACCENT_TINT, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, WhatThisDoes, FrameworkStrip, StepBadge, SuccessProof, ToolsMenu, SiteFooter, DoodleScan,
+  GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, ToolIntro, FrameworkStrip, SuccessProof, ToolsMenu, SiteFooter, DoodleScan,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard,
   remember,
 } from "./lib/whisperKit.jsx";
@@ -266,11 +266,10 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
             on question 1 instead, so the hero button is the page's only CTA. */}
         {step === -1 && (
           <div className="mw-fade">
-            <StepBadge stepKey="scan" />
-            <WhatThisDoes
-              walkaway="Your visibility pattern named, the behaviors behind it, and which tool to open first."
-              time="About one minute, eight taps"
-              forwho="Anyone who doesn't know where they're stuck, or where to start."
+            <ToolIntro
+              stepKey="scan"
+              walkaway="Your visibility pattern named, the behaviors behind it, and which tool to open first. No typing, no right answers."
+              time="One minute, eight taps"
             />
             <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", maxWidth: 520, margin: "0 0 28px", fontFamily: SANS }}>
               No typing, no right answers. Your pattern is kept only on this device for your Inward Brief.
