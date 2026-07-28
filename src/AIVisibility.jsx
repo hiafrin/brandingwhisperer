@@ -299,7 +299,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
 
             <WhatThisDoes
               walkaway="A live scan of how findable you are, scored out of 100, and the kit that raises it: an anchor paragraph, one bio sentence, three quotable answers."
-              time="Two to three minutes. The scan itself takes about a minute, it's really looking."
+              time="A few minutes. The scan itself takes a minute or three, it's really looking."
               forwho="Anyone whose customers might ask an AI before they ask a friend."
             />
 
@@ -361,7 +361,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
               {SCAN_LINES[scanLine]}
             </p>
             <p style={{ fontFamily: SANS, fontSize: 13, color: "#9A8F82", margin: 0 }}>
-              This takes about a minute. It's really looking.
+              This can take a couple of minutes. It's really looking, not making it up.
             </p>
           </div>
         )}
