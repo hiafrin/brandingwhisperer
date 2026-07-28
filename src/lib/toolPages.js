@@ -153,20 +153,20 @@ export const TOOL_PAGES = [
   {
     slug: "ai-visibility",
     step: null,
-    title: "The AI Visibility Snapshot: a live scan of how findable you are, then the words that fix it | Branding Inward",
+    title: "The AI Visibility Audit: a live scan of how findable you are, then the words that fix it | Branding Inward",
     description:
       "AI search can't hear volume, only clarity. This free tool runs a few real web searches about your brand, reads your site, scores your findability out of 100, and writes the kit that raises it. No email.",
-    h1: "The AI Visibility Snapshot",
+    h1: "The AI Visibility Audit",
     summary:
-      "People now ask AI assistants for recommendations the way they used to ask a friend, and the engines can't tell who's loudest, only who's clearest. This free snapshot actually goes and looks: it runs a few real web searches about your brand the way a stranger and a shopping customer would, reads your website if you share one, and scores how findable you are across the five quiet signals answer engines actually check, with the receipts shown. Then it writes the findability kit that raises the score: an anchor paragraph for your About page, one bio sentence to use identically everywhere, and three quotable answers, all in your own words. Not one signal requires posting, performing, or showing your face. It sits outside the six-step Inward Framework: the steps build your brand, this makes it findable.",
+      "People now ask AI assistants for recommendations the way they used to ask a friend, and the engines can't tell who's loudest, only who's clearest. This free audit actually goes and looks: it runs a few real web searches about your brand the way a stranger and a shopping customer would, reads your website if you share one, and scores how findable you are across the five quiet signals answer engines actually check, with the receipts shown. Then it writes the findability kit that raises the score: an anchor paragraph for your About page, one bio sentence to use identically everywhere, and three quotable answers, all in your own words. Not one signal requires posting, performing, or showing your face. It sits outside the six-step Inward Framework: the steps build your brand, this makes it findable.",
     faqs: [
       {
-        q: "What does the AI visibility snapshot actually do?",
+        q: "What does the AI visibility audit actually do?",
         a: "You describe your brand, and the tool runs a light live scan: a few real web searches about your name and niche, plus a read of your website if you gave one. It returns a findability score out of 100 with a band (Unseen, A faint trace, Coming into view, or Found), the evidence it found, the five-signal breakdown, and then writes your findability kit: an anchor paragraph, one bio sentence, and three quotable answers, ready to paste.",
       },
       {
         q: "Is this a real live scan or an AI guess?",
-        a: "A real, light one. The tool performs actual web searches and actually fetches your site, and every claim in the results traces to something it found. It is still a snapshot, not a full technical audit: the web is bigger than a handful of searches, and different AI assistants may know more or less than the live web.",
+        a: "A real, light one. The tool performs actual web searches and actually fetches your site, and every claim in the results traces to something it found. It is still a light audit, not an exhaustive one: the web is bigger than a handful of searches, and different AI assistants may know more or less than the live web.",
       },
       {
         q: "How is this different from other AI visibility checkers?",

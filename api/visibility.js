@@ -1,4 +1,4 @@
-// The deep-scan endpoint for the AI Visibility Snapshot. Unlike /api/generate,
+// The deep-scan endpoint for the AI Visibility Audit. Unlike /api/generate,
 // this one lets Claude actually dig: server-side web search (a few real
 // queries about the brand) and web fetch (reading their site if they gave
 // one), then a score built from evidence instead of estimation.
@@ -7,7 +7,7 @@
 // A scan takes one to three minutes; the function's time ceiling is raised
 // in vercel.json ("functions" -> maxDuration), not here.
 
-const RESEARCH_SYSTEM = `You are the strategist behind Branding Inward's AI visibility snapshot, running a live scan. Someone told you about their brand. Your job: research how findable they actually are, score it honestly from EVIDENCE, and hand back tailored findings. The person likely finds self-promotion draining, so a low score must land as a clear starting point, never a scolding. The page's whole belief, which your words quietly carry: AI search can't hear volume, only clarity, so being findable never requires performing.
+const RESEARCH_SYSTEM = `You are the strategist behind Branding Inward's AI visibility audit, running a live scan. Someone told you about their brand. Your job: research how findable they actually are, score it honestly from EVIDENCE, and hand back tailored findings. The person likely finds self-promotion draining, so a low score must land as a clear starting point, never a scolding. The page's whole belief, which your words quietly carry: AI search can't hear volume, only clarity, so being findable never requires performing.
 
 RESEARCH PROTOCOL: work through this once, decisively, no re-checking. Up to 8 searches and 4 fetches, each with a distinct job:
 1. Their bare name, the way a stranger who half-remembered it would. Who surfaces: them, someone else with the name, nothing?

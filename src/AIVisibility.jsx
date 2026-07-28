@@ -8,7 +8,7 @@ import {
   primaryBtn, ghostBtn, miniLabel, plainCard,
 } from "./lib/whisperKit.jsx";
 
-// ── The AI Visibility Snapshot, the Branding Inward way. Outside the six-step
+// ── The AI Visibility Audit, the Branding Inward way. Outside the six-step
 //    framework: the steps build the brand, this checks how findable it is and
 //    then WRITES the words that fix it. The reframe the whole page stands on:
 //    AI search can't hear volume, only clarity. The scan is LIVE: the AI runs
@@ -128,7 +128,7 @@ What they do, in their words: "${work.trim()}"`;
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        system: `You are the strategist behind Branding Inward's AI visibility snapshot. The live scan wasn't available, so you estimate from their answers alone. A low score must land as a clear starting point, never a scolding.
+        system: `You are the strategist behind Branding Inward's AI visibility audit. The live scan wasn't available, so you estimate from their answers alone. A low score must land as a clear starting point, never a scolding.
 
 ${ESTIMATE_LIBRARY}
 
@@ -171,7 +171,7 @@ Competitor or peer: ${rival.trim() ? `"${rival.trim()}"` : "none given"}`,
       setPhase("done");
       track("aivis_score_" + bandFor(g.score).name.toLowerCase().replace(/\s+/g, "-"));
     } catch (_) {
-      setError("Couldn't finish the snapshot. Nothing was saved, give it another try in a moment.");
+      setError("Couldn't finish the audit. Nothing was saved, give it another try in a moment.");
       setPhase("intro");
     }
   }
@@ -189,7 +189,7 @@ Competitor or peer: ${rival.trim() ? `"${rival.trim()}"` : "none given"}`,
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          system: `You are the strategist behind Branding Inward's AI visibility snapshot, writing part two: the findability kit. The diagnosis is done; now you WRITE the three artifacts that make a quiet brand legible to AI search, ready to paste. The person finds self-promotion draining, so everything must sound like a calm human describing real work, never like marketing.
+          system: `You are the strategist behind Branding Inward's AI visibility audit, writing part two: the findability kit. The diagnosis is done; now you WRITE the three artifacts that make a quiet brand legible to AI search, ready to paste. The person finds self-promotion draining, so everything must sound like a calm human describing real work, never like marketing.
 
 HONESTY RULES, the most important thing: use ONLY the facts they gave you and the scan findings below. Never invent credentials, years of experience, awards, clients, numbers, places, or product names that do not appear in their words. If a detail wasn't given, write around it. Plain, specific, true.
 
@@ -228,7 +228,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
   async function copyAll() {
     if (!result) return;
     const band = bandFor(result.score);
-    let t = `AI VISIBILITY SNAPSHOT: ${name.trim()}\n\nScore: ${result.score}/100, ${band.name}\n${result.read}\n`;
+    let t = `AI VISIBILITY AUDIT: ${name.trim()}\n\nScore: ${result.score}/100, ${band.name}\n${result.read}\n`;
     if (Array.isArray(result.found) && result.found.length) {
       t += `\nWHAT THE SCAN FOUND\n`;
       result.found.forEach((f) => { t += `- ${f}\n`; });
@@ -268,7 +268,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
 
       {phase === "intro" && (
         <ToolHero
-          label="The AI visibility snapshot"
+          label="The AI visibility audit"
           photo="/media/visibility-hero.jpg"
           Doodle={DoodleGlass}
           headline={<>AI search can't hear volume.<br /><span style={{ fontStyle: "italic", color: BUTTER }}>Only clarity.</span></>}
@@ -346,7 +346,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
 
             <p style={{ fontSize: 14, color: "#9A8F82", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
               Honest small print: this runs a few real web searches about your name and reads your site if you
-              share one. It's a snapshot, not a full technical audit, and the web is bigger than one scan.
+              share one. It's a light audit, a handful of real searches, and the web is bigger than one scan.
               Results appear right here, no email, and nothing you type is saved. If you've done the six steps,
               the kit borrows the voice and story already saved on your device.
             </p>
@@ -514,8 +514,8 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
 
             <p style={{ fontSize: 14, color: "#9A8F82", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
               {estimated
-                ? "Estimated from your own answers this time, not a live scan. A starting point, not a technical audit."
-                : "Built from a light live scan: a few real searches plus your site if you shared it. The web is bigger than one scan, so treat this as a snapshot, not a full technical audit."}
+                ? "Estimated from your own answers this time, not a live scan, so treat it as a rough sketch."
+                : "Built from a light live audit: a few real searches plus your site if you shared it. The web is bigger than one scan, so treat this as a starting point, not the last word."}
               {" "}Changes take weeks to months to show up in AI answers, quiet consistency is exactly the game.
               Nothing you typed was saved.
             </p>
