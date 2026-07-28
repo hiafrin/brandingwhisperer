@@ -5,5 +5,17 @@
     "api/visibility.js": {
       "maxDuration": 300
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/resources/two-sentence-swap",
+      "destination": "/resources",
+      "permanent": true
+    },
+    {
+      "source": "/resources/ai-that-writes-in-my-voice",
+      "destination": "/resources",
+      "permanent": true
+    }
+  ]
 }

@@ -378,7 +378,7 @@ export function ToolsMenu() {
       dot: done.includes(s.key) ? ACCENT : "#D9D2C6",
     })),
     { section: "More", href: "/ai-visibility", name: "AI visibility audit", cta: "Your findability score, then the words that raise it", dot: CORAL },
-    { section: "More", href: "/resources", name: "Resources", cta: "How-tos for getting known without performing", dot: ACCENT },
+    { section: "More", href: "/resources", name: "The library", cta: "The philosophy, the framework, prompts, and checklists", dot: ACCENT },
     { section: "More", href: "/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
   ];
 
@@ -436,7 +436,7 @@ export function SiteFooter() {
           More than a decade in brand marketing, agency-side then client-side. The questions are mine, not generic AI prompts, and the AI just makes them fast. Free, always.
         </p>
         <p style={{ fontSize: 15, lineHeight: 1.9, margin: "0 0 20px", fontFamily: SANS }}>
-          <a href="/resources" style={link}>Resources</a>
+          <a href="/resources" style={link}>Library</a>
           <span style={sep}>&middot;</span>
           <a href="/about" style={link}>Read my story</a>
           <span style={sep}>&middot;</span>
@@ -562,8 +562,8 @@ export function Playbook() {
           ))}
         </div>
         <p style={{ fontSize: 15, lineHeight: 1.6, color: "#5C534B", margin: 0, fontFamily: SANS, maxWidth: 620 }}>
-          The full method for each one, with the scripts and when to use them, is something I'm writing up properly.{" "}
-          <a href="/resources" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>I'll share it in the writing &rarr;</a>
+          The full method for each one, with the scripts and when to use them, is coming to the library.{" "}
+          <a href="/resources" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>Browse the library &rarr;</a>
         </p>
       </div>
 

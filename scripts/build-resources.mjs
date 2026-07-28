@@ -1,7 +1,8 @@
-// Generates the static Resources blog into dist/ AFTER `vite build`.
-// Each post in src/posts/*.md becomes a real, indexable HTML page at a clean
-// URL (/resources/<slug>), with its own SEO head. Plus an index, a sitemap,
-// and robots.txt. The tools SPA (hash routes) is untouched.
+// Generates the static pages into dist/ AFTER `vite build`:
+// 1. The resource library: src/library/*.md, curated shelves (philosophy,
+//    framework, prompts, worksheets, linkedin), no dates, no chronology.
+// 2. Pre-rendered tool pages, the homepage's crawlable text, sitemap, robots.
+// Part 2 runs unconditionally: the library is content, the rest is the site.
 //
 // Run by `npm run build`: "vite build && node scripts/build-resources.mjs".
 
@@ -12,7 +13,7 @@ import { marked } from "marked";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
-const POSTS_DIR = join(ROOT, "src", "posts");
+const LIBRARY_DIR = join(ROOT, "src", "library");
 const DIST = join(ROOT, "dist");
 
 const SITE_URL = "https://brandinginward.com";
@@ -41,12 +42,14 @@ const FONTS = "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23FDFBF5'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%230F7C6C'/%3E%3C/svg%3E";
 
 const esc = (s = "") => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const fmtDate = (iso) => {
-  const d = new Date(iso + "T00:00:00");
-  if (isNaN(d)) return iso;
-  return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-};
-const readingTime = (md) => Math.max(1, Math.round(md.split(/\s+/).length / 200)) + " min read";
+// The shelves, in display order. linkedin only renders once items exist.
+const SHELVES = [
+  { key: "philosophy", name: "The philosophy", blurb: "What this whole site believes, in plain words." },
+  { key: "framework", name: "The framework", blurb: "Know. Show. Grow. The method behind the six tools." },
+  { key: "prompts", name: "Prompt collections", blurb: "The real patterns behind the tools, portable to any AI chat." },
+  { key: "worksheets", name: "Worksheets & checklists", blurb: "Front-loaded work that compounds. Print them, work through them." },
+  { key: "linkedin", name: "From my LinkedIn", blurb: "The best of what I write over there, kept here." },
+];
 
 // ── FAQ extraction: authors just end a post with a `## FAQ` section and
 //    `### question?` subheads. The section stays VISIBLE in the rendered body
@@ -75,11 +78,13 @@ function extractFaqs(body) {
   return faqs;
 }
 
-// ── Frontmatter: simple `key: value` block between --- fences ──
-function parsePost(file) {
-  const raw = readFileSync(join(POSTS_DIR, file), "utf8");
+// ── Frontmatter: simple `key: value` block between --- fences. Library items
+//    need title, description, and a shelf; `order` sorts within a shelf, and
+//    `external: <url>` makes an outbound card (a LinkedIn post) with no page. ──
+function parseItem(file) {
+  const raw = readFileSync(join(LIBRARY_DIR, file), "utf8");
   const m = raw.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
-  if (!m) throw new Error(`Post ${file} is missing its --- frontmatter --- header.`);
+  if (!m) throw new Error(`Library item ${file} is missing its --- frontmatter --- header.`);
   const meta = {};
   for (const line of m[1].split("\n")) {
     const i = line.indexOf(":");
@@ -88,13 +93,16 @@ function parsePost(file) {
   }
   const body = m[2];
   const slug = file.replace(/\.md$/, "");
-  if (!meta.title || !meta.date || !meta.description) {
-    throw new Error(`Post ${file} needs title, date, and description in its frontmatter.`);
+  if (!meta.title || !meta.description || !meta.shelf) {
+    throw new Error(`Library item ${file} needs title, description, and shelf in its frontmatter.`);
+  }
+  if (!SHELVES.some((sh) => sh.key === meta.shelf)) {
+    throw new Error(`Library item ${file} has unknown shelf "${meta.shelf}".`);
   }
   // Wrap the rendered FAQ section (heading through end) so it can be styled as a block.
   let html = marked.parse(body);
   html = html.replace(/(<h2[^>]*>\s*(?:FAQ|Frequently asked questions)[\s\S]*)$/i, '<div class="faq">$1</div>');
-  return { slug, ...meta, body, html, reading: readingTime(body), faqs: extractFaqs(body) };
+  return { slug, ...meta, order: Number(meta.order || 99), body, html, faqs: extractFaqs(body) };
 }
 
 // ── Shared chrome ──
@@ -142,14 +150,6 @@ const STYLE = `
   .cta { background:${ACCENT_TINT}; border:1px solid #DCEFEB; border-radius:16px; padding:24px 26px; margin:44px 0; }
   .cta p { font-family:'Inter',sans-serif; margin:0 0 14px; font-size:16px; color:#3D3630; line-height:1.5; }
   .btn { display:inline-block; background:${ACCENT}; color:#fff; text-decoration:none; font-family:'Inter',sans-serif; font-weight:600; font-size:16px; padding:14px 26px; border-radius:999px; }
-  .signup { border:1px solid #EFE7DA; background:#fff; border-radius:16px; padding:26px 28px; margin:44px 0; box-shadow:0 8px 24px rgba(11,59,52,.05); }
-  .signup .eyebrow { margin-bottom:8px; }
-  .signup h3 { font-size:22px; font-weight:400; margin:0 0 8px; }
-  .signup p { font-family:'Inter',sans-serif; font-size:14px; line-height:1.6; color:#857B70; margin:0 0 16px; }
-  .signup form { display:flex; gap:10px; flex-wrap:wrap; }
-  .signup input { flex:1; min-width:200px; font-family:'Inter',sans-serif; font-size:16px; padding:12px 14px; border:1px solid #DDD3C4; border-radius:10px; background:#FDFBF5; color:${INK}; }
-  .signup button { font-family:'Inter',sans-serif; font-weight:600; font-size:16px; padding:12px 22px; border:none; border-radius:10px; background:${ACCENT}; color:#fff; cursor:pointer; }
-  .signup .msg { font-family:'Inter',sans-serif; font-size:14px; margin:12px 0 0; min-height:1px; }
   /* footer */
   footer.site { background:${INK_TEAL}; margin-top:64px; }
   footer.site .wrap { padding-top:44px; padding-bottom:44px; }
@@ -163,7 +163,7 @@ const STYLE = `
 const HEADER = `
   <header class="site-head"><div class="wrap">
     <a class="brand" href="/"><span class="dot"></span><span class="name">Branding Inward</span></a>
-    <a class="nav-tools" href="/#/">The tools &rarr;</a>
+    <a class="nav-tools" href="/">The tools &rarr;</a>
   </div></header>`;
 
 const FOOTER = `
@@ -171,39 +171,11 @@ const FOOTER = `
     <a class="brand" href="/"><span class="dot" style="background:${BUTTER}"></span><span class="name">Branding Inward</span></a>
     <p class="tag">These aren't generic AI answers. Real questions from a real strategist, delivered by AI so they reach you in minutes, for free.</p>
     <p class="links">
-      <a href="/resources">Resources</a><span>&middot;</span>
-      <a href="/#/about">Read my story</a><span>&middot;</span>
+      <a href="/resources">Library</a><span>&middot;</span>
+      <a href="/about">Read my story</a><span>&middot;</span>
       <a href="https://www.linkedin.com/in/sabihaafrin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </p>
   </div></footer>`;
-
-// Signup: static pages, so vanilla JS posts to /api/email. Named exception + free.
-const SIGNUP = `
-  <div class="signup">
-    <p class="eyebrow">The one opt-in</p>
-    <h3>Want the next how-to?</h3>
-    <p>The tools never ask for this, and never will. The writing is the one thing you can choose to get in your inbox. Free, like everything here, and one click to leave.</p>
-    <form onsubmit="subInward(this); return false;">
-      <input type="email" name="email" placeholder="you@example.com" required aria-label="Your email" />
-      <button type="submit">Keep me posted</button>
-    </form>
-    <p class="msg" id="submsg" role="status"></p>
-  </div>
-  <script>
-    async function subInward(form){
-      var msg=document.getElementById('submsg');
-      var email=form.email.value.trim();
-      msg.style.color='#857B70'; msg.textContent='Sending...';
-      try{
-        var r=await fetch('/api/email',{method:'POST',headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({to:email,summary:"NEWSLETTER SIGNUP for Branding Inward. You're on the list, new how-tos as they come. One click to leave anytime."})});
-        var d=await r.json().catch(function(){return {};});
-        if(r.ok&&d.ok){ msg.style.color='${ACCENT}'; msg.textContent="You're on the list. Talk soon."; form.reset(); }
-        else { msg.style.color='#B4472F'; msg.textContent=(d&&d.error)||"Couldn't sign you up just now. Try again in a moment."; }
-      }catch(e){ msg.style.color='#B4472F'; msg.textContent="Couldn't sign you up just now. Try again in a moment."; }
-      return false;
-    }
-  </script>`;
 
 function pageShell({ title, description, canonical, jsonld, body, ogType = "website" }) {
   return `<!doctype html>
@@ -237,51 +209,66 @@ ${FOOTER}
 </html>`;
 }
 
-function renderIndex(posts) {
-  const cards = posts.map((p) => `
+function renderIndex(items) {
+  const card = (p) => p.external
+    ? `
+    <a class="post-card" href="${esc(p.external)}" target="_blank" rel="noopener noreferrer">
+      <span class="tag">${esc(p.tag || "LinkedIn")}</span>
+      <h2>${esc(p.title)} &nearr;</h2>
+      <p>${esc(p.description)}</p>
+    </a>`
+    : `
     <a class="post-card" href="/resources/${p.slug}">
-      <span class="tag">${esc(p.tag || "Writing")}</span>
+      <span class="tag">${esc(p.tag || "Library")}</span>
       <h2>${esc(p.title)}</h2>
       <p>${esc(p.description)}</p>
-      <p class="meta" style="margin-top:10px">${fmtDate(p.date)} &middot; ${p.reading}</p>
-    </a>`).join("");
+    </a>`;
+  const shelves = SHELVES.map((sh) => {
+    const onShelf = items.filter((p) => p.shelf === sh.key).sort((a, b) => a.order - b.order);
+    if (!onShelf.length) return ""; // the linkedin shelf stays hidden until it has items
+    return `
+      <section style="margin-top:44px">
+        <p class="eyebrow">${esc(sh.name)}</p>
+        <p class="lede" style="font-size:15px; margin-bottom:4px">${esc(sh.blurb)}</p>
+        ${onShelf.map(card).join("")}
+      </section>`;
+  }).join("");
   const body = `
     <main class="wrap" style="padding-top:52px; padding-bottom:8px">
-      <p class="eyebrow">Resources</p>
-      <h1 class="page">How-tos for getting known <em>without performing.</em></h1>
-      <p class="lede">Plain, practical writing on building a brand when self-promotion drains you. No hype, no growth hacks, just what actually works for quiet people.</p>
-      <div style="margin-top:36px">${cards}</div>
-      ${SIGNUP}
+      <p class="eyebrow">The library</p>
+      <h1 class="page">Everything worth keeping, <em>on shelves.</em></h1>
+      <p class="lede">Not a blog. The philosophy, the framework, the prompts, and the checklists behind Branding Inward, curated so you can find what you need and get back to making.</p>
+      ${shelves}
     </main>`;
+  const internal = items.filter((p) => !p.external);
   const indexGraph = [
     { "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: SITE_NAME, publisher: PUBLISHER },
     {
-      "@type": "Blog",
-      "@id": `${SITE_URL}/resources#blog`,
+      "@type": "CollectionPage",
+      "@id": `${SITE_URL}/resources#library`,
       url: `${SITE_URL}/resources`,
-      name: `${SITE_NAME} Resources`,
-      description: "How-tos on building a brand when self-promotion drains you.",
+      name: `${SITE_NAME} Library`,
+      description: "The philosophy, framework, prompt collections, and checklists behind Branding Inward.",
       author: AUTHOR,
       publisher: PUBLISHER,
-      blogPost: posts.map((p) => ({
-        "@type": "BlogPosting",
+      hasPart: internal.map((p) => ({
+        "@type": "Article",
         headline: p.title,
         description: p.description,
-        datePublished: p.date,
         url: `${SITE_URL}/resources/${p.slug}`,
       })),
     },
   ];
   return pageShell({
-    title: `Resources | ${SITE_NAME}`,
-    description: "Plain, practical how-tos on building a brand when self-promotion drains you. Get known without performing.",
+    title: `The Library | ${SITE_NAME}`,
+    description: "The Branding Inward library: the philosophy, the Know. Show. Grow. framework, AI prompt collections, and findability checklists. Free, no email.",
     canonical: `${SITE_URL}/resources`,
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@graph": indexGraph }),
     body,
   });
 }
 
-function renderPost(p) {
+function renderItem(p) {
   const url = `${SITE_URL}/resources/${p.slug}`;
   const graph = [
     {
@@ -289,24 +276,22 @@ function renderPost(p) {
       "@id": `${url}#article`,
       headline: p.title,
       description: p.description,
-      datePublished: p.date,
-      dateModified: p.updated || p.date,
       author: AUTHOR,
       publisher: PUBLISHER,
       mainEntityOfPage: url,
-      isPartOf: { "@id": `${SITE_URL}/resources#blog` },
+      isPartOf: { "@id": `${SITE_URL}/resources#library` },
     },
     {
       "@type": "BreadcrumbList",
       "@id": `${url}#breadcrumbs`,
       itemListElement: [
         { "@type": "ListItem", position: 1, name: SITE_NAME, item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "Resources", item: `${SITE_URL}/resources` },
+        { "@type": "ListItem", position: 2, name: "Library", item: `${SITE_URL}/resources` },
         { "@type": "ListItem", position: 3, name: p.title, item: url },
       ],
     },
   ];
-  // Only emit FAQPage when the post actually has visible Q&A on the page.
+  // Only emit FAQPage when the item actually has visible Q&A on the page.
   if (p.faqs && p.faqs.length) {
     graph.push({
       "@type": "FAQPage",
@@ -321,19 +306,17 @@ function renderPost(p) {
   const jsonld = JSON.stringify({ "@context": "https://schema.org", "@graph": graph });
   const body = `
     <main class="wrap" style="padding-top:40px; padding-bottom:8px">
-      <p style="margin:0 0 24px"><a href="/resources" style="font-family:'Inter',sans-serif; font-size:14px; font-weight:600; text-decoration:none">&larr; Resources</a></p>
+      <p style="margin:0 0 24px"><a href="/resources" style="font-family:'Inter',sans-serif; font-size:14px; font-weight:600; text-decoration:none">&larr; The library</a></p>
       <article>
-        <p class="eyebrow" style="margin-bottom:12px">${esc(p.tag || "Writing")}</p>
+        <p class="eyebrow" style="margin-bottom:12px">${esc(p.tag || "Library")}</p>
         <h1 class="page">${esc(p.title)}</h1>
-        <p class="meta" style="margin:0 0 ${p.affiliate === "true" ? "20px" : "32px"}">${fmtDate(p.date)} &middot; ${p.reading}</p>
-        ${p.affiliate === "true" ? `<p class="disclosure">Some links here are affiliate links. I may earn a small commission at no cost to you, and I only ever recommend tools I actually use.</p>` : ""}
+        <p class="lede" style="margin:0 0 32px">${esc(p.description)}</p>
         <div class="prose">${p.html}</div>
       </article>
       <div class="cta">
-        <p><strong>Want to try it on your own brand?</strong> The Inward Pattern Scan finds where you get stuck, then points you to the right tool. Free, no account, three minutes.</p>
-        <a class="btn" href="/#/scan">Start the scan &rarr;</a>
+        <p><strong>Want to try it on your own brand?</strong> The Inward Scan finds where you get stuck, then points you to the right tool. Free, no account, one minute.</p>
+        <a class="btn" href="/scan">Start the scan &rarr;</a>
       </div>
-      ${SIGNUP}
     </main>`;
   return pageShell({
     title: `${p.title} | ${SITE_NAME}`,
@@ -394,16 +377,16 @@ ${t.faqs.map((f) => `<h2>${esc(f.q)}</h2>\n<p>${esc(f.a)}</p>`).join("\n")}
 }
 
 // ── Run ──
-if (!existsSync(POSTS_DIR)) { console.log("[resources] no src/posts dir, skipping."); process.exit(0); }
-const files = readdirSync(POSTS_DIR).filter((f) => f.endsWith(".md"));
-const posts = files.map(parsePost).sort((a, b) => (a.date < b.date ? 1 : -1));
+const files = existsSync(LIBRARY_DIR) ? readdirSync(LIBRARY_DIR).filter((f) => f.endsWith(".md")) : [];
+const items = files.map(parseItem);
+const pageItems = items.filter((p) => !p.external);
 
 mkdirSync(join(DIST, "resources"), { recursive: true });
-writeFileSync(join(DIST, "resources", "index.html"), renderIndex(posts));
-for (const p of posts) {
+writeFileSync(join(DIST, "resources", "index.html"), renderIndex(items));
+for (const p of pageItems) {
   const dir = join(DIST, "resources", p.slug);
   mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, "index.html"), renderPost(p));
+  writeFileSync(join(dir, "index.html"), renderItem(p));
 }
 
 // tool pages
@@ -434,7 +417,7 @@ const homeFallback = `
     <li><a href="/brief">Keep yourself. Your Inward Brief gathers all of it on one page.</a></li>
   </ol>
   <p>Each tool works on its own; together they compound into a full brand. And one check sits outside the framework: <a href="/ai-visibility">The AI Visibility Audit</a>, a live scan of how findable you are to AI search, with the words that fix it.</p>
-  <p><a href="/resources">How-to guides</a> · <a href="/about">About the strategist</a></p>`;
+  <p><a href="/resources">The library</a> · <a href="/about">About the strategist</a></p>`;
 const homeHtml = shell
   .replace(/<title>[^<]*<\/title>/, `<title>${esc(HOME_TITLE)}</title>`)
   .replace('<div id="root"></div>', `<div id="root">${homeFallback}</div>`);
@@ -445,7 +428,7 @@ const urls = [
   `${SITE_URL}/`,
   ...TOOL_PAGES.map((t) => `${SITE_URL}/${t.slug}`),
   `${SITE_URL}/resources`,
-  ...posts.map((p) => `${SITE_URL}/resources/${p.slug}`),
+  ...pageItems.map((p) => `${SITE_URL}/resources/${p.slug}`),
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
   .map((u) => `  <url><loc>${u}</loc></url>`)
@@ -453,4 +436,4 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://w
 writeFileSync(join(DIST, "sitemap.xml"), sitemap);
 writeFileSync(join(DIST, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
-console.log(`[resources] built ${posts.length} post(s) + ${TOOL_PAGES.length} tool page(s) + index, sitemap (${urls.length} urls), robots.`);
+console.log(`[library] built ${items.length} library item(s) + ${TOOL_PAGES.length} tool page(s) + index, sitemap (${urls.length} urls), robots.`);
