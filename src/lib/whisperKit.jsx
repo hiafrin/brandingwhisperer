@@ -676,8 +676,8 @@ export function BuddyForm() {
           </p>
         ) : (
           <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <input className="mw-buddy-input" style={inputStyle} placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} />
-            <input className="mw-buddy-input" style={inputStyle} type="email" placeholder="Your email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input aria-label="Your name" className="mw-buddy-input" style={inputStyle} placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} />
+            <input aria-label="Your email" className="mw-buddy-input" style={inputStyle} type="email" placeholder="Your email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               {[["endorsement", "An endorsement swap"], ["coffee", "Just coffee"]].map(([v, label]) => (
                 <button type="button" key={v} onClick={() => setWant(v)} style={{ flex: "1 1 180px", background: want === v ? BUTTER : "transparent", color: want === v ? INK_TEAL : CREAM, border: `1px solid ${want === v ? BUTTER : "rgba(251,247,240,.3)"}`, borderRadius: 100, padding: "12px 16px", fontFamily: SANS, fontSize: 15, fontWeight: 600, cursor: "pointer", transition: "all .18s" }}>
@@ -685,7 +685,7 @@ export function BuddyForm() {
                 </button>
               ))}
             </div>
-            <textarea className="mw-buddy-input" style={{ ...inputStyle, minHeight: 80, resize: "vertical" }} placeholder="A line about you and what you make (optional)" value={about} onChange={(e) => setAbout(e.target.value)} />
+            <textarea aria-label="A line about you and what you make" className="mw-buddy-input" style={{ ...inputStyle, minHeight: 80, resize: "vertical" }} placeholder="A line about you and what you make (optional)" value={about} onChange={(e) => setAbout(e.target.value)} />
             {err && <p style={{ fontSize: 14, color: "#F0997B", margin: 0, fontFamily: SANS }}>{err}</p>}
             <button type="submit" disabled={sending} style={{ ...primaryBtn, background: BUTTER, color: INK_TEAL, alignSelf: "flex-start", opacity: sending ? 0.7 : 1 }}>
               {sending ? "Sending…" : "Send to Afrin →"}

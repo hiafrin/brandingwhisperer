@@ -415,6 +415,31 @@ for (const t of TOOL_PAGES) {
   writeFileSync(join(dir, "index.html"), renderToolPage(shell, t));
 }
 
+// ── The homepage itself: give it a real title and crawlable text. Answer
+//    engines mostly don't run JavaScript, so without this the front door of
+//    the whole site is an empty div to them (the audit tool found exactly
+//    that when it fetched the site). React replaces #root on mount, same as
+//    the tool pages. ──
+const HOME_TITLE = "Branding Inward: get known without performing | free AI branding tools";
+const homeFallback = `
+  <h1>Get known. Without performing.</h1>
+  <p>Branding Inward is a set of free AI branding tools for people who find self-promotion draining. Built by a brand strategist, not another tech company: the questions are hers, the AI just makes them fast. No account, no email, and everything you make stays on your own device.</p>
+  <h2>The Inward Framework, six steps</h2>
+  <ol>
+    <li><a href="/scan">See yourself. The Inward Scan finds the pattern behind how you get stuck, in eight taps.</a></li>
+    <li><a href="/foundation">Understand yourself. Six questions that find the un-copyable thing in your own story.</a></li>
+    <li><a href="/brand-voice">Express yourself. Your brand voice, observed from how you already talk, written down.</a></li>
+    <li><a href="/plan">Share yourself. The Quieter Plan, marketing at a cost you can honestly bear.</a></li>
+    <li><a href="/roast">Refine yourself. The Gentle Roast reads what you wrote and tells you what to keep first.</a></li>
+    <li><a href="/brief">Keep yourself. Your Inward Brief gathers all of it on one page.</a></li>
+  </ol>
+  <p>Each tool works on its own; together they compound into a full brand. And one check sits outside the framework: <a href="/ai-visibility">The AI Visibility Audit</a>, a live scan of how findable you are to AI search, with the words that fix it.</p>
+  <p><a href="/resources">How-to guides</a> · <a href="/about">About the strategist</a></p>`;
+const homeHtml = shell
+  .replace(/<title>[^<]*<\/title>/, `<title>${esc(HOME_TITLE)}</title>`)
+  .replace('<div id="root"></div>', `<div id="root">${homeFallback}</div>`);
+writeFileSync(join(DIST, "index.html"), homeHtml);
+
 // sitemap + robots
 const urls = [
   `${SITE_URL}/`,

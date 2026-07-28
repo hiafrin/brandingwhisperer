@@ -14,7 +14,7 @@ function Portrait() {
     <div style={{ position: "relative", width: "100%", aspectRatio: "4 / 5", borderRadius: 20, overflow: "hidden", background: "linear-gradient(160deg, #0B3B34 0%, #0F7C6C 100%)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 18px 40px rgba(11,59,52,.28)" }}>
       <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: 96, color: "rgba(247,208,107,.92)" }}>SA</span>
       {ok && (
-        <img src="/media/afrin-portrait.jpg" alt="S. Afrin" onError={() => setOk(false)}
+        <img loading="lazy" decoding="async" src="/media/afrin-portrait.jpg" alt="S. Afrin" onError={() => setOk(false)}
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
       )}
     </div>

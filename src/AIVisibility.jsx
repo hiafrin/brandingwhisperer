@@ -312,27 +312,27 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 22 }}>
               <div style={{ gridColumn: "1 / -1" }}>
                 <p style={{ ...miniLabel, marginBottom: 8 }}>Your brand name, or your own</p>
-                <input value={name} maxLength={80} onChange={(e) => setName(e.target.value)}
+                <input aria-label="Your brand name, or your own" value={name} maxLength={80} onChange={(e) => setName(e.target.value)}
                   placeholder="Cedar & Wick, or Sana Rahman" style={inputStyle} {...focusRing} />
               </div>
               <div style={{ gridColumn: "1 / -1" }}>
                 <p style={{ ...miniLabel, marginBottom: 8 }}>Website, if you have one</p>
-                <input value={site} maxLength={120} onChange={(e) => setSite(e.target.value)}
+                <input aria-label="Website, if you have one" value={site} maxLength={120} onChange={(e) => setSite(e.target.value)}
                   placeholder="cedarandwick.com (optional, but then I can actually read it)" style={inputStyle} {...focusRing} />
               </div>
               <div style={{ gridColumn: "1 / -1" }}>
                 <p style={{ ...miniLabel, marginBottom: 8 }}>Your niche or topic area</p>
-                <input value={niche} maxLength={100} onChange={(e) => setNiche(e.target.value)}
+                <input aria-label="Your niche or topic area" value={niche} maxLength={100} onChange={(e) => setNiche(e.target.value)}
                   placeholder="Small-batch candles, or career coaching for nurses" style={inputStyle} {...focusRing} />
               </div>
               <div style={{ gridColumn: "1 / -1" }}>
                 <p style={{ ...miniLabel, marginBottom: 8 }}>What you do, in your words</p>
-                <input value={work} maxLength={160} onChange={(e) => setWork(e.target.value)}
+                <input aria-label="What you do, in your words" value={work} maxLength={160} onChange={(e) => setWork(e.target.value)}
                   placeholder="I pour soy candles in my garage in Portland and sell at two markets" style={inputStyle} {...focusRing} />
               </div>
               <div style={{ gridColumn: "1 / -1" }}>
                 <p style={{ ...miniLabel, marginBottom: 8 }}>A competitor or peer in your space, if one comes to mind</p>
-                <input value={rival} maxLength={80} onChange={(e) => setRival(e.target.value)}
+                <input aria-label="A competitor or peer in your space" value={rival} maxLength={80} onChange={(e) => setRival(e.target.value)}
                   placeholder="Optional. Someone customers might find instead of you." style={inputStyle} {...focusRing} />
               </div>
             </div>

@@ -326,13 +326,13 @@ Look at the photo and write 3 posts around it, in my voice.`;
   const photoTool = (eyebrow) => (
     <div style={{ marginTop: 34, border: `2px solid ${ACCENT}`, borderRadius: 18, padding: "26px 26px", background: "#FFF" }}>
       <p style={miniLabel}>{eyebrow}</p>
-      <h3 style={{ fontSize: 26, lineHeight: 1.2, margin: "0 0 8px", fontWeight: 400 }}>Turn a photo into posts</h3>
+      <h2 style={{ fontSize: 26, lineHeight: 1.2, margin: "0 0 8px", fontWeight: 400 }}>Turn a photo into posts</h2>
       <p style={{ fontSize: 16, lineHeight: 1.6, color: "#5C534B", margin: "0 0 18px", fontFamily: SANS }}>
         Upload one photo, a shot of what you made, your workspace, a whiteboard you filled, your hands
         mid-process, a short clip. I'll look at it and write three posts around it, in your voice. No face required.
       </p>
 
-      <input ref={fileRef} type="file" accept="image/*,video/*" onChange={onPhoto} style={{ display: "none" }} />
+      <input aria-label="Choose a photo or short clip" ref={fileRef} type="file" accept="image/*,video/*" onChange={onPhoto} style={{ display: "none" }} />
 
       {photoPreview && (
         <div style={{ borderRadius: 14, overflow: "hidden", marginBottom: 16, maxWidth: 320, border: "1px solid #EFE7DA" }}>
@@ -451,7 +451,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
               <h2 style={{ fontSize: 33, lineHeight: 1.18, margin: "0 0 10px", fontWeight: 400, position: "relative" }}>{q.label}</h2>
             </div>
             <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 22px", fontFamily: SANS }}>{q.help}</p>
-            <textarea
+            <textarea aria-label="Your answer"
               ref={inputRef} className="mw-area" value={draft} maxLength={700}
               onChange={(e) => { setDraft(e.target.value); setBase(e.target.value); }}
               onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); next(); } }}

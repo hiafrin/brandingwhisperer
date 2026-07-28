@@ -111,7 +111,7 @@ export default function InwardBrief() {
                 <p style={{ fontSize: 16, color: ACCENT, margin: 0, fontFamily: SANS, fontWeight: 600 }}>Sent. Check your inbox for your brief.</p>
               ) : (
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email it to yourself" style={{ flex: "1 1 220px", background: "#FFF", border: "1px solid #E5DDD1", borderRadius: 100, padding: "13px 18px", fontSize: 16, fontFamily: SANS, color: INK, outline: "none" }} />
+                  <input aria-label="Your email address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email it to yourself" style={{ flex: "1 1 220px", background: "#FFF", border: "1px solid #E5DDD1", borderRadius: 100, padding: "13px 18px", fontSize: 16, fontFamily: SANS, color: INK, outline: "none" }} />
                   <button className="mw-btn" onClick={sendEmail} disabled={sending} style={{ ...primaryBtn, background: "#FFF", color: ACCENT, border: `2px solid ${ACCENT}`, boxShadow: "none", padding: "12px 22px", fontSize: 15, opacity: sending ? 0.7 : 1 }}>
                     {sending ? "Sending…" : "Email it to me"}
                   </button>

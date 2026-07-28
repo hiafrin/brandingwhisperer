@@ -580,7 +580,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           <section style={{ maxWidth: 920, margin: "0 auto", padding: "36px 24px 8px" }}>
             <div className="mw-who-grid" style={{ marginBottom: 24 }}>
               <div style={{ borderRadius: 16, overflow: "hidden", aspectRatio: "1/1", boxShadow: "0 10px 26px rgba(11,59,52,.12)" }}>
-                <img src="/media/pottery-hands.jpg" alt="Hands shaping clay on a pottery wheel" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                <img loading="lazy" decoding="async" src="/media/pottery-hands.jpg" alt="Hands shaping clay on a pottery wheel" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               </div>
               <div style={{ padding: "8px 6px" }}>
                 <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 12px" }}>Who it's for</p>
@@ -590,7 +590,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 </p>
               </div>
               <div style={{ borderRadius: 16, overflow: "hidden", aspectRatio: "1/1", boxShadow: "0 10px 26px rgba(11,59,52,.12)" }}>
-                <img src="/media/writing-notebook.jpg" alt="A hand writing in a notebook by a window, coffee and glasses nearby" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", animationDelay: "-12s" }} />
+                <img loading="lazy" decoding="async" src="/media/writing-notebook.jpg" alt="A hand writing in a notebook by a window, coffee and glasses nearby" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", animationDelay: "-12s" }} />
               </div>
             </div>
             <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".04em", textTransform: "uppercase", color: "#857B70", fontWeight: 600, margin: "0 0 14px" }}>This is for you if&hellip;</p>
@@ -726,7 +726,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               <h2 style={{ fontSize: 33, lineHeight: 1.18, margin: "0 0 10px", fontWeight: 400, position: "relative" }}>{q.label}</h2>
             </div>
             <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 22px", fontFamily: SANS }}>{q.help}</p>
-            <textarea
+            <textarea aria-label="Your answer"
               ref={inputRef} className="mw-area" value={draft}
               onChange={(e) => { setDraft(e.target.value); setBase(e.target.value); }}
               onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); next(); } }}

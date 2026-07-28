@@ -215,7 +215,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
             </div>
 
             <p style={{ ...miniLabel, marginBottom: 10 }}>The evidence</p>
-            <textarea
+            <textarea aria-label="The writing you want read"
               className="mw-area" value={text} maxLength={3500}
               onChange={(e) => { setText(e.target.value); setBase(e.target.value); }}
               placeholder="Paste your bio, a few captions or posts, that draft you keep not posting. Any order, any mess."

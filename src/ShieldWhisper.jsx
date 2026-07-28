@@ -302,7 +302,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
               <h2 style={{ fontSize: 33, lineHeight: 1.18, margin: "0 0 10px", fontWeight: 400, position: "relative" }}>{q.label}</h2>
             </div>
             <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 22px", fontFamily: SANS }}>{q.help}</p>
-            <textarea
+            <textarea aria-label="Your words, however they come out"
               ref={inputRef} className="mw-area" value={draft} maxLength={700}
               onChange={(e) => { setDraft(e.target.value); setBase(e.target.value); }}
               onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); next(); } }}
