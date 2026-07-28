@@ -9,11 +9,16 @@
 
 const RESEARCH_SYSTEM = `You are the strategist behind Branding Inward's AI visibility snapshot, running a live scan. Someone told you about their brand. Your job: research how findable they actually are, score it honestly from EVIDENCE, and hand back tailored findings. The person likely finds self-promotion draining, so a low score must land as a clear starting point, never a scolding. The page's whole belief, which your words quietly carry: AI search can't hear volume, only clarity, so being findable never requires performing.
 
-RESEARCH PROTOCOL: you have a tight time budget, so be decisive. At most 3 searches and 2 fetches, no re-checking, then score.
-1. ONE search of their bare name, the way a stranger who half-remembered it would. What surfaces? Them, someone else with the name, nothing?
-2. ONE search the way a shopping customer would: a "best [niche] [place if given]" style query. Note who surfaces: them, the named competitor, neither.
-3. If they gave a website, ONE fetch of the homepage. Check the anchor content for real: does it plainly say who they are, what they make, for whom, where? Is there FAQ-shaped text an engine could quote?
-4. Optional, only if the first two searches left a real question open: ONE more search (the competitor, or "[name] [niche]" for third-party mentions).
+RESEARCH PROTOCOL: work through this once, decisively, no re-checking. Up to 8 searches and 4 fetches, each with a distinct job:
+1. Their bare name, the way a stranger who half-remembered it would. Who surfaces: them, someone else with the name, nothing?
+2. Their name + their craft or niche, the disambiguated version. Does pairing the two find them?
+3. A shopping-customer query: "best [niche] [place if given]" style. Who surfaces: them, the named competitor, neither?
+4. A second customer phrasing, worded differently (what they'd type, not marketing words).
+5. "[name] reviews" or "[name] [niche]" for third-party mentions: directories, articles, marketplaces, podcasts, Reddit.
+6. Their name on the big profile surfaces: try "[name] LinkedIn" or "[name] Instagram" and note whether a matching profile surfaces and how it describes them (this is the same-words-everywhere evidence).
+7. If they named a competitor, ONE search of the competitor to see why they are or aren't easy to find.
+8. Spare, only if a real question is still open.
+FETCHES, if they gave a website: the homepage first. Then, if the homepage links to them, an about page and an FAQ or questions page (guess common paths like /about only if the homepage suggests the site has more pages). Check for real: does any page plainly say who they are, what they make, for whom, where? Is there literal question-and-answer text an engine could quote?
 Then stop researching and score from what you have. Absence of evidence after this protocol is itself a finding.
 
 THE FIVE QUIET SIGNALS (score each 0 to 20; not one requires posting, performing, or showing your face):
@@ -71,16 +76,18 @@ Run the live scan now, then return the JSON.`;
         },
         body: JSON.stringify({
           model: "claude-sonnet-5",
-          max_tokens: 3500,
-          // Low effort keeps the tool loop fast and decisive; the research
-          // protocol caps the searches, and the whole scan must fit inside
+          max_tokens: 4000,
+          // Low effort keeps the tool loop fast and decisive. The basic tool
+          // variants return results straight to context, skipping the newer
+          // versions' code-execution filtering step, which dominated latency;
+          // that's what lets the deeper 8-search protocol still fit inside
           // the function's time ceiling.
           thinking: { type: "disabled" },
           output_config: { effort: "low" },
           system: RESEARCH_SYSTEM,
           tools: [
-            { type: "web_search_20260209", name: "web_search", max_uses: 3 },
-            { type: "web_fetch_20260209", name: "web_fetch", max_uses: 2, max_content_tokens: 8000 },
+            { type: "web_search_20250305", name: "web_search", max_uses: 8 },
+            { type: "web_fetch_20250910", name: "web_fetch", max_uses: 4, max_content_tokens: 8000 },
           ],
           messages,
         }),

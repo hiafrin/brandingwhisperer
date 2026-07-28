@@ -42,7 +42,8 @@ const SCAN_LINES = [
   "Searching your name the way a stranger would.",
   "Checking who surfaces for your niche.",
   "Reading your site, if you shared one.",
-  "Looking for third-party mentions.",
+  "Looking for third-party mentions and reviews.",
+  "Checking whether your profiles use the same words.",
   "Scoring the five quiet signals.",
 ];
 
