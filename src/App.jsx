@@ -637,6 +637,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               stepKey="foundation"
               walkaway="What you're really about, in your own words, plus the signature moves to repeat."
               time="About three minutes"
+              madeFor="anyone who can't name what makes them different."
             />
             <button className="mw-btn" onClick={() => { track("started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 34px" }}>Start the six questions</button>
             <p style={{ fontSize: 14, color: "#9A8F82", margin: "16px 0 0", fontFamily: SANS }}>

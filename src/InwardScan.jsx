@@ -270,6 +270,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
               stepKey="scan"
               walkaway="Your visibility pattern named, the behaviors behind it, and which tool to open first. No typing, no right answers."
               time="One minute, eight taps"
+              madeFor="anyone who doesn't know where they're stuck, or where to start."
             />
             <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", maxWidth: 520, margin: "0 0 28px", fontFamily: SANS }}>
               No typing, no right answers. Your pattern is kept only on this device for your Inward Brief.

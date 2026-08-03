@@ -420,6 +420,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
               stepKey="plan"
               walkaway="One path chosen for you, a list of what to ignore, and a first move under 15 minutes."
               time="About three minutes"
+              madeFor="anyone who can't keep up a daily-posting plan, and doesn't want to."
             />
             <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 28px" }}>
               One idea nobody puts in the plan: you don't have to grow alone. Two quiet creators can

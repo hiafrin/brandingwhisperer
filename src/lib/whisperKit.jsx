@@ -334,7 +334,7 @@ export function FrameworkStrip({ current }) {
 // ── One compact strip instead of two stacked cards: step pill, time, and the
 //    walk-away promise in two lines. The heroes already sell the tool; this
 //    orients, then gets out of the way so the first tap sits near the fold. ──
-export function ToolIntro({ stepKey, walkaway, time, outside = false }) {
+export function ToolIntro({ stepKey, walkaway, time, madeFor, outside = false }) {
   const s = FRAMEWORK.find((x) => x.key === stepKey);
   return (
     <div style={{ background: ACCENT_TINT, border: "1px solid #DCEFEB", borderRadius: 14, padding: "13px 17px", margin: "0 0 22px", fontFamily: SANS }}>
@@ -348,6 +348,9 @@ export function ToolIntro({ stepKey, walkaway, time, outside = false }) {
         )}
       </div>
       <p style={{ margin: 0, fontSize: 15, lineHeight: 1.5, color: "#443F39" }}>{walkaway}</p>
+      {madeFor && (
+        <p style={{ margin: "6px 0 0", fontSize: 13.5, lineHeight: 1.5, color: "#6E8B84", fontStyle: "italic" }}>Made for {madeFor}</p>
+      )}
     </div>
   );
 }

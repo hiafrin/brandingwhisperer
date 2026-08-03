@@ -295,6 +295,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
               outside
               walkaway="A live scan of how findable you are, scored out of 100, and the kit that raises it: an anchor paragraph, one bio sentence, three quotable answers."
               time="A few minutes, it's really looking"
+              madeFor="anyone whose customers might ask an AI before they ask a friend."
             />
 
             <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 28px" }}>
