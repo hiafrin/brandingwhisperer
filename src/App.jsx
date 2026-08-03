@@ -557,24 +557,6 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </div>
           </section>
 
-          {/* ── AI VISIBILITY CHECK: deliberately outside the six steps. The
-                framework builds the brand; this checks how machines see it. ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "36px 24px 8px" }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 10px" }}>
-              And one check, outside the framework
-            </p>
-            <a href="/ai-visibility" onClick={() => track("opened_aivis")} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: CREAM, background: INK_TEAL, borderRadius: 18, padding: "26px 28px" }}>
-              <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 8px", fontWeight: 350, color: CREAM }}>
-                AI search can't hear volume. <span style={{ fontStyle: "italic", color: BUTTER }}>Only clarity.</span>
-              </h2>
-              <p style={{ fontSize: 16, lineHeight: 1.6, color: "rgba(251,247,240,.82)", margin: "0 0 10px", fontFamily: SANS, maxWidth: 620 }}>
-                People ask AI assistants for recommendations now. Get your findability score out of 100,
-                then the words that raise it: an About paragraph, one bio sentence, three quotable answers.
-              </p>
-              <span style={{ fontFamily: SANS, fontSize: 15, color: BUTTER, fontWeight: 600 }}>Score me, then write my kit &rarr;</span>
-            </a>
-          </section>
-
           {/* ── WHO IT'S FOR: small photo accents, the words carry it ── */}
           <section style={{ maxWidth: 920, margin: "0 auto", padding: "36px 24px 8px" }}>
             <div className="mw-who-grid" style={{ marginBottom: 24 }}>
@@ -620,6 +602,25 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               voice, <span style={{ fontStyle: "italic", color: ACCENT }}>they're built on the one that's unapologetically yours.</span>
             </p>
           </section>
+
+          {/* ── AI VISIBILITY CHECK: deliberately outside the six steps. The
+                framework builds the brand; this checks how machines see it. ── */}
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "36px 24px 8px" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 10px" }}>
+              And one check, outside the framework
+            </p>
+            <a href="/ai-visibility" onClick={() => track("opened_aivis")} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: CREAM, background: INK_TEAL, borderRadius: 18, padding: "26px 28px" }}>
+              <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 8px", fontWeight: 350, color: CREAM }}>
+                AI search can't hear volume. <span style={{ fontStyle: "italic", color: BUTTER }}>Only clarity.</span>
+              </h2>
+              <p style={{ fontSize: 16, lineHeight: 1.6, color: "rgba(251,247,240,.82)", margin: "0 0 10px", fontFamily: SANS, maxWidth: 620 }}>
+                People ask AI assistants for recommendations now. Get your findability score out of 100,
+                then the words that raise it: an About paragraph, one bio sentence, three quotable answers.
+              </p>
+              <span style={{ fontFamily: SANS, fontSize: 15, color: BUTTER, fontWeight: 600 }}>Score me, then write my kit &rarr;</span>
+            </a>
+          </section>
+
 
           {/* The "why this exists" positioning now lives in the shared SiteFooter,
               so it isn't repeated here. Full story is on /about. */}
