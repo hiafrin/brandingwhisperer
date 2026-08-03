@@ -407,7 +407,7 @@ const HOME_TITLE = "Branding Inward: get known without performing | free AI bran
 const homeFallback = `
   <h1>Get known. Without performing.</h1>
   <p>Branding Inward is a set of free AI branding tools for people who find self-promotion draining. Built by a brand strategist, not another tech company: the questions are hers, the AI just makes them fast. No account, no email, and everything you make stays on your own device.</p>
-  <p>People often tell me branding feels like it was written for extroverts. I disagree. Any good brand strategist knows great personal brands aren't built on volume. They're built on clarity, consistency, and the confidence to be unmistakably yourself.</p>
+  <p>People often tell me branding feels like it was written for extroverts. I disagree. Any good brand strategist knows great brands aren't built on volume. They're built on clarity, consistency, and the confidence to be unmistakably yourself.</p>
   <h2>The Inward Framework, six steps</h2>
   <ol>
     <li><a href="/scan">See yourself. The Inward Scan finds the pattern behind how you get stuck, in eight taps.</a></li>
