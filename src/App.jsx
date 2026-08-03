@@ -597,9 +597,9 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </p>
             {/* Her line, not the site's: the belonging claim in her own mouth. */}
             <p style={{ fontSize: "clamp(19px, 2.6vw, 23px)", lineHeight: 1.5, color: INK, margin: 0, borderLeft: `3px solid ${BUTTER}`, paddingLeft: 18 }}>
-              People tell me branding feels like it was written for extroverts. No good brand
-              architect would agree. The strongest brands were never built on the loudest
-              voice, <span style={{ fontStyle: "italic", color: ACCENT }}>they're built on the one that's unapologetically yours.</span>
+              People often tell me branding feels like it was written for extroverts. I disagree.
+              Any good brand strategist knows great personal brands aren't built on volume.
+              They're built on clarity, consistency, <span style={{ fontStyle: "italic", color: ACCENT }}>and the confidence to be unmistakably yourself.</span>
             </p>
           </section>
 
