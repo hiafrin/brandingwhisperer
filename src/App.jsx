@@ -610,8 +610,14 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 </div>
               ))}
             </div>
-            <p style={{ fontSize: 16, lineHeight: 1.65, color: "#5C534B", margin: 0, fontFamily: SANS }}>
+            <p style={{ fontSize: 16, lineHeight: 1.65, color: "#5C534B", margin: "0 0 22px", fontFamily: SANS }}>
               Makers, coaches, writers, professors, quiet experts. Solo or a small team. No label required, and if being visible feels like a cost, you're in the right place.
+            </p>
+            {/* Her line, not the site's: the belonging claim in her own mouth. */}
+            <p style={{ fontSize: "clamp(19px, 2.6vw, 23px)", lineHeight: 1.5, color: INK, margin: 0, borderLeft: `3px solid ${BUTTER}`, paddingLeft: 18 }}>
+              People tell me branding feels like it was written for extroverts. No good brand
+              architect would agree. The strongest brands were never built on the loudest
+              voice, <span style={{ fontStyle: "italic", color: ACCENT }}>they're built on the one that's unapologetically yours.</span>
             </p>
           </section>
 
