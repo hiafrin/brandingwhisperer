@@ -75,8 +75,8 @@ export default function AboutInward() {
         </p>
         <p style={{ fontSize: 18, lineHeight: 1.7, margin: 0, color: "#5C534B" }}>
           One more thing. I'm not a professional web developer. I just love making things, whether that's
-          shaping clay, building an app, or figuring out a website one problem at a time. I'm learning as I
-          go, so you'll probably come across a bug or something that feels a little off. When you do, I'd
+          shaping clay, trying a new recipe, building an app, or figuring out a complex website. I'm learning
+          as I go, so you'll probably come across a bug or something that feels a little off. When you do, I'd
           really appreciate you letting me know. Every piece of feedback helps me make this better.
         </p>
         <p style={{ fontSize: 18, fontStyle: "italic", color: ACCENT, margin: "26px 0 0" }}>
