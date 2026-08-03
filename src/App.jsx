@@ -453,7 +453,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 </span>
               </div>
               <h1 style={{ fontSize: "clamp(36px, 6.2vw, 58px)", lineHeight: 1.05, margin: "0 0 20px", fontWeight: 350, color: CREAM, letterSpacing: "-0.01em" }}>
-                Get known.<br />
+                Get found.<br />
                 <span style={{ display: "inline-block" }}>
                   <span style={{ fontStyle: "italic", fontWeight: 400, color: BUTTER }}>Without performing.</span>
                   <UnderlineStroke width={280} />

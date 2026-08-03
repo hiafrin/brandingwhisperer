@@ -18,7 +18,7 @@ export const TOOL_PAGES = [
     faqs: [
       {
         q: "What is the Inward Scan?",
-        a: "A free one-minute quiz from Branding Inward, a brand strategist's six-step framework for getting known without performing. Eight taps reveal your visibility pattern: the Hider, the Pusher, the Deleter, the Perfectionist, or the Scatterer, and the one step that breaks it.",
+        a: "A free one-minute quiz from Branding Inward, a brand strategist's six-step framework for getting found without performing. Eight taps reveal your visibility pattern: the Hider, the Pusher, the Deleter, the Perfectionist, or the Scatterer, and the one step that breaks it.",
       },
       {
         q: "Do I need an account or an email address?",
@@ -183,7 +183,7 @@ export const TOOL_PAGES = [
     step: null,
     title: "About: the strategist behind Branding Inward",
     description:
-      "Branding Inward is a brand strategist's free toolkit for people who find self-promotion draining: six steps to get known without performing.",
+      "Branding Inward is a brand strategist's free toolkit for people who find self-promotion draining: six steps to get found without performing.",
     h1: "About Branding Inward",
     summary:
       "Branding Inward is built by Sabiha Afrin, a brand strategist. The framework, the questions, and the research behind every tool are hers; the AI is just what hands it to you in three minutes, for free. It exists for people who want to be known for their work without performing for it.",
