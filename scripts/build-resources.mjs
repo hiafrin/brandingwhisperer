@@ -408,16 +408,19 @@ const homeFallback = `
   <h1>Get found. Without performing.</h1>
   <p>Branding Inward is a set of free AI branding tools for people who find self-promotion draining. Built by a brand strategist, not another tech company: the questions are hers, the AI just makes them fast. No account, no email, and everything you make stays on your own device.</p>
   <p>People often tell me branding feels like it was written for extroverts. I disagree. Any good brand strategist knows great brands aren't built on volume. They're built on clarity, consistency, and the confidence to be unmistakably yourself.</p>
-  <h2>The Inward Framework, six steps</h2>
+  <h2>The core path, three steps</h2>
   <ol>
-    <li><a href="/scan">See yourself. The Inward Scan finds the pattern behind how you get stuck, in eight taps.</a></li>
-    <li><a href="/foundation">Understand yourself. Six questions that find the un-copyable thing in your own story.</a></li>
-    <li><a href="/brand-voice">Express yourself. Your brand voice, observed from how you already talk, written down.</a></li>
-    <li><a href="/plan">Share yourself. The Quieter Plan, marketing at a cost you can honestly bear.</a></li>
-    <li><a href="/roast">Refine yourself. The Gentle Roast reads what you wrote and tells you what to keep first.</a></li>
-    <li><a href="/brief">Keep yourself. Your Inward Brief gathers all of it on one page.</a></li>
+    <li><a href="/scan">Find your pattern. The Inward Scan names the specific way you get stuck, in one minute and eight taps.</a></li>
+    <li><a href="/foundation">Find what no one can copy. Six questions, about ten minutes, phrased for branding yourself or something you make.</a></li>
+    <li><a href="/brief">Everything on one page. Your Inward Brief assembles what you found into a page you walk away with.</a></li>
   </ol>
-  <p>Each tool works on its own; together they compound into a full brand. And one check sits outside the framework: <a href="/ai-visibility">The AI Visibility Audit</a>, a live scan of how findable you are to AI search, with the words that fix it.</p>
+  <h2>Go deeper</h2>
+  <ul>
+    <li><a href="/brand-voice">Write down how you actually sound: Your Brand Voice.</a></li>
+    <li><a href="/plan">Make a plan you can actually keep: The Quieter Plan.</a></li>
+    <li><a href="/roast">Get honest feedback on what you wrote: The Gentle Roast.</a></li>
+    <li><a href="/ai-visibility">See how findable you are to AI search: The AI Visibility Audit, a live scan with the words that fix it.</a></li>
+  </ul>
   <p><a href="/resources">The library</a> · <a href="/about">About the strategist</a></p>`;
 const homeHtml = shell
   .replace(/<title>[^<]*<\/title>/, `<title>${esc(HOME_TITLE)}</title>`)

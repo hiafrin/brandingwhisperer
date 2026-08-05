@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { Analytics } from "@vercel/analytics/react";
+import { initMetrics } from "./lib/metrics.js";
 import App from "./App.jsx";
 import ShieldWhisper from "./ShieldWhisper.jsx";
 import RoastWhisper from "./RoastWhisper.jsx";
@@ -92,6 +93,8 @@ function Router() {
   const Page = ROUTES[path] || ROUTES["/"];
   return <Page />;
 }
+
+initMetrics();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

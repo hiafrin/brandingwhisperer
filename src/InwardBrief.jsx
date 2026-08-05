@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { track } from "@vercel/analytics";
+import { ph } from "./lib/metrics.js";
 import {
   ACCENT, INK, CREAM, INK_TEAL, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
@@ -31,6 +32,9 @@ export default function InwardBrief() {
 
   const data = ITEMS.map((it) => ({ ...it, value: recall(it.key) }));
   const filled = data.filter((d) => d.value);
+
+  // The real success metric: someone reached the payoff page, with how much of it real.
+  useEffect(() => { ph("brief_viewed", { sections_filled: filled.length }); /* eslint-disable-next-line */ }, []);
   // Steps that have produced nothing yet, in framework order. Derived from
   // ITEMS rather than a hardcoded list, so renaming a step can't break this.
   const emptySteps = [];
@@ -144,6 +148,25 @@ export default function InwardBrief() {
 
       {/* The community layer, as the culmination */}
       <BuddyForm />
+
+      {/* ── GO DEEPER: the natural next steps once the payoff page exists. ── */}
+      <section style={{ maxWidth: 920, margin: "48px auto 0", padding: "0 24px" }}>
+        <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>Go deeper</p>
+        <p style={{ fontSize: 15, color: "#857B70", margin: "0 0 16px", fontFamily: SANS }}>Each of these sharpens a section of this page.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+          {[
+            { outcome: "Write down how you actually sound", name: "Your Brand Voice", href: "/brand-voice" },
+            { outcome: "Make a plan you can actually keep", name: "The Quieter Plan", href: "/plan" },
+            { outcome: "Get honest feedback on what you wrote", name: "The Gentle Roast", href: "/roast" },
+            { outcome: "See how findable you are to AI search", name: "The AI Visibility Audit", href: "/ai-visibility" },
+          ].map((c) => (
+            <a key={c.href} href={c.href} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "16px 16px", fontFamily: SERIF }}>
+              <span style={{ display: "block", fontSize: 16, fontWeight: 500, lineHeight: 1.3, marginBottom: 4 }}>{c.outcome}</span>
+              <span style={{ display: "block", fontSize: 12.5, color: ACCENT, fontFamily: SANS }}>{c.name}</span>
+            </a>
+          ))}
+        </div>
+      </section>
 
       <FrameworkStrip current="brief" />
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 24px" }}>

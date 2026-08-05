@@ -294,28 +294,38 @@ export function ForgetButton({ label = "Forget my answers on this device", tone 
 // ── The single forward move at the bottom of every tool page: one dark card
 //    for the next step plus a quiet link to the assembled brief. The full six
 //    live only in the FRAMEWORK menu, so there is exactly one navigation. ──
+// The chain follows the CORE PATH, not the raw step order: scan feeds the
+// six questions, everything feeds the Brief. Honest time costs and explicit
+// permission to stop, because people who feel trapped leave.
+const NEXT_STEP = {
+  scan: { key: "foundation", href: "/foundation", title: "Find the un-copyable thing in your story", name: "The six questions", cost: "Six questions, about ten minutes. You can stop anytime and come back, your answers keep." },
+  foundation: { key: "brief", href: "/brief", title: "See it all on one page", name: "Your Inward Brief", cost: "The payoff. Everything you've found so far, assembled. No typing." },
+  voice: { key: "brief", href: "/brief", title: "Your voice just joined your Brief", name: "Your Inward Brief", cost: "See the whole page it's part of. No typing." },
+  plan: { key: "brief", href: "/brief", title: "Your plan just joined your Brief", name: "Your Inward Brief", cost: "See the whole page it's part of. No typing." },
+  roast: { key: "brief", href: "/brief", title: "Your keeper line just joined your Brief", name: "Your Inward Brief", cost: "See the whole page it's part of. No typing." },
+};
+
 export function FrameworkStrip({ current }) {
   const [done] = useState(stepsDone);
-  const idx = FRAMEWORK.findIndex((s) => s.key === current);
-  const here = idx >= 0 ? FRAMEWORK[idx] : null;
-  const next = idx >= 0 ? FRAMEWORK[idx + 1] : null;
+  const here = FRAMEWORK.find((s) => s.key === current);
+  const next = NEXT_STEP[current];
   const count = done.length;
 
   return (
     <section id="framework" style={{ maxWidth: 920, margin: "56px auto 0", padding: "0 24px", scrollMarginTop: 20 }}>
       <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>
-        The Inward Framework{count ? ` · ${count} of ${FRAMEWORK.length} done` : ""}
+        The Inward Framework{count ? ` \u00b7 ${count} of ${FRAMEWORK.length} done` : ""}
       </p>
 
       {next && (
         <a href={next.href} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: CREAM, background: INK_TEAL, borderRadius: 16, padding: "22px 26px" }}>
           {here && (
             <span style={{ display: "block", fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: BUTTER, fontWeight: 700, marginBottom: 8 }}>
-              {done.includes(here.key) ? `✓ Step ${here.n} done · ${here.verb}` : `Step ${here.n} · ${here.verb}`}
+              {done.includes(here.key) ? `\u2713 Step ${here.n} done \u00b7 ${here.verb}` : `Step ${here.n} \u00b7 ${here.verb}`}
             </span>
           )}
-          <p style={{ fontSize: 24, margin: "0 0 4px", fontWeight: 350, color: CREAM }}>Next: {next.verb}</p>
-          <p style={{ fontSize: 15, color: "rgba(251,247,240,.8)", margin: "0 0 4px", fontFamily: SANS }}>{next.blurb}</p>
+          <p style={{ fontSize: 24, margin: "0 0 4px", fontWeight: 350, color: CREAM }}>Next: {next.title}</p>
+          <p style={{ fontSize: 15, color: "rgba(251,247,240,.8)", margin: "0 0 4px", fontFamily: SANS }}>{next.cost}</p>
           <p style={{ fontSize: 15, color: BUTTER, margin: 0, fontFamily: SANS, fontWeight: 600 }}>{next.name} &rarr;</p>
         </a>
       )}
@@ -323,7 +333,7 @@ export function FrameworkStrip({ current }) {
       {current !== "brief" && (
         <p style={{ margin: "16px 0 0" }}>
           <a href="/brief" style={{ fontFamily: SANS, fontSize: 15, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>
-            {count ? `Or see what you've kept so far (${count}) →` : "Or see your Inward Brief →"}
+            {count ? `Or just save this for now, see what you've kept (${count}) \u2192` : "Or just save this for now \u2192"}
           </a>
         </p>
       )}
@@ -359,6 +369,16 @@ export function ToolIntro({ stepKey, walkaway, time, madeFor, outside = false })
 // ── Persistent floating nav so no tool is ever buried. Fixed to the
 //    top-right of every page and every scroll position; opens a menu of
 //    all five tools plus Home. Closes on Escape, outside click, or pick. ──
+// Fix 4: outcome first at every door; the poetic names stay inside.
+const OUTCOME_LABELS = {
+  scan: "Find your pattern",
+  foundation: "Find what no one can copy",
+  voice: "Write down how you actually sound",
+  plan: "Make a plan you can actually keep",
+  roast: "Get honest feedback on what you wrote",
+  brief: "Everything on one page",
+};
+
 export function ToolsMenu() {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
@@ -377,7 +397,7 @@ export function ToolsMenu() {
       section: `The Inward Framework${done.length ? ` · ${done.length} of ${FRAMEWORK.length}` : ""}`,
       href: s.href,
       name: `${s.n} · ${s.verb}${done.includes(s.key) ? " ✓" : ""}`,
-      cta: s.name,
+      cta: OUTCOME_LABELS[s.key] || s.name,
       dot: done.includes(s.key) ? ACCENT : "#D9D2C6",
     })),
     { section: "More", href: "/ai-visibility", name: "AI visibility audit", cta: "Your findability score, then the words that raise it", dot: CORAL },
@@ -448,7 +468,7 @@ export function SiteFooter() {
           <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" style={link}>Say hi</a>
         </p>
         <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.5)", margin: "0 0 20px", fontFamily: SANS, maxWidth: 620 }}>
-          Everything you make stays on your device. I never see it. No cookies, no personal data, just anonymous visit counts. Photos from Pexels.
+          Everything you make stays on your device. I never see it. One honest caveat: clearing your browser's site data erases it too. No cookies, no personal data, just anonymous visit counts. Photos from Pexels.
         </p>
         <p style={{ margin: "0 0 20px" }}>
           <ForgetButton label="Forget everything on this device" tone="dark" />

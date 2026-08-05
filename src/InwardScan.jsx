@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { track } from "@vercel/analytics";
+import { ph } from "./lib/metrics.js";
 import {
   ACCENT, INK, CREAM, INK_TEAL, ACCENT_TINT, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
@@ -171,7 +172,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
   // lands on question 1 instead of on a second button. A counter, not a boolean,
   // so it still fires if someone retakes and starts again.
   useEffect(() => {
-    if (startSignal > 0) { track("scan_started"); setStep(0); }
+    if (startSignal > 0) { track("scan_started"); ph("scan_started"); setStep(0); }
   }, [startSignal]);
   const [votes, setVotes] = useState([]);
   const [copied, setCopied] = useState(false);
@@ -179,6 +180,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
 
   function start() {
     track("scan_started");
+    ph("scan_started");
     setVotes([]);
     setStep(0);
   }
@@ -186,7 +188,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
   function answer(p) {
     const v = [...votes, p];
     setVotes(v);
-    if (step + 1 >= QUESTIONS.length) { setStep(QUESTIONS.length); track("scan_completed"); }
+    if (step + 1 >= QUESTIONS.length) { setStep(QUESTIONS.length); track("scan_completed"); ph("scan_completed"); }
     else setStep(step + 1);
   }
 

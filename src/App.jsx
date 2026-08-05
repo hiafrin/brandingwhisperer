@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { track } from "@vercel/analytics";
+import { ph, phSetAudience } from "./lib/metrics.js";
 import {
   ACCENT, INK, CREAM, ACCENT_RGB, INK_TEAL, BUTTER, ACCENT_TINT,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
@@ -18,36 +19,42 @@ const QUESTIONS = [
   {
     id: "business",
     label: "What are you building, in one plain sentence?",
+    makerLabel: "What do you make, in one plain sentence?",
     help: "A business, a product, or just your own name. \"I'm a freelance designer\" works too.",
     placeholder: "I make soy candles, or I'm building my name as a career coach",
   },
   {
     id: "origin",
     label: "Tell me about the moment this started. Where were you, what happened?",
+    makerLabel: "Tell me about the moment you started making this. Where were you, what happened?",
     help: "The real scene, not the polished version. Brains remember stories, not summaries.",
     placeholder: "My kitchen at 2am making a candle that didn't give me a headache. Or the meeting where I explained the numbers and the whole room changed its mind.",
   },
   {
     id: "switch",
     label: "Think about the last person who actually bought from you or hired you. What was going on in their life that day?",
+    makerLabel: "Think about the last person who bought what you make. What was going on in their life that day?",
     help: "Not who they are. What was happening. Nobody buys without a reason that day.",
     placeholder: "A friend was moving and wanted a gift that wasn't off a list. Or a founder needed their pitch to make sense before a meeting in two days.",
   },
   {
     id: "referral",
     label: "What do people already come to you for? The advice they ask, or what they say when they recommend you.",
+    makerLabel: "What do people already say about what you make? The compliments they repeat, or how they describe it to friends.",
     help: "In their words, not yours. This is your brand as it exists today, whether you chose it or not.",
     placeholder: "Everyone asks me how to word hard emails, or: talk to this shop, the mugs feel made for you",
   },
   {
     id: "tradeoff",
     label: "What do you do that a competitor would call a waste of time or money?",
+    makerLabel: "What goes into making it that a competitor would call a waste of time or money?",
     help: "The inefficient thing you insist on is usually the strategy. Things you refuse to do count too.",
     placeholder: "I hand write a note in every order. Or I spend a whole day learning a client's business before I touch it.",
   },
   {
     id: "own",
     label: "When your name comes up and you're not in the room, what's the ONE thing you want people to think? And what could you repeat forever to plant it?",
+    makerLabel: "When what you make comes up and you're not in the room, what's the ONE thing you want people to think? And what could you repeat forever to plant it?",
     help: "A word to own, and a signature to keep it alive. Memory loves repetition.",
     placeholder: "Calm, and every candle named after a time of day. Or clarity, and every report that ends in one plain sentence.",
   },
@@ -146,6 +153,9 @@ export default function BrandingWhisperer({ view = "home" }) {
   const [postsLoading, setPostsLoading] = useState(false);
   const [postsError, setPostsError] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [audience, setAudience] = useState(() => recall("audience") || null); // "self" | "maker"
+  const [emerging, setEmerging] = useState(null);        // the partial insight after Q3
+  const [emergingOpen, setEmergingOpen] = useState(false); // interstitial visible
   const [email, setEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
   const [emailSending, setEmailSending] = useState(false);
@@ -219,7 +229,8 @@ export default function BrandingWhisperer({ view = "home" }) {
     if (result.edge) remember("edge", result.edge);
   }, [result]);
 
-  const q = step >= 0 && step < QUESTIONS.length ? QUESTIONS[step] : null;
+  const q0 = step >= 0 && step < QUESTIONS.length ? QUESTIONS[step] : null;
+  const q = q0 && audience === "maker" && q0.makerLabel ? { ...q0, label: q0.makerLabel } : q0;
 
   function next() {
     if (!q || !draft.trim()) return;
@@ -228,7 +239,31 @@ export default function BrandingWhisperer({ view = "home" }) {
     setAnswers(updated);
     setDraft(""); resetBase();
     if (step + 1 >= QUESTIONS.length) generate(updated);
+    else if (step === 2) { setEmergingOpen(true); fetchEmerging(); setStep(3); }
     else setStep(step + 1);
+  }
+
+  // ── Fix 3: value before the rest of the commitment. A tiny, cheap call that
+  //    reflects what the first three answers already show. Fails silently:
+  //    if it errors, the interstitial just doesn't render and Q4 shows. ──
+  async function fetchEmerging() {
+    if (emerging) return;
+    try {
+      const r = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          system: `You are a warm brand strategist. Someone is three answers into six questions about their brand. In 2 or 3 short sentences, reflect what is ALREADY emerging from their answers: one concrete, specific observation that makes them feel seen, not advice, not a summary. Address them as "you". Plain warm words, no em-dashes or en-dashes, no marketing terms. Return ONLY the sentences, no JSON, no preamble.`,
+          user: `They are branding ${audience === "maker" ? "something they make" : "themselves"}.
+What they're building: "${answers.business || ""}"
+The moment it started: "${answers.origin || ""}"
+The last buyer's day: "${answers.switch || ""}"`,
+        }),
+      });
+      const d = await r.json();
+      const text = (d.content || []).filter((b) => b.type === "text").map((b) => b.text).join("").trim();
+      if (r.ok && text) setEmerging(text.slice(0, 600));
+    } catch (_) {}
   }
 
   function back() {
@@ -239,6 +274,8 @@ export default function BrandingWhisperer({ view = "home" }) {
 
   async function generate(finalAnswers) {
     setStep(QUESTIONS.length);
+    // eslint-disable-next-line no-unused-expressions
+    audience;
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
     // ── CALL 1: The brand foundation, grounded in the psychology library. ──
@@ -312,6 +349,7 @@ Give me my brand foundation, grounded in the psychology.`;
       // stash the answers so the 7-day plan call can use them
       parsed._answers = finalAnswers;
       setResult(parsed);
+      ph("step_completed", { step: "foundation" });
       track("completed_questions"); // anonymous count only, no answers sent
     } catch (e) {
       setError(e.message || "Something went wrong. Give it another try.");
@@ -459,15 +497,14 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   <UnderlineStroke width={280} />
                 </span>
               </h1>
-              <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.88)", maxWidth: 520, margin: "0 0 30px" }}>
-                A six-step framework for building a brand when self-promotion drains you. Start with a one-minute scan to find where you get stuck.
+              <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.88)", maxWidth: 540, margin: "0 0 30px" }}>
+                Three steps to a brand that sounds like you. It starts with a one-minute scan
+                that names the specific way you get stuck when it's time to be visible.
+                No account, no email.
               </p>
-              <button className="mw-btn" onClick={() => { track("start_scan"); setScanStart((n) => n + 1); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Find my pattern</button>
+              <button className="mw-btn" onClick={() => { track("start_scan"); ph("scan_started"); setScanStart((n) => n + 1); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Start the 1-minute scan</button>
               <p style={{ fontSize: 14, color: "rgba(251,247,240,.6)", marginTop: 16, fontFamily: SANS }}>
-                No account, no typing. Eight taps to see where you get stuck.
-              </p>
-              <p style={{ fontSize: 13, color: "rgba(251,247,240,.5)", marginTop: 8, fontFamily: SANS }}>
-                AI-powered, guided by a real strategist's framework.
+                Free. Nothing saved to a server. Works for branding yourself, or something you make.
               </p>
             </div>
           </section>
@@ -523,36 +560,44 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
 
           {/* The "for the quiet ones" editorial band was merged into the "Who it's for" section above. */}
 
-          {/* ── THE INWARD FRAMEWORK: the ordered spine, so nothing reads as scattered ── */}
+          {/* ── THE CORE PATH: three steps, one walk-away. Voice/Plan/Roast live
+                under "Go deeper" so a stranger makes one decision, not six. ── */}
           <section id="framework" style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 20px", scrollMarginTop: 20 }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The Inward Framework</p>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The core path</p>
             <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 10px", fontWeight: 350 }}>
-              Six steps. <span style={{ fontStyle: "italic", color: ACCENT }}>One clear you at the end.</span>
+              Three steps. <span style={{ fontStyle: "italic", color: ACCENT }}>One page you walk away with.</span>
             </h2>
             <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 8px", fontFamily: SANS, maxWidth: 640 }}>
-              Do them in order or start anywhere. Each one works on its own, and everything you find is kept for you.
+              About fifteen minutes all told, stop anytime, and everything you find is kept for you on your device.
             </p>
             {doneSteps.length > 0 && (
               <p style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 14, margin: "0 0 22px" }}>
-                <span style={{ fontSize: 15, color: ACCENT, fontFamily: SANS, fontWeight: 600 }}>{doneSteps.length} of {FRAMEWORK.length} done.</span>
+                <span style={{ fontSize: 15, color: ACCENT, fontFamily: SANS, fontWeight: 600 }}>{doneSteps.length ? `Progress saved.` : ""}</span>
                 <ForgetButton label="Start fresh" />
               </p>
             )}
-            <div style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 6, scrollSnapType: "x proximity", WebkitOverflowScrolling: "touch" }}>
-              {FRAMEWORK.map((s) => {
-                const ok = doneSteps.includes(s.key);
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 12, marginTop: 18 }}>
+              {[
+                { key: "scan", n: 1, outcome: "Find your pattern", name: "The Inward Scan", time: "1 minute, eight taps", blurb: "The specific way you get stuck, named.", onClick: () => { track("opened_scan"); setScanStart((x) => x + 1); }, href: null },
+                { key: "foundation", n: 2, outcome: "Find what no one can copy", name: "The six questions", time: "About 10 minutes", blurb: "The un-copyable thing in your own story.", href: "/foundation" },
+                { key: "brief", n: 3, outcome: "Everything on one page", name: "Your Inward Brief", time: "The payoff", blurb: "Your whole brand, one page, yours to keep.", href: "/brief" },
+              ].map((c) => {
+                const ok = doneSteps.includes(c.key);
                 const inner = (
                   <>
-                    <span style={{ flexShrink: 0, width: 38, height: 38, borderRadius: "50%", background: ok ? ACCENT : INK_TEAL, color: ok ? "#FFF" : BUTTER, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 19, fontWeight: 500 }}>{ok ? "✓" : s.n}</span>
-                    <span style={{ display: "block", fontSize: 16, fontWeight: 500, color: INK, margin: "12px 0 3px", lineHeight: 1.25 }}>{s.verb}</span>
-                    <span style={{ display: "block", fontSize: 12.5, color: ACCENT, fontFamily: SANS, lineHeight: 1.3, marginBottom: 5 }}>{s.name}</span>
-                    <span style={{ display: "block", fontSize: 13, color: "#857B70", fontFamily: SANS, lineHeight: 1.4 }}>{s.blurb}</span>
+                    <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <span style={{ flexShrink: 0, width: 34, height: 34, borderRadius: "50%", background: ok ? ACCENT : INK_TEAL, color: ok ? "#FFF" : BUTTER, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 17, fontWeight: 500 }}>{ok ? "\u2713" : c.n}</span>
+                      <span style={{ fontFamily: SANS, fontSize: 12.5, color: "#857B70" }}>{c.time}</span>
+                    </span>
+                    <span style={{ display: "block", fontSize: 18, fontWeight: 500, color: INK, margin: "12px 0 3px", lineHeight: 1.25 }}>{c.outcome}</span>
+                    <span style={{ display: "block", fontSize: 12.5, color: ACCENT, fontFamily: SANS, lineHeight: 1.3, marginBottom: 5 }}>{c.name}</span>
+                    <span style={{ display: "block", fontSize: 13.5, color: "#857B70", fontFamily: SANS, lineHeight: 1.45 }}>{c.blurb}</span>
                   </>
                 );
-                const cardStyle = { flexShrink: 0, width: 166, display: "block", textAlign: "left", textDecoration: "none", color: INK, background: ok ? ACCENT_TINT : "#FFF", border: `1px solid ${ok ? "#DCEFEB" : "#EFE7DA"}`, borderRadius: 16, padding: "16px 16px", boxShadow: "0 8px 24px rgba(11,59,52,.05)", cursor: "pointer", fontFamily: SERIF, scrollSnapAlign: "start" };
-                return (
-                  <a key={s.key} href={s.href} onClick={() => track("opened_" + s.key)} className="mw-card-hover" style={cardStyle}>{inner}</a>
-                );
+                const cardStyle = { display: "block", textAlign: "left", textDecoration: "none", color: INK, background: ok ? ACCENT_TINT : "#FFF", border: `1px solid ${ok ? "#DCEFEB" : "#EFE7DA"}`, borderRadius: 16, padding: "18px 18px", boxShadow: "0 8px 24px rgba(11,59,52,.05)", cursor: "pointer", fontFamily: SERIF };
+                return c.href
+                  ? <a key={c.key} href={c.href} onClick={() => track("opened_" + c.key)} className="mw-card-hover" style={cardStyle}>{inner}</a>
+                  : <button key={c.key} onClick={c.onClick} className="mw-card-hover" style={{ ...cardStyle, border: `1px solid ${ok ? "#DCEFEB" : "#EFE7DA"}`, width: "100%" }}>{inner}</button>;
               })}
             </div>
           </section>
@@ -603,22 +648,29 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </p>
           </section>
 
-          {/* ── AI VISIBILITY CHECK: deliberately outside the six steps. The
-                framework builds the brand; this checks how machines see it. ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "36px 24px 8px" }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 10px" }}>
-              And one check, outside the framework
+          {/* ── GO DEEPER: the satellites. Voice/Plan/Roast for people who finished
+                (or want more), plus the audit — one section, below the fold, so the
+                homepage sells one path instead of a seven-item menu. ── */}
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 8px" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>Go deeper</p>
+            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 18px", fontFamily: SANS, maxWidth: 640 }}>
+              After the core path, or whenever you're ready. Each one stands on its own.
             </p>
-            <a href="/ai-visibility" onClick={() => track("opened_aivis")} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: CREAM, background: INK_TEAL, borderRadius: 18, padding: "26px 28px" }}>
-              <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 8px", fontWeight: 350, color: CREAM }}>
-                AI search can't hear volume. <span style={{ fontStyle: "italic", color: BUTTER }}>Only clarity.</span>
-              </h2>
-              <p style={{ fontSize: 16, lineHeight: 1.6, color: "rgba(251,247,240,.82)", margin: "0 0 10px", fontFamily: SANS, maxWidth: 620 }}>
-                People ask AI assistants for recommendations now. Get your findability score out of 100,
-                then the words that raise it: an About paragraph, one bio sentence, three quotable answers.
-              </p>
-              <span style={{ fontFamily: SANS, fontSize: 15, color: BUTTER, fontWeight: 600 }}>Score me, then write my kit &rarr;</span>
-            </a>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 12 }}>
+              {[
+                { key: "voice", outcome: "Write down how you actually sound", name: "Your Brand Voice", href: "/brand-voice", time: "About 3 minutes" },
+                { key: "plan", outcome: "Make a plan you can actually keep", name: "The Quieter Plan", href: "/plan", time: "About 3 minutes" },
+                { key: "roast", outcome: "Get honest feedback on what you wrote", name: "The Gentle Roast", href: "/roast", time: "About 2 minutes" },
+                { key: "aivis", outcome: "See how findable you are to AI search", name: "The AI Visibility Audit", href: "/ai-visibility", time: "A few minutes, live scan" },
+              ].map((c) => (
+                <a key={c.key} href={c.href} onClick={() => track("opened_" + c.key)} className="mw-card-hover"
+                  style={{ display: "block", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "18px 18px", boxShadow: "0 8px 24px rgba(11,59,52,.05)", fontFamily: SERIF }}>
+                  <span style={{ display: "block", fontSize: 17, fontWeight: 500, lineHeight: 1.3, marginBottom: 4 }}>{c.outcome}</span>
+                  <span style={{ display: "block", fontSize: 12.5, color: ACCENT, fontFamily: SANS, marginBottom: 4 }}>{c.name}</span>
+                  <span style={{ display: "block", fontSize: 12.5, color: "#9A8F82", fontFamily: SANS }}>{c.time}</span>
+                </a>
+              ))}
+            </div>
           </section>
 
 
@@ -646,7 +698,19 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               time="About three minutes"
               madeFor="anyone who can't name what makes them different."
             />
-            <button className="mw-btn" onClick={() => { track("started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 34px" }}>Start the six questions</button>
+            <p style={{ ...miniLabel, marginBottom: 10 }}>What are you branding?</p>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              {[["self", "Myself"], ["maker", "Something I make"]].map(([k, label]) => (
+                <button key={k} className="mw-btn"
+                  onClick={() => { setAudience(k); remember("audience", k); track("started"); ph("step_started", { step: "foundation", audience: k }); phSetAudience(k); setStep(0); }}
+                  style={{ ...primaryBtn, fontSize: 17, padding: "16px 28px" }}>
+                  {label} &rarr;
+                </button>
+              ))}
+            </div>
+            <p style={{ fontSize: 13.5, color: "#9A8F82", fontFamily: SANS, margin: "12px 0 0" }}>
+              Same six questions either way, phrased for your path. About ten minutes, stop anytime.
+            </p>
             <p style={{ fontSize: 14, color: "#9A8F82", margin: "16px 0 0", fontFamily: SANS }}>
               No account. One question at a time, and nothing leaves your device.
             </p>
@@ -691,7 +755,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   {s.href && s.href !== "/foundation" ? (
                     <a href={s.href} className="mw-btn" style={{ ...primaryBtn, display: "inline-block", textDecoration: "none" }}>{s.path} →</a>
                   ) : (
-                    <button className="mw-btn" onClick={() => { track("started"); setStep(0); window.scrollTo({ top: 0 }); }} style={primaryBtn}>{s.path} →</button>
+                    <button className="mw-btn" onClick={() => { if (!audience) { setAudience("self"); remember("audience", "self"); } track("started"); ph("step_started", { step: "foundation" }); setStep(0); window.scrollTo({ top: 0 }); }} style={primaryBtn}>{s.path} →</button>
                   )}
                   <div style={{ marginTop: 16 }}>
                     <button onClick={() => { track("stuck_see_all"); document.getElementById("framework")?.scrollIntoView({ behavior: "smooth" }); }} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontFamily: SANS, fontSize: 14, color: ACCENT, fontWeight: 600 }}>
@@ -716,8 +780,31 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           </div>
         )}
 
+        {/* WHAT'S ALREADY EMERGING: the Fix-3 breather after question three. */}
+        {q && emergingOpen && step === 3 && (
+          <div className="mw-fade" style={{ marginBottom: 8 }}>
+            <p style={{ ...miniLabel, marginBottom: 10 }}>Halfway checkpoint</p>
+            <h2 style={{ fontSize: "clamp(24px, 4vw, 32px)", lineHeight: 1.2, margin: "0 0 16px", fontWeight: 350 }}>
+              Here's what's <span style={{ fontStyle: "italic", color: ACCENT }}>already emerging.</span>
+            </h2>
+            {emerging ? (
+              <div style={{ ...plainCard, borderLeft: `4px solid ${BUTTER}`, marginBottom: 18 }}>
+                <p style={{ fontSize: 19, lineHeight: 1.6, margin: 0, color: INK }}>{emerging}</p>
+              </div>
+            ) : (
+              <p style={{ fontSize: 16, color: "#857B70", fontFamily: SANS, margin: "0 0 18px" }}>Reading your first three answers&hellip;</p>
+            )}
+            <button className="mw-btn" onClick={() => setEmergingOpen(false)} style={primaryBtn}>
+              Keep going, three questions left &rarr;
+            </button>
+            <p style={{ fontSize: 13.5, color: "#9A8F82", fontFamily: SANS, margin: "12px 0 0" }}>
+              Or stop here. Your answers are saved on this device and will be waiting.
+            </p>
+          </div>
+        )}
+
         {/* QUESTIONS */}
-        {q && (
+        {q && !(emergingOpen && step === 3) && (
           <div className="mw-fade" key={q.id}>
             <div style={{ display: "flex", gap: 8, marginBottom: 30 }}>
               {QUESTIONS.map((_, i) => (

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { track } from "@vercel/analytics";
+import { ph } from "./lib/metrics.js";
 import {
   ACCENT, INK, CREAM, INK_TEAL, CORAL, ACCENT_TINT,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
@@ -64,6 +65,7 @@ export default function RoastWhisper() {
   const { listening, voiceSupported, toggleMic, setBase, stopIfListening } = useVoiceInput(text, setText);
 
   async function roast() {
+    ph("step_started", { step: "roast" });
     if (!text.trim()) return;
     stopIfListening();
     setLoading(true); setError(null); setResult(null); setReveal(0);
@@ -115,6 +117,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
       // Strong always leads, then the gentle fixes, Missing last.
       parsed.verdicts.sort((a, b) => VERDICT_ORDER.indexOf(a.kind) - VERDICT_ORDER.indexOf(b.kind));
       setResult(parsed);
+      ph("step_completed", { step: "roast" });
       // Marks step 5 done for the framework's progress, on this device only.
       const strong = parsed.verdicts.find((v) => v.kind === "Strong");
       remember("roasted", (strong && strong.line) || "Refined a draft");

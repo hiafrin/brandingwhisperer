@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { track } from "@vercel/analytics";
+import { ph } from "./lib/metrics.js";
 import {
   ACCENT, INK, CREAM, INK_TEAL,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY, CHANNEL_LIBRARY,
@@ -143,6 +144,7 @@ export default function PlanWhisper() {
   }
 
   async function generate(finalAnswers) {
+    ph("step_started", { step: "plan" });
     setStep(QUESTIONS.length);
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
@@ -195,6 +197,7 @@ Choose their path, build the plan inside their real time, and make the buddy pro
       const parsed = parseWhisperResponse(data);
       if (!parsed || !parsed.path) throw new Error("The AI's answer got cut short. Tap to try again, it usually works on a second pass.");
       setResult(parsed);
+      ph("step_completed", { step: "plan" });
       track("plan_completed");
     } catch (e) {
       setError(e.message || "Something went wrong. Give it another try.");

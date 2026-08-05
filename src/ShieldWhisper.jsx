@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { track } from "@vercel/analytics";
+import { ph } from "./lib/metrics.js";
 import {
   ACCENT, INK, CREAM, ACCENT_RGB, INK_TEAL,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
@@ -92,6 +93,7 @@ export default function ShieldWhisper() {
   }
 
   async function generate(finalAnswers) {
+    ph("step_started", { step: "voice" });
     setStep(QUESTIONS.length);
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
@@ -152,6 +154,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
       parsed.names = Array.isArray(parsed.names) ? parsed.names : [];
       parsed._answers = finalAnswers;
       setResult(parsed);
+      ph("step_completed", { step: "voice" });
       track("shield_completed");
     } catch (e) {
       setError(e.message || "Something went wrong. Give it another try.");
