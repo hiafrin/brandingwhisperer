@@ -370,7 +370,7 @@ function renderToolPage(shell, t) {
 
   // Crawlable fallback content. React clears it on mount.
   const fallback = `<h1>${esc(t.h1)}</h1>
-<p>${esc(t.step ? `Step ${t.step} of 6 in the Inward Framework. ` : "")}${esc(t.summary)}</p>
+<p>${esc(t.summary)}</p>
 ${t.faqs.map((f) => `<h2>${esc(f.q)}</h2>\n<p>${esc(f.a)}</p>`).join("\n")}
 <p><a href="/">Branding Inward: all six steps</a> · <a href="/resources">Resources</a></p>`;
   return html.replace('<div id="root"></div>', `<div id="root">${fallback}</div>`);
@@ -411,13 +411,17 @@ const homeFallback = `
   <h2>Built for people whose credibility lives in their work</h2>
   <p>Professors, researchers, and PhD candidates. Clinicians and scientists. Engineers, designers, and independent consultants. Anyone who would rather be judged on what they made than on how loudly they said it.</p>
   <p>People often tell me branding feels like it was written for extroverts. I disagree. Any good brand strategist knows great brands aren't built on volume. They're built on clarity, consistency, and the confidence to be unmistakably yourself.</p>
-  <h2>The path</h2>
-  <ol>
-    <li><a href="/scan">Step one, The Inward Scan. Eight taps, no typing. It names the specific way you disappear.</a></li>
-    <li><a href="/foundation">Step two, Foundation. Six questions. You leave with a positioning line, the thing about your work nobody can copy, one word you could own, and a gentle 7-day plan to start on.</a></li>
-    <li><a href="/brand-voice">Step three, Brand Voice. Your actual voice, written down, so everything you publish sounds like you instead of like everyone.</a></li>
-  </ol>
-  <p>Also here: <a href="/plan">The Quieter Plan</a>, <a href="/roast">The Gentle Roast</a>, <a href="/brief">the Inward Brief</a>, and <a href="/ai-visibility">an AI visibility check</a>.</p>
+  <h2>The tools</h2>
+  <p>Each one works on its own. Not sure where to start? The Inward Scan takes a minute and points you to the tool that fits.</p>
+  <ul>
+    <li><a href="/scan">The Inward Scan. Eight taps, no typing. It names the specific way you disappear and points you to the right tool.</a></li>
+    <li><a href="/foundation">Foundation. Six questions. You leave with a positioning line, the thing about your work nobody can copy, one word you could own, and a gentle 7-day plan.</a></li>
+    <li><a href="/brand-voice">Brand Voice. Your actual voice, written down, so everything you publish sounds like you instead of like everyone.</a></li>
+    <li><a href="/plan">The Quieter Plan. One marketing path chosen from what you can honestly stand, with permission to ignore the rest.</a></li>
+    <li><a href="/roast">The Gentle Roast. Honest, kind notes on anything you wrote about your work.</a></li>
+    <li><a href="/ai-visibility">An AI visibility check. A live scan of how findable you are, with the words that raise it.</a></li>
+  </ul>
+  <p>Everything you make quietly collects on <a href="/brief">one page, yours to keep</a>.</p>
   <h2>Branding Inward for departments and teams</h2>
   <p>Most people who never post are not uninterested. They are stuck in a specific way, and every way of being stuck needs a different fix. We are building a version that shows a whole team how each person is stuck, and what to do about each one. Write to safrin@brandinginward.com to join the waitlist.</p>
   <p><a href="/resources">The library</a> · <a href="/about">About the strategist</a> · <a href="/work-with-me">Work with me</a></p>`;

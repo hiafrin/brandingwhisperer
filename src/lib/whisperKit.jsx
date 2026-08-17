@@ -298,45 +298,42 @@ export function ForgetButton({ label = "Forget my answers on this device", tone 
 // six questions, everything feeds the Brief. Honest time costs and explicit
 // permission to stop, because people who feel trapped leave.
 const NEXT_STEP = {
-  scan: { key: "foundation", href: "/foundation", title: "Find the un-copyable thing in your story", name: "The six questions", cost: "Six questions, about ten minutes. You can stop anytime and come back, your answers keep." },
-  foundation: { key: "voice", href: "/brand-voice", title: "Write down how you actually sound", name: "Brand Voice", cost: "Step three of the path. A few questions, and everything you publish starts sounding like you." },
-  voice: { key: "brief", href: "/brief", title: "Your voice just joined your Brief", name: "Your Inward Brief", cost: "See the whole page it's part of. No typing." },
-  plan: { key: "brief", href: "/brief", title: "Your plan just joined your Brief", name: "Your Inward Brief", cost: "See the whole page it's part of. No typing." },
-  roast: { key: "brief", href: "/brief", title: "Your keeper line just joined your Brief", name: "Your Inward Brief", cost: "See the whole page it's part of. No typing." },
+  scan: { key: "foundation", href: "/foundation", title: "Find the un-copyable thing in your story", name: "The six questions", cost: "Six questions, about ten minutes, and a gentle 7-day plan at the end. Works on its own." },
+  foundation: { key: "voice", href: "/brand-voice", title: "Write down how you actually sound", name: "Brand Voice", cost: "A few questions, and everything you publish starts sounding like you. Works on its own." },
+  voice: { key: "roast", href: "/roast", title: "Get honest notes on something you already wrote", name: "The Gentle Roast", cost: "Paste a bio or a caption. Now that your voice has a name, the notes have something to aim at. Works on its own." },
+  plan: { key: "voice", href: "/brand-voice", title: "Write down how you actually sound", name: "Brand Voice", cost: "So everything on your new path sounds like you, not like everyone. Works on its own." },
+  roast: { key: "voice", href: "/brand-voice", title: "Write down how you actually sound", name: "Brand Voice", cost: "Your keeper lines came out of your real voice. This names it, so you can repeat it on purpose. Works on its own." },
 };
 
 export function FrameworkStrip({ current }) {
-  const [done] = useState(stepsDone);
-  const here = FRAMEWORK.find((s) => s.key === current);
   const next = NEXT_STEP[current];
-  const count = done.length;
 
   return (
     <section id="framework" style={{ maxWidth: 920, margin: "56px auto 0", padding: "0 24px", scrollMarginTop: 20 }}>
       <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>
-        The Inward Framework{count ? ` \u00b7 ${count} of ${FRAMEWORK.length} done` : ""}
+        If this was useful
       </p>
 
       {next && (
         <a href={next.href} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: CREAM, background: INK_TEAL, borderRadius: 16, padding: "22px 26px" }}>
-          {here && (
-            <span style={{ display: "block", fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: BUTTER, fontWeight: 700, marginBottom: 8 }}>
-              {done.includes(here.key) ? `\u2713 Step ${here.n} done \u00b7 ${here.verb}` : `Step ${here.n} \u00b7 ${here.verb}`}
-            </span>
-          )}
-          <p style={{ fontSize: 24, margin: "0 0 4px", fontWeight: 350, color: CREAM }}>Next: {next.title}</p>
+          <span style={{ display: "block", fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: BUTTER, fontWeight: 700, marginBottom: 8 }}>
+            People often pair this with
+          </span>
+          <p style={{ fontSize: 24, margin: "0 0 4px", fontWeight: 350, color: CREAM }}>{next.title}</p>
           <p style={{ fontSize: 15, color: "rgba(251,247,240,.8)", margin: "0 0 4px", fontFamily: SANS }}>{next.cost}</p>
           <p style={{ fontSize: 15, color: BUTTER, margin: 0, fontFamily: SANS, fontWeight: 600 }}>{next.name} &rarr;</p>
         </a>
       )}
 
-      {current !== "brief" && (
-        <p style={{ margin: "16px 0 0" }}>
-          <a href="/brief" style={{ fontFamily: SANS, fontSize: 15, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>
-            {count ? `Or just save this for now, see what you've kept (${count}) \u2192` : "Or just save this for now \u2192"}
-          </a>
-        </p>
-      )}
+      <p style={{ margin: "16px 0 0", fontFamily: SANS, fontSize: 15, lineHeight: 1.6, color: "#6B6157" }}>
+        {current !== "brief" && (
+          <>
+            <a href="/brief" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>See everything you've made on one page &rarr;</a>
+            {" "}
+          </>
+        )}
+        Or just take what you made and go. It's yours.
+      </p>
     </section>
   );
 }
@@ -345,17 +342,14 @@ export function FrameworkStrip({ current }) {
 //    walk-away promise in two lines. The heroes already sell the tool; this
 //    orients, then gets out of the way so the first tap sits near the fold. ──
 export function ToolIntro({ stepKey, walkaway, time, madeFor, outside = false }) {
-  const s = FRAMEWORK.find((x) => x.key === stepKey);
   return (
     <div style={{ background: ACCENT_TINT, border: "1px solid #DCEFEB", borderRadius: 14, padding: "13px 17px", margin: "0 0 22px", fontFamily: SANS }}>
       <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "6px 12px", marginBottom: 7 }}>
         <span style={{ background: outside ? INK_TEAL : ACCENT, color: "#FFF", borderRadius: 100, padding: "4px 11px", fontSize: 12, fontWeight: 700, letterSpacing: ".04em", flexShrink: 0 }}>
-          {outside ? "Outside the framework" : `Step ${s.n} of ${FRAMEWORK.length} \u00b7 ${s.verb}`}
+          Free {"\u00b7"} works on its own
         </span>
         <span style={{ fontSize: 13, color: "#5C534B" }}>{time}</span>
-        {!outside && (
-          <a href="/" style={{ fontSize: 13, color: ACCENT, fontWeight: 600, textDecoration: "none", marginLeft: "auto" }}>All six &rarr;</a>
-        )}
+        <a href="/" style={{ fontSize: 13, color: ACCENT, fontWeight: 600, textDecoration: "none", marginLeft: "auto" }}>All the tools &rarr;</a>
       </div>
       <p style={{ margin: 0, fontSize: 15, lineHeight: 1.5, color: "#443F39" }}>{walkaway}</p>
       {madeFor && (
@@ -385,10 +379,10 @@ export function ToolsMenuPanel({ onClose, side = "right", top = 52 }) {
   const done = stepsDone();
   const items = [
     ...FRAMEWORK.map((s) => ({
-      section: `The Inward Framework${done.length ? ` · ${done.length} of ${FRAMEWORK.length}` : ""}`,
+      section: "The tools",
       href: s.href,
-      name: `${s.n} · ${s.verb}${done.includes(s.key) ? " ✓" : ""}`,
-      cta: OUTCOME_LABELS[s.key] || s.name,
+      name: `${s.name}${done.includes(s.key) ? " ✓" : ""}`,
+      cta: OUTCOME_LABELS[s.key] || s.blurb,
       dot: done.includes(s.key) ? ACCENT : "#D9D2C6",
     })),
     { section: "More", href: "/ai-visibility", name: "AI visibility audit", cta: "Your findability score, then the words that raise it", dot: CORAL },

@@ -561,7 +561,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           {/* ── STEP 1, THE SCAN: embedded right on the home so the scan is the front door ── */}
           {scanStart > 0 && (
           <section ref={scanRef} className="mw-fade" style={{ maxWidth: 720, margin: "0 auto", padding: "48px 24px 8px", scrollMarginTop: 16 }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>Step 1 · Start here</p>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The Inward Scan</p>
             <h2 style={{ fontSize: "clamp(26px, 4vw, 36px)", lineHeight: 1.15, margin: "0 0 20px", fontWeight: 350 }}>
               Everyone gets stuck <span style={{ fontStyle: "italic", color: ACCENT }}>in their own particular way.</span>
             </h2>
@@ -647,34 +647,33 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             <p style={{ fontSize: "clamp(19px, 2.6vw, 23px)", lineHeight: 1.45, margin: 0, fontWeight: 350 }}>A voice that sounds like you on an ordinary Tuesday, <span style={{ fontStyle: "italic", color: ACCENT }}>not like a press release.</span></p>
           </section>
 
-          {/* ── 6. THE PATH: numbered progression, one direction ── */}
+          {/* ── 6. THE TOOLS: an equal shelf. Each one works on its own; the
+                scan is only featured because it points you to the right one. ── */}
           <section id="framework" style={{ maxWidth: 680, margin: "0 auto", padding: "52px 24px 8px", scrollMarginTop: 20 }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 20px" }}>The path</p>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 20px" }}>The tools</p>
+            <button onClick={() => { track("opened_scan"); ph("scan_started"); setScanStart((x) => x + 1); }} className="mw-card-hover" style={{ display: "block", width: "100%", textAlign: "left", cursor: "pointer", fontFamily: SERIF, color: CREAM, background: INK_TEAL, border: "none", borderRadius: 16, padding: "20px 24px", marginBottom: 18 }}>
+              <span style={{ display: "block", fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: BUTTER, fontWeight: 700, marginBottom: 6 }}>Not sure where to start?</span>
+              <span style={{ display: "block", fontSize: 20, fontWeight: 400, marginBottom: 4, lineHeight: 1.3 }}>The Inward Scan. One minute, eight taps.</span>
+              <span style={{ display: "block", fontSize: 14.5, fontFamily: SANS, color: "rgba(251,247,240,.85)", lineHeight: 1.55 }}>It names the specific way you disappear, and points you to the tool that fits it.</span>
+            </button>
             {[
-              { n: "1", title: "The Inward Scan", body: "Eight taps, no typing. It names the specific way you disappear.", key: "scan", onClick: () => { track("opened_scan"); ph("scan_started"); setScanStart((x) => x + 1); }, href: null },
-              { n: "2", title: "Foundation", body: "Six questions. You leave with a positioning line, the thing about your work nobody can copy, one word you could own, and a gentle 7-day plan to start on.", key: "foundation", href: "/foundation" },
-              { n: "3", title: "Brand Voice", body: "Your actual voice, written down, so everything you publish sounds like you instead of like everyone.", key: "voice", href: "/brand-voice" },
-            ].map((c, i) => {
+              { title: "Foundation", body: "Six questions. A positioning line, the thing nobody can copy, one word you could own, and a gentle 7-day plan.", key: "foundation", href: "/foundation" },
+              { title: "Brand Voice", body: "Your actual voice, written down, so everything you publish sounds like you instead of like everyone.", key: "voice", href: "/brand-voice" },
+              { title: "The Quieter Plan", body: "One marketing path chosen from what you can honestly stand, with permission to ignore the rest.", key: "plan", href: "/plan" },
+              { title: "The Gentle Roast", body: "Paste what you wrote. Hear what to keep, what sounds like a costume, and one small fix.", key: "roast", href: "/roast" },
+              { title: "AI visibility check", body: "A live scan of how findable you are, scored, with the words that raise it.", key: "audit", href: "/ai-visibility" },
+            ].map((c) => {
               const ok = doneSteps.includes(c.key);
-              const inner = (
-                <div style={{ display: "flex", gap: 18, alignItems: "flex-start" }}>
-                  <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: "50%", background: ok ? ACCENT : INK_TEAL, color: ok ? "#FFF" : BUTTER, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 19, fontWeight: 500 }}>{ok ? "\u2713" : c.n}</span>
-                  <span>
-                    <span style={{ display: "block", fontSize: 20, fontWeight: 500, color: INK, marginBottom: 4, lineHeight: 1.25 }}>Step {["one", "two", "three"][i]}. {c.title}.</span>
-                    <span style={{ display: "block", fontSize: 15.5, color: "#5C534B", fontFamily: SANS, lineHeight: 1.55 }}>{c.body}</span>
-                  </span>
-                </div>
+              return (
+                <a key={c.key} href={c.href} onClick={() => track("opened_" + c.key)} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "16px 18px", marginBottom: 10 }}>
+                  <span style={{ fontFamily: SANS, fontSize: 16.5, fontWeight: 600 }}>{c.title}{ok ? " \u2713" : ""}</span>
+                  <span style={{ display: "block", fontSize: 14.5, color: "#6B6157", fontFamily: SANS, lineHeight: 1.55, marginTop: 3 }}>{c.body}</span>
+                </a>
               );
-              const rowStyle = { display: "block", width: "100%", textAlign: "left", textDecoration: "none", color: INK, background: "none", border: "none", borderLeft: `2px solid ${ok ? ACCENT : "#E5DDD1"}`, padding: "4px 0 22px 22px", marginLeft: 19, cursor: "pointer", fontFamily: SERIF };
-              return c.href
-                ? <a key={c.key} href={c.href} onClick={() => track("opened_" + c.key)} style={rowStyle}>{inner}</a>
-                : <button key={c.key} onClick={c.onClick} style={rowStyle}>{inner}</button>;
             })}
-            <p style={{ fontSize: 15, color: "#6B6157", fontFamily: SANS, margin: "10px 0 0", lineHeight: 1.7 }}>
-              Also here: <a href="/plan" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>The Quieter Plan</a>,{" "}
-              <a href="/roast" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>The Gentle Roast</a>,{" "}
-              <a href="/brief" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>the Inward Brief</a>, and{" "}
-              <a href="/ai-visibility" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>an AI visibility check</a>.
+            <p style={{ fontSize: 15, color: "#6B6157", fontFamily: SANS, margin: "14px 0 0", lineHeight: 1.7 }}>
+              Each one works on its own. And everything you make quietly collects on{" "}
+              <a href="/brief" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>one page, yours to keep</a>.
             </p>
           </section>
 

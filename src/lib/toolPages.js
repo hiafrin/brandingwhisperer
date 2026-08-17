@@ -14,19 +14,19 @@ export const TOOL_PAGES = [
       "A free one-minute scan, eight taps and no typing, that names the pattern behind why self-promotion feels impossible for you: hiding, pushing, deleting, perfecting, or scattering.",
     h1: "The Inward Scan",
     summary:
-      "Eight taps, no typing, about a minute. The scan names the pattern you can't see on your own, the specific way you get stuck when it's time to be visible, and points you at the one step that breaks it. Free, no account, and your answers stay on your device.",
+      "Eight taps, no typing, about a minute. The scan names the pattern you can't see on your own, the specific way you get stuck when it's time to be visible, and points you at the one move that breaks it. Free, no account, and your answers stay on your device.",
     faqs: [
       {
         q: "What is the Inward Scan?",
-        a: "A free one-minute quiz from Branding Inward, a brand strategist's six-step framework for getting found without performing. Eight taps reveal your visibility pattern: the Hider, the Pusher, the Deleter, the Perfectionist, or the Scatterer, and the one step that breaks it.",
+        a: "A free one-minute quiz from Branding Inward, a brand strategist's toolkit for getting found without performing. Eight taps reveal your visibility pattern: the Hider, the Pusher, the Deleter, the Perfectionist, or the Scatterer, and the one move that breaks it.",
       },
       {
         q: "Do I need an account or an email address?",
         a: "No. There is no account and no email. Your answers are saved only on your own device, and you can erase them anytime with one click.",
       },
       {
-        q: "Is this the first step of a bigger framework?",
-        a: "Yes. It's step one of six: See yourself, Understand yourself, Express yourself, Share yourself, Refine yourself, Keep yourself. Each step works on its own, and together they build your complete brand brief.",
+        q: "Is this part of a bigger framework?",
+        a: "It points you to the tool that fits your pattern. Every Branding Inward tool works on its own, and anything you make also collects quietly into your Inward Brief, one page that's yours to keep.",
       },
     ],
   },
@@ -49,8 +49,8 @@ export const TOOL_PAGES = [
         a: "A plain statement of what you're really about, the un-copyable edge in your own story, and a word you could own, saved to your device and assembled into your Inward Brief.",
       },
       {
-        q: "Do I have to do the other steps first?",
-        a: "No. Every step of the Inward Framework works on its own. This one is step two of six, and you can start here.",
+        q: "Do I have to use the other tools first?",
+        a: "No. Every Branding Inward tool works on its own, in any order. You can start right here.",
       },
     ],
   },
@@ -134,11 +134,11 @@ export const TOOL_PAGES = [
       "Everything the six steps found, assembled on one page: your pattern, what you're about, your voice, your path, and your first move. Saved on your device only.",
     h1: "Your Inward Brief",
     summary:
-      "The sixth step of the Inward Framework: everything the tools found about you, your pattern, what you're really about, your named voice, your chosen path, and your first move, assembled into one brief you can copy anywhere. It lives on your device only, and fills in as you complete the other steps.",
+      "Everything the tools found about you, your pattern, what you're really about, your named voice, your chosen path, and your first move, assembled into one brief you can copy anywhere. It lives on your device only, and fills in from whichever tools you use, in any order.",
     faqs: [
       {
         q: "What is an Inward Brief?",
-        a: "One page holding what each step of the Inward Framework found: how you get stuck, what you're really about, your voice named, the path you chose, and a line worth keeping. It's your brand, written down, in your own words.",
+        a: "One page holding what the Branding Inward tools found: how you get stuck, what you're really about, your voice named, the path you chose, and a line worth keeping. It's your brand, written down, in your own words.",
       },
       {
         q: "Where is my brief stored?",
@@ -146,7 +146,7 @@ export const TOOL_PAGES = [
       },
       {
         q: "Do I need to finish all six steps?",
-        a: "No. The brief fills in from whichever steps you've done, in any order, and each section links to the step that produces it.",
+        a: "No. The brief fills in from whichever tools you've used, in any order, and each section links to the tool that produces it.",
       },
     ],
   },
@@ -158,7 +158,7 @@ export const TOOL_PAGES = [
       "AI search can't hear volume, only clarity. This free tool runs a few real web searches about your brand, reads your site, scores your findability out of 100, and writes the kit that raises it. No email.",
     h1: "The AI Visibility Audit",
     summary:
-      "People now ask AI assistants for recommendations the way they used to ask a friend, and the engines can't tell who's loudest, only who's clearest. This free audit actually goes and looks: it runs a few real web searches about your brand the way a stranger and a shopping customer would, reads your website if you share one, and scores how findable you are across the five quiet signals answer engines actually check, with the receipts shown. Then it writes the findability kit that raises the score: an anchor paragraph for your About page, one bio sentence to use identically everywhere, and three quotable answers, all in your own words. Not one signal requires posting, performing, or showing your face. It sits outside the six-step Inward Framework: the steps build your brand, this makes it findable.",
+      "People now ask AI assistants for recommendations the way they used to ask a friend, and the engines can't tell who's loudest, only who's clearest. This free audit actually goes and looks: it runs a few real web searches about your brand the way a stranger and a shopping customer would, reads your website if you share one, and scores how findable you are across the five quiet signals answer engines actually check, with the receipts shown. Then it writes the findability kit that raises the score: an anchor paragraph for your About page, one bio sentence to use identically everywhere, and three quotable answers, all in your own words. Not one signal requires posting, performing, or showing your face. The other tools build your brand; this one makes it findable.",
     faqs: [
       {
         q: "What does the AI visibility audit actually do?",
@@ -170,7 +170,7 @@ export const TOOL_PAGES = [
       },
       {
         q: "How is this different from other AI visibility checkers?",
-        a: "Most tools grade you and hand you a to-do list. This one shows you the receipts from a real scan and then writes the actual words: the About paragraph, the bio sentence, the FAQ answers, built only from facts you gave it and what the scan found, in your voice. If you've done the six-step framework, it borrows the voice and story already saved on your device.",
+        a: "Most tools grade you and hand you a to-do list. This one shows you the receipts from a real scan and then writes the actual words: the About paragraph, the bio sentence, the FAQ answers, built only from facts you gave it and what the scan found, in your voice. If you've used the other tools, it borrows the voice and story already saved on your device.",
       },
       {
         q: "Do I have to give my email to see my results?",
@@ -210,7 +210,7 @@ export const TOOL_PAGES = [
     faqs: [
       {
         q: "Who makes Branding Inward?",
-        a: "Sabiha Afrin, a brand strategist. The six-step framework and every question in the tools come from her practice and research into consumer psychology.",
+        a: "Sabiha Afrin, a brand strategist. The framework and every question in the tools come from her practice and research into consumer psychology.",
       },
       {
         q: "Why is it free?",

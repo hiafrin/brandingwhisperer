@@ -13,14 +13,14 @@ import {
 // hrefs must match the real routes: the scan lives on the home, and the six
 // questions moved to /foundation when the front door was swapped.
 const ITEMS = [
-  { key: "patternName", label: "How I get stuck", step: "See yourself", href: "/scan" },
-  { key: "reallyabout", label: "What I'm really about", step: "Understand yourself", href: "/foundation" },
-  { key: "edge", label: "What makes me un-copyable", step: "Understand yourself", href: "/foundation" },
-  { key: "voice", label: "My voice, named", step: "Express yourself", href: "/brand-voice" },
-  { key: "voicesample", label: "A post that sounds like me", step: "Express yourself", href: "/brand-voice" },
-  { key: "playbook", label: "The path I chose", step: "Share yourself", href: "/plan" },
-  { key: "firstmove", label: "My first move", step: "Share yourself", href: "/plan" },
-  { key: "roasted", label: "A line worth keeping", step: "Refine yourself", href: "/roast" },
+  { key: "patternName", label: "How I get stuck", step: "The Inward Scan", href: "/scan" },
+  { key: "reallyabout", label: "What I'm really about", step: "Foundation", href: "/foundation" },
+  { key: "edge", label: "What makes me un-copyable", step: "Foundation", href: "/foundation" },
+  { key: "voice", label: "My voice, named", step: "Brand Voice", href: "/brand-voice" },
+  { key: "voicesample", label: "A post that sounds like me", step: "Brand Voice", href: "/brand-voice" },
+  { key: "playbook", label: "The path I chose", step: "The Quieter Plan", href: "/plan" },
+  { key: "firstmove", label: "My first move", step: "The Quieter Plan", href: "/plan" },
+  { key: "roasted", label: "A line worth keeping", step: "The Gentle Roast", href: "/roast" },
 ];
 
 export default function InwardBrief() {
@@ -84,7 +84,7 @@ export default function InwardBrief() {
             Everything you've found, <span style={{ fontStyle: "italic", color: BUTTER }}>in one place.</span>
           </h1>
           <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.85)", margin: 0, maxWidth: 560 }}>
-            Nothing new is made here. This gathers what each step already gave you, so it's yours in one piece. It lives only on this device. Copy it, email it to yourself, keep it close.{nothingYet ? " Do a step or two and it starts to fill in." : ""}
+            Nothing new is made here. It fills in from whichever tools you've used, in any order, so it's yours in one piece. It lives only on this device. Copy it, email it to yourself, keep it close.{nothingYet ? " Use a tool or two and it starts to fill in." : ""}
           </p>
         </div>
       </section>
@@ -93,7 +93,7 @@ export default function InwardBrief() {
         {nothingYet ? (
           <div style={{ background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "28px 30px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
             <p style={{ fontSize: 19, lineHeight: 1.55, margin: "0 0 16px", color: INK }}>
-              Nothing here yet. Each step you finish adds a line, and it all stays on this device.
+              Nothing here yet. Any tool you use adds a line, in any order, and it all stays on this device.
             </p>
             <a href="/" style={{ fontFamily: SANS, fontSize: 16, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>Start with the Inward Scan &rarr;</a>
           </div>
@@ -133,12 +133,12 @@ export default function InwardBrief() {
         {/* What's still to add */}
         {emptySteps.length > 0 && (
           <div style={{ marginTop: 34 }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "#9A8F82", fontWeight: 700, margin: "0 0 14px" }}>Still to add</p>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "#9A8F82", fontWeight: 700, margin: "0 0 14px" }}>Add more, if you ever want to</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {emptySteps.map((s, i) => (
                 <a key={i} href={s.href} className="mw-card-hover" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", textDecoration: "none", color: INK, background: "#FFF", border: "1px dashed #D8CFBF", borderRadius: 14, padding: "16px 20px" }}>
                   <span style={{ fontSize: 17 }}>{s.step}</span>
-                  <span style={{ color: ACCENT, fontWeight: 700, fontFamily: SANS }}>Do it &rarr;</span>
+                  <span style={{ color: ACCENT, fontWeight: 700, fontFamily: SANS }}>Open &rarr;</span>
                 </a>
               ))}
             </div>

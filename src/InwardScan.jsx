@@ -357,21 +357,23 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
             </div>
 
             <div className="mw-deal" style={{ ...plainCard }}>
-              <p style={{ ...miniLabel, marginBottom: 14 }}>Your path, in this order</p>
+              <p style={{ ...miniLabel, marginBottom: 14 }}>Where to go with this</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {pattern.path.map((k, i) => (
                   <a key={k} href={TOOLS[k].href} onClick={() => track("scan_routed")} className="mw-card-hover" style={{ display: "flex", gap: 14, alignItems: "flex-start", textDecoration: "none", color: INK, background: i === 0 ? ACCENT_TINT : "#FFF", border: `1px solid ${i === 0 ? "#DCEFEA" : "#EFE7DA"}`, borderRadius: 14, padding: "14px 16px" }}>
-                    <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: i === 0 ? ACCENT : "#EFE7DA", color: i === 0 ? "#FFF" : "#857B70", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SANS, fontSize: 14, fontWeight: 700 }}>{i + 1}</span>
                     <span>
                       <span style={{ fontFamily: SANS, fontSize: 16, fontWeight: 600 }}>
                         {TOOLS[k].name}
-                        {i === 0 && <span style={{ fontSize: 11, background: ACCENT, color: "#FFF", borderRadius: 100, padding: "3px 10px", marginLeft: 8, verticalAlign: "2px" }}>start here</span>}
+                        {i === 0 && <span style={{ fontSize: 11, background: ACCENT, color: "#FFF", borderRadius: 100, padding: "3px 10px", marginLeft: 8, verticalAlign: "2px" }}>best fit for your pattern</span>}
                       </span>
-                      <span style={{ display: "block", fontSize: 14, color: "#857B70", fontFamily: SANS, lineHeight: 1.5, marginTop: 3 }}>{TOOLS[k].desc}</span>
+                      <span style={{ display: "block", fontSize: 14, color: "#6B6157", fontFamily: SANS, lineHeight: 1.5, marginTop: 3 }}>{TOOLS[k].desc}</span>
                     </span>
                   </a>
                 ))}
               </div>
+              <p style={{ fontSize: 13.5, color: "#857B70", fontFamily: SANS, margin: "12px 0 0", lineHeight: 1.55 }}>
+                Each one works on its own. Take what you need, skip the rest.
+              </p>
             </div>
 
             <div className="mw-deal" style={{ background: INK_TEAL, borderRadius: 20, padding: "26px 28px", marginTop: 6 }}>
