@@ -5,12 +5,12 @@ import { initMetrics } from "./lib/metrics.js";
 import App from "./App.jsx";
 import ShieldWhisper from "./ShieldWhisper.jsx";
 import RoastWhisper from "./RoastWhisper.jsx";
-import PlanWhisper from "./PlanWhisper.jsx";
 import AboutInward from "./AboutInward.jsx";
 import InwardBrief from "./InwardBrief.jsx";
 import InwardScan from "./InwardScan.jsx";
 import AIVisibility from "./AIVisibility.jsx";
 import WorkWithMe from "./WorkWithMe.jsx";
+import PhotoPosts from "./PhotoPosts.jsx";
 import { TOOL_PAGES } from "./lib/toolPages.js";
 
 // Real, indexable paths — one per tool. Each is also pre-rendered to its own
@@ -20,7 +20,7 @@ const ROUTES = {
   "/scan": () => <InwardScan />,
   "/foundation": () => <App view="foundation" />,
   "/brand-voice": () => <ShieldWhisper />,
-  "/plan": () => <PlanWhisper />,
+  "/photo-to-posts": () => <PhotoPosts />,
   "/roast": () => <RoastWhisper />,
   "/brief": () => <InwardBrief />,
   "/about": () => <AboutInward />,
@@ -30,6 +30,9 @@ const ROUTES = {
 
 // Old hash URLs, briefly live and possibly bookmarked or shared. Each maps to
 // its new real path on load, so nothing anyone saved ever breaks.
+// Retired routes that may live in bookmarks or old posts.
+const LEGACY_PATH = { "/plan": "/photo-to-posts" };
+
 const LEGACY_HASH = {
   "#/": "/",
   "#/scan": "/scan",
@@ -37,7 +40,7 @@ const LEGACY_HASH = {
   "#/shield": "/brand-voice",
   "#/roast": "/roast",
   "#/editor": "/roast", // even older URL, kept as a silent alias
-  "#/plan": "/plan",
+  "#/plan": "/photo-to-posts",
   "#/about": "/about",
   "#/brief": "/brief",
 };
@@ -55,6 +58,11 @@ function Router() {
 
   useEffect(() => {
     // Legacy hash → real path, once, on boot.
+    const legacyPath = LEGACY_PATH[normalizePath(window.location.pathname)];
+    if (legacyPath) {
+      window.history.replaceState({}, "", legacyPath);
+      setPath(legacyPath);
+    }
     const legacy = LEGACY_HASH[window.location.hash];
     if (legacy) {
       window.history.replaceState({}, "", legacy);

@@ -34,7 +34,7 @@ Return ONLY a JSON object as your final text, no markdown fences:
  "dimensions": [exactly 5, in the signals' order, each {"name": "short plain name for the signal", "score": <integer 0 to 20>, "note": "one or two sentences, why this number, citing the actual evidence"}],
  "read": "2 or 3 sentences: the honest overall picture from the scan, warm, zero drama, and somewhere in it the quiet reassurance that none of what's missing requires performing",
  "gap": "one plain sentence naming the single weakest signal, the way a friend would say it",
- "rivalNote": "one sentence on the named competitor grounded in what the search showed, or empty string if none was given"}`;
+ "rivalNote": ""}`;
 
 // When no Tavily key exists, Claude runs the searches itself with the same
 // protocol, compressed to four searches.
@@ -42,9 +42,9 @@ const CLAUDE_SEARCH_ADDENDUM = `
 
 SEARCH PROTOCOL: the site text (if any) is already in the user message, but you must run the web searches yourself, up to 4, each with a distinct job, then stop and score:
 1. Their bare name, the way a stranger who half-remembered it would.
-2. A shopping-customer query: "best [niche] [place if given]" style. Who surfaces: them, the named competitor, neither?
+2. Their name in quotes, exact, the way an engine disambiguates it.
 3. "[name] reviews" or "[name] LinkedIn" for third-party mentions and profile surfaces.
-4. Spare: the competitor if one was named, or a second customer phrasing.
+4. Spare: a second phrasing of their name plus what they do.
 Do not fetch any web pages; the site text you have is the site evidence.`;
 
 // ── Our own site reader: plain fetch + tag stripping, zero AI cost. ──
@@ -117,15 +117,15 @@ async function tavilySearch(query, key) {
   }
 }
 
-function buildQueries({ name, niche, work, rival }) {
-  const qs = [
+function buildQueries({ name, niche }) {
+  // Name-first: the scan's job is to show people where THEY surface.
+  const topic = niche.split(/\s+/).slice(0, 4).join(" ");
+  return [
     name,
-    `${name} ${niche}`,
-    `best ${niche}`,
-    `"${name}" reviews OR LinkedIn`,
+    `"${name}"`,
+    `${name} ${topic}`,
+    `${name} LinkedIn`,
   ];
-  if (rival) qs.push(rival);
-  return qs.slice(0, 5);
 }
 
 function evidenceBlock(siteData, searches) {
@@ -218,17 +218,16 @@ export default async function handler(req, res) {
     return res.status(429).json({ error: "Three scans a day is the limit, so every scan stays free for everyone. Come back tomorrow, your answers will keep." });
   }
 
-  const { name, site, niche, work, rival } = req.body || {};
-  if (!name || !niche || !work) {
+  const { name, site, niche, work } = req.body || {};
+  if (!name || !work) {
     return res.status(400).json({ error: "Missing brand details" });
   }
 
   const brand = {
     name: String(name).slice(0, 80),
     site: site ? String(site).slice(0, 120) : "",
-    niche: String(niche).slice(0, 100),
+    niche: String(niche || work).slice(0, 100),
     work: String(work).slice(0, 160),
-    rival: rival ? String(rival).slice(0, 80) : "",
   };
 
   try {
@@ -247,9 +246,7 @@ export default async function handler(req, res) {
     const system = haveSearches || geminiKey ? RESEARCH_SYSTEM : RESEARCH_SYSTEM + CLAUDE_SEARCH_ADDENDUM;
     const userTurn = `Brand name: "${brand.name}"
 Website: ${brand.site ? `"${brand.site}"` : "none given, treat that as a finding"}
-Niche: "${brand.niche}"
 What they do, in their words: "${brand.work}"
-Competitor or peer in their space: ${brand.rival ? `"${brand.rival}"` : "none given"}
 
 SCAN EVIDENCE:
 ${evidenceBlock(siteData, searches)}

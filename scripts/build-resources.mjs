@@ -406,22 +406,22 @@ for (const t of TOOL_PAGES) {
 const HOME_TITLE = "Branding Inward: get found without performing | free AI branding tools";
 const homeFallback = `
   <h1>Get found. Without performing.</h1>
-  <p>Personal branding for people who are good at the work and bad at the announcing. Built by Sabiha Afrin, brand strategist. The questions are hers. The AI just makes them fast. One minute, eight taps, no account, no email.</p>
+  <p>Personal branding for people who are good at the work and bad at the announcing. Built by Sabiha Afrin, brand strategist. The questions are hers. The AI just makes them fast. Six questions, about ten minutes, and you leave knowing what content to make, with a gentle 7-day plan. No account, no email.</p>
   <p>You have the expertise. Someone with half of it has the audience. That gap is not a talent problem. It is a specific way of getting stuck when you have to talk about your own work. There are five of them, and each one has a name.</p>
   <h2>Built for people whose credibility lives in their work</h2>
   <p>Professors, researchers, and PhD candidates. Clinicians and scientists. Engineers, designers, and independent consultants. Anyone who would rather be judged on what they made than on how loudly they said it.</p>
   <p>People often tell me branding feels like it was written for extroverts. I disagree. Any good brand strategist knows great brands aren't built on volume. They're built on clarity, consistency, and the confidence to be unmistakably yourself.</p>
   <h2>The tools</h2>
-  <p>Each one works on its own. Not sure where to start? The Inward Scan takes a minute and points you to the tool that fits.</p>
+  <p>Each one works on its own.</p>
   <ul>
-    <li><a href="/scan">The Inward Scan. Eight taps, no typing. It names the specific way you disappear and points you to the right tool.</a></li>
-    <li><a href="/foundation">Foundation. Six questions. You leave with a positioning line, the thing about your work nobody can copy, one word you could own, and a gentle 7-day plan.</a></li>
+    <li><a href="/foundation">The Six Questions. You leave with a positioning line, the thing about your work nobody can copy, one word you could own, and a gentle 7-day plan.</a></li>
+    <li><a href="/photo-to-posts">Photo to Posts. Upload one photo of your work; the AI looks at it and writes three posts in your voice, ready to tweak. No face required.</a></li>
+    <li><a href="/scan">The Inward Scan. Eight taps, no typing. It names the specific way you get stuck when it is time to be visible.</a></li>
     <li><a href="/brand-voice">Brand Voice. Your actual voice, written down, so everything you publish sounds like you instead of like everyone.</a></li>
-    <li><a href="/plan">The Quieter Plan. One marketing path chosen from what you can honestly stand, with permission to ignore the rest.</a></li>
     <li><a href="/roast">The Gentle Roast. Honest, kind notes on anything you wrote about your work.</a></li>
-    <li><a href="/ai-visibility">An AI visibility check. A live scan of how findable you are, with the words that raise it.</a></li>
+    <li><a href="/ai-visibility">An AI visibility check. A live scan of where you actually show up, with the words that raise it.</a></li>
   </ul>
-  <p>Everything you make quietly collects on <a href="/brief">one page, yours to keep</a>.</p>
+  <p>Everything you make quietly collects into <a href="/brief">your Inward Brief</a>, emailed to you as one page.</p>
   <h2>Branding Inward for departments and teams</h2>
   <p>Most people who never post are not uninterested. They are stuck in a specific way, and every way of being stuck needs a different fix. We are building a version that shows a whole team how each person is stuck, and what to do about each one. Write to safrin@brandinginward.com to join the waitlist.</p>
   <p><a href="/resources">The library</a> · <a href="/about">About the strategist</a> · <a href="/work-with-me">Work with me</a></p>`;

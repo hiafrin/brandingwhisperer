@@ -16,6 +16,11 @@
       "source": "/resources/ai-that-writes-in-my-voice",
       "destination": "/resources",
       "permanent": true
+    },
+    {
+      "source": "/plan",
+      "destination": "/photo-to-posts",
+      "permanent": true
     }
   ]
 }

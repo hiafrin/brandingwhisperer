@@ -68,9 +68,7 @@ const KIT_HOMES = {
 export default function AIVisibility() {
   const [name, setName] = useState("");
   const [site, setSite] = useState("");
-  const [niche, setNiche] = useState("");
   const [work, setWork] = useState("");
-  const [rival, setRival] = useState("");
   const [phase, setPhase] = useState("intro"); // intro | scanning | done
   const [scanLine, setScanLine] = useState(0);
   const [result, setResult] = useState(null);
@@ -81,7 +79,7 @@ export default function AIVisibility() {
   const [copied, setCopied] = useState(null);
   const lineTimer = useRef(null);
 
-  const ready = name.trim().length > 1 && niche.trim().length > 2 && work.trim().length > 3;
+  const ready = name.trim().length > 1 && work.trim().length > 3;
 
   useEffect(() => {
     if (phase === "scanning") {
@@ -93,7 +91,6 @@ export default function AIVisibility() {
   function brandFacts() {
     return `Brand name: "${name.trim()}"
 Website: ${site.trim() ? `"${site.trim()}"` : "none given"}
-Niche: "${niche.trim()}"
 What they do, in their words: "${work.trim()}"`;
   }
 
@@ -113,7 +110,7 @@ What they do, in their words: "${work.trim()}"`;
     const r = await fetch("/api/visibility", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: name.trim(), site: site.trim(), niche: niche.trim(), work: work.trim(), rival: rival.trim() }),
+      body: JSON.stringify({ name: name.trim(), site: site.trim(), niche: work.trim(), work: work.trim() }),
     });
     const d = await r.json();
     if (!r.ok) throw new Error(d.error || "scan failed");
@@ -142,8 +139,7 @@ Return ONLY JSON, no markdown:
  "read": "2 or 3 sentences, warm, honest",
  "gap": "one plain sentence naming the weakest signal",
  "rivalNote": ""}`,
-        user: `${brandFacts()}
-Competitor or peer: ${rival.trim() ? `"${rival.trim()}"` : "none given"}`,
+        user: brandFacts(),
       }),
     });
     const d = await r.json();
@@ -235,7 +231,6 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
     }
     t += `\nTHE FIVE QUIET SIGNALS\n`;
     result.dimensions.forEach((d) => { t += `${d.name}: ${d.score}/20. ${d.note}\n`; });
-    if (result.rivalNote && rival.trim()) t += `\nOn ${rival.trim()}: ${result.rivalNote}\n`;
     if (kit) {
       t += `\nTHE FINDABILITY KIT\n\nYour anchor paragraph (${KIT_HOMES.anchor})\n${kit.anchor}\n\nYour one bio sentence (${KIT_HOMES.bio})\n${kit.bio}\n\nYour three quotable answers (${KIT_HOMES.faqs})\n`;
       kit.faqs.forEach((f) => { t += `\nQ: ${f.q}\nA: ${f.a}\n`; });
@@ -303,31 +298,21 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
               The same words everywhere. Honest answers to real questions. Not one of them requires performing.
             </p>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 22 }}>
-              <div style={{ gridColumn: "1 / -1" }}>
-                <p style={{ ...miniLabel, marginBottom: 8 }}>Your brand name, or your own</p>
-                <input aria-label="Your brand name, or your own" value={name} maxLength={80} onChange={(e) => setName(e.target.value)}
-                  placeholder="Cedar & Wick, or Sana Rahman" style={inputStyle} {...focusRing} />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 16, marginBottom: 22 }}>
+              <div>
+                <p style={{ ...miniLabel, marginBottom: 8 }}>Your name, or your brand's</p>
+                <input aria-label="Your name, or your brand's" value={name} maxLength={80} onChange={(e) => setName(e.target.value)}
+                  placeholder="Sana Rahman, or Cedar & Wick" style={inputStyle} {...focusRing} />
               </div>
-              <div style={{ gridColumn: "1 / -1" }}>
+              <div>
+                <p style={{ ...miniLabel, marginBottom: 8 }}>What you do, in one sentence</p>
+                <input aria-label="What you do, in one sentence" value={work} maxLength={160} onChange={(e) => setWork(e.target.value)}
+                  placeholder="I study urban climate adaptation, or I pour soy candles in Portland" style={inputStyle} {...focusRing} />
+              </div>
+              <div>
                 <p style={{ ...miniLabel, marginBottom: 8 }}>Website, if you have one</p>
                 <input aria-label="Website, if you have one" value={site} maxLength={120} onChange={(e) => setSite(e.target.value)}
-                  placeholder="cedarandwick.com (optional, but then I can actually read it)" style={inputStyle} {...focusRing} />
-              </div>
-              <div style={{ gridColumn: "1 / -1" }}>
-                <p style={{ ...miniLabel, marginBottom: 8 }}>Your niche or topic area</p>
-                <input aria-label="Your niche or topic area" value={niche} maxLength={100} onChange={(e) => setNiche(e.target.value)}
-                  placeholder="Small-batch candles, or career coaching for nurses" style={inputStyle} {...focusRing} />
-              </div>
-              <div style={{ gridColumn: "1 / -1" }}>
-                <p style={{ ...miniLabel, marginBottom: 8 }}>What you do, in your words</p>
-                <input aria-label="What you do, in your words" value={work} maxLength={160} onChange={(e) => setWork(e.target.value)}
-                  placeholder="I pour soy candles in my garage in Portland and sell at two markets" style={inputStyle} {...focusRing} />
-              </div>
-              <div style={{ gridColumn: "1 / -1" }}>
-                <p style={{ ...miniLabel, marginBottom: 8 }}>A competitor or peer in your space, if one comes to mind</p>
-                <input aria-label="A competitor or peer in your space" value={rival} maxLength={80} onChange={(e) => setRival(e.target.value)}
-                  placeholder="Optional. Someone customers might find instead of you." style={inputStyle} {...focusRing} />
+                  placeholder="Optional, but then I can actually read it" style={inputStyle} {...focusRing} />
               </div>
             </div>
 
@@ -371,6 +356,20 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
               </p>
             )}
 
+            {/* the receipts */}
+            {Array.isArray(result.found) && result.found.length > 0 && (
+              <>
+                <p style={{ ...miniLabel, marginBottom: 14 }}>Here&rsquo;s where you show up</p>
+                <div style={{ ...plainCard, borderLeft: `4px solid ${INK_TEAL}`, marginBottom: 26 }}>
+                  {result.found.slice(0, 5).map((f, i) => (
+                    <p key={i} style={{ fontSize: 16, lineHeight: 1.6, margin: i ? "10px 0 0" : 0, color: INK }}>
+                      <span style={{ color: ACCENT, fontWeight: 700, marginRight: 8 }}>·</span>{f}
+                    </p>
+                  ))}
+                </div>
+              </>
+            )}
+
             {/* the score */}
             <div style={{ background: band.tint, border: `2px solid ${band.border}`, borderRadius: 20, padding: "30px 28px", marginBottom: 26, display: "flex", gap: 26, alignItems: "center", flexWrap: "wrap" }}>
               <div style={{ position: "relative", width: 120, height: 120, flexShrink: 0 }}>
@@ -392,20 +391,6 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
               </div>
             </div>
 
-            {/* the receipts */}
-            {Array.isArray(result.found) && result.found.length > 0 && (
-              <>
-                <p style={{ ...miniLabel, marginBottom: 14 }}>What the scan actually found</p>
-                <div style={{ ...plainCard, borderLeft: `4px solid ${INK_TEAL}`, marginBottom: 26 }}>
-                  {result.found.slice(0, 5).map((f, i) => (
-                    <p key={i} style={{ fontSize: 16, lineHeight: 1.6, margin: i ? "10px 0 0" : 0, color: INK }}>
-                      <span style={{ color: ACCENT, fontWeight: 700, marginRight: 8 }}>·</span>{f}
-                    </p>
-                  ))}
-                </div>
-              </>
-            )}
-
             {/* the breakdown */}
             <p style={{ ...miniLabel, marginBottom: 4 }}>The five quiet signals</p>
             <p style={{ fontSize: 15, color: "#857B70", margin: "0 0 14px", fontFamily: SANS, lineHeight: 1.5 }}>
@@ -425,13 +410,6 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
                 </div>
               ))}
             </div>
-
-            {result.rivalNote && rival.trim() && (
-              <div style={{ ...plainCard, borderLeft: `4px solid ${INK_TEAL}`, marginBottom: 26 }}>
-                <p style={{ ...miniLabel, marginBottom: 6 }}>About {rival.trim()}</p>
-                <p style={{ fontSize: 16, lineHeight: 1.6, margin: 0, color: INK }}>{result.rivalNote}</p>
-              </div>
-            )}
 
             {/* ── THE KIT: not advice, the actual words ── */}
             <div style={{ borderTop: `2px solid ${INK_TEAL}`, marginTop: 34, paddingTop: 28 }}>

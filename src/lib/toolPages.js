@@ -79,26 +79,26 @@ export const TOOL_PAGES = [
     ],
   },
   {
-    slug: "plan",
-    step: 4,
-    title: "The Quieter Plan: marketing at a cost you can bear | Branding Inward",
+    slug: "photo-to-posts",
+    step: 2,
+    title: "Photo to Posts: one photo in, three posts out | Branding Inward",
     description:
-      "A free tool that chooses one marketing path built from what you can honestly stand and the time you really have. Maybe that's no social media at all. Includes a photo-to-posts tool.",
-    h1: "The Quieter Plan",
+      "Upload one photo of your work. The AI looks at what is actually in it and writes three posts in your voice, each one editable before you copy it. Free, no face required.",
+    h1: "Photo to Posts",
     summary:
-      "Every marketing plan you've been handed assumes you'll perform daily. This one starts from what you can honestly bear and the time you really have, then chooses one path for you, with a list of what to ignore and a first move under fifteen minutes. There's also a photo tool: upload one shot of your work and get three posts written in your voice.",
+      "You never know what to say about your own work; the photo already says most of it. Upload one shot, of what you made, your workspace, your hands mid-process, and the AI looks at what is actually there and writes three posts around it in your voice: a small true story, a quiet caption, and a soft invite. Each one is editable right on the page before you copy it. No face required, no account, and the photo is read once and never stored.",
     faqs: [
       {
-        q: "What if I hate social media?",
-        a: "That's exactly who this is for. The plan is chosen from paths that include a tiny monthly letter, quiet process posts that never show your face, and routes with no social media at all.",
+        q: "What kind of photo works?",
+        a: "Anything real: the thing you made, your desk, a whiteboard you filled, your hands mid-process, even a short clip (it reads one frame). No face required. The AI only describes what is genuinely in the picture, it never invents details.",
       },
       {
-        q: "What is the photo-to-posts tool?",
-        a: "Upload one photo of what you made, your workspace, or your process, and the tool writes three posts around it in your voice. No face required, no plan required, and the photo never leaves your request.",
+        q: "Is my photo stored anywhere?",
+        a: "No. The photo is downscaled on your own device, read once to write the posts, and never stored. There is no account and no email.",
       },
       {
-        q: "Why one path instead of options?",
-        a: "Choosing is the exhausting part. The tool picks the single best-fit path from your own answers and gives you explicit permission to ignore the rest.",
+        q: "Can I edit the posts before using them?",
+        a: "Yes, that is the point. Each caption sits in an editable box on the page, so you tweak it until it sounds right, then copy it wherever you post.",
       },
     ],
   },
@@ -131,7 +131,7 @@ export const TOOL_PAGES = [
     step: 6,
     title: "Your Inward Brief: your whole brand, one page | Branding Inward",
     description:
-      "Everything the six steps found, assembled on one page: your pattern, what you're about, your voice, your path, and your first move. Saved on your device only.",
+      "Everything the Branding Inward tools found about you, assembled on one page and emailed to you: your pattern, what you're about, your voice, and your first move.",
     h1: "Your Inward Brief",
     summary:
       "Everything the tools found about you, your pattern, what you're really about, your named voice, your chosen path, and your first move, assembled into one brief you can copy anywhere. It lives on your device only, and fills in from whichever tools you use, in any order.",
@@ -142,7 +142,7 @@ export const TOOL_PAGES = [
       },
       {
         q: "Where is my brief stored?",
-        a: "Only on your own device, in your browser's local storage. Nothing is sent anywhere, there is no account, and you can erase it all with one click.",
+        a: "Your answers live only on your own device, in your browser's local storage. Leaving your email sends you the one-page brief and opens it on the page; the email is used for that send, nothing else unless you ask.",
       },
       {
         q: "Do I need to finish all six steps?",
@@ -158,11 +158,11 @@ export const TOOL_PAGES = [
       "AI search can't hear volume, only clarity. This free tool runs a few real web searches about your brand, reads your site, scores your findability out of 100, and writes the kit that raises it. No email.",
     h1: "The AI Visibility Audit",
     summary:
-      "People now ask AI assistants for recommendations the way they used to ask a friend, and the engines can't tell who's loudest, only who's clearest. This free audit actually goes and looks: it runs a few real web searches about your brand the way a stranger and a shopping customer would, reads your website if you share one, and scores how findable you are across the five quiet signals answer engines actually check, with the receipts shown. Then it writes the findability kit that raises the score: an anchor paragraph for your About page, one bio sentence to use identically everywhere, and three quotable answers, all in your own words. Not one signal requires posting, performing, or showing your face. The other tools build your brand; this one makes it findable.",
+      "People now ask AI assistants for recommendations the way they used to ask a friend, and the engines can't tell who's loudest, only who's clearest. This free audit actually goes and looks: it runs real web searches on your actual name the way a stranger would, reads your website if you share one, and shows you where you surface, with the receipts first, then scores the five quiet signals answer engines actually check. Then it writes the findability kit that raises the score: an anchor paragraph for your About page, one bio sentence to use identically everywhere, and three quotable answers, all in your own words. Not one signal requires posting, performing, or showing your face. The other tools build your brand; this one makes it findable.",
     faqs: [
       {
         q: "What does the AI visibility audit actually do?",
-        a: "You describe your brand, and the tool runs a light live scan: a few real web searches about your name and niche, plus a read of your website if you gave one. It returns a findability score out of 100 with a band (Unseen, A faint trace, Coming into view, or Found), the evidence it found, the five-signal breakdown, and then writes your findability kit: an anchor paragraph, one bio sentence, and three quotable answers, ready to paste.",
+        a: "You give your name, one sentence about what you do, and optionally your site, and the tool runs a light live scan: real web searches about your actual name, plus a read of your website. It returns a findability score out of 100 with a band (Unseen, A faint trace, Coming into view, or Found), the evidence it found, the five-signal breakdown, and then writes your findability kit: an anchor paragraph, one bio sentence, and three quotable answers, ready to paste.",
       },
       {
         q: "Is this a real live scan or an AI guess?",

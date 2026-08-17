@@ -22,7 +22,7 @@ The engines can't hear who's loudest, only who's clearest. Being findable is a l
 
 ## 4. The bottleneck is starting, not knowing
 
-Most people don't need more advice, they need the first move to be small enough to actually make. Every tool here ends with one concrete thing you can do today, usually in under fifteen minutes. [The Quieter Plan](/plan) is built entirely around what you can honestly sustain, not what a growth calendar demands.
+Most people don't need more advice, they need the first move to be small enough to actually make. Every tool here ends with one concrete thing you can do today, usually in under fifteen minutes. [Photo to Posts](/photo-to-posts) is the purest version: one photo you already have, three posts you can actually publish.
 
 ## 5. Privacy as respect
 

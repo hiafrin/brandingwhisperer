@@ -32,7 +32,7 @@ For when every marketing plan assumes you'll perform daily.
 
 > I make [what you make]. Here's what I can honestly sustain without resenting it: [minutes per week, and what you refuse to do, like being on camera]. Design a marketing approach that fits INSIDE that budget. Pick ONE channel, tell me what to ignore and why ignoring it is safe, and give me one first move under fifteen minutes. Do not give me a content calendar.
 
-The full version, with paths chosen for your energy level, is [the Quieter Plan](/plan).
+The full version, which looks at a real photo of your work and writes the posts for you, is [Photo to Posts](/photo-to-posts).
 
 ## FAQ
 

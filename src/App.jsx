@@ -10,7 +10,6 @@ import {
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
   TOOLS, FrameworkStrip, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ForgetButton, KeptNote, ToolHero, ToolIntro, StepLoader, PROMPT_QUALITY, tightenResult, ToolsMenuPanel, primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
-import InwardScan from "./InwardScan.jsx";
 
 // ── The six questions — engineered to extract psychological raw material
 //    (stories, sensory detail, identity, refusals, repeatable signatures),
@@ -127,8 +126,6 @@ export default function BrandingWhisperer({ view = "home" }) {
   // questions live at /foundation (step 0+). Same engine, told apart by the
   // router's view prop.
   const [step, setStep] = useState(() => (view === "foundation" ? -2 : -1));
-  const scanRef = useRef(null);
-  const [scanStart, setScanStart] = useState(0);
   const [storedPattern, setStoredPattern] = useState(() => recall("pattern"));
   const [doneSteps] = useState(stepsDone);
 
@@ -165,10 +162,6 @@ export default function BrandingWhisperer({ view = "home" }) {
     } finally { setTeamBusy(false); }
   }
 
-  // The scan only appears once they ask for it, so scroll after it mounts.
-  useEffect(() => {
-    if (scanStart > 0) scanRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [scanStart]);
   const [energy, setEnergy] = useState(null);
   const [stuck, setStuck] = useState(null);
   const [answers, setAnswers] = useState({});
@@ -534,7 +527,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   </span>
                   <button onClick={() => document.getElementById("teams")?.scrollIntoView({ behavior: "smooth" })} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "rgba(251,247,240,.85)", fontFamily: SANS, fontSize: 14.5, fontWeight: 600 }}>For teams</button>
                   <a href="/about" style={{ color: "rgba(251,247,240,.85)", textDecoration: "none", fontWeight: 600 }}>About</a>
-                  <button className="mw-btn" onClick={() => { track("start_scan"); ph("scan_started"); setScanStart((n) => n + 1); }} style={{ background: BUTTER, color: INK_TEAL, border: "none", borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Start free</button>
+                  <button className="mw-btn" onClick={() => { track("start_questions"); setStep(-2); window.scrollTo({ top: 0 }); }} style={{ background: BUTTER, color: INK_TEAL, border: "none", borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Start free</button>
                 </span>
               </nav>
               <h1 style={{ fontSize: "clamp(34px, 5.6vw, 52px)", lineHeight: 1.05, margin: "0 0 14px", fontWeight: 350, color: CREAM, letterSpacing: "-0.01em" }}>
@@ -551,23 +544,12 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 <img src="/media/afrin-portrait.jpg" alt="Sabiha Afrin" style={{ width: 40, height: 40, borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(251,247,240,.35)" }} />
                 <span>Built by Sabiha Afrin, brand strategist. The questions are hers. The AI just makes them fast.</span>
               </p>
-              <button className="mw-btn" onClick={() => { track("start_scan"); ph("scan_started"); setScanStart((n) => n + 1); }} style={{ ...primaryBtn, fontSize: 18, padding: "17px 36px" }}>Find your pattern</button>
+              <button className="mw-btn" onClick={() => { track("start_questions"); setStep(-2); window.scrollTo({ top: 0 }); }} style={{ ...primaryBtn, fontSize: 18, padding: "17px 36px" }}>Start the six questions</button>
               <p style={{ fontSize: 13.5, color: "rgba(251,247,240,.6)", marginTop: 14, fontFamily: SANS }}>
-                One minute. Eight taps. No account, no email.
+                Six questions, about ten minutes. You leave knowing what content to make, with a 7-day plan. No account, no email.
               </p>
             </div>
           </section>
-
-          {/* ── STEP 1, THE SCAN: embedded right on the home so the scan is the front door ── */}
-          {scanStart > 0 && (
-          <section ref={scanRef} className="mw-fade" style={{ maxWidth: 720, margin: "0 auto", padding: "48px 24px 8px", scrollMarginTop: 16 }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The Inward Scan</p>
-            <h2 style={{ fontSize: "clamp(26px, 4vw, 36px)", lineHeight: 1.15, margin: "0 0 20px", fontWeight: 350 }}>
-              Everyone gets stuck <span style={{ fontStyle: "italic", color: ACCENT }}>in their own particular way.</span>
-            </h2>
-            <InwardScan embedded startSignal={scanStart} />
-          </section>
-          )}
 
           {/* ── WHO IT'S FOR: inclusive, by the feeling, never by a label. Lands the distinction fast. ── */}
           {/* ── WELCOME BACK: only for visitors who chose to keep their pattern on this device ── */}
@@ -647,21 +629,21 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             <p style={{ fontSize: "clamp(19px, 2.6vw, 23px)", lineHeight: 1.45, margin: 0, fontWeight: 350 }}>A voice that sounds like you on an ordinary Tuesday, <span style={{ fontStyle: "italic", color: ACCENT }}>not like a press release.</span></p>
           </section>
 
-          {/* ── 6. THE TOOLS: an equal shelf. Each one works on its own; the
-                scan is only featured because it points you to the right one. ── */}
+          {/* ── 6. THE TOOLS: her order. The six questions live in the hero;
+                this shelf is everything else, each tool standing alone. ── */}
           <section id="framework" style={{ maxWidth: 680, margin: "0 auto", padding: "52px 24px 8px", scrollMarginTop: 20 }}>
             <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 20px" }}>The tools</p>
-            <button onClick={() => { track("opened_scan"); ph("scan_started"); setScanStart((x) => x + 1); }} className="mw-card-hover" style={{ display: "block", width: "100%", textAlign: "left", cursor: "pointer", fontFamily: SERIF, color: CREAM, background: INK_TEAL, border: "none", borderRadius: 16, padding: "20px 24px", marginBottom: 18 }}>
-              <span style={{ display: "block", fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: BUTTER, fontWeight: 700, marginBottom: 6 }}>Not sure where to start?</span>
-              <span style={{ display: "block", fontSize: 20, fontWeight: 400, marginBottom: 4, lineHeight: 1.3 }}>The Inward Scan. One minute, eight taps.</span>
-              <span style={{ display: "block", fontSize: 14.5, fontFamily: SANS, color: "rgba(251,247,240,.85)", lineHeight: 1.55 }}>It names the specific way you disappear, and points you to the tool that fits it.</span>
-            </button>
+            <a href="/photo-to-posts" onClick={() => track("opened_photo")} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: CREAM, background: INK_TEAL, borderRadius: 16, padding: "20px 24px", marginBottom: 18 }}>
+              <span style={{ display: "block", fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: BUTTER, fontWeight: 700, marginBottom: 6 }}>Have a photo of your work?</span>
+              <span style={{ display: "block", fontSize: 20, fontWeight: 400, marginBottom: 4, lineHeight: 1.3 }}>Photo to Posts{doneSteps.includes("photo") ? " \u2713" : ""}</span>
+              <span style={{ display: "block", fontSize: 14.5, fontFamily: SANS, color: "rgba(251,247,240,.85)", lineHeight: 1.55 }}>Upload one photo. The AI looks at it and writes three posts in your voice, ready to tweak and post. No face required.</span>
+            </a>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "#9A8F82", fontWeight: 700, margin: "22px 0 10px" }}>Go deeper into personal branding</p>
             {[
-              { title: "Foundation", body: "Six questions. A positioning line, the thing nobody can copy, one word you could own, and a gentle 7-day plan.", key: "foundation", href: "/foundation" },
+              { title: "The Inward Scan", body: "One minute, eight taps. It names the specific way you get stuck when it's time to be visible.", key: "scan", href: "/scan" },
               { title: "Brand Voice", body: "Your actual voice, written down, so everything you publish sounds like you instead of like everyone.", key: "voice", href: "/brand-voice" },
-              { title: "The Quieter Plan", body: "One marketing path chosen from what you can honestly stand, with permission to ignore the rest.", key: "plan", href: "/plan" },
               { title: "The Gentle Roast", body: "Paste what you wrote. Hear what to keep, what sounds like a costume, and one small fix.", key: "roast", href: "/roast" },
-              { title: "AI visibility check", body: "A live scan of how findable you are, scored, with the words that raise it.", key: "audit", href: "/ai-visibility" },
+              { title: "AI visibility check", body: "A live scan of where you actually show up, with the words that raise it.", key: "audit", href: "/ai-visibility" },
             ].map((c) => {
               const ok = doneSteps.includes(c.key);
               return (
@@ -672,8 +654,8 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               );
             })}
             <p style={{ fontSize: 15, color: "#6B6157", fontFamily: SANS, margin: "14px 0 0", lineHeight: 1.7 }}>
-              Each one works on its own. And everything you make quietly collects on{" "}
-              <a href="/brief" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>one page, yours to keep</a>.
+              Each one works on its own. Everything you make quietly collects into{" "}
+              <a href="/brief" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>your Inward Brief</a>, emailed to you as one page.
             </p>
           </section>
 

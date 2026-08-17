@@ -236,18 +236,17 @@ export const TOOLS = {
   foundation: { key: "foundation", href: "/foundation", name: "The six questions", pain: "I don't know what actually makes me different.", cta: "Find what you're really about", accent: ACCENT, Doodle: DoodleBubble },
   voice: { key: "voice", href: "/brand-voice", name: "Your brand voice", pain: "Posting feels like exposing myself, not my work.", cta: "Hear the voice you already have", accent: ACCENT, Doodle: DoodleShield },
   roast: { key: "roast", href: "/roast", name: "The gentle roast", pain: "I wrote the post. Then I deleted it, it didn't sound like me.", cta: "Get it read, kindly", accent: CORAL, Doodle: DoodleFlame },
-  plan: { key: "plan", href: "/plan", name: "The quieter plan", pain: "I can't post every day. Honestly, I don't want to.", cta: "Find the plan you won't dread", accent: ACCENT, Doodle: DoodleCompass },
+  photo: { key: "photo", href: "/photo-to-posts", name: "Photo to posts", pain: "I never know what to say about my own work.", cta: "One photo in, three posts out", accent: ACCENT, Doodle: DoodleCompass },
 };
 
 // ── THE INWARD FRAMEWORK: the ordered spine. One source of truth for the
 //    numbering, the strip, the menu, and the brief. ──
 export const FRAMEWORK = [
-  { n: 1, key: "scan", href: "/scan", verb: "See yourself", short: "See", name: "The Inward Scan", blurb: "The pattern you can't see on your own.", doneKey: "patternName" },
-  { n: 2, key: "foundation", href: "/foundation", verb: "Understand yourself", short: "Understand", name: "What you're really about", blurb: "The un-copyable thing in your own story.", doneKey: "reallyabout" },
-  { n: 3, key: "voice", href: "/brand-voice", verb: "Express yourself", short: "Express", name: "Your Brand Voice", blurb: "How you already talk, written down.", doneKey: "voice" },
-  { n: 4, key: "plan", href: "/plan", verb: "Share yourself", short: "Share", name: "The Quieter Plan", blurb: "Put it out at a cost you can bear.", doneKey: "playbook" },
+  { n: 1, key: "foundation", href: "/foundation", verb: "Understand yourself", short: "Understand", name: "The Six Questions", blurb: "What content to make, and a 7-day plan.", doneKey: "reallyabout" },
+  { n: 2, key: "photo", href: "/photo-to-posts", verb: "Share yourself", short: "Share", name: "Photo to Posts", blurb: "One photo in, three posts out, in your voice.", doneKey: "photoposts" },
+  { n: 3, key: "scan", href: "/scan", verb: "See yourself", short: "See", name: "The Inward Scan", blurb: "The pattern you can't see on your own.", doneKey: "patternName" },
+  { n: 4, key: "voice", href: "/brand-voice", verb: "Express yourself", short: "Express", name: "Your Brand Voice", blurb: "How you already talk, written down.", doneKey: "voice" },
   { n: 5, key: "roast", href: "/roast", verb: "Refine yourself", short: "Refine", name: "The Gentle Roast", blurb: "Sharpen what you already wrote.", doneKey: "roasted" },
-  { n: 6, key: "brief", href: "/brief", verb: "Keep yourself", short: "Keep", name: "Your Inward Brief", blurb: "All of it, in one place.", doneKey: null },
 ];
 
 // ── Which steps this device has finished, read from what each tool already
@@ -298,11 +297,11 @@ export function ForgetButton({ label = "Forget my answers on this device", tone 
 // six questions, everything feeds the Brief. Honest time costs and explicit
 // permission to stop, because people who feel trapped leave.
 const NEXT_STEP = {
-  scan: { key: "foundation", href: "/foundation", title: "Find the un-copyable thing in your story", name: "The six questions", cost: "Six questions, about ten minutes, and a gentle 7-day plan at the end. Works on its own." },
-  foundation: { key: "voice", href: "/brand-voice", title: "Write down how you actually sound", name: "Brand Voice", cost: "A few questions, and everything you publish starts sounding like you. Works on its own." },
+  scan: { key: "foundation", href: "/foundation", title: "Find the un-copyable thing in your story", name: "The Six Questions", cost: "Six questions, about ten minutes, and a gentle 7-day plan at the end. Works on its own." },
+  foundation: { key: "photo", href: "/photo-to-posts", title: "Turn what you found into a real post", name: "Photo to Posts", cost: "One photo of your work, three posts in your voice, under two minutes. Works on its own." },
+  photo: { key: "voice", href: "/brand-voice", title: "Write down how you actually sound", name: "Brand Voice", cost: "So every caption you tweak keeps sounding like you. Works on its own." },
   voice: { key: "roast", href: "/roast", title: "Get honest notes on something you already wrote", name: "The Gentle Roast", cost: "Paste a bio or a caption. Now that your voice has a name, the notes have something to aim at. Works on its own." },
-  plan: { key: "voice", href: "/brand-voice", title: "Write down how you actually sound", name: "Brand Voice", cost: "So everything on your new path sounds like you, not like everyone. Works on its own." },
-  roast: { key: "voice", href: "/brand-voice", title: "Write down how you actually sound", name: "Brand Voice", cost: "Your keeper lines came out of your real voice. This names it, so you can repeat it on purpose. Works on its own." },
+  roast: { key: "photo", href: "/photo-to-posts", title: "Make the next post from one photo", name: "Photo to Posts", cost: "Upload a shot of your work and get three captions to tweak. Works on its own." },
 };
 
 export function FrameworkStrip({ current }) {
@@ -366,9 +365,9 @@ export function ToolIntro({ stepKey, walkaway, time, madeFor, outside = false })
 // Fix 4: outcome first at every door; the poetic names stay inside.
 const OUTCOME_LABELS = {
   scan: "Find your pattern",
-  foundation: "Find what no one can copy",
+  foundation: "Know what content to make, get a 7-day plan",
   voice: "Write down how you actually sound",
-  plan: "Make a plan you can actually keep",
+  photo: "Turn one photo into three posts",
   roast: "Get honest feedback on what you wrote",
   brief: "Everything on one page",
 };
@@ -385,7 +384,8 @@ export function ToolsMenuPanel({ onClose, side = "right", top = 52 }) {
       cta: OUTCOME_LABELS[s.key] || s.blurb,
       dot: done.includes(s.key) ? ACCENT : "#D9D2C6",
     })),
-    { section: "More", href: "/ai-visibility", name: "AI visibility audit", cta: "Your findability score, then the words that raise it", dot: CORAL },
+    { section: "More", href: "/ai-visibility", name: "AI visibility check", cta: "See where you show up, and the words that raise it", dot: CORAL },
+    { section: "More", href: "/brief", name: "Your Inward Brief", cta: "Everything you've made, emailed to you as one page", dot: ACCENT },
     { section: "More", href: "/resources", name: "The library", cta: "The philosophy, the framework, prompts, and checklists", dot: ACCENT },
     { section: "More", href: "/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
   ];
@@ -462,10 +462,10 @@ export function SiteFooter() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "18px 24px", margin: "0 0 26px", fontFamily: SANS, fontSize: 14.5, lineHeight: 2 }}>
           <div>
             <p style={{ margin: "0 0 4px", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(251,247,240,.55)", fontWeight: 700 }}>Product</p>
+            <a href="/foundation" style={{ ...link, display: "block" }}>The Six Questions</a>
+            <a href="/photo-to-posts" style={{ ...link, display: "block" }}>Photo to Posts</a>
             <a href="/scan" style={{ ...link, display: "block" }}>The Inward Scan</a>
-            <a href="/foundation" style={{ ...link, display: "block" }}>Foundation</a>
             <a href="/brand-voice" style={{ ...link, display: "block" }}>Brand Voice</a>
-            <a href="/plan" style={{ ...link, display: "block" }}>The Quieter Plan</a>
             <a href="/roast" style={{ ...link, display: "block" }}>The Gentle Roast</a>
             <a href="/ai-visibility" style={{ ...link, display: "block" }}>AI visibility check</a>
           </div>
@@ -870,6 +870,38 @@ export async function tightenResult(parsed, theirWords, fields) {
   } catch (_) {
     return parsed;
   }
+}
+
+// ── Turn an uploaded photo (or one frame of a video) into a small, downscaled
+//    JPEG canvas. Big phone photos get capped so the payload and cost stay low. ──
+export function drawScaled(source, w, h) {
+  const maxDim = 1200;
+  const scale = Math.min(1, maxDim / Math.max(w, h));
+  const cw = Math.round(w * scale), ch = Math.round(h * scale);
+  const canvas = document.createElement("canvas");
+  canvas.width = cw; canvas.height = ch;
+  canvas.getContext("2d").drawImage(source, 0, 0, cw, ch);
+  return canvas;
+}
+export function fileToCanvas(file) {
+  const url = URL.createObjectURL(file);
+  const done = (p) => p.finally(() => URL.revokeObjectURL(url));
+  if (file.type.startsWith("video")) {
+    return done(new Promise((resolve, reject) => {
+      const v = document.createElement("video");
+      v.muted = true; v.playsInline = true; v.preload = "metadata"; v.src = url;
+      v.onloadeddata = () => { try { v.currentTime = Math.min(1, (v.duration || 2) / 2); } catch (_) { reject(new Error("seek")); } };
+      v.onseeked = () => resolve(drawScaled(v, v.videoWidth, v.videoHeight));
+      v.onerror = () => reject(new Error("video"));
+      setTimeout(() => reject(new Error("timeout")), 8000);
+    }));
+  }
+  return done(new Promise((resolve, reject) => {
+    const im = new Image();
+    im.onload = () => resolve(drawScaled(im, im.naturalWidth, im.naturalHeight));
+    im.onerror = () => reject(new Error("image"));
+    im.src = url;
+  }));
 }
 
 export function parseWhisperResponse(data) {

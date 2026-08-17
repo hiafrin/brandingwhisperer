@@ -5,7 +5,7 @@ import {
   ACCENT, INK, CREAM, INK_TEAL, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
   GrainOverlay, ToolsMenu, FrameworkStrip, PageQuote, BuddyForm, SiteFooter, ForgetButton,
-  recall, primaryBtn,
+  recall, remember, primaryBtn,
 } from "./lib/whisperKit.jsx";
 
 // Each brief line, the device key it reads, and the step that fills it.
@@ -29,6 +29,9 @@ export default function InwardBrief() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [err, setErr] = useState(null);
+  // The brief is the one email-gated thing on the site: fill the form once
+  // and it opens (and stays open on this device). The tools stay no-email.
+  const [unlocked, setUnlocked] = useState(() => !!recall("briefUnlocked"));
 
   const data = ITEMS.map((it) => ({ ...it, value: recall(it.key) }));
   const filled = data.filter((d) => d.value);
@@ -59,7 +62,7 @@ export default function InwardBrief() {
     try {
       const r = await fetch("/api/email", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ to: email.trim(), summary: buildText() }) });
       if (!r.ok) { const d = await r.json().catch(() => ({})); throw new Error(d.error || "Couldn't send it. Try Copy instead."); }
-      setSent(true); track("brief_emailed");
+      setSent(true); setUnlocked(true); remember("briefUnlocked", "yes"); track("brief_emailed");
     } catch (e) { setErr(e.message || "Couldn't send it. Try Copy instead."); }
     finally { setSending(false); }
   }
@@ -96,6 +99,29 @@ export default function InwardBrief() {
               Nothing here yet. Any tool you use adds a line, in any order, and it all stays on this device.
             </p>
             <a href="/" style={{ fontFamily: SANS, fontSize: 16, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>Start with the Inward Scan &rarr;</a>
+          </div>
+        ) : !unlocked ? (
+          <div style={{ background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "28px 30px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: ACCENT, fontWeight: 700, margin: "0 0 10px" }}>
+              {filled.length} {filled.length === 1 ? "line" : "lines"} of your brief {filled.length === 1 ? "is" : "are"} ready
+            </p>
+            <p style={{ fontSize: 19, lineHeight: 1.6, margin: "0 0 18px", color: INK }}>
+              Leave your email and I'll send your brief as one page, and open it right here. That's the whole trade, no newsletter unless you ask for one.
+            </p>
+            {sent ? (
+              <p style={{ fontSize: 16, color: ACCENT, margin: 0, fontFamily: SANS, fontWeight: 600 }}>Sent. Opening your brief&hellip;</p>
+            ) : (
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+                <input aria-label="Your email address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@university.edu" style={{ flex: "1 1 220px", background: CREAM, border: "1px solid #E5DDD1", borderRadius: 100, padding: "13px 18px", fontSize: 16, fontFamily: SANS, color: INK, outline: "none" }} />
+                <button className="mw-btn" onClick={sendEmail} disabled={sending} style={{ ...primaryBtn, padding: "13px 24px", fontSize: 16, opacity: sending ? 0.7 : 1 }}>
+                  {sending ? "Sending\u2026" : "Email me my brief"}
+                </button>
+              </div>
+            )}
+            {err && <p style={{ fontSize: 14, color: ACCENT, margin: "12px 0 0", fontFamily: SANS }}>{err}</p>}
+            <p style={{ fontSize: 13.5, color: "#857B70", fontFamily: SANS, margin: "14px 0 0", lineHeight: 1.6 }}>
+              Your answers still live only on this device. The email sends this one page, nothing else.
+            </p>
           </div>
         ) : (
           <>

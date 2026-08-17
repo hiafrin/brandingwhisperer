@@ -18,7 +18,7 @@ On this site, Know is [the Inward Scan](/scan) and [the six questions](/foundati
 
 Show is where most people are told to start, which is exactly why it fails them. Showing is not performing. It's your own voice written down, shared at a cost you can honestly bear, refined without being sanded away. If Know went well, Show stops feeling like a costume.
 
-Here, Show is [the voice tool](/brand-voice), [the Quieter Plan](/plan), and [the Gentle Roast](/roast).
+Here, Show is [the voice tool](/brand-voice), [Photo to Posts](/photo-to-posts), and [the Gentle Roast](/roast).
 
 ## Grow
 
