@@ -121,6 +121,9 @@ const PATTERN_HOME = {
   scatterer: { name: "The Scatterer", start: "/plan", startName: "the quieter plan" },
 };
 
+// Hidden while she can't promote a business at work; flip to bring it back.
+const SHOW_TEAMS = false;
+
 export default function BrandingWhisperer({ view = "home" }) {
   // The home (/) is the landing (step -1) with the Scan embedded; the six
   // questions live at /foundation (step 0+). Same engine, told apart by the
@@ -525,7 +528,8 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                     </button>
                     {toolsOpen && <ToolsMenuPanel onClose={() => setToolsOpen(false)} side="left" top={34} />}
                   </span>
-                  <button onClick={() => document.getElementById("teams")?.scrollIntoView({ behavior: "smooth" })} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "rgba(251,247,240,.85)", fontFamily: SANS, fontSize: 14.5, fontWeight: 600 }}>For teams</button>
+                  <a href="/ai-visibility" style={{ color: "rgba(251,247,240,.85)", textDecoration: "none", fontWeight: 600 }}>AI visibility</a>
+                  <a href="/buddy" style={{ color: "rgba(251,247,240,.85)", textDecoration: "none", fontWeight: 600 }}>Find a buddy</a>
                   <a href="/about" style={{ color: "rgba(251,247,240,.85)", textDecoration: "none", fontWeight: 600 }}>About</a>
                   <button className="mw-btn" onClick={() => { track("start_questions"); setStep(-2); window.scrollTo({ top: 0 }); }} style={{ background: BUTTER, color: INK_TEAL, border: "none", borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Start free</button>
                 </span>
@@ -591,44 +595,6 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
 
           {/* The "for the quiet ones" editorial band was merged into the "Who it's for" section above. */}
 
-          {/* ── 3. THE PROBLEM ── */}
-          <section style={{ maxWidth: 680, margin: "0 auto", padding: "52px 24px 8px" }}>
-            <p style={{ fontSize: "clamp(21px, 3vw, 26px)", lineHeight: 1.4, margin: "0 0 16px", fontWeight: 350, color: INK }}>
-              You have the expertise. <span style={{ fontStyle: "italic", color: ACCENT }}>Someone with half of it has the audience.</span>
-            </p>
-            <p style={{ fontSize: 17, lineHeight: 1.65, color: "#443F39", margin: 0, fontFamily: SANS }}>
-              That gap is not a talent problem. It is a specific way of getting stuck when you
-              have to talk about your own work. There are five of them, and each one has a name.
-            </p>
-          </section>
-
-          {/* ── 4. WHO THIS IS FOR: one paragraph, named, her quote closes it ── */}
-          <section style={{ borderTop: "1px solid #EFE7DA", borderBottom: "1px solid #EFE7DA", background: "#FBF8F0", margin: "44px 0 0", padding: "40px 0" }}>
-            <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
-              <h2 style={{ fontSize: "clamp(22px, 3vw, 27px)", lineHeight: 1.25, margin: "0 0 14px", fontWeight: 350 }}>
-                Built for people whose credibility <span style={{ fontStyle: "italic", color: ACCENT }}>lives in their work.</span>
-              </h2>
-              <p style={{ fontSize: 17, lineHeight: 1.7, color: "#443F39", margin: "0 0 24px", fontFamily: SANS }}>
-                Professors, researchers, and PhD candidates. Clinicians and scientists. Engineers,
-                designers, and independent consultants. Anyone who would rather be judged on what
-                they made than on how loudly they said it.
-              </p>
-              <p style={{ fontSize: "clamp(18px, 2.4vw, 21px)", lineHeight: 1.5, color: INK, margin: 0, borderLeft: `3px solid ${BUTTER}`, paddingLeft: 18 }}>
-                People often tell me branding feels like it was written for extroverts. I disagree.
-                Any good brand strategist knows great brands aren't built on volume.
-                They're built on clarity, consistency, <span style={{ fontStyle: "italic", color: ACCENT }}>and the confidence to be unmistakably yourself.</span>
-              </p>
-            </div>
-          </section>
-
-          {/* ── 5. WHAT YOU WALK OUT WITH ── */}
-          <section style={{ maxWidth: 680, margin: "0 auto", padding: "48px 24px 8px" }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 20px" }}>What you walk out with</p>
-            <p style={{ fontSize: "clamp(19px, 2.6vw, 23px)", lineHeight: 1.45, margin: "0 0 18px", fontWeight: 350 }}>A name for the way you get stuck.</p>
-            <p style={{ fontSize: "clamp(19px, 2.6vw, 23px)", lineHeight: 1.45, margin: "0 0 18px", fontWeight: 350 }}>A positioning line you would actually say out loud.</p>
-            <p style={{ fontSize: "clamp(19px, 2.6vw, 23px)", lineHeight: 1.45, margin: 0, fontWeight: 350 }}>A voice that sounds like you on an ordinary Tuesday, <span style={{ fontStyle: "italic", color: ACCENT }}>not like a press release.</span></p>
-          </section>
-
           {/* ── 6. THE TOOLS: her order. The six questions live in the hero;
                 this shelf is everything else, each tool standing alone. ── */}
           <section id="framework" style={{ maxWidth: 680, margin: "0 auto", padding: "52px 24px 8px", scrollMarginTop: 20 }}>
@@ -659,7 +625,38 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </p>
           </section>
 
-          {/* ── 7. FOR DEPARTMENTS AND TEAMS: the waitlist ── */}
+          {/* ── 3. THE PROBLEM ── */}
+          <section style={{ maxWidth: 680, margin: "0 auto", padding: "52px 24px 8px" }}>
+            <p style={{ fontSize: "clamp(21px, 3vw, 26px)", lineHeight: 1.4, margin: "0 0 16px", fontWeight: 350, color: INK }}>
+              You have the expertise. <span style={{ fontStyle: "italic", color: ACCENT }}>Someone with half of it has the audience.</span>
+            </p>
+            <p style={{ fontSize: 17, lineHeight: 1.65, color: "#443F39", margin: 0, fontFamily: SANS }}>
+              That gap is not a talent problem. It is a specific way of getting stuck when you
+              have to talk about your own work. There are five of them, and each one has a name.
+            </p>
+          </section>
+
+          {/* ── 4. WHO THIS IS FOR: one paragraph, named, her quote closes it ── */}
+          <section style={{ borderTop: "1px solid #EFE7DA", borderBottom: "1px solid #EFE7DA", background: "#FBF8F0", margin: "44px 0 0", padding: "40px 0" }}>
+            <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
+              <h2 style={{ fontSize: "clamp(22px, 3vw, 27px)", lineHeight: 1.25, margin: "0 0 14px", fontWeight: 350 }}>
+                Built for people whose credibility <span style={{ fontStyle: "italic", color: ACCENT }}>lives in their work.</span>
+              </h2>
+              <p style={{ fontSize: 17, lineHeight: 1.7, color: "#443F39", margin: "0 0 24px", fontFamily: SANS }}>
+                Professors, researchers, and PhD candidates. Clinicians and scientists. Engineers,
+                designers, and independent consultants. Anyone who would rather be judged on what
+                they made than on how loudly they said it.
+              </p>
+              <p style={{ fontSize: "clamp(18px, 2.4vw, 21px)", lineHeight: 1.5, color: INK, margin: 0, borderLeft: `3px solid ${BUTTER}`, paddingLeft: 18 }}>
+                People often tell me branding feels like it was written for extroverts. I disagree.
+                Any good brand strategist knows great brands aren't built on volume.
+                They're built on clarity, consistency, <span style={{ fontStyle: "italic", color: ACCENT }}>and the confidence to be unmistakably yourself.</span>
+              </p>
+            </div>
+          </section>
+
+          {/* ── 7. FOR DEPARTMENTS AND TEAMS: the waitlist. Hidden for now. ── */}
+          {SHOW_TEAMS && (
           <section id="teams" style={{ background: INK_TEAL, margin: "52px 0 0", padding: "48px 0", scrollMarginTop: 20 }}>
             <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
               <h2 style={{ fontSize: "clamp(22px, 3vw, 27px)", lineHeight: 1.25, margin: "0 0 14px", fontWeight: 350, color: CREAM }}>
@@ -689,6 +686,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               )}
             </div>
           </section>
+          )}
 
         </>
       )}

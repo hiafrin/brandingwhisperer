@@ -11,6 +11,7 @@ import InwardScan from "./InwardScan.jsx";
 import AIVisibility from "./AIVisibility.jsx";
 import WorkWithMe from "./WorkWithMe.jsx";
 import PhotoPosts from "./PhotoPosts.jsx";
+import Buddy from "./Buddy.jsx";
 import { TOOL_PAGES } from "./lib/toolPages.js";
 
 // Real, indexable paths — one per tool. Each is also pre-rendered to its own
@@ -26,6 +27,7 @@ const ROUTES = {
   "/about": () => <AboutInward />,
   "/ai-visibility": () => <AIVisibility />, // outside the six-step framework
   "/work-with-me": () => <WorkWithMe />,
+  "/buddy": () => <Buddy />,
 };
 
 // Old hash URLs, briefly live and possibly bookmarked or shared. Each maps to

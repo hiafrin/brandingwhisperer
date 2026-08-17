@@ -386,6 +386,7 @@ export function ToolsMenuPanel({ onClose, side = "right", top = 52 }) {
     })),
     { section: "More", href: "/ai-visibility", name: "AI visibility check", cta: "See where you show up, and the words that raise it", dot: CORAL },
     { section: "More", href: "/brief", name: "Your Inward Brief", cta: "Everything you've made, emailed to you as one page", dot: ACCENT },
+    { section: "More", href: "/buddy", name: "Find a roast buddy", cta: "Matched one-to-one to trade honest notes", dot: INK_TEAL },
     { section: "More", href: "/resources", name: "The library", cta: "The philosophy, the framework, prompts, and checklists", dot: ACCENT },
     { section: "More", href: "/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
   ];
@@ -473,13 +474,15 @@ export function SiteFooter() {
             <p style={{ margin: "0 0 4px", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(251,247,240,.55)", fontWeight: 700 }}>Company</p>
             <a href="/about" style={{ ...link, display: "block" }}>About</a>
             <a href="/work-with-me" style={{ ...link, display: "block" }}>Work with me</a>
-            <a href="/#teams" style={{ ...link, display: "block" }}>For teams</a>
+            
           </div>
           <div>
             <p style={{ margin: "0 0 4px", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(251,247,240,.55)", fontWeight: 700 }}>More</p>
             <a href="/resources" style={{ ...link, display: "block" }}>The library</a>
             <a href="/brief" style={{ ...link, display: "block" }}>Your Inward Brief</a>
             <a href="https://www.linkedin.com/in/sabihaafrin" target="_blank" rel="noopener noreferrer" style={{ ...link, display: "block" }}>LinkedIn</a>
+          
+            <a href="/buddy" style={{ ...link, display: "block" }}>Find a buddy</a>
           </div>
         </div>
         <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.5)", margin: "0 0 20px", fontFamily: SANS, maxWidth: 620 }}>
