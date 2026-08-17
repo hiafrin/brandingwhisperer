@@ -72,6 +72,7 @@ function Router() {
       const a = e.target.closest("a[href]");
       if (!a || a.target === "_blank" || a.origin !== window.location.origin) return;
       if (a.getAttribute("href").startsWith("#")) return; // in-page anchors stay native
+      if (a.hash) return; // cross-page anchors (like /#teams) need a real load so the hash survives
       const href = normalizePath(a.pathname);
       if (!(href in ROUTES)) return; // /resources and unknowns do a real load
       e.preventDefault();
