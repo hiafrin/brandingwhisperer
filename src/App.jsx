@@ -8,7 +8,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS, FrameworkStrip, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ForgetButton, KeptNote, ToolHero, ToolIntro, StepLoader, PROMPT_QUALITY, tightenResult, primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
+  TOOLS, FrameworkStrip, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ForgetButton, KeptNote, ToolHero, ToolIntro, StepLoader, PROMPT_QUALITY, tightenResult, ToolsMenuPanel, primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 import InwardScan from "./InwardScan.jsx";
 
@@ -131,6 +131,18 @@ export default function BrandingWhisperer({ view = "home" }) {
   const [scanStart, setScanStart] = useState(0);
   const [storedPattern, setStoredPattern] = useState(() => recall("pattern"));
   const [doneSteps] = useState(stepsDone);
+
+  // The nav's "Tools" dropdown: same panel as the inner pages' floating pill.
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const toolsRef = useRef(null);
+  useEffect(() => {
+    if (!toolsOpen) return;
+    const onDoc = (e) => { if (toolsRef.current && !toolsRef.current.contains(e.target)) setToolsOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setToolsOpen(false); };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
+  }, [toolsOpen]);
 
   // Teams waitlist band. Rides the same Apps Script as the brief email;
   // "TEAMS WAITLIST" as the summary is how it sorts in her sheet.
@@ -514,7 +526,12 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 34 }}>
                 <span style={{ fontFamily: SANS, fontWeight: 600, letterSpacing: ".1em", fontSize: 14, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
                 <span style={{ display: "flex", alignItems: "center", gap: 20, fontFamily: SANS, fontSize: 14.5 }}>
-                  <button onClick={() => document.getElementById("framework")?.scrollIntoView({ behavior: "smooth" })} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "rgba(251,247,240,.85)", fontFamily: SANS, fontSize: 14.5, fontWeight: 600 }}>Tools</button>
+                  <span ref={toolsRef} style={{ position: "relative" }}>
+                    <button onClick={() => setToolsOpen((o) => !o)} aria-haspopup="true" aria-expanded={toolsOpen} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "rgba(251,247,240,.85)", fontFamily: SANS, fontSize: 14.5, fontWeight: 600 }}>
+                      Tools <span aria-hidden="true" style={{ fontSize: 9, display: "inline-block", transform: toolsOpen ? "rotate(180deg)" : "none", transition: "transform .18s" }}>&#9662;</span>
+                    </button>
+                    {toolsOpen && <ToolsMenuPanel onClose={() => setToolsOpen(false)} side="left" top={34} />}
+                  </span>
                   <button onClick={() => document.getElementById("teams")?.scrollIntoView({ behavior: "smooth" })} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "rgba(251,247,240,.85)", fontFamily: SANS, fontSize: 14.5, fontWeight: 600 }}>For teams</button>
                   <a href="/about" style={{ color: "rgba(251,247,240,.85)", textDecoration: "none", fontWeight: 600 }}>About</a>
                   <button className="mw-btn" onClick={() => { track("start_scan"); ph("scan_started"); setScanStart((n) => n + 1); }} style={{ background: BUTTER, color: INK_TEAL, border: "none", borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Start free</button>

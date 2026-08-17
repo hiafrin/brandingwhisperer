@@ -379,18 +379,9 @@ const OUTCOME_LABELS = {
   brief: "Everything on one page",
 };
 
-export function ToolsMenu() {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-  useEffect(() => {
-    if (!open) return;
-    const onDoc = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
-    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
-    document.addEventListener("mousedown", onDoc);
-    document.addEventListener("keydown", onKey);
-    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
-  }, [open]);
-
+// ── The dropdown panel itself, shared by the floating pill (inner pages)
+//    and the homepage nav's "Tools" button. `side` sets which edge it hugs. ──
+export function ToolsMenuPanel({ onClose, side = "right", top = 52 }) {
   const done = stepsDone();
   const items = [
     ...FRAMEWORK.map((s) => ({
@@ -406,15 +397,7 @@ export function ToolsMenu() {
   ];
 
   return (
-    <div ref={ref} style={{ position: "fixed", top: 16, right: 16, zIndex: 300, fontFamily: SANS }}>
-      <button className="mw-menu-trigger" onClick={() => setOpen((o) => !o)} aria-haspopup="true" aria-expanded={open} aria-label="Open the Inward Framework menu"
-        style={{ display: "flex", alignItems: "center", gap: 9, background: "rgba(11,59,52,.94)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,.18)", borderRadius: 100, padding: "9px 16px", cursor: "pointer", boxShadow: "0 6px 20px rgba(11,59,52,.28)" }}>
-        <span style={{ width: 8, height: 8, borderRadius: "50%", background: BUTTER }} />
-        <span style={{ color: CREAM, fontSize: 13, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase" }}>Framework</span>
-        <span aria-hidden="true" style={{ color: CREAM, fontSize: 10, transform: open ? "rotate(180deg)" : "none", transition: "transform .18s" }}>&#9662;</span>
-      </button>
-      {open && (
-        <div role="menu" className="mw-menu-panel" style={{ position: "absolute", top: 52, right: 0, width: "min(300px, calc(100vw - 32px))", background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, boxShadow: "0 16px 40px rgba(11,59,52,.22)", padding: 8 }}>
+    <div role="menu" className="mw-menu-panel" style={{ position: "absolute", top, [side]: 0, width: "min(300px, calc(100vw - 32px))", background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, boxShadow: "0 16px 40px rgba(11,59,52,.22)", padding: 8, fontFamily: SANS, zIndex: 300 }}>
           {items.map((t, i) => {
             const newSection = i === 0 || items[i - 1].section !== t.section;
             return (
@@ -422,7 +405,7 @@ export function ToolsMenu() {
                 {newSection && (
                   <p style={{ margin: i ? "10px 0 2px" : "2px 0 2px", padding: "6px 12px 4px", fontSize: 11, letterSpacing: ".13em", textTransform: "uppercase", color: "#B0A79A", fontWeight: 700, borderTop: i ? "1px solid #EFE7DA" : "none" }}>{t.section}</p>
                 )}
-                <a href={t.href} onClick={() => setOpen(false)} role="menuitem" className="mw-menu-row"
+                <a href={t.href} onClick={onClose} role="menuitem" className="mw-menu-row"
                   style={{ display: "flex", alignItems: "flex-start", gap: 12, textDecoration: "none", color: INK, padding: "11px 12px", borderRadius: 10, borderTop: !newSection ? "1px solid #F4EFE6" : "none" }}>
                   <span style={{ flexShrink: 0, width: 9, height: 9, borderRadius: "50%", background: t.dot, marginTop: 6 }} />
                   <span>
@@ -433,8 +416,32 @@ export function ToolsMenu() {
               </Fragment>
             );
           })}
-        </div>
-      )}
+    </div>
+  );
+}
+
+// ── The floating pill, inner pages only. Same panel as the homepage nav. ──
+export function ToolsMenu() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
+  }, [open]);
+
+  return (
+    <div ref={ref} style={{ position: "fixed", top: 16, right: 16, zIndex: 300, fontFamily: SANS }}>
+      <button className="mw-menu-trigger" onClick={() => setOpen((o) => !o)} aria-haspopup="true" aria-expanded={open} aria-label="Open the Inward Framework menu"
+        style={{ display: "flex", alignItems: "center", gap: 9, background: "rgba(11,59,52,.94)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,.18)", borderRadius: 100, padding: "9px 16px", cursor: "pointer", boxShadow: "0 6px 20px rgba(11,59,52,.28)" }}>
+        <span style={{ width: 8, height: 8, borderRadius: "50%", background: BUTTER }} />
+        <span style={{ color: CREAM, fontSize: 13, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase" }}>Framework</span>
+        <span aria-hidden="true" style={{ color: CREAM, fontSize: 10, transform: open ? "rotate(180deg)" : "none", transition: "transform .18s" }}>&#9662;</span>
+      </button>
+      {open && <ToolsMenuPanel onClose={() => setOpen(false)} />}
     </div>
   );
 }
