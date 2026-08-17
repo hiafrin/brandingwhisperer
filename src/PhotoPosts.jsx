@@ -150,7 +150,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
 
       <ToolHero
         label="Photo to posts"
-        photo="/media/plan-hands.jpg"
+        photo="/media/pottery-hands.jpg"
         accent={ACCENT}
         Doodle={DoodleCamera}
         headline={<>One photo of your work.<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>Three posts, ready to go.</span></>}

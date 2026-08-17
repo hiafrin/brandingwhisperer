@@ -112,6 +112,12 @@ export const GLOBAL_CSS = `
   @keyframes fadeUp { from { opacity: 0; transform: translateY(12px);} to { opacity: 1; transform: translateY(0);} }
   @keyframes dealIn { from { opacity: 0; transform: translateY(18px) rotate(-1.2deg);} to { opacity: 1; transform: translateY(0) rotate(0);} }
   @keyframes pulse { 0%,100% { opacity:.35;} 50% { opacity:1;} }
+  @media (max-width: 680px) {
+    .mw-nav-mid { display: none; }
+    .mw-nav { padding-left: 16px !important; padding-right: 16px !important; }
+    .mw-nav-brand { font-size: 12px !important; letter-spacing: .07em !important; }
+    .mw-nav .mw-menu-panel { position: fixed !important; left: 16px !important; right: 16px !important; top: 64px !important; width: auto !important; }
+  }
   @keyframes ring { 0% { box-shadow:0 0 0 0 rgba(${ACCENT_RGB},.45);} 70% { box-shadow:0 0 0 16px rgba(${ACCENT_RGB},0);} 100% { box-shadow:0 0 0 0 rgba(${ACCENT_RGB},0);} }
   @keyframes kenburns { from { transform: scale(1);} to { transform: scale(1.08);} }
   .mw-fade { animation: fadeUp .5s ease both; }
@@ -444,7 +450,7 @@ export function ToolsMenu() {
 
 // ── One nav band, every page, identical to the homepage's. The Tools item
 //    opens the same dropdown panel; Start free goes to the six questions. ──
-export function SiteNav({ tone = "dark" }) {
+export function SiteNav({ tone = "dark", onStart }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   useEffect(() => {
@@ -461,22 +467,26 @@ export function SiteNav({ tone = "dark" }) {
   const item = { color: linkColor, textDecoration: "none", fontWeight: 600, fontFamily: SANS, fontSize: 14.5 };
 
   return (
-    <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, maxWidth: 920, margin: "0 auto", padding: "20px 24px 0" }}>
+    <nav className="mw-nav" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, maxWidth: 920, margin: "0 auto", padding: "20px 24px 0" }}>
       <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
         <span style={{ width: 11, height: 11, borderRadius: "50%", background: tone === "dark" ? BUTTER : ACCENT }} />
-        <span style={{ fontFamily: SANS, fontWeight: 600, letterSpacing: ".1em", fontSize: 14, textTransform: "uppercase", color: brandColor }}>Branding Inward</span>
+        <span className="mw-nav-brand" style={{ fontFamily: SANS, fontWeight: 600, letterSpacing: ".1em", fontSize: 14, textTransform: "uppercase", color: brandColor, whiteSpace: "nowrap" }}>Branding Inward</span>
       </a>
       <span style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <span ref={ref} style={{ position: "relative" }}>
-          <button onClick={() => setOpen((o) => !o)} aria-haspopup="true" aria-expanded={open} style={{ ...item, background: "none", border: "none", padding: 0, cursor: "pointer" }}>
+          <button onClick={() => setOpen((o) => !o)} aria-haspopup="true" aria-expanded={open} style={{ ...item, background: "none", border: "none", padding: 0, cursor: "pointer", whiteSpace: "nowrap" }}>
             Tools <span aria-hidden="true" style={{ fontSize: 9, display: "inline-block", transform: open ? "rotate(180deg)" : "none", transition: "transform .18s" }}>&#9662;</span>
           </button>
           {open && <ToolsMenuPanel onClose={() => setOpen(false)} side="left" top={34} />}
         </span>
-        <a href="/ai-visibility" style={item}>AI visibility</a>
-        <a href="/buddy" style={item}>Find a buddy</a>
-        <a href="/about" style={item}>About</a>
-        <a href="/foundation" style={{ background: BUTTER, color: INK_TEAL, borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 700, textDecoration: "none" }}>Start free</a>
+        <a className="mw-nav-mid" href="/ai-visibility" style={item}>AI visibility</a>
+        <a className="mw-nav-mid" href="/buddy" style={item}>Find a buddy</a>
+        <a className="mw-nav-mid" href="/about" style={item}>About</a>
+        {onStart ? (
+          <button className="mw-btn" onClick={onStart} style={{ background: BUTTER, color: INK_TEAL, border: "none", borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }}>Start free</button>
+        ) : (
+          <a href="/foundation" style={{ background: BUTTER, color: INK_TEAL, borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }}>Start free</a>
+        )}
       </span>
     </nav>
   );

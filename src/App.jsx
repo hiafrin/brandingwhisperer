@@ -8,7 +8,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS, FrameworkStrip, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ForgetButton, KeptNote, ToolHero, ToolIntro, StepLoader, PROMPT_QUALITY, tightenResult, ToolsMenuPanel, primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
+  TOOLS, FrameworkStrip, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ForgetButton, KeptNote, ToolHero, ToolIntro, StepLoader, PROMPT_QUALITY, tightenResult, SiteNav, primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 
 // ── The six questions — engineered to extract psychological raw material
@@ -132,17 +132,6 @@ export default function BrandingWhisperer({ view = "home" }) {
   const [storedPattern, setStoredPattern] = useState(() => recall("pattern"));
   const [doneSteps] = useState(stepsDone);
 
-  // The nav's "Tools" dropdown: same panel as the inner pages' floating pill.
-  const [toolsOpen, setToolsOpen] = useState(false);
-  const toolsRef = useRef(null);
-  useEffect(() => {
-    if (!toolsOpen) return;
-    const onDoc = (e) => { if (toolsRef.current && !toolsRef.current.contains(e.target)) setToolsOpen(false); };
-    const onKey = (e) => { if (e.key === "Escape") setToolsOpen(false); };
-    document.addEventListener("mousedown", onDoc);
-    document.addEventListener("keydown", onKey);
-    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
-  }, [toolsOpen]);
 
   // Teams waitlist band. Rides the same Apps Script as the brief email;
   // "TEAMS WAITLIST" as the summary is how it sorts in her sheet.
@@ -517,21 +506,9 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(175deg, rgba(11,59,52,.72) 0%, rgba(11,59,52,.55) 45%, rgba(11,59,52,.85) 100%)" }} />
             <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "20px 24px 40px" }}>
               {/* Nav: the strongest startup signal on the page is a nav with "For teams". */}
-              <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 34 }}>
-                <span style={{ fontFamily: SANS, fontWeight: 600, letterSpacing: ".1em", fontSize: 14, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
-                <span style={{ display: "flex", alignItems: "center", gap: 20, fontFamily: SANS, fontSize: 14.5 }}>
-                  <span ref={toolsRef} style={{ position: "relative" }}>
-                    <button onClick={() => setToolsOpen((o) => !o)} aria-haspopup="true" aria-expanded={toolsOpen} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "rgba(251,247,240,.85)", fontFamily: SANS, fontSize: 14.5, fontWeight: 600 }}>
-                      Tools <span aria-hidden="true" style={{ fontSize: 9, display: "inline-block", transform: toolsOpen ? "rotate(180deg)" : "none", transition: "transform .18s" }}>&#9662;</span>
-                    </button>
-                    {toolsOpen && <ToolsMenuPanel onClose={() => setToolsOpen(false)} side="left" top={34} />}
-                  </span>
-                  <a href="/ai-visibility" style={{ color: "rgba(251,247,240,.85)", textDecoration: "none", fontWeight: 600 }}>AI visibility</a>
-                  <a href="/buddy" style={{ color: "rgba(251,247,240,.85)", textDecoration: "none", fontWeight: 600 }}>Find a buddy</a>
-                  <a href="/about" style={{ color: "rgba(251,247,240,.85)", textDecoration: "none", fontWeight: 600 }}>About</a>
-                  <button className="mw-btn" onClick={() => { track("start_questions"); setStep(-2); window.scrollTo({ top: 0 }); }} style={{ background: BUTTER, color: INK_TEAL, border: "none", borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Start free</button>
-                </span>
-              </nav>
+              <div style={{ margin: "-20px -24px 14px" }}>
+                <SiteNav tone="dark" onStart={() => { track("start_questions"); setStep(-2); window.scrollTo({ top: 0 }); }} />
+              </div>
               <h1 style={{ fontSize: "clamp(34px, 5.6vw, 52px)", lineHeight: 1.05, margin: "0 0 14px", fontWeight: 350, color: CREAM, letterSpacing: "-0.01em" }}>
                 Get found.<br />
                 <span style={{ display: "inline-block" }}>
