@@ -299,7 +299,7 @@ export function ForgetButton({ label = "Forget my answers on this device", tone 
 // permission to stop, because people who feel trapped leave.
 const NEXT_STEP = {
   scan: { key: "foundation", href: "/foundation", title: "Find the un-copyable thing in your story", name: "The six questions", cost: "Six questions, about ten minutes. You can stop anytime and come back, your answers keep." },
-  foundation: { key: "brief", href: "/brief", title: "See it all on one page", name: "Your Inward Brief", cost: "The payoff. Everything you've found so far, assembled. No typing." },
+  foundation: { key: "voice", href: "/brand-voice", title: "Write down how you actually sound", name: "Brand Voice", cost: "Step three of the path. A few questions, and everything you publish starts sounding like you." },
   voice: { key: "brief", href: "/brief", title: "Your voice just joined your Brief", name: "Your Inward Brief", cost: "See the whole page it's part of. No typing." },
   plan: { key: "brief", href: "/brief", title: "Your plan just joined your Brief", name: "Your Inward Brief", cost: "See the whole page it's part of. No typing." },
   roast: { key: "brief", href: "/brief", title: "Your keeper line just joined your Brief", name: "Your Inward Brief", cost: "See the whole page it's part of. No typing." },
@@ -458,20 +458,37 @@ export function SiteFooter() {
         <p style={{ fontSize: 15, lineHeight: 1.65, color: "rgba(251,247,240,.72)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
           More than a decade in brand marketing, agency-side then client-side. The questions are mine, not generic AI prompts, and the AI just makes them fast. Free, always.
         </p>
-        <p style={{ fontSize: 15, lineHeight: 1.9, margin: "0 0 20px", fontFamily: SANS }}>
-          <a href="/resources" style={link}>Library</a>
-          <span style={sep}>&middot;</span>
-          <a href="/about" style={link}>Read my story</a>
-          <span style={sep}>&middot;</span>
-          <a href="https://www.linkedin.com/in/sabihaafrin" target="_blank" rel="noopener noreferrer" style={link}>LinkedIn</a>
-          <span style={sep}>&middot;</span>
-          <a href="mailto:thecuriousafrin@gmail.com?subject=Branding%20Inward" style={link}>Say hi</a>
-        </p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "18px 24px", margin: "0 0 26px", fontFamily: SANS, fontSize: 14.5, lineHeight: 2 }}>
+          <div>
+            <p style={{ margin: "0 0 4px", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(251,247,240,.55)", fontWeight: 700 }}>Product</p>
+            <a href="/scan" style={{ ...link, display: "block" }}>The Inward Scan</a>
+            <a href="/foundation" style={{ ...link, display: "block" }}>Foundation</a>
+            <a href="/brand-voice" style={{ ...link, display: "block" }}>Brand Voice</a>
+            <a href="/plan" style={{ ...link, display: "block" }}>The Quieter Plan</a>
+            <a href="/roast" style={{ ...link, display: "block" }}>The Gentle Roast</a>
+            <a href="/ai-visibility" style={{ ...link, display: "block" }}>AI visibility check</a>
+          </div>
+          <div>
+            <p style={{ margin: "0 0 4px", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(251,247,240,.55)", fontWeight: 700 }}>Company</p>
+            <a href="/about" style={{ ...link, display: "block" }}>About</a>
+            <a href="/work-with-me" style={{ ...link, display: "block" }}>Work with me</a>
+            <a href="/#teams" style={{ ...link, display: "block" }}>For teams</a>
+          </div>
+          <div>
+            <p style={{ margin: "0 0 4px", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(251,247,240,.55)", fontWeight: 700 }}>More</p>
+            <a href="/resources" style={{ ...link, display: "block" }}>The library</a>
+            <a href="/brief" style={{ ...link, display: "block" }}>Your Inward Brief</a>
+            <a href="https://www.linkedin.com/in/sabihaafrin" target="_blank" rel="noopener noreferrer" style={{ ...link, display: "block" }}>LinkedIn</a>
+          </div>
+        </div>
         <p style={{ fontSize: 13, lineHeight: 1.7, color: "rgba(251,247,240,.5)", margin: "0 0 20px", fontFamily: SANS, maxWidth: 620 }}>
           Everything you make stays on your device. I never see it. One honest caveat: clearing your browser's site data erases it too. No cookies, no personal data, just anonymous visit counts. Photos from Pexels.
         </p>
         <p style={{ margin: "0 0 20px" }}>
           <ForgetButton label="Forget everything on this device" tone="dark" />
+        </p>
+        <p style={{ fontSize: 13.5, color: "rgba(251,247,240,.6)", margin: 0, fontFamily: SANS }}>
+          Branding Inward. Built by Sabiha Afrin. <a href="mailto:safrin@brandinginward.com" style={{ color: BUTTER, textDecoration: "none" }}>safrin@brandinginward.com</a>
         </p>
         <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>&mdash; <span style={{ color: BUTTER }}>S. Afrin</span></p>
       </div>
@@ -785,6 +802,73 @@ function extractFields(str) {
   const arrPairs = str.matchAll(/"([A-Za-z0-9_]+)\s*"+\s*:\s*(\[[^\]]*\])/g);
   for (const m of arrPairs) { try { out[m[1]] = JSON.parse(m[2]); } catch (_) {} }
   return Object.keys(out).length ? out : null;
+}
+
+// ── Named-step loader: never a generic spinner. The steps say what is
+//    actually happening, which makes the wait feel shorter and teaches what
+//    the tool does (and gives a live demo something to narrate). ──
+export function StepLoader({ steps, pace = 3000 }) {
+  const [at, setAt] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setAt((i) => Math.min(i + 1, steps.length - 1)), pace);
+    return () => clearInterval(t);
+  }, [steps.length, pace]);
+  return (
+    <div className="mw-fade" style={{ maxWidth: 440, margin: "0 auto", paddingTop: 70 }}>
+      {steps.map((s, i) => (
+        <div key={s} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 0", opacity: i > at ? 0.35 : 1, transition: "opacity .2s ease-out" }}>
+          <span style={{ flexShrink: 0, width: 22, height: 22, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SANS, fontSize: 12, fontWeight: 700, background: i < at ? ACCENT : "transparent", color: "#FFF", border: `2px solid ${ACCENT}`, boxSizing: "border-box", animation: i === at ? "pulse 1.2s infinite ease-in-out" : "none" }}>
+            {i < at ? "✓" : ""}
+          </span>
+          <span style={{ fontFamily: SANS, fontSize: 16.5, lineHeight: 1.4, color: i === at ? INK : "#857B70", fontWeight: i === at ? 600 : 400 }}>
+            {s}{i === at ? "…" : ""}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Shared quality clause, appended to every tool's generation prompt. The
+//    quote-back rule is the single highest-impact line: it is the difference
+//    between output written FOR them and a template with their name in it. ──
+export const PROMPT_QUALITY = `
+
+QUALITY RULES, non-negotiable:
+- The very first sentence of the first prose field in your JSON must contain a short phrase the person actually typed, word for word, inside quotation marks. Their own words open the result.
+- Banned everywhere: buzzwords (elevate, unlock, leverage, empower, synergy, game-changer, take it to the next level), and the phrases "in today's world" and "in today's digital age".
+- No generic advice. Every sentence must be tied to something this specific person wrote. If a sentence would be equally true for a different person, cut it before you answer.`;
+
+// ── The anti-generic second pass: one cheap call that deletes any sentence
+//    which could belong to someone else's result. Silent on failure or
+//    timeout; a slightly generic result beats a lost one. ──
+export async function tightenResult(parsed, theirWords, fields) {
+  try {
+    const subset = {};
+    for (const f of fields) if (typeof parsed?.[f] === "string" && parsed[f].trim()) subset[f] = parsed[f];
+    if (!Object.keys(subset).length) return parsed;
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 25000);
+    const r = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      signal: ctrl.signal,
+      body: JSON.stringify({
+        system: `You are a ruthless line editor. You receive a JSON object of text written for one specific person, plus what that person actually wrote. Edit each value: delete any sentence that would be equally true for a different person, and delete any sentence that gives generic advice. Keep only what is specific to what this person actually said. Do not add anything new. Never delete a direct quote of their words. Keep every key, and keep every value non-empty: if everything in a value is generic, keep its single most specific sentence. Return ONLY the edited JSON object, same keys, no markdown fences.`,
+        user: `What they actually wrote:\n${String(theirWords).slice(0, 4000)}\n\nThe JSON to edit:\n${JSON.stringify(subset)}`,
+      }),
+    }).finally(() => clearTimeout(t));
+    if (!r.ok) return parsed;
+    const cleaned = parseWhisperResponse(await r.json());
+    if (!cleaned) return parsed;
+    const out = { ...parsed };
+    for (const f of fields) {
+      if (typeof cleaned[f] === "string" && cleaned[f].trim().length >= 12) out[f] = cleaned[f].trim();
+    }
+    return out;
+  } catch (_) {
+    return parsed;
+  }
 }
 
 export function parseWhisperResponse(data) {

@@ -8,7 +8,7 @@ import {
   parseWhisperResponse,
   useVoiceInput, MicIcon,
   GrainOverlay, UnderlineStroke, DoodleBubble, DoodleShield, GhostNumber, DropQuote, PageQuote,
-  TOOLS, FrameworkStrip, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ForgetButton, KeptNote, ToolHero, ToolIntro, primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
+  TOOLS, FrameworkStrip, FRAMEWORK, stepsDone, ToolsMenu, SiteFooter, ForgetButton, KeptNote, ToolHero, ToolIntro, StepLoader, PROMPT_QUALITY, tightenResult, primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox, bridgeBox, dayCard, dayBadge,
 } from "./lib/whisperKit.jsx";
 import InwardScan from "./InwardScan.jsx";
 
@@ -131,6 +131,27 @@ export default function BrandingWhisperer({ view = "home" }) {
   const [scanStart, setScanStart] = useState(0);
   const [storedPattern, setStoredPattern] = useState(() => recall("pattern"));
   const [doneSteps] = useState(stepsDone);
+
+  // Teams waitlist band. Rides the same Apps Script as the brief email;
+  // "TEAMS WAITLIST" as the summary is how it sorts in her sheet.
+  const [teamEmail, setTeamEmail] = useState("");
+  const [teamBusy, setTeamBusy] = useState(false);
+  const [teamSent, setTeamSent] = useState(false);
+  const [teamErr, setTeamErr] = useState(null);
+  async function joinWaitlist() {
+    if (!teamEmail.trim()) return;
+    setTeamBusy(true); setTeamErr(null);
+    try {
+      const r = await fetch("/api/email", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ to: teamEmail.trim(), summary: "TEAMS WAITLIST — " + teamEmail.trim() }),
+      });
+      if (!r.ok) throw new Error();
+      setTeamSent(true); track("teams_waitlist");
+    } catch (_) {
+      setTeamErr("That didn't go through. Try once more, or write to safrin@brandinginward.com.");
+    } finally { setTeamBusy(false); }
+  }
 
   // The scan only appears once they ask for it, so scroll after it mounts.
   useEffect(() => {
@@ -320,7 +341,8 @@ Return ONLY valid JSON, no markdown, no preamble. Output it compactly with no bl
   "personality": "3 vivid personality traits of the brand + how it talks (max 2 sentences)",
   "assets": ["first entry: 'The word to own: X' using their chosen word, then 1 or 2 signature moves to repeat forever, each a short concrete phrase drawn from their answers"],
   "assets_why": "one plain sentence on why repeating a few signatures works, no terms or names"
-}`;
+}`
+      + PROMPT_QUALITY;
 
     const userPrompt = `Here's what I'm building, from a few quick questions:
 - What I'm building: ${finalAnswers.business}
@@ -346,9 +368,12 @@ Give me my brand foundation, grounded in the psychology.`;
       parsed.edge = parsed.edge || ""; parsed.personality = parsed.personality || ""; parsed.against = parsed.against || "";
       parsed.gap = parsed.gap || "";
       parsed.assets = Array.isArray(parsed.assets) ? parsed.assets : [];
+      // Anti-generic second pass: silently trims any sentence that could
+      // belong to someone else's result. Falls back to the original on failure.
+      const tightened = await tightenResult(parsed, Object.values(finalAnswers).join("\n"), ["reframe", "moment", "mirror", "edge", "against", "gap"]);
       // stash the answers so the 7-day plan call can use them
-      parsed._answers = finalAnswers;
-      setResult(parsed);
+      tightened._answers = finalAnswers;
+      setResult(tightened);
       ph("step_completed", { step: "foundation" });
       track("completed_questions"); // anonymous count only, no answers sent
     } catch (e) {
@@ -472,7 +497,8 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
-      <ToolsMenu />
+      {/* The floating menu lives on inner pages; the homepage has its own nav band. */}
+      {step !== -1 && <ToolsMenu />}
 
       {/* ── FULL-BLEED HERO with ambient video (landing only) ── */}
       {step === -1 && (
@@ -483,28 +509,34 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               <source src="/media/hero.mp4" type="video/mp4" />
             </video>
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(175deg, rgba(11,59,52,.72) 0%, rgba(11,59,52,.55) 45%, rgba(11,59,52,.85) 100%)" }} />
-            <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "44px 24px 60px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 44 }}>
-                <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
-                <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>
-                  Branding Inward
+            <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "20px 24px 40px" }}>
+              {/* Nav: the strongest startup signal on the page is a nav with "For teams". */}
+              <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 34 }}>
+                <span style={{ fontFamily: SANS, fontWeight: 600, letterSpacing: ".1em", fontSize: 14, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
+                <span style={{ display: "flex", alignItems: "center", gap: 20, fontFamily: SANS, fontSize: 14.5 }}>
+                  <button onClick={() => document.getElementById("framework")?.scrollIntoView({ behavior: "smooth" })} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "rgba(251,247,240,.85)", fontFamily: SANS, fontSize: 14.5, fontWeight: 600 }}>Tools</button>
+                  <button onClick={() => document.getElementById("teams")?.scrollIntoView({ behavior: "smooth" })} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "rgba(251,247,240,.85)", fontFamily: SANS, fontSize: 14.5, fontWeight: 600 }}>For teams</button>
+                  <a href="/about" style={{ color: "rgba(251,247,240,.85)", textDecoration: "none", fontWeight: 600 }}>About</a>
+                  <button className="mw-btn" onClick={() => { track("start_scan"); ph("scan_started"); setScanStart((n) => n + 1); }} style={{ background: BUTTER, color: INK_TEAL, border: "none", borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Start free</button>
                 </span>
-              </div>
-              <h1 style={{ fontSize: "clamp(36px, 6.2vw, 58px)", lineHeight: 1.05, margin: "0 0 20px", fontWeight: 350, color: CREAM, letterSpacing: "-0.01em" }}>
+              </nav>
+              <h1 style={{ fontSize: "clamp(34px, 5.6vw, 52px)", lineHeight: 1.05, margin: "0 0 14px", fontWeight: 350, color: CREAM, letterSpacing: "-0.01em" }}>
                 Get found.<br />
                 <span style={{ display: "inline-block" }}>
                   <span style={{ fontStyle: "italic", fontWeight: 400, color: BUTTER }}>Without performing.</span>
                   <UnderlineStroke width={280} />
                 </span>
               </h1>
-              <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.88)", maxWidth: 540, margin: "0 0 30px" }}>
-                Three steps to a brand that sounds like you. It starts with a one-minute scan
-                that names the specific way you get stuck when it's time to be visible.
-                No account, no email.
+              <p style={{ fontSize: 18, lineHeight: 1.55, color: "rgba(251,247,240,.9)", maxWidth: 540, margin: "0 0 18px" }}>
+                Personal branding for people who are good at the work and bad at the announcing.
               </p>
-              <button className="mw-btn" onClick={() => { track("start_scan"); ph("scan_started"); setScanStart((n) => n + 1); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 38px" }}>Start the 1-minute scan</button>
-              <p style={{ fontSize: 14, color: "rgba(251,247,240,.6)", marginTop: 16, fontFamily: SANS }}>
-                Free. Nothing saved to a server. Works for branding yourself, or something you make.
+              <p style={{ display: "flex", alignItems: "center", gap: 10, margin: "0 0 24px", fontFamily: SANS, fontSize: 13.5, color: "rgba(251,247,240,.75)" }}>
+                <img src="/media/afrin-portrait.jpg" alt="Sabiha Afrin" style={{ width: 40, height: 40, borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(251,247,240,.35)" }} />
+                <span>Built by Sabiha Afrin, brand strategist. The questions are hers. The AI just makes them fast.</span>
+              </p>
+              <button className="mw-btn" onClick={() => { track("start_scan"); ph("scan_started"); setScanStart((n) => n + 1); }} style={{ ...primaryBtn, fontSize: 18, padding: "17px 36px" }}>Find your pattern</button>
+              <p style={{ fontSize: 13.5, color: "rgba(251,247,240,.6)", marginTop: 14, fontFamily: SANS }}>
+                One minute. Eight taps. No account, no email.
               </p>
             </div>
           </section>
@@ -560,123 +592,124 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
 
           {/* The "for the quiet ones" editorial band was merged into the "Who it's for" section above. */}
 
-          {/* ── THE CORE PATH: three steps, one walk-away. Voice/Plan/Roast live
-                under "Go deeper" so a stranger makes one decision, not six. ── */}
-          <section id="framework" style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 20px", scrollMarginTop: 20 }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>The core path</p>
-            <h2 style={{ fontSize: "clamp(22px, 3.2vw, 28px)", lineHeight: 1.2, margin: "0 0 10px", fontWeight: 350 }}>
-              Three steps. <span style={{ fontStyle: "italic", color: ACCENT }}>One page you walk away with.</span>
-            </h2>
-            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 8px", fontFamily: SANS, maxWidth: 640 }}>
-              About fifteen minutes all told, stop anytime, and everything you find is kept for you on your device.
+          {/* ── 3. THE PROBLEM ── */}
+          <section style={{ maxWidth: 680, margin: "0 auto", padding: "52px 24px 8px" }}>
+            <p style={{ fontSize: "clamp(21px, 3vw, 26px)", lineHeight: 1.4, margin: "0 0 16px", fontWeight: 350, color: INK }}>
+              You have the expertise. <span style={{ fontStyle: "italic", color: ACCENT }}>Someone with half of it has the audience.</span>
             </p>
-            {doneSteps.length > 0 && (
-              <p style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 14, margin: "0 0 22px" }}>
-                <span style={{ fontSize: 15, color: ACCENT, fontFamily: SANS, fontWeight: 600 }}>{doneSteps.length ? `Progress saved.` : ""}</span>
-                <ForgetButton label="Start fresh" />
+            <p style={{ fontSize: 17, lineHeight: 1.65, color: "#443F39", margin: 0, fontFamily: SANS }}>
+              That gap is not a talent problem. It is a specific way of getting stuck when you
+              have to talk about your own work. There are five of them, and each one has a name.
+            </p>
+          </section>
+
+          {/* ── 4. WHO THIS IS FOR: one paragraph, named, her quote closes it ── */}
+          <section style={{ borderTop: "1px solid #EFE7DA", borderBottom: "1px solid #EFE7DA", background: "#FBF8F0", margin: "44px 0 0", padding: "40px 0" }}>
+            <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
+              <h2 style={{ fontSize: "clamp(22px, 3vw, 27px)", lineHeight: 1.25, margin: "0 0 14px", fontWeight: 350 }}>
+                Built for people whose credibility <span style={{ fontStyle: "italic", color: ACCENT }}>lives in their work.</span>
+              </h2>
+              <p style={{ fontSize: 17, lineHeight: 1.7, color: "#443F39", margin: "0 0 24px", fontFamily: SANS }}>
+                Professors, researchers, and PhD candidates. Clinicians and scientists. Engineers,
+                designers, and independent consultants. Anyone who would rather be judged on what
+                they made than on how loudly they said it.
               </p>
-            )}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 12, marginTop: 18 }}>
-              {[
-                { key: "scan", n: 1, outcome: "Find your pattern", name: "The Inward Scan", time: "1 minute, eight taps", blurb: "The specific way you get stuck, named.", onClick: () => { track("opened_scan"); setScanStart((x) => x + 1); }, href: null },
-                { key: "foundation", n: 2, outcome: "Find what no one can copy", name: "The six questions", time: "About 10 minutes", blurb: "The un-copyable thing in your own story.", href: "/foundation" },
-                { key: "brief", n: 3, outcome: "Everything on one page", name: "Your Inward Brief", time: "The payoff", blurb: "Your whole brand, one page, yours to keep.", href: "/brief" },
-              ].map((c) => {
-                const ok = doneSteps.includes(c.key);
-                const inner = (
-                  <>
-                    <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <span style={{ flexShrink: 0, width: 34, height: 34, borderRadius: "50%", background: ok ? ACCENT : INK_TEAL, color: ok ? "#FFF" : BUTTER, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 17, fontWeight: 500 }}>{ok ? "\u2713" : c.n}</span>
-                      <span style={{ fontFamily: SANS, fontSize: 12.5, color: "#857B70" }}>{c.time}</span>
-                    </span>
-                    <span style={{ display: "block", fontSize: 18, fontWeight: 500, color: INK, margin: "12px 0 3px", lineHeight: 1.25 }}>{c.outcome}</span>
-                    <span style={{ display: "block", fontSize: 12.5, color: ACCENT, fontFamily: SANS, lineHeight: 1.3, marginBottom: 5 }}>{c.name}</span>
-                    <span style={{ display: "block", fontSize: 13.5, color: "#857B70", fontFamily: SANS, lineHeight: 1.45 }}>{c.blurb}</span>
-                  </>
-                );
-                const cardStyle = { display: "block", textAlign: "left", textDecoration: "none", color: INK, background: ok ? ACCENT_TINT : "#FFF", border: `1px solid ${ok ? "#DCEFEB" : "#EFE7DA"}`, borderRadius: 16, padding: "18px 18px", boxShadow: "0 8px 24px rgba(11,59,52,.05)", cursor: "pointer", fontFamily: SERIF };
-                return c.href
-                  ? <a key={c.key} href={c.href} onClick={() => track("opened_" + c.key)} className="mw-card-hover" style={cardStyle}>{inner}</a>
-                  : <button key={c.key} onClick={c.onClick} className="mw-card-hover" style={{ ...cardStyle, border: `1px solid ${ok ? "#DCEFEB" : "#EFE7DA"}`, width: "100%" }}>{inner}</button>;
-              })}
+              <p style={{ fontSize: "clamp(18px, 2.4vw, 21px)", lineHeight: 1.5, color: INK, margin: 0, borderLeft: `3px solid ${BUTTER}`, paddingLeft: 18 }}>
+                People often tell me branding feels like it was written for extroverts. I disagree.
+                Any good brand strategist knows great brands aren't built on volume.
+                They're built on clarity, consistency, <span style={{ fontStyle: "italic", color: ACCENT }}>and the confidence to be unmistakably yourself.</span>
+              </p>
             </div>
           </section>
 
-          {/* ── WHO IT'S FOR: small photo accents, the words carry it ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "36px 24px 8px" }}>
-            <div className="mw-who-grid" style={{ marginBottom: 24 }}>
-              <div style={{ borderRadius: 16, overflow: "hidden", aspectRatio: "1/1", boxShadow: "0 10px 26px rgba(11,59,52,.12)" }}>
-                <img loading="lazy" decoding="async" src="/media/pottery-hands.jpg" alt="Hands shaping clay on a pottery wheel" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-              </div>
-              <div style={{ padding: "8px 6px" }}>
-                <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 12px" }}>Who it's for</p>
-                <p style={{ fontSize: "clamp(20px, 2.7vw, 25px)", lineHeight: 1.3, margin: 0, fontWeight: 350 }}>
-                  Most marketing advice assumes self-promotion comes easy.{" "}
-                  <span style={{ fontStyle: "italic", color: ACCENT }}>This place is for when it doesn't.</span>
-                </p>
-              </div>
-              <div style={{ borderRadius: 16, overflow: "hidden", aspectRatio: "1/1", boxShadow: "0 10px 26px rgba(11,59,52,.12)" }}>
-                <img loading="lazy" decoding="async" src="/media/writing-notebook.jpg" alt="A hand writing in a notebook by a window, coffee and glasses nearby" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", animationDelay: "-12s" }} />
-              </div>
-            </div>
-            <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".04em", textTransform: "uppercase", color: "#857B70", fontWeight: 600, margin: "0 0 14px" }}>This is for you if&hellip;</p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "14px 40px", marginBottom: 18 }}>
-              {[
-                "Self-promotion feels a little gross.",
-                "You'd rather be found than be seen.",
-                "You freeze when it's time to post.",
-                "You want to sound like you, not everyone else.",
-                "You're building your own name, or a small business.",
-              ].map((t, i, arr) => (
-                // The last line is a different kind of statement (which are you,
-                // not how do you feel), so it spans the row instead of being
-                // orphaned alone in a half-empty one.
-                <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", gridColumn: i === arr.length - 1 ? "1 / -1" : "auto" }}>
-                  <span style={{ flexShrink: 0, color: INK_TEAL, fontWeight: 700, fontSize: 18, lineHeight: 1.4 }}>&#10003;</span>
-                  <span style={{ fontSize: 17, lineHeight: 1.45, color: INK }}>{t}</span>
+          {/* ── 5. WHAT YOU WALK OUT WITH ── */}
+          <section style={{ maxWidth: 680, margin: "0 auto", padding: "48px 24px 8px" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 20px" }}>What you walk out with</p>
+            <p style={{ fontSize: "clamp(19px, 2.6vw, 23px)", lineHeight: 1.45, margin: "0 0 18px", fontWeight: 350 }}>A name for the way you get stuck.</p>
+            <p style={{ fontSize: "clamp(19px, 2.6vw, 23px)", lineHeight: 1.45, margin: "0 0 18px", fontWeight: 350 }}>A positioning line you would actually say out loud.</p>
+            <p style={{ fontSize: "clamp(19px, 2.6vw, 23px)", lineHeight: 1.45, margin: 0, fontWeight: 350 }}>A voice that sounds like you on an ordinary Tuesday, <span style={{ fontStyle: "italic", color: ACCENT }}>not like a press release.</span></p>
+          </section>
+
+          {/* ── 6. THE PATH: numbered progression, one direction ── */}
+          <section id="framework" style={{ maxWidth: 680, margin: "0 auto", padding: "52px 24px 8px", scrollMarginTop: 20 }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 20px" }}>The path</p>
+            {[
+              { n: "1", title: "The Inward Scan", body: "Eight taps, no typing. It names the specific way you disappear.", key: "scan", onClick: () => { track("opened_scan"); ph("scan_started"); setScanStart((x) => x + 1); }, href: null },
+              { n: "2", title: "Foundation", body: "Six questions. You leave with a positioning line, the thing about your work nobody can copy, and one word you could own.", key: "foundation", href: "/foundation" },
+              { n: "3", title: "Brand Voice", body: "Your actual voice, written down, so everything you publish sounds like you instead of like everyone.", key: "voice", href: "/brand-voice" },
+            ].map((c, i) => {
+              const ok = doneSteps.includes(c.key);
+              const inner = (
+                <div style={{ display: "flex", gap: 18, alignItems: "flex-start" }}>
+                  <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: "50%", background: ok ? ACCENT : INK_TEAL, color: ok ? "#FFF" : BUTTER, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 19, fontWeight: 500 }}>{ok ? "\u2713" : c.n}</span>
+                  <span>
+                    <span style={{ display: "block", fontSize: 20, fontWeight: 500, color: INK, marginBottom: 4, lineHeight: 1.25 }}>Step {["one", "two", "three"][i]}. {c.title}.</span>
+                    <span style={{ display: "block", fontSize: 15.5, color: "#5C534B", fontFamily: SANS, lineHeight: 1.55 }}>{c.body}</span>
+                  </span>
                 </div>
-              ))}
-            </div>
-            <p style={{ fontSize: 16, lineHeight: 1.65, color: "#5C534B", margin: "0 0 22px", fontFamily: SANS }}>
-              Makers, coaches, writers, professors, quiet experts. Solo or a small team. No label required, and if being visible feels like a cost, you're in the right place.
-            </p>
-            {/* Her line, not the site's: the belonging claim in her own mouth. */}
-            <p style={{ fontSize: "clamp(19px, 2.6vw, 23px)", lineHeight: 1.5, color: INK, margin: 0, borderLeft: `3px solid ${BUTTER}`, paddingLeft: 18 }}>
-              People often tell me branding feels like it was written for extroverts. I disagree.
-              Any good brand strategist knows great brands aren't built on volume.
-              They're built on clarity, consistency, <span style={{ fontStyle: "italic", color: ACCENT }}>and the confidence to be unmistakably yourself.</span>
+              );
+              const rowStyle = { display: "block", width: "100%", textAlign: "left", textDecoration: "none", color: INK, background: "none", border: "none", borderLeft: `2px solid ${ok ? ACCENT : "#E5DDD1"}`, padding: "4px 0 22px 22px", marginLeft: 19, cursor: "pointer", fontFamily: SERIF };
+              return c.href
+                ? <a key={c.key} href={c.href} onClick={() => track("opened_" + c.key)} style={rowStyle}>{inner}</a>
+                : <button key={c.key} onClick={c.onClick} style={rowStyle}>{inner}</button>;
+            })}
+            <p style={{ fontSize: 15, color: "#6B6157", fontFamily: SANS, margin: "10px 0 0", lineHeight: 1.7 }}>
+              Also here: <a href="/plan" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>The Quieter Plan</a>,{" "}
+              <a href="/roast" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>The Gentle Roast</a>,{" "}
+              <a href="/brief" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>the Inward Brief</a>, and{" "}
+              <a href="/ai-visibility" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>an AI visibility check</a>.
             </p>
           </section>
 
-          {/* ── GO DEEPER: the satellites. Voice/Plan/Roast for people who finished
-                (or want more), plus the audit — one section, below the fold, so the
-                homepage sells one path instead of a seven-item menu. ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "44px 24px 8px" }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>Go deeper</p>
-            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 18px", fontFamily: SANS, maxWidth: 640 }}>
-              After the core path, or whenever you're ready. Each one stands on its own.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 12 }}>
-              {[
-                { key: "voice", outcome: "Write down how you actually sound", name: "Your Brand Voice", href: "/brand-voice", time: "About 3 minutes" },
-                { key: "plan", outcome: "Make a plan you can actually keep", name: "The Quieter Plan", href: "/plan", time: "About 3 minutes" },
-                { key: "roast", outcome: "Get honest feedback on what you wrote", name: "The Gentle Roast", href: "/roast", time: "About 2 minutes" },
-                { key: "aivis", outcome: "See how findable you are to AI search", name: "The AI Visibility Audit", href: "/ai-visibility", time: "A few minutes, live scan" },
-              ].map((c) => (
-                <a key={c.key} href={c.href} onClick={() => track("opened_" + c.key)} className="mw-card-hover"
-                  style={{ display: "block", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "18px 18px", boxShadow: "0 8px 24px rgba(11,59,52,.05)", fontFamily: SERIF }}>
-                  <span style={{ display: "block", fontSize: 17, fontWeight: 500, lineHeight: 1.3, marginBottom: 4 }}>{c.outcome}</span>
-                  <span style={{ display: "block", fontSize: 12.5, color: ACCENT, fontFamily: SANS, marginBottom: 4 }}>{c.name}</span>
-                  <span style={{ display: "block", fontSize: 12.5, color: "#9A8F82", fontFamily: SANS }}>{c.time}</span>
-                </a>
-              ))}
+          {/* ── 7. FOR DEPARTMENTS AND TEAMS: the waitlist ── */}
+          <section id="teams" style={{ background: INK_TEAL, margin: "52px 0 0", padding: "48px 0", scrollMarginTop: 20 }}>
+            <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
+              <h2 style={{ fontSize: "clamp(22px, 3vw, 27px)", lineHeight: 1.25, margin: "0 0 14px", fontWeight: 350, color: CREAM }}>
+                Branding Inward <span style={{ fontStyle: "italic", color: BUTTER }}>for departments and teams</span>
+              </h2>
+              <p style={{ fontSize: 16.5, lineHeight: 1.65, color: "rgba(251,247,240,.85)", margin: "0 0 10px", fontFamily: SANS }}>
+                Most people who never post are not uninterested. They are stuck in a specific way,
+                and every way of being stuck needs a different fix.
+              </p>
+              <p style={{ fontSize: 16.5, lineHeight: 1.65, color: "rgba(251,247,240,.85)", margin: "0 0 22px", fontFamily: SANS }}>
+                We are building a version that shows a whole team how each person is stuck, and what
+                to do about each one. If that is a problem you have, leave your email and I will come find you.
+              </p>
+              {teamSent ? (
+                <p style={{ fontFamily: SANS, fontSize: 16, color: BUTTER, margin: 0, fontWeight: 600 }}>You're on the list. I'll come find you.</p>
+              ) : (
+                <form onSubmit={(e) => { e.preventDefault(); joinWaitlist(); }} style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                  <input aria-label="Your email" type="email" required value={teamEmail} onChange={(e) => setTeamEmail(e.target.value)}
+                    placeholder="you@university.edu"
+                    style={{ flex: "1 1 220px", fontFamily: SANS, fontSize: 16, padding: "13px 16px", borderRadius: 12, border: "1px solid rgba(251,247,240,.35)", background: "rgba(251,247,240,.08)", color: CREAM, outline: "none" }} />
+                  <button type="submit" className="mw-btn" disabled={teamBusy}
+                    style={{ background: BUTTER, color: INK_TEAL, border: "none", borderRadius: 12, padding: "13px 22px", fontFamily: SANS, fontSize: 15.5, fontWeight: 700, cursor: "pointer", opacity: teamBusy ? 0.6 : 1 }}>
+                    {teamBusy ? "Joining\u2026" : "Join the waitlist"}
+                  </button>
+                  {teamErr && <p style={{ width: "100%", fontFamily: SANS, fontSize: 14, color: "#F0997B", margin: "4px 0 0" }}>{teamErr}</p>}
+                </form>
+              )}
             </div>
           </section>
 
+          {/* ── 8. BUILD LOG: dates from real git history. Nothing says "live
+                company" faster than dates. ── */}
+          <section style={{ maxWidth: 680, margin: "0 auto", padding: "48px 24px 12px" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 16px" }}>What's shipping</p>
+            {[
+              ["Aug 2026", "AI visibility check: a live scan of how findable you are"],
+              ["Aug 2026", "The library: the framework, prompts, and checklists"],
+              ["Jul 2026", "The Gentle Roast, and the Inward Brief"],
+              ["Jun 2026", "Brand Voice"],
+              ["Jun 2026", "The Inward Scan and Foundation"],
+            ].map(([d, what], i) => (
+              <p key={i} style={{ display: "flex", gap: 16, alignItems: "baseline", fontSize: 15.5, lineHeight: 1.6, margin: "0 0 8px", fontFamily: SANS, color: "#443F39" }}>
+                <span style={{ flexShrink: 0, fontVariantNumeric: "tabular-nums", fontSize: 13.5, color: "#7A7065", minWidth: 66 }}>{d}</span>
+                <span>{what}</span>
+              </p>
+            ))}
+          </section>
 
-          {/* The "why this exists" positioning now lives in the shared SiteFooter,
-              so it isn't repeated here. Full story is on /about. */}
-          {/* Success stories now live only on the Inward Scan, not on every page. */}
         </>
       )}
 
@@ -849,12 +882,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
 
         {/* LOADING */}
         {step === QUESTIONS.length && loading && (
-          <div className="mw-fade" style={{ textAlign: "center", paddingTop: 70 }}>
-            <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 24 }}>
-              {[0, 1, 2].map((i) => <span key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: ACCENT, animation: `pulse 1.2s ${i * 0.2}s infinite ease-in-out` }} />)}
-            </div>
-            <p style={{ fontSize: 22, color: "#5C534B" }}>Thinking about what you're really about…</p>
-          </div>
+          <StepLoader steps={["Reading what you wrote", "Finding what you're really about", "Checking it against the psychology", "Cutting anything generic", "Writing your result"]} />
         )}
 
         {/* ERROR */}

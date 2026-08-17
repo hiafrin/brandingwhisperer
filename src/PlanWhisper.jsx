@@ -4,7 +4,7 @@ import { ph } from "./lib/metrics.js";
 import {
   ACCENT, INK, CREAM, INK_TEAL,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY, CHANNEL_LIBRARY,
-  parseWhisperResponse, recall, remember,
+  parseWhisperResponse, recall, remember, StepLoader, PROMPT_QUALITY,
   useVoiceInput, MicIcon,
   GrainOverlay, GhostNumber, DropQuote, PageQuote, ToolHero, ToolIntro, FrameworkStrip, Playbook, ToolsMenu, SiteFooter, TOOLS, KeptNote,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
@@ -174,7 +174,8 @@ Return ONLY valid JSON, no markdown, no preamble. Output it compactly, every key
   "buddy": "the buddy-up proposal, personalized: who (their named person if they gave one), where that person is if they didn't, and why trading honest praise works for someone who answered the way they did (max 3 sentences)",
   "ask": "the exact message they could send that person to propose it, 2 to 4 short sentences, plain, warm, no hype, easy to send as-is",
   "today": "one move under 15 minutes they can do today, the smallest first domino of the plan (max 2 sentences)"
-}`;
+}`
+      + PROMPT_QUALITY;
 
     const userPrompt = `Here's what they told me:
 1. What they make or do: ${finalAnswers.makes}
@@ -479,12 +480,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
 
         {/* LOADING */}
         {step === QUESTIONS.length && loading && (
-          <div className="mw-fade" style={{ textAlign: "center", paddingTop: 70 }}>
-            <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 24 }}>
-              {[0, 1, 2].map((i) => <span key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: ACCENT, animation: `pulse 1.2s ${i * 0.2}s infinite ease-in-out` }} />)}
-            </div>
-            <p style={{ fontSize: 22, color: "#5C534B" }}>Building a plan around you, not the algorithm…</p>
-          </div>
+          <StepLoader steps={["Reading what you can honestly stand", "Weighing the time you really have", "Choosing your one path", "Writing your first week"]} />
         )}
 
         {/* ERROR */}

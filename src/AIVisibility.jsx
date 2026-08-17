@@ -380,7 +380,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
                     strokeDasharray={`${(result.score / 100) * 326.7} 326.7`} transform="rotate(-90 60 60)" />
                 </svg>
                 <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                  <span style={{ fontSize: 34, fontWeight: 600, lineHeight: 1, color: band.ink }}>{result.score}</span>
+                  <span style={{ fontSize: 34, fontWeight: 600, lineHeight: 1, color: band.ink, fontVariantNumeric: "tabular-nums" }}>{result.score}</span>
                   <span style={{ fontFamily: SANS, fontSize: 11, color: band.ink, opacity: 0.75 }}>of 100</span>
                 </div>
               </div>
@@ -416,7 +416,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
                 <div key={i} style={{ padding: i ? "14px 0 0" : 0, marginTop: i ? 14 : 0, borderTop: i ? "1px solid #F1EDE4" : "none" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, marginBottom: 6 }}>
                     <span style={{ fontFamily: SANS, fontSize: 14, fontWeight: 700, color: INK }}>{d.name}</span>
-                    <span style={{ fontFamily: SANS, fontSize: 13, color: "#857B70", flexShrink: 0 }}>{Math.max(0, Math.min(20, Math.round(d.score)))}/20</span>
+                    <span style={{ fontFamily: SANS, fontSize: 13, color: "#6B6157", flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>{Math.max(0, Math.min(20, Math.round(d.score)))}/20</span>
                   </div>
                   <div style={{ height: 6, borderRadius: 100, background: "#F1EDE4", overflow: "hidden", marginBottom: 7 }}>
                     <div style={{ width: `${(Math.max(0, Math.min(20, d.score)) / 20) * 100}%`, height: "100%", borderRadius: 100, background: d.score >= 15 ? "#5DCAA5" : d.score >= 8 ? "#EF9F27" : "#F0997B" }} />

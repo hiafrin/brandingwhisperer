@@ -406,22 +406,21 @@ for (const t of TOOL_PAGES) {
 const HOME_TITLE = "Branding Inward: get found without performing | free AI branding tools";
 const homeFallback = `
   <h1>Get found. Without performing.</h1>
-  <p>Branding Inward is a set of free AI branding tools for people who find self-promotion draining. Built by a brand strategist, not another tech company: the questions are hers, the AI just makes them fast. No account, no email, and everything you make stays on your own device.</p>
+  <p>Personal branding for people who are good at the work and bad at the announcing. Built by Sabiha Afrin, brand strategist. The questions are hers. The AI just makes them fast. One minute, eight taps, no account, no email.</p>
+  <p>You have the expertise. Someone with half of it has the audience. That gap is not a talent problem. It is a specific way of getting stuck when you have to talk about your own work. There are five of them, and each one has a name.</p>
+  <h2>Built for people whose credibility lives in their work</h2>
+  <p>Professors, researchers, and PhD candidates. Clinicians and scientists. Engineers, designers, and independent consultants. Anyone who would rather be judged on what they made than on how loudly they said it.</p>
   <p>People often tell me branding feels like it was written for extroverts. I disagree. Any good brand strategist knows great brands aren't built on volume. They're built on clarity, consistency, and the confidence to be unmistakably yourself.</p>
-  <h2>The core path, three steps</h2>
+  <h2>The path</h2>
   <ol>
-    <li><a href="/scan">Find your pattern. The Inward Scan names the specific way you get stuck, in one minute and eight taps.</a></li>
-    <li><a href="/foundation">Find what no one can copy. Six questions, about ten minutes, phrased for branding yourself or something you make.</a></li>
-    <li><a href="/brief">Everything on one page. Your Inward Brief assembles what you found into a page you walk away with.</a></li>
+    <li><a href="/scan">Step one, The Inward Scan. Eight taps, no typing. It names the specific way you disappear.</a></li>
+    <li><a href="/foundation">Step two, Foundation. Six questions. You leave with a positioning line, the thing about your work nobody can copy, and one word you could own.</a></li>
+    <li><a href="/brand-voice">Step three, Brand Voice. Your actual voice, written down, so everything you publish sounds like you instead of like everyone.</a></li>
   </ol>
-  <h2>Go deeper</h2>
-  <ul>
-    <li><a href="/brand-voice">Write down how you actually sound: Your Brand Voice.</a></li>
-    <li><a href="/plan">Make a plan you can actually keep: The Quieter Plan.</a></li>
-    <li><a href="/roast">Get honest feedback on what you wrote: The Gentle Roast.</a></li>
-    <li><a href="/ai-visibility">See how findable you are to AI search: The AI Visibility Audit, a live scan with the words that fix it.</a></li>
-  </ul>
-  <p><a href="/resources">The library</a> · <a href="/about">About the strategist</a></p>`;
+  <p>Also here: <a href="/plan">The Quieter Plan</a>, <a href="/roast">The Gentle Roast</a>, <a href="/brief">the Inward Brief</a>, and <a href="/ai-visibility">an AI visibility check</a>.</p>
+  <h2>Branding Inward for departments and teams</h2>
+  <p>Most people who never post are not uninterested. They are stuck in a specific way, and every way of being stuck needs a different fix. We are building a version that shows a whole team how each person is stuck, and what to do about each one. Write to safrin@brandinginward.com to join the waitlist.</p>
+  <p><a href="/resources">The library</a> · <a href="/about">About the strategist</a> · <a href="/work-with-me">Work with me</a></p>`;
 const homeHtml = shell
   .replace(/<title>[^<]*<\/title>/, `<title>${esc(HOME_TITLE)}</title>`)
   .replace('<div id="root"></div>', `<div id="root">${homeFallback}</div>`);

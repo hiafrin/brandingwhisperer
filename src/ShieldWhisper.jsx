@@ -4,7 +4,7 @@ import { ph } from "./lib/metrics.js";
 import {
   ACCENT, INK, CREAM, ACCENT_RGB, INK_TEAL,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
-  parseWhisperResponse, remember,
+  parseWhisperResponse, remember, StepLoader, PROMPT_QUALITY, tightenResult,
   useVoiceInput, MicIcon,
   GrainOverlay, DoodleShield, GhostNumber, DropQuote, PageQuote, ToolHero, ToolIntro, FrameworkStrip, VoiceStory, SiteFooter, ToolsMenu, KeptNote,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, quoteCard, todayBox,
@@ -129,7 +129,8 @@ Return ONLY valid JSON, no markdown, no preamble. Output it compactly with no bl
   "sample": "one short post in their voice, reusing at least one phrase they actually wrote, carrying the spirit of the praise they wished for in question 6, never boastful",
   "shows": "what they can show the world when they don't feel like showing their face: the work, the process, the place (max 2 sentences)",
   "today": "the ONE matched tactic from the library above, described as a concrete action using their own project, under 15 minutes (max 2 sentences)"
-}`;
+}`
+      + PROMPT_QUALITY;
 
     const userPrompt = `Here's what they told me:
 1. What they make or do: ${finalAnswers.makes}
@@ -152,8 +153,10 @@ These answers are also your voice sample. Study how they wrote them, not just wh
       const parsed = parseWhisperResponse(data);
       if (!parsed) throw new Error("The AI's answer got cut short. Tap to try again, it usually works on a second pass.");
       parsed.names = Array.isArray(parsed.names) ? parsed.names : [];
-      parsed._answers = finalAnswers;
-      setResult(parsed);
+      // Anti-generic second pass, silent on failure.
+      const tightened = await tightenResult(parsed, Object.values(finalAnswers).join("\n"), ["heard", "proof", "honest", "stand", "voice", "shows", "today"]);
+      tightened._answers = finalAnswers;
+      setResult(tightened);
       ph("step_completed", { step: "voice" });
       track("shield_completed");
     } catch (e) {
@@ -335,12 +338,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
 
         {/* LOADING */}
         {step === QUESTIONS.length && loading && (
-          <div className="mw-fade" style={{ textAlign: "center", paddingTop: 70 }}>
-            <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 24 }}>
-              {[0, 1, 2].map((i) => <span key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: ACCENT, animation: `pulse 1.2s ${i * 0.2}s infinite ease-in-out` }} />)}
-            </div>
-            <p style={{ fontSize: 22, color: "#5C534B" }}>Listening back through everything you said…</p>
-          </div>
+          <StepLoader steps={["Reading how you actually talk", "Noticing the words you reach for", "Naming the voice you already have", "Cutting anything generic", "Writing your voice card"]} />
         )}
 
         {/* ERROR */}

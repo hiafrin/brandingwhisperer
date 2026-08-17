@@ -179,6 +179,26 @@ export const TOOL_PAGES = [
     ],
   },
   {
+    slug: "work-with-me",
+    step: null,
+    title: "Work with me | Branding Inward",
+    description:
+      "A small number of engagements at a time: positioning for one person, and workshops for groups who need to be visible without turning into content machines.",
+    h1: "Work with me",
+    summary:
+      "I take a small number of engagements at a time. Positioning for one person, and workshops for groups who need to be visible without turning into content machines. Write to me at safrin@brandinginward.com.",
+    faqs: [
+      {
+        q: "What kind of engagements does Branding Inward take?",
+        a: "Two kinds: one-on-one positioning work for a single person, and workshops for groups, departments, and teams who need to be visible without turning into content machines.",
+      },
+      {
+        q: "How do I get in touch?",
+        a: "Write to safrin@brandinginward.com. Engagements are limited to a small number at a time.",
+      },
+    ],
+  },
+  {
     slug: "about",
     step: null,
     title: "About: the strategist behind Branding Inward",

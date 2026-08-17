@@ -10,6 +10,7 @@ import AboutInward from "./AboutInward.jsx";
 import InwardBrief from "./InwardBrief.jsx";
 import InwardScan from "./InwardScan.jsx";
 import AIVisibility from "./AIVisibility.jsx";
+import WorkWithMe from "./WorkWithMe.jsx";
 import { TOOL_PAGES } from "./lib/toolPages.js";
 
 // Real, indexable paths — one per tool. Each is also pre-rendered to its own
@@ -24,6 +25,7 @@ const ROUTES = {
   "/brief": () => <InwardBrief />,
   "/about": () => <AboutInward />,
   "/ai-visibility": () => <AIVisibility />, // outside the six-step framework
+  "/work-with-me": () => <WorkWithMe />,
 };
 
 // Old hash URLs, briefly live and possibly bookmarked or shared. Each maps to

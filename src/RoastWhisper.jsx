@@ -4,7 +4,7 @@ import { ph } from "./lib/metrics.js";
 import {
   ACCENT, INK, CREAM, INK_TEAL, CORAL, ACCENT_TINT,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
-  parseWhisperResponse, remember,
+  parseWhisperResponse, remember, StepLoader, PROMPT_QUALITY, tightenResult,
   useVoiceInput, MicIcon,
   GrainOverlay, DropQuote, PageQuote, ToolHero, ToolIntro, FrameworkStrip, RoastOrigin, ToolsMenu, SiteFooter, TOOLS, KeptNote,
   primaryBtn, ghostBtn, miniLabel, plainCard, heroCard, todayBox,
@@ -96,7 +96,8 @@ Return ONLY valid JSON, no markdown, no preamble. Output it compactly, every key
     { "kind": "Strong", "line": "the exact line of theirs, quoted, or empty for Missing", "note": "the plain warm note: for Strong, why to keep it, for others, the fix in their voice (max 2 sentences)" }
   ],
   "today": "one small concrete move for today, under 15 minutes, built from a Strong line, not generic advice (max 2 sentences)"
-}`;
+}`
+      + PROMPT_QUALITY;
 
     const userPrompt = `Here's what I already put out there, or almost did (bio, captions, drafts, in no particular order):
 
@@ -116,7 +117,9 @@ Read it closely. Tell me first what to keep and never change, then the few thing
       if (!parsed || !Array.isArray(parsed.verdicts) || !parsed.verdicts.length) throw new Error("The AI's answer got cut short. Tap to try again, it usually works on a second pass.");
       // Strong always leads, then the gentle fixes, Missing last.
       parsed.verdicts.sort((a, b) => VERDICT_ORDER.indexOf(a.kind) - VERDICT_ORDER.indexOf(b.kind));
-      setResult(parsed);
+      // Anti-generic second pass on the one free-advice field, silent on failure.
+      const tightened = await tightenResult(parsed, text.trim(), ["today"]);
+      setResult(tightened);
       ph("step_completed", { step: "roast" });
       // Marks step 5 done for the framework's progress, on this device only.
       const strong = parsed.verdicts.find((v) => v.kind === "Strong");
@@ -246,12 +249,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
 
         {/* LOADING */}
         {loading && (
-          <div className="mw-fade" style={{ textAlign: "center", paddingTop: 70 }}>
-            <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 24 }}>
-              {[0, 1, 2].map((i) => <span key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: ACCENT, animation: `pulse 1.2s ${i * 0.2}s infinite ease-in-out` }} />)}
-            </div>
-            <p style={{ fontSize: 22, color: "#5C534B" }}>Reading it twice, once for the costume, once for you…</p>
-          </div>
+          <StepLoader steps={["Reading it twice", "Finding the lines that are already you", "Spotting the costume", "Writing your notes, keepers first"]} />
         )}
 
         {/* ERROR */}
