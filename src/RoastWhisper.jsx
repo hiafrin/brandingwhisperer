@@ -163,7 +163,6 @@ Read it closely. Tell me first what to keep and never change, then the few thing
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
-      <ToolsMenu />
 
       {/* ── HERO (intro only): full-bleed photo band, own coral identity ── */}
       {!result && !loading && (

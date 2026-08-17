@@ -259,7 +259,6 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
-      <ToolsMenu />
 
       {phase === "intro" && (
         <ToolHero

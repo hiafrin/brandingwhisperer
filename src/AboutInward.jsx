@@ -3,7 +3,7 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, ToolsMenu, PageQuote, BuddyForm, SiteFooter, primaryBtn, TOOLS,
+  GrainOverlay, SiteNav, PageQuote, BuddyForm, SiteFooter, primaryBtn, TOOLS,
 } from "./lib/whisperKit.jsx";
 
 // ── The portrait: shows Afrin's real photo the moment /media/afrin-portrait.jpg
@@ -27,15 +27,11 @@ export default function AboutInward() {
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
-      <ToolsMenu />
 
       {/* ── HERO: portrait + point of view ── */}
       <section style={{ background: INK_TEAL }}>
-        <div className="mw-fade" style={{ maxWidth: 920, margin: "0 auto", padding: "48px 24px 60px" }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", marginBottom: 44 }}>
-            <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
-            <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
-          </a>
+        <SiteNav tone="dark" />
+        <div className="mw-fade" style={{ maxWidth: 920, margin: "0 auto", padding: "34px 24px 60px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "minmax(220px, 300px) 1fr", gap: 40, alignItems: "center" }} className="mw-about-grid">
             <Portrait />
             <div>

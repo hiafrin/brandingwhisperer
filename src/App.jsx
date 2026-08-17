@@ -505,8 +505,6 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
-      {/* The floating menu lives on inner pages; the homepage has its own nav band. */}
-      {step !== -1 && <ToolsMenu />}
 
       {/* ── FULL-BLEED HERO with ambient video (landing only) ── */}
       {step === -1 && (

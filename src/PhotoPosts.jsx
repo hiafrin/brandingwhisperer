@@ -117,7 +117,6 @@ Look at the photo and write 3 posts around it, in my voice.`;
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
-      <ToolsMenu />
 
       <ToolHero
         label="Photo to posts"

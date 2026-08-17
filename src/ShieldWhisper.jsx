@@ -232,7 +232,6 @@ These answers are also your voice sample. Study how they wrote them, not just wh
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
-      <ToolsMenu />
 
       {/* ── HERO (intro only): full-bleed photo band, own teal identity, task on top — matches the other tools ── */}
       {step === -1 && (

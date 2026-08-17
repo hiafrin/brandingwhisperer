@@ -1,7 +1,7 @@
 import React from "react";
 import {
   ACCENT, INK, CREAM, SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, ToolsMenu, BuddyForm, SiteFooter,
+  GrainOverlay, SiteNav, BuddyForm, SiteFooter,
 } from "./lib/whisperKit.jsx";
 
 // ── /buddy: the roast-buddy matching page. The form itself has lived on the
@@ -11,9 +11,9 @@ export default function Buddy() {
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF, display: "flex", flexDirection: "column" }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
-      <ToolsMenu />
 
-      <main style={{ flex: 1, width: "100%", boxSizing: "border-box", padding: "72px 0 24px" }}>
+      <SiteNav tone="light" />
+      <main style={{ flex: 1, width: "100%", boxSizing: "border-box", padding: "48px 0 24px" }}>
         <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
           <h1 style={{ fontSize: "clamp(32px, 5vw, 46px)", lineHeight: 1.12, margin: "0 0 16px", fontWeight: 350 }}>
             Find a <span style={{ fontStyle: "italic", color: ACCENT }}>roast buddy.</span>

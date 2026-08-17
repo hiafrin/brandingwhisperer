@@ -441,6 +441,47 @@ export function ToolsMenu() {
   );
 }
 
+
+// ── One nav band, every page, identical to the homepage's. The Tools item
+//    opens the same dropdown panel; Start free goes to the six questions. ──
+export function SiteNav({ tone = "dark" }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
+  }, [open]);
+
+  const linkColor = tone === "dark" ? "rgba(251,247,240,.85)" : "#443F39";
+  const brandColor = tone === "dark" ? CREAM : INK;
+  const item = { color: linkColor, textDecoration: "none", fontWeight: 600, fontFamily: SANS, fontSize: 14.5 };
+
+  return (
+    <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, maxWidth: 920, margin: "0 auto", padding: "20px 24px 0" }}>
+      <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+        <span style={{ width: 11, height: 11, borderRadius: "50%", background: tone === "dark" ? BUTTER : ACCENT }} />
+        <span style={{ fontFamily: SANS, fontWeight: 600, letterSpacing: ".1em", fontSize: 14, textTransform: "uppercase", color: brandColor }}>Branding Inward</span>
+      </a>
+      <span style={{ display: "flex", alignItems: "center", gap: 20 }}>
+        <span ref={ref} style={{ position: "relative" }}>
+          <button onClick={() => setOpen((o) => !o)} aria-haspopup="true" aria-expanded={open} style={{ ...item, background: "none", border: "none", padding: 0, cursor: "pointer" }}>
+            Tools <span aria-hidden="true" style={{ fontSize: 9, display: "inline-block", transform: open ? "rotate(180deg)" : "none", transition: "transform .18s" }}>&#9662;</span>
+          </button>
+          {open && <ToolsMenuPanel onClose={() => setOpen(false)} side="left" top={34} />}
+        </span>
+        <a href="/ai-visibility" style={item}>AI visibility</a>
+        <a href="/buddy" style={item}>Find a buddy</a>
+        <a href="/about" style={item}>About</a>
+        <a href="/foundation" style={{ background: BUTTER, color: INK_TEAL, borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 700, textDecoration: "none" }}>Start free</a>
+      </span>
+    </nav>
+  );
+}
+
 // ── One footer, every page. Carries the "real professional, not a tech
 //    company" positioning, the link to her story + LinkedIn, and the
 //    device-only privacy line with a Forget control. ──
@@ -760,13 +801,10 @@ export function ToolHero({ label, photo, accent = ACCENT, Doodle, headline, sub,
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.55 }} />
       )}
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(175deg, rgba(11,59,52,.82) 0%, rgba(11,59,52,.66) 45%, rgba(11,59,52,.9) 100%)" }} />
-      <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "36px 24px 44px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 30 }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-            <span style={{ width: 11, height: 11, borderRadius: "50%", background: accent }} />
-            <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
-          </a>
-        </div>
+      <div style={{ position: "relative" }}>
+        <SiteNav tone="dark" />
+      </div>
+      <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "26px 24px 44px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
           {Doodle && <Doodle color={accent} size={40} />}
           <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: labelInk, fontWeight: 600, margin: 0 }}>{label}</p>

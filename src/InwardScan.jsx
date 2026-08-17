@@ -238,7 +238,6 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
     <div style={embedded ? {} : { minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       {!embedded && <style>{GLOBAL_CSS}</style>}
       {!embedded && <GrainOverlay />}
-      {!embedded && <ToolsMenu />}
 
       {/* ── HERO (intro only): a quiet private corner, butter identity ── */}
       {!embedded && step === -1 && (

@@ -4,7 +4,7 @@ import { ph } from "./lib/metrics.js";
 import {
   ACCENT, INK, CREAM, INK_TEAL, BUTTER,
   SERIF, SANS, GLOBAL_CSS,
-  GrainOverlay, ToolsMenu, FrameworkStrip, PageQuote, BuddyForm, SiteFooter, ForgetButton,
+  GrainOverlay, SiteNav, FrameworkStrip, PageQuote, BuddyForm, SiteFooter, ForgetButton,
   recall, remember, primaryBtn,
 } from "./lib/whisperKit.jsx";
 
@@ -73,15 +73,11 @@ export default function InwardBrief() {
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
       <GrainOverlay />
-      <ToolsMenu />
 
       {/* HERO */}
       <section style={{ background: INK_TEAL }}>
-        <div className="mw-fade" style={{ maxWidth: 820, margin: "0 auto", padding: "48px 24px 56px" }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", marginBottom: 40 }}>
-            <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
-            <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
-          </a>
+        <SiteNav tone="dark" />
+        <div className="mw-fade" style={{ maxWidth: 820, margin: "0 auto", padding: "34px 24px 56px" }}>
           <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: BUTTER, fontWeight: 600, margin: "0 0 14px" }}>Your Inward Brief</p>
           <h1 style={{ fontSize: "clamp(32px, 5vw, 50px)", lineHeight: 1.1, margin: "0 0 18px", fontWeight: 350, color: CREAM }}>
             Everything you've found, <span style={{ fontStyle: "italic", color: BUTTER }}>in one place.</span>
