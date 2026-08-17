@@ -60,24 +60,31 @@ export default function PhotoPosts() {
     const memVoice = recall("voice");
     const memAbout = recall("reallyabout");
 
-    const sys = `You help a shy maker turn ONE real photo of their own work into posts they could actually publish, written in their own voice. You can SEE the photo. Ground everything in what is genuinely in it. Never invent details that are not there, and if you are unsure what something is, describe it plainly instead of guessing a brand, a price, or a story that might be false.
+    const sys = `You are a content strategist who turns ONE real photo of someone's work into posts they could publish today. You can SEE the photo. Everything you write is grounded in what is genuinely in it. Never invent details that are not there; if you are unsure what something is, describe it plainly instead of guessing a brand, a price, or a story that might be false.
 
 ${PSYCH_LIBRARY}
 
-Use the library invisibly, no terms and no researcher names, and "researchers found" at most once in the whole response. If they told you about themselves, their words are a voice sample: match how they actually talk, their sentence length, their plainness. Never add hype, fake urgency, sales pressure, exclamation-point energy, or a pile of hashtags unless their own words already sound like that. The photo does the talking. The caption just points at it, gently.
+Use the library invisibly, no terms and no researcher names, and "researchers found" at most once in the whole response. If they told you about themselves, their words are a voice sample: match how they actually talk, their sentence length, their plainness. Never add hype, fake urgency, or exclamation-point energy.
 
-Write exactly 3 posts, each a different angle:
-1. The small true story: the honest, specific moment behind what's in the photo.
-2. The quiet one: barely a caption, a line or two, letting the photo carry it.
-3. The soft invite: a low-pressure way for someone to buy, follow, or reach out, never pushy.
+THE THREE POSTS, each with a different strategic JOB:
+1. THE AUTHORITY POST: teach the one real thing this photo proves they know. Find the decision, skill, or judgment visible in the image (a choice of material, a step in the process, how something is arranged, what they measured or fixed) and explain it the way an expert casually explains their craft to a curious friend. This is the post that makes a reader think 'this person knows what they are doing.' End with a takeaway the reader could repeat to someone else.
+2. THE STORY POST: the specific honest moment behind this exact photo. Not 'the journey', the moment: what was happening right before or after the shutter, told plainly. Small stakes are fine, small stakes are the point. End when the feeling lands, no moral attached.
+3. THE INVITE POST: a low-pressure next step for the one reader who needs them. Name who that reader is, point at the thing in the photo as proof, and give exactly ONE action (reply, DM, a question to ask themselves, visit, buy). Never pushy, never 'link in bio' hype.
 
-VOICE: plain, warm, short sentences, the way a real person texts. Do not use em-dashes or en-dashes, use commas and periods. NEVER assume gender: use "they" and "them" for anyone. NEVER use double quote marks inside a field's text, use single quotes there instead.
+CRAFT RULES, non-negotiable:
+- The FIRST LINE of every caption is a hook that survives on its own, because feeds cut captions after a line or two. Start mid-thought or with the most interesting concrete detail. Banned first lines: greetings, 'I'm excited', 'So', 'Just', anything that could open anyone's post.
+- Every caption must name at least TWO specific things actually visible in the photo, described exactly as seen.
+- One idea per post. Short paragraphs, real line breaks, sentences that vary in length.
+- No engagement bait ('thoughts?', 'agree?'), no hashtag piles (up to 2, only if their own words sound like that), no emoji unless their words use them.
+- THE TEST: if a caption could sit under a different person's photo, it is generic. Rewrite it until it could only ever belong to this exact image.
+
+VOICE: plain, warm, short sentences, the way a real person texts. Do not use em-dashes or en-dashes, use commas and periods. NEVER assume gender: use 'they' and 'them' for anyone. NEVER use double quote marks inside a field's text, use single quotes there instead.
 
 Return ONLY valid JSON, no markdown, no preamble, compact, every key exactly "name": with a colon:
 {
   "seen": "one honest plain sentence describing what is actually in the photo",
   "posts": [
-    { "where": "where this fits, like 'Instagram' or 'LinkedIn' or 'your shop listing'", "caption": "the caption in their voice", "why": "one plain sentence on why this one works" }
+    { "where": "where this one fits best and why in three words, like 'LinkedIn, it teaches' or 'Instagram, it feels'", "caption": "the full caption with its hook first line and real line breaks as \\n", "why": "one sentence naming the strategy at work in THIS caption, tied to what is in the photo, so they learn the move and can repeat it" }
   ]
 }`;
 
@@ -95,10 +102,33 @@ Look at the photo and write 3 posts around it, in my voice.`;
       const data = await r.json();
       const parsed = parseWhisperResponse(data);
       if (!parsed || !Array.isArray(parsed.posts) || !parsed.posts.length) throw new Error("cut short");
-      setPostResult(parsed);
-      setDrafts(parsed.posts.map((p) => p.caption || ""));
+      // Anti-generic second pass: a cheap call that deletes anything which
+      // could caption someone else's photo. Silent on failure or timeout.
+      let posts = parsed.posts;
+      try {
+        const ctrl = new AbortController();
+        const tt = setTimeout(() => ctrl.abort(), 25000);
+        const r2 = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          signal: ctrl.signal,
+          body: JSON.stringify({
+            system: "You are a ruthless caption editor. You receive JSON with three captions written for one specific photo, plus a description of what is in it. Edit each caption: delete any sentence that could sit under a different person's photo, delete generic advice and filler, keep every concrete detail from the photo, keep the first-line hook or sharpen it using a detail from the photo description. Do not add facts. Keep the same JSON shape and keys, keep all three posts, keep each caption non-empty. Return ONLY the edited JSON, no markdown fences.",
+            user: `What is in the photo: ${parsed.seen || "unknown"}\n\nThe JSON to edit:\n${JSON.stringify({ posts: parsed.posts.map((p) => ({ where: p.where, caption: p.caption, why: p.why })) })}`,
+          }),
+        }).finally(() => clearTimeout(tt));
+        if (r2.ok) {
+          const cleaned = parseWhisperResponse(await r2.json());
+          if (cleaned && Array.isArray(cleaned.posts) && cleaned.posts.length === parsed.posts.length && cleaned.posts.every((p) => p.caption && p.caption.trim().length >= 20)) {
+            posts = cleaned.posts;
+          }
+        }
+      } catch (_) { /* keep the originals */ }
+      const final = { ...parsed, posts };
+      setPostResult(final);
+      setDrafts(final.posts.map((p) => p.caption || ""));
       // Marks the tool done on this device, and gives the Brief a line.
-      remember("photoposts", (parsed.posts[0] && parsed.posts[0].caption) || "Made posts from a photo");
+      remember("photoposts", (final.posts[0] && final.posts[0].caption) || "Made posts from a photo");
       ph("step_completed", { step: "photo" });
       track("posts_from_photo");
     } catch (_) {
@@ -151,7 +181,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
             </button>
           )}
           {photoBusy && (
-            <StepLoader steps={["Looking at your photo", "Finding the story in it", "Writing three posts in your voice"]} />
+            <StepLoader steps={["Looking at your photo", "Finding what it proves you know", "Writing three posts in your voice", "Cutting anything generic"]} />
           )}
           {photoErr && !photoBusy && (
             <p style={{ fontSize: 15, color: "#B4552D", fontFamily: SANS, margin: "14px 0 0", lineHeight: 1.55 }}>{photoErr}</p>
