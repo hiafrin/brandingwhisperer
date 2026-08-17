@@ -692,24 +692,6 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </div>
           </section>
 
-          {/* ── 8. BUILD LOG: dates from real git history. Nothing says "live
-                company" faster than dates. ── */}
-          <section style={{ maxWidth: 680, margin: "0 auto", padding: "48px 24px 12px" }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 16px" }}>What's shipping</p>
-            {[
-              ["Aug 2026", "AI visibility check: a live scan of how findable you are"],
-              ["Aug 2026", "The library: the framework, prompts, and checklists"],
-              ["Jul 2026", "The Gentle Roast, and the Inward Brief"],
-              ["Jun 2026", "Brand Voice"],
-              ["Jun 2026", "The Inward Scan and Foundation"],
-            ].map(([d, what], i) => (
-              <p key={i} style={{ display: "flex", gap: 16, alignItems: "baseline", fontSize: 15.5, lineHeight: 1.6, margin: "0 0 8px", fontFamily: SANS, color: "#443F39" }}>
-                <span style={{ flexShrink: 0, fontVariantNumeric: "tabular-nums", fontSize: 13.5, color: "#7A7065", minWidth: 66 }}>{d}</span>
-                <span>{what}</span>
-              </p>
-            ))}
-          </section>
-
         </>
       )}
 
