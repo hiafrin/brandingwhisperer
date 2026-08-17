@@ -112,6 +112,7 @@ export const GLOBAL_CSS = `
   @keyframes fadeUp { from { opacity: 0; transform: translateY(12px);} to { opacity: 1; transform: translateY(0);} }
   @keyframes dealIn { from { opacity: 0; transform: translateY(18px) rotate(-1.2deg);} to { opacity: 1; transform: translateY(0) rotate(0);} }
   @keyframes pulse { 0%,100% { opacity:.35;} 50% { opacity:1;} }
+  @media (min-width: 681px) { .mw-menu-mobile-only { display: none !important; } }
   @media (max-width: 680px) {
     .mw-nav-mid { display: none; }
     .mw-nav { padding-left: 16px !important; padding-right: 16px !important; }
@@ -390,11 +391,11 @@ export function ToolsMenuPanel({ onClose, side = "right", top = 52 }) {
       cta: OUTCOME_LABELS[s.key] || s.blurb,
       dot: done.includes(s.key) ? ACCENT : "#D9D2C6",
     })),
-    { section: "More", href: "/ai-visibility", name: "AI visibility check", cta: "See where you show up, and the words that raise it", dot: CORAL },
+    { section: "More", href: "/ai-visibility", name: "AI visibility check", cta: "See where you show up, and the words that raise it", dot: CORAL, mobileOnly: true },
+    { section: "More", href: "/buddy", name: "Find a roast buddy", cta: "Matched one-to-one to trade honest notes", dot: INK_TEAL, mobileOnly: true },
+    { section: "More", href: "/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL, mobileOnly: true },
     { section: "More", href: "/brief", name: "Your Inward Brief", cta: "Everything you've made, emailed to you as one page", dot: ACCENT },
-    { section: "More", href: "/buddy", name: "Find a roast buddy", cta: "Matched one-to-one to trade honest notes", dot: INK_TEAL },
     { section: "More", href: "/resources", name: "The library", cta: "The philosophy, the framework, prompts, and checklists", dot: ACCENT },
-    { section: "More", href: "/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL },
   ];
 
   return (
@@ -406,7 +407,7 @@ export function ToolsMenuPanel({ onClose, side = "right", top = 52 }) {
                 {newSection && (
                   <p style={{ margin: i ? "10px 0 2px" : "2px 0 2px", padding: "6px 12px 4px", fontSize: 11, letterSpacing: ".13em", textTransform: "uppercase", color: "#B0A79A", fontWeight: 700, borderTop: i ? "1px solid #EFE7DA" : "none" }}>{t.section}</p>
                 )}
-                <a href={t.href} onClick={onClose} role="menuitem" className="mw-menu-row"
+                <a href={t.href} onClick={onClose} role="menuitem" className={t.mobileOnly ? "mw-menu-row mw-menu-mobile-only" : "mw-menu-row"}
                   style={{ display: "flex", alignItems: "flex-start", gap: 12, textDecoration: "none", color: INK, padding: "11px 12px", borderRadius: 10, borderTop: !newSection ? "1px solid #F4EFE6" : "none" }}>
                   <span style={{ flexShrink: 0, width: 9, height: 9, borderRadius: "50%", background: t.dot, marginTop: 6 }} />
                   <span>
@@ -452,7 +453,15 @@ export function ToolsMenu() {
 //    opens the same dropdown panel; Start free goes to the six questions. ──
 export function SiteNav({ tone = "dark", onStart }) {
   const [open, setOpen] = useState(false);
+  const [panelPos, setPanelPos] = useState({ top: 64, left: 16 });
   const ref = useRef(null);
+  const toggleMenu = () => {
+    if (!open && ref.current) {
+      const r = ref.current.getBoundingClientRect();
+      setPanelPos({ top: r.bottom + 10, left: Math.max(16, Math.min(r.left, window.innerWidth - 316)) });
+    }
+    setOpen((o) => !o);
+  };
   useEffect(() => {
     if (!open) return;
     const onDoc = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
@@ -474,10 +483,14 @@ export function SiteNav({ tone = "dark", onStart }) {
       </a>
       <span style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <span ref={ref} style={{ position: "relative" }}>
-          <button onClick={() => setOpen((o) => !o)} aria-haspopup="true" aria-expanded={open} style={{ ...item, background: "none", border: "none", padding: 0, cursor: "pointer", whiteSpace: "nowrap" }}>
+          <button onClick={toggleMenu} aria-haspopup="true" aria-expanded={open} style={{ ...item, background: "none", border: "none", padding: 0, cursor: "pointer", whiteSpace: "nowrap" }}>
             Tools <span aria-hidden="true" style={{ fontSize: 9, display: "inline-block", transform: open ? "rotate(180deg)" : "none", transition: "transform .18s" }}>&#9662;</span>
           </button>
-          {open && <ToolsMenuPanel onClose={() => setOpen(false)} side="left" top={34} />}
+          {open && (
+            <div style={{ position: "fixed", top: panelPos.top, left: panelPos.left, zIndex: 300 }}>
+              <ToolsMenuPanel onClose={() => setOpen(false)} side="left" top={0} />
+            </div>
+          )}
         </span>
         <a className="mw-nav-mid" href="/ai-visibility" style={item}>AI visibility</a>
         <a className="mw-nav-mid" href="/buddy" style={item}>Find a buddy</a>
