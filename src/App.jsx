@@ -635,7 +635,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 20px" }}>The path</p>
             {[
               { n: "1", title: "The Inward Scan", body: "Eight taps, no typing. It names the specific way you disappear.", key: "scan", onClick: () => { track("opened_scan"); ph("scan_started"); setScanStart((x) => x + 1); }, href: null },
-              { n: "2", title: "Foundation", body: "Six questions. You leave with a positioning line, the thing about your work nobody can copy, and one word you could own.", key: "foundation", href: "/foundation" },
+              { n: "2", title: "Foundation", body: "Six questions. You leave with a positioning line, the thing about your work nobody can copy, one word you could own, and a gentle 7-day plan to start on.", key: "foundation", href: "/foundation" },
               { n: "3", title: "Brand Voice", body: "Your actual voice, written down, so everything you publish sounds like you instead of like everyone.", key: "voice", href: "/brand-voice" },
             ].map((c, i) => {
               const ok = doneSteps.includes(c.key);

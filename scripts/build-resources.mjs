@@ -414,7 +414,7 @@ const homeFallback = `
   <h2>The path</h2>
   <ol>
     <li><a href="/scan">Step one, The Inward Scan. Eight taps, no typing. It names the specific way you disappear.</a></li>
-    <li><a href="/foundation">Step two, Foundation. Six questions. You leave with a positioning line, the thing about your work nobody can copy, and one word you could own.</a></li>
+    <li><a href="/foundation">Step two, Foundation. Six questions. You leave with a positioning line, the thing about your work nobody can copy, one word you could own, and a gentle 7-day plan to start on.</a></li>
     <li><a href="/brand-voice">Step three, Brand Voice. Your actual voice, written down, so everything you publish sounds like you instead of like everyone.</a></li>
   </ol>
   <p>Also here: <a href="/plan">The Quieter Plan</a>, <a href="/roast">The Gentle Roast</a>, <a href="/brief">the Inward Brief</a>, and <a href="/ai-visibility">an AI visibility check</a>.</p>

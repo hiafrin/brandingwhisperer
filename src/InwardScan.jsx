@@ -107,7 +107,7 @@ const QUESTIONS = [
 
 const TOOLS = {
   voice: { href: "/brand-voice", name: "Hear your voice", desc: "A quiet interview that observes the voice you already have and hands it back, named." },
-  foundation: { href: "/foundation", name: "Define the brand", desc: "Six questions, then your foundation: what you're about, the moment you're for, the word to own." },
+  foundation: { href: "/foundation", name: "The six questions", desc: "Six questions, then your foundation: what you're about, the word to own, and a gentle 7-day plan to start on." },
   roast: { href: "/roast", name: "Rescue what you wrote", desc: "Paste your page or a deleted draft. It tells you what to keep, then what's worth a gentle fix." },
   plan: { href: "/plan", name: "Get a plan that fits your energy", desc: "What to ignore, and a rhythm you can actually keep without crashing." },
 };
@@ -119,7 +119,7 @@ const PATTERNS = {
       "You built something good, then built a wall around it. Hiding protected you, nobody could judge what nobody saw. It worked too well, that's the only problem with it. Your instinct not to perform is right, researchers even back you on that. The advice you were handed was built for people who find promotion easy. The work was never the issue.",
     moments: { excited: "you make the thing, then quietly file it away", publish: "you find a reason not to", praise: "you change the subject" },
     succeed: { with: ["a quiet website or portfolio", "a small newsletter people opt into", "letting other people's words vouch for you"], without: "lives, stories, and daily posting" },
-    path: ["voice", "foundation", "roast"],
+    path: ["foundation", "voice", "roast"],
     move: "Don't post anything. Text one person who loves your work and ask for two sentences about it. Their words go up first, credited to them.",
   },
   pusher: {
@@ -128,7 +128,7 @@ const PATTERNS = {
       "You can do visibility, you've proven it in every burst. You just pay for it in the crash after, and the silence that follows feels like failure, so the next burst has to be bigger. That's not a discipline problem, it's a pacing one. Your energy is a budget, and every plan you tried spent it like it was free.",
     moments: { excited: "you create a whole batch at once", publish: "you post all of it, then vanish", praise: "you promise even more than you can do" },
     succeed: { with: ["batching content in one sitting", "an email list you fill when the energy is there", "a scheduler that posts for you"], without: "daily posting and being on every single day" },
-    path: ["plan", "foundation", "voice"],
+    path: ["foundation", "plan", "voice"],
     move: "Cancel one thing you planned to post this week. On purpose. A rhythm you can keep beats a burst you can't.",
   },
   deleter: {
@@ -137,7 +137,7 @@ const PATTERNS = {
       "You don't lack words, you have folders full of them. What you lack is a referee. You write something honest, a voice says it doesn't sound like you, and you believe it. Here's the thing, that voice has good taste. It's just never been given a job, so it rejects everything instead of fixing anything.",
     moments: { excited: "you write something real", publish: "you reread it and delete it", praise: "you minimize it" },
     succeed: { with: ["an editor in the loop before you post", "one pinned post you never have to redo", "referrals, where someone else does the talking"], without: "the blank-page feed and posting from scratch daily" },
-    path: ["roast", "voice", "foundation"],
+    path: ["foundation", "roast", "voice"],
     move: "Find the last thing you wrote and didn't post. Paste it into the gentle roast before you reread it. Let it come back fixed, not deleted.",
   },
   perfectionist: {
@@ -146,7 +146,7 @@ const PATTERNS = {
       "Your high standards are real, and they're part of why your work is good. But somewhere the standard stopped being a tool and became a wall. Nothing ships because nothing is finished, and nothing is finished because finished feels like exposure. The work isn't the problem. The rule that it has to be flawless before anyone sees it, that's the problem.",
     moments: { excited: "you start polishing", publish: "you rewrite it one more time, and one more", praise: "you point out what's still wrong with it" },
     succeed: { with: ["evergreen pieces you make once and keep", "one deep portfolio or essay instead of many posts", "letting good and true be the bar, not flawless"], without: "high-frequency posting and chasing the feed" },
-    path: ["roast", "foundation", "plan"],
+    path: ["foundation", "roast", "plan"],
     move: "Take the thing you've been polishing. Post the version you have right now, before you touch it again. Done and true beats perfect and hidden.",
   },
   scatterer: {
@@ -155,7 +155,7 @@ const PATTERNS = {
       "You're not short on ideas, you're drowning in them, and that gift can feel like a curse. Every new direction is exciting, so you start five and finish none, and from the outside it looks like you never showed up. You don't need more ideas. You need one to be allowed to be the main thing for a while.",
     moments: { excited: "you start five new things", publish: "you're already onto the next idea", praise: "you barely register it, you've moved on" },
     succeed: { with: ["one channel and one repeated format", "a newsletter with the same shape each time", "one through-line to follow for a whole season"], without: "being everywhere and starting a new thing each week" },
-    path: ["plan", "foundation", "voice"],
+    path: ["foundation", "plan", "voice"],
     move: "Pick the one idea you'd keep if you had to drop the rest. Just for this week, it's the only one. The others will wait, they always do.",
   },
 };
@@ -382,7 +382,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 24, flexWrap: "wrap" }}>
               <button className="mw-btn" onClick={copyResult} style={primaryBtn}>{copied ? "Copied" : "Copy my pattern"}</button>
               <a href={TOOLS[pattern.path[0]].href} style={{ color: ACCENT, fontWeight: 600, textDecoration: "none", fontFamily: SANS, fontSize: 16 }}>
-                Start step 1 &rarr;
+                Start the six questions &rarr;
               </a>
               <button className="mw-ghost" onClick={() => { setStep(-1); setKept(false); }} style={ghostBtn}>Retake</button>
             </div>
