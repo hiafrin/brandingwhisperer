@@ -90,8 +90,9 @@ export default async function handler(req, res) {
       const text = await callGemini({ system, user, image }, geminiKey);
       // Same envelope the client has always parsed.
       return res.status(200).json({ content: [{ type: "text", text }] });
-    } catch (_) {
+    } catch (e) {
       // Fall through to Claude only when the free path actually failed.
+      console.error("gemini fallback:", e && e.message);
     }
   }
 
