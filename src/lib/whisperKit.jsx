@@ -392,7 +392,7 @@ export function ToolsMenuPanel({ onClose, side = "right", top = 52 }) {
       dot: done.includes(s.key) ? ACCENT : "#D9D2C6",
     })),
     { section: "More", href: "/ai-visibility", name: "AI visibility check", cta: "See where you show up, and the words that raise it", dot: CORAL, mobileOnly: true },
-    { section: "More", href: "/buddy", name: "Find a roast buddy", cta: "Matched one-to-one to trade honest notes", dot: INK_TEAL, mobileOnly: true },
+    { section: "More", href: "/buddy", name: "Find a hype buddy", cta: "Matched one-to-one to cheer each other on", dot: INK_TEAL, mobileOnly: true },
     { section: "More", href: "/about", name: "About the strategist", cta: "Who's behind this", dot: INK_TEAL, mobileOnly: true },
     { section: "More", href: "/brief", name: "Your Inward Brief", cta: "Everything you've made, emailed to you as one page", dot: ACCENT },
     { section: "More", href: "/resources", name: "The library", cta: "The philosophy, the framework, prompts, and checklists", dot: ACCENT },

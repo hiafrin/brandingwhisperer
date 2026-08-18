@@ -422,7 +422,7 @@ const homeFallback = `
   <h2>Built for people whose credibility lives in their work</h2>
   <p>Professors, researchers, and PhD candidates. Clinicians and scientists. Engineers, designers, and independent consultants. Anyone who would rather be judged on what they made than on how loudly they said it.</p>
   <p>People often tell me branding feels like it was written for extroverts. I disagree. Any good brand strategist knows great brands aren't built on volume. They're built on clarity, consistency, and the confidence to be unmistakably yourself.</p>
-  <p><a href="/resources">The library</a> · <a href="/buddy">Find a roast buddy</a> · <a href="/about">About the strategist</a> · <a href="/work-with-me">Work with me</a></p>`;
+  <p><a href="/resources">The library</a> · <a href="/buddy">Find a hype buddy</a> · <a href="/about">About the strategist</a> · <a href="/work-with-me">Work with me</a></p>`;
 const homeHtml = shell
   .replace(/<title>[^<]*<\/title>/, `<title>${esc(HOME_TITLE)}</title>`)
   .replace('<div id="root"></div>', `<div id="root">${homeFallback}</div>`);

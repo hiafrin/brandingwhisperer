@@ -201,20 +201,20 @@ export const TOOL_PAGES = [
   {
     slug: "buddy",
     step: null,
-    title: "Find a roast buddy | Branding Inward",
+    title: "Find a hype buddy | Branding Inward",
     description:
-      "Get matched one-to-one with another quiet professional to trade honest notes on each other's writing, swap endorsements, or just compare notes. No group, no community. One person.",
-    h1: "Find a roast buddy",
+      "Get matched one-to-one with another quiet professional to cheer each other's work, swap endorsements, and nudge each other to actually press post. No group, no community. One person.",
+    h1: "Find a hype buddy",
     summary:
-      "The hardest part of getting feedback is asking for it. So don't ask a stranger, get matched with one: one other quiet person, introduced personally, to trade honest notes on each other's writing, swap endorsements where you vouch for each other's work, or just compare notes on being bad at announcing. No group to keep up with, no community obligations. One person, matched by a real human.",
+      "Quiet people don't need a critic, they need one person in their corner. Get matched with one other quiet professional, introduced personally, to cheer each other's work, celebrate the small wins, swap endorsements where you vouch for each other, and nudge each other to actually press post. No group to keep up with, no community obligations. One person, matched by a real human.",
     faqs: [
       {
-        q: "How does the roast buddy matching work?",
+        q: "How does the hype buddy matching work?",
         a: "You leave your name, email, and a line about what you make. Sabiha Afrin matches you personally with one other person whose work and temperament fit, and introduces you by email. No algorithm, no group chat.",
       },
       {
         q: "What do buddies actually do?",
-        a: "Whatever you agree on: trade honest notes on each other's drafts, swap endorsements where you vouch for each other's work, or just have coffee with someone who gets it.",
+        a: "Whatever you agree on: cheer each other's posts, swap endorsements where you vouch for each other's work, celebrate small wins, or just have coffee with someone who gets it.",
       },
     ],
   },

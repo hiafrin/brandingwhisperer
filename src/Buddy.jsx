@@ -16,13 +16,13 @@ export default function Buddy() {
       <main style={{ flex: 1, width: "100%", boxSizing: "border-box", padding: "48px 0 24px" }}>
         <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
           <h1 style={{ fontSize: "clamp(32px, 5vw, 46px)", lineHeight: 1.12, margin: "0 0 16px", fontWeight: 350 }}>
-            Find a <span style={{ fontStyle: "italic", color: ACCENT }}>roast buddy.</span>
+            Find a <span style={{ fontStyle: "italic", color: ACCENT }}>hype buddy.</span>
           </h1>
           <p style={{ fontSize: 17.5, lineHeight: 1.7, color: "#443F39", margin: 0, fontFamily: SANS }}>
-            The hardest part of getting feedback is asking for it. So don't ask a stranger,
-            get matched with one. One other quiet person, introduced by me, to trade honest
-            notes on each other's writing, swap endorsements, or just compare notes on being
-            bad at announcing. No group, no community to keep up with. One person.
+            Quiet people don't need a critic, they need one person in their corner. Get matched
+            with one other quiet professional, introduced by me, to cheer each other's work,
+            celebrate the small wins, swap endorsements, and nudge each other to actually
+            press post. No group, no community to keep up with. One person who gets it.
           </p>
         </div>
         <BuddyForm />
