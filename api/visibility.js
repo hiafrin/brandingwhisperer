@@ -150,7 +150,7 @@ function evidenceBlock(siteData, searches) {
 // ── Scoring backends. Both return the raw text of the model's answer. ──
 async function scoreWithGemini(system, user, key) {
   const r = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${key}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
