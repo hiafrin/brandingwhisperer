@@ -145,7 +145,7 @@ export const TOOL_PAGES = [
         a: "Your answers live only on your own device, in your browser's local storage. Leaving your email sends you the one-page brief and opens it on the page; the email is used for that send, nothing else unless you ask.",
       },
       {
-        q: "Do I need to finish all six steps?",
+        q: "Do I need to use all five tools?",
         a: "No. The brief fills in from whichever tools you've used, in any order, and each section links to the tool that produces it.",
       },
     ],
@@ -223,7 +223,7 @@ export const TOOL_PAGES = [
     step: null,
     title: "About: the strategist behind Branding Inward",
     description:
-      "Branding Inward is a brand strategist's free toolkit for people who find self-promotion draining: six steps to get found without performing.",
+      "Branding Inward is a brand strategist's free toolkit for people who find self-promotion draining: five tools to get found without performing.",
     h1: "About Branding Inward",
     summary:
       "Branding Inward is built by Sabiha Afrin, a brand strategist. The framework, the questions, and the research behind every tool are hers; the AI is just what hands it to you in three minutes, for free. It exists for people who want to be known for their work without performing for it.",

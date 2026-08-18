@@ -45,7 +45,7 @@ const esc = (s = "") => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").r
 // The shelves, in display order. linkedin only renders once items exist.
 const SHELVES = [
   { key: "philosophy", name: "The philosophy", blurb: "What this whole site believes, in plain words." },
-  { key: "framework", name: "The framework", blurb: "Know. Show. Grow. The method behind the six tools." },
+  { key: "framework", name: "The framework", blurb: "Know. Show. Grow. The method behind the five tools." },
   { key: "prompts", name: "Prompt collections", blurb: "The real patterns behind the tools, portable to any AI chat." },
   { key: "worksheets", name: "Worksheets & checklists", blurb: "Front-loaded work that compounds. Print them, work through them." },
   { key: "linkedin", name: "From my LinkedIn", blurb: "The best of what I write over there, kept here." },
@@ -372,7 +372,7 @@ function renderToolPage(shell, t) {
   const fallback = `<h1>${esc(t.h1)}</h1>
 <p>${esc(t.summary)}</p>
 ${t.faqs.map((f) => `<h2>${esc(f.q)}</h2>\n<p>${esc(f.a)}</p>`).join("\n")}
-<p><a href="/">Branding Inward: all six steps</a> · <a href="/resources">Resources</a></p>`;
+<p><a href="/">Branding Inward: all five tools</a> · <a href="/resources">Resources</a></p>`;
   return html.replace('<div id="root"></div>', `<div id="root">${fallback}</div>`);
 }
 

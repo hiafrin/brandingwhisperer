@@ -600,6 +600,36 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </p>
           </section>
 
+          {/* ── WHO THIS IS FOR: the photos are back, the words still carry it ── */}
+          <section style={{ borderTop: "1px solid #EFE7DA", background: "#FBF8F0", margin: "44px 0 0", padding: "40px 0 44px" }}>
+            <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 24px" }}>
+              <div className="mw-who-grid" style={{ marginBottom: 28 }}>
+                <div style={{ borderRadius: 16, overflow: "hidden", aspectRatio: "1/1", boxShadow: "0 10px 26px rgba(11,59,52,.12)" }}>
+                  <img loading="lazy" decoding="async" src="/media/pottery-hands.jpg" alt="Hands shaping clay on a pottery wheel" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </div>
+                <div style={{ padding: "8px 6px" }}>
+                  <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 12px" }}>Who it's for</p>
+                  <p style={{ fontSize: "clamp(20px, 2.7vw, 25px)", lineHeight: 1.3, margin: 0, fontWeight: 350 }}>
+                    Built for people whose credibility <span style={{ fontStyle: "italic", color: ACCENT }}>lives in their work.</span>
+                  </p>
+                </div>
+                <div style={{ borderRadius: 16, overflow: "hidden", aspectRatio: "1/1", boxShadow: "0 10px 26px rgba(11,59,52,.12)" }}>
+                  <img loading="lazy" decoding="async" src="/media/writing-notebook.jpg" alt="A hand writing in a notebook by a window, coffee and glasses nearby" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", animationDelay: "-12s" }} />
+                </div>
+              </div>
+              <p style={{ fontSize: 17, lineHeight: 1.7, color: "#443F39", margin: "0 0 24px", fontFamily: SANS, maxWidth: 680 }}>
+                Professors, researchers, and PhD candidates. Clinicians and scientists. Engineers,
+                designers, and independent consultants. Anyone who would rather be judged on what
+                they made than on how loudly they said it.
+              </p>
+              <p style={{ fontSize: "clamp(18px, 2.4vw, 21px)", lineHeight: 1.5, color: INK, margin: 0, borderLeft: `3px solid ${BUTTER}`, paddingLeft: 18, maxWidth: 680 }}>
+                People often tell me branding feels like it was written for extroverts. I disagree.
+                Any good brand strategist knows great brands aren't built on volume.
+                They're built on clarity, consistency, <span style={{ fontStyle: "italic", color: ACCENT }}>and the confidence to be unmistakably yourself.</span>
+              </p>
+            </div>
+          </section>
+
           {/* ── 3. THE PROBLEM ── */}
           <section style={{ maxWidth: 680, margin: "0 auto", padding: "52px 24px 8px" }}>
             <p style={{ fontSize: "clamp(21px, 3vw, 26px)", lineHeight: 1.4, margin: "0 0 16px", fontWeight: 350, color: INK }}>
@@ -611,24 +641,6 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </p>
           </section>
 
-          {/* ── 4. WHO THIS IS FOR: one paragraph, named, her quote closes it ── */}
-          <section style={{ borderTop: "1px solid #EFE7DA", borderBottom: "1px solid #EFE7DA", background: "#FBF8F0", margin: "44px 0 0", padding: "40px 0" }}>
-            <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
-              <h2 style={{ fontSize: "clamp(22px, 3vw, 27px)", lineHeight: 1.25, margin: "0 0 14px", fontWeight: 350 }}>
-                Built for people whose credibility <span style={{ fontStyle: "italic", color: ACCENT }}>lives in their work.</span>
-              </h2>
-              <p style={{ fontSize: 17, lineHeight: 1.7, color: "#443F39", margin: "0 0 24px", fontFamily: SANS }}>
-                Professors, researchers, and PhD candidates. Clinicians and scientists. Engineers,
-                designers, and independent consultants. Anyone who would rather be judged on what
-                they made than on how loudly they said it.
-              </p>
-              <p style={{ fontSize: "clamp(18px, 2.4vw, 21px)", lineHeight: 1.5, color: INK, margin: 0, borderLeft: `3px solid ${BUTTER}`, paddingLeft: 18 }}>
-                People often tell me branding feels like it was written for extroverts. I disagree.
-                Any good brand strategist knows great brands aren't built on volume.
-                They're built on clarity, consistency, <span style={{ fontStyle: "italic", color: ACCENT }}>and the confidence to be unmistakably yourself.</span>
-              </p>
-            </div>
-          </section>
 
           {/* ── 7. FOR DEPARTMENTS AND TEAMS: the waitlist. Hidden for now. ── */}
           {SHOW_TEAMS && (
@@ -745,7 +757,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   )}
                   <div style={{ marginTop: 16 }}>
                     <button onClick={() => { track("stuck_see_all"); document.getElementById("framework")?.scrollIntoView({ behavior: "smooth" }); }} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontFamily: SANS, fontSize: 14, color: ACCENT, fontWeight: 600 }}>
-                      Not quite it? See all six steps →
+                      Not quite it? See all five tools →
                     </button>
                   </div>
                 </div>

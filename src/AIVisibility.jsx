@@ -8,7 +8,7 @@ import {
   primaryBtn, ghostBtn, miniLabel, plainCard,
 } from "./lib/whisperKit.jsx";
 
-// ── The AI Visibility Audit, the Branding Inward way. Outside the six-step
+// ── The AI Visibility Audit, the Branding Inward way. Outside the five-tool
 //    framework: the steps build the brand, this checks how findable it is and
 //    then WRITES the words that fix it. The reframe the whole page stands on:
 //    AI search can't hear volume, only clarity. The scan is LIVE: the AI runs
@@ -95,7 +95,7 @@ Website: ${site.trim() ? `"${site.trim()}"` : "none given"}
 What they do, in their words: "${work.trim()}"${where.trim() ? `\nWhere they work or teach: "${where.trim()}"` : ""}`;
   }
 
-  // What the six steps already saved on this device. The kit gets sharper the
+  // What the other tools already saved on this device. The kit gets sharper the
   // more of the framework they've done, which is the whole point of the bridge.
   function deviceMemory() {
     const mem = {};
@@ -190,7 +190,7 @@ Return ONLY JSON, no markdown:
 
 HONESTY RULES, the most important thing: use ONLY the facts they gave you and the scan findings below. Never invent credentials, years of experience, awards, clients, numbers, places, or product names that do not appear in their words. If a detail wasn't given, write around it. Plain, specific, true.
 
-VOICE: write in the first person, as them. Plain, warm, short sentences. No hype words (passionate, journey, elevate, unlock). Do not use em-dashes or en-dashes anywhere, use commas and periods instead. Never assume gender.${memLines ? `\n\nTHEIR OWN MATERIAL, saved on their device by the six-step framework, use it so the kit sounds like them and only them:\n${memLines}` : ""}${evidence}
+VOICE: write in the first person, as them. Plain, warm, short sentences. No hype words (passionate, journey, elevate, unlock). Do not use em-dashes or en-dashes anywhere, use commas and periods instead. Never assume gender.${memLines ? `\n\nTHEIR OWN MATERIAL, saved on their device by the other Branding Inward tools, use it so the kit sounds like them and only them:\n${memLines}` : ""}${evidence}
 
 Return ONLY JSON, no markdown:
 {"anchor": "the About-page paragraph, 70 to 110 words, first person: who they are, what they make, for whom, where if given, and the one thing that makes it theirs. This is the page an engine will anchor their identity to, so every sentence is a plain fact.",
@@ -331,7 +331,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
             <p style={{ fontSize: 14, color: "#9A8F82", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
               Honest small print: this runs a few real web searches about your name and reads your site if you
               share one. It's a light audit, a handful of real searches, and the web is bigger than one scan.
-              Results appear right here, no email, and nothing you type is saved. If you've done the six steps,
+              Results appear right here, no email, and nothing you type is saved. If you've used the other tools,
               the kit borrows the voice and story already saved on your device.
             </p>
           </div>
@@ -502,12 +502,12 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
                 Want a sharper kit?
               </p>
               <p style={{ fontSize: 16, lineHeight: 1.55, margin: "0 0 12px", color: INK }}>
-                This kit was written from a scan and three minutes of answers. Do the six steps and it gets
+                This kit was written from a scan and three minutes of answers. Use the five tools and it gets
                 rebuilt from your named voice and your un-copyable story, saved on your device, so it could
                 only ever be yours.
               </p>
               <a href="/" style={{ fontFamily: SANS, fontSize: 15, color: ACCENT, fontWeight: 600, textDecoration: "none" }}>
-                See the six steps &rarr;
+                See the five tools &rarr;
               </a>
             </div>
           </div>

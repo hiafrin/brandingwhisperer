@@ -10,7 +10,7 @@ import {
 
 // Each brief line, the device key it reads, and the step that fills it.
 // Ordered by the framework: See, Understand, Express, Share, Refine.
-// hrefs must match the real routes: the scan lives on the home, and the six
+// hrefs must match the real routes; every tool works on its own, and the
 // questions moved to /foundation when the front door was swapped.
 const ITEMS = [
   { key: "patternName", label: "How I get stuck", step: "The Inward Scan", href: "/scan" },

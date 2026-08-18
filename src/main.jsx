@@ -25,7 +25,7 @@ const ROUTES = {
   "/roast": () => <RoastWhisper />,
   "/brief": () => <InwardBrief />,
   "/about": () => <AboutInward />,
-  "/ai-visibility": () => <AIVisibility />, // outside the six-step framework
+  "/ai-visibility": () => <AIVisibility />, // outside the five-tool set
   "/work-with-me": () => <WorkWithMe />,
   "/buddy": () => <Buddy />,
 };
