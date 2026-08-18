@@ -12,7 +12,9 @@ async function callGemini({ system, user, image }, key) {
   parts.push({ text: user });
 
   const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), 45000);
+  // 20s patience: if the free tier is queueing, fall back to Claude rather
+  // than make a visitor stare at a spinner.
+  const t = setTimeout(() => ctrl.abort(), 20000);
   try {
     const r = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${key}`,
@@ -22,7 +24,9 @@ async function callGemini({ system, user, image }, key) {
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: system }] },
           contents: [{ role: "user", parts }],
-          generationConfig: { maxOutputTokens: 2500, temperature: 0.6 },
+          // Thinking is on by default in this model family; it adds many
+          // silent seconds and its tokens count against maxOutputTokens.
+          generationConfig: { maxOutputTokens: 2500, temperature: 0.6, thinkingConfig: { thinkingLevel: "minimal" } },
         }),
         signal: ctrl.signal,
       }

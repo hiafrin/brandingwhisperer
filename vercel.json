@@ -4,6 +4,9 @@
   "functions": {
     "api/visibility.js": {
       "maxDuration": 300
+    },
+    "api/generate.js": {
+      "maxDuration": 60
     }
   },
   "redirects": [

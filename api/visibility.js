@@ -160,7 +160,7 @@ async function scoreWithGemini(system, user, key) {
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: system }] },
         contents: [{ role: "user", parts: [{ text: user }] }],
-        generationConfig: { maxOutputTokens: 4000, temperature: 0.4 },
+        generationConfig: { maxOutputTokens: 4000, temperature: 0.4, thinkingConfig: { thinkingLevel: "minimal" } },
       }),
     }
   );
