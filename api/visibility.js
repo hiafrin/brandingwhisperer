@@ -24,6 +24,8 @@ THE FIVE QUIET SIGNALS (score each 0 to 20; not one requires posting, performing
 
 SCORING RULES: score from evidence, not charity. Strong verified evidence lands 15 to 20, partial or thin evidence 8 to 14, absent 0 to 7. Most small brands genuinely land between 20 and 55 and an inflated score helps nobody. The total is the sum of the five.
 
+DISAMBIGUATION: if an affiliation was given, use it to decide which search results are actually this person and which are other people who share the name. Say plainly in the receipts which is which ("the LinkedIn profile at X is you; the economist and the designer are other Sabiha Afrins" style, with their real details). Finding name twins is a real finding about NAME CLARITY; name it without drama, and score name clarity by whether THEY are findable among the twins.
+
 HONESTY RULES: every claim in your output must trace to something in the evidence block. Quote or closely paraphrase real findings ("your homepage says X", "searching your name surfaces a LinkedIn profile and nothing else"). Never invent pages, mentions, or rankings that are not in the evidence. If a search came back empty or the site fetch failed, say that plainly; absence of evidence is a real finding here. The web is bigger than a handful of searches, so frame negatives as "didn't surface in our scan", not "doesn't exist".
 
 VOICE: plain, warm, short sentences. Address the person directly as "you" everywhere, including every dimension note; "they" is only for third parties, and never assume anyone's gender. Do not use em-dashes or en-dashes anywhere, use commas and periods instead.
@@ -43,7 +45,7 @@ const CLAUDE_SEARCH_ADDENDUM = `
 SEARCH PROTOCOL: the site text (if any) is already in the user message, but you must run the web searches yourself, up to 4, each with a distinct job, then stop and score:
 1. Their bare name, the way a stranger who half-remembered it would.
 2. Their name in quotes, exact, the way an engine disambiguates it.
-3. "[name] reviews" or "[name] LinkedIn" for third-party mentions and profile surfaces.
+3. Their name plus their affiliation if one was given, otherwise "[name] LinkedIn", for the profile that is actually them.
 4. Spare: a second phrasing of their name plus what they do.
 Do not fetch any web pages; the site text you have is the site evidence.`;
 
@@ -117,13 +119,14 @@ async function tavilySearch(query, key) {
   }
 }
 
-function buildQueries({ name, niche }) {
-  // Name-first: the scan's job is to show people where THEY surface.
+function buildQueries({ name, niche, where }) {
+  // Name-first: the scan's job is to show people where THEY surface. An
+  // affiliation beats a topic for disambiguation, so it takes that slot.
   const topic = niche.split(/\s+/).slice(0, 4).join(" ");
   return [
     name,
     `"${name}"`,
-    `${name} ${topic}`,
+    where ? `${name} ${where}` : `${name} ${topic}`,
     `${name} LinkedIn`,
   ];
 }
@@ -218,7 +221,7 @@ export default async function handler(req, res) {
     return res.status(429).json({ error: "Three scans a day is the limit, so every scan stays free for everyone. Come back tomorrow, your answers will keep." });
   }
 
-  const { name, site, niche, work } = req.body || {};
+  const { name, site, niche, work, where } = req.body || {};
   if (!name || !work) {
     return res.status(400).json({ error: "Missing brand details" });
   }
@@ -228,6 +231,7 @@ export default async function handler(req, res) {
     site: site ? String(site).slice(0, 120) : "",
     niche: String(niche || work).slice(0, 100),
     work: String(work).slice(0, 160),
+    where: where ? String(where).slice(0, 80) : "",
   };
 
   try {
@@ -246,7 +250,7 @@ export default async function handler(req, res) {
     const system = haveSearches || geminiKey ? RESEARCH_SYSTEM : RESEARCH_SYSTEM + CLAUDE_SEARCH_ADDENDUM;
     const userTurn = `Brand name: "${brand.name}"
 Website: ${brand.site ? `"${brand.site}"` : "none given, treat that as a finding"}
-What they do, in their words: "${brand.work}"
+What they do, in their words: "${brand.work}"${brand.where ? `\nWhere they work or teach: "${brand.where}"` : ""}
 
 SCAN EVIDENCE:
 ${evidenceBlock(siteData, searches)}

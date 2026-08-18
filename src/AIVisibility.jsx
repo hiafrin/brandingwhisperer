@@ -69,6 +69,7 @@ export default function AIVisibility() {
   const [name, setName] = useState("");
   const [site, setSite] = useState("");
   const [work, setWork] = useState("");
+  const [where, setWhere] = useState(""); // affiliation, the name-twin killer
   const [phase, setPhase] = useState("intro"); // intro | scanning | done
   const [scanLine, setScanLine] = useState(0);
   const [result, setResult] = useState(null);
@@ -91,7 +92,7 @@ export default function AIVisibility() {
   function brandFacts() {
     return `Brand name: "${name.trim()}"
 Website: ${site.trim() ? `"${site.trim()}"` : "none given"}
-What they do, in their words: "${work.trim()}"`;
+What they do, in their words: "${work.trim()}"${where.trim() ? `\nWhere they work or teach: "${where.trim()}"` : ""}`;
   }
 
   // What the six steps already saved on this device. The kit gets sharper the
@@ -110,7 +111,7 @@ What they do, in their words: "${work.trim()}"`;
     const r = await fetch("/api/visibility", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: name.trim(), site: site.trim(), niche: work.trim(), work: work.trim() }),
+      body: JSON.stringify({ name: name.trim(), site: site.trim(), niche: work.trim(), work: work.trim(), where: where.trim() }),
     });
     const d = await r.json();
     if (!r.ok) throw new Error(d.error || "scan failed");
@@ -307,6 +308,11 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
                 <p style={{ ...miniLabel, marginBottom: 8 }}>What you do, in one sentence</p>
                 <input aria-label="What you do, in one sentence" value={work} maxLength={160} onChange={(e) => setWork(e.target.value)}
                   placeholder="I study urban climate adaptation, or I pour soy candles in Portland" style={inputStyle} {...focusRing} />
+              </div>
+              <div>
+                <p style={{ ...miniLabel, marginBottom: 8 }}>Where you work or teach (optional)</p>
+                <input aria-label="Where you work or teach" value={where} maxLength={80} onChange={(e) => setWhere(e.target.value)}
+                  placeholder="American University, or your city. Helps find the right you." style={inputStyle} {...focusRing} />
               </div>
               <div>
                 <p style={{ ...miniLabel, marginBottom: 8 }}>Website, if you have one</p>
