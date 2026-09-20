@@ -587,7 +587,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   </p>
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                     {["Positioning", "Brand Voice", "The One Word", "What To Make", "7-Day Plan"].map((c, i) => (
-                      <span key={c} style={{ fontFamily: SK.SANS, fontSize: 13, fontWeight: 600, color: i === 0 ? "#FFF" : SK.INK, background: i === 0 ? SK.INK : SK.CARD, border: `1px solid ${i === 0 ? SK.INK : SK.BORDER}`, borderRadius: 100, padding: "7px 15px" }}>{c}</span>
+                      <span key={c} style={{ fontFamily: SK.SANS, fontSize: 13, fontWeight: 600, color: i === 0 ? "#FFF" : SK.INK, background: i === 0 ? SK.TEAL : SK.CARD, border: `1px solid ${i === 0 ? SK.TEAL : SK.BORDER}`, borderRadius: 100, padding: "7px 15px" }}>{c}</span>
                     ))}
                   </div>
                 </div>

@@ -7,21 +7,21 @@ import React from "react";
 //    borders, Inter everywhere, and coded UI mockups instead of prose. ──
 
 export const S = {
-  BG: "#FAFAF8",
+  BG: "#FFFFFF",
   CARD: "#FFFFFF",
-  BORDER: "#E8E6E1",
-  INK: "#141414",
-  MUTED: "#6E6A64",
-  FAINT: "#9B968E",
+  BORDER: "#E6E6E6",
+  INK: "#0A0A0A",
+  MUTED: "#5C5C5C",
+  FAINT: "#969696",
   TEAL: "#0F7C77",
   TEAL_TINT: "#EDF5F4",
-  BAR: "#ECEAE5", // skeleton placeholder bars
+  BAR: "#EEEEEE", // skeleton placeholder bars
   SANS: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
   MONO: "'SF Mono', ui-monospace, 'Menlo', monospace",
 };
 
 export const blackPill = {
-  background: S.INK,
+  background: "#0A0A0A",
   color: "#FFFFFF",
   border: "none",
   borderRadius: 100,
@@ -75,7 +75,7 @@ export function Bar({ w = "100%", h = 9, mb = 8, tint = false }) {
 // ── A dossier document mockup: labeled sections of skeleton bars. ──
 export function SkeletonDoc({ title, badge, sections }) {
   return (
-    <div style={{ ...cardStyle, padding: "22px 24px", boxShadow: "0 14px 40px rgba(20,20,20,.06)" }}>
+    <div style={{ ...cardStyle, padding: "22px 24px", boxShadow: "0 14px 40px rgba(0,0,0,.06)" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 16 }}>
         <span style={{ fontFamily: S.SANS, fontSize: 14.5, fontWeight: 600, color: S.INK }}>{title}</span>
         {badge && <span style={{ fontFamily: S.SANS, fontSize: 11.5, color: S.MUTED, background: S.BG, border: `1px solid ${S.BORDER}`, borderRadius: 100, padding: "3px 10px", whiteSpace: "nowrap" }}>{badge}</span>}

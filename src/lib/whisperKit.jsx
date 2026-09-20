@@ -399,7 +399,7 @@ export function ToolsMenuPanel({ onClose, side = "right", top = 52 }) {
   ];
 
   return (
-    <div role="menu" className="mw-menu-panel" style={{ position: "absolute", top, [side]: 0, width: "min(300px, calc(100vw - 32px))", background: "#FFF", border: "1px solid #E8E6E1", borderRadius: 14, boxShadow: "0 16px 40px rgba(20,20,20,.14)", padding: 8, fontFamily: SANS, zIndex: 300 }}>
+    <div role="menu" className="mw-menu-panel" style={{ position: "absolute", top, [side]: 0, width: "min(300px, calc(100vw - 32px))", background: "#FFF", border: "1px solid #E6E6E6", borderRadius: 14, boxShadow: "0 16px 40px rgba(0,0,0,.14)", padding: 8, fontFamily: SANS, zIndex: 300 }}>
           {items.map((t, i) => {
             const newSection = i === 0 || items[i - 1].section !== t.section;
             return (
@@ -472,14 +472,14 @@ export function SiteNav({ tone = "dark", onStart }) {
   }, [open]);
 
   // Product bar: white ground everywhere, one look on every page.
-  const item = { color: "#3E3B36", textDecoration: "none", fontWeight: 550, fontFamily: SANS, fontSize: 14.5 };
+  const item = { color: "#444444", textDecoration: "none", fontWeight: 550, fontFamily: SANS, fontSize: 14.5 };
 
   return (
-    <div style={{ background: "#FFFFFF", borderBottom: "1px solid #E8E6E1", position: "relative", zIndex: 200 }}>
+    <div style={{ background: "#FFFFFF", borderBottom: "1px solid #E6E6E6", position: "relative", zIndex: 200 }}>
     <nav className="mw-nav" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, maxWidth: 980, margin: "0 auto", padding: "14px 24px" }}>
       <a href="/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none" }}>
         <span style={{ width: 10, height: 10, borderRadius: "50%", background: ACCENT }} />
-        <span className="mw-nav-brand" style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: "-0.01em", fontSize: 16.5, color: "#141414", whiteSpace: "nowrap" }}>Branding Inward</span>
+        <span className="mw-nav-brand" style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: "-0.01em", fontSize: 16.5, color: "#0A0A0A", whiteSpace: "nowrap" }}>Branding Inward</span>
       </a>
       <span style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <span ref={ref} style={{ position: "relative" }}>
@@ -496,9 +496,9 @@ export function SiteNav({ tone = "dark", onStart }) {
         <a className="mw-nav-mid" href="/buddy" style={item}>Find a buddy</a>
         <a className="mw-nav-mid" href="/about" style={item}>About</a>
         {onStart ? (
-          <button className="mw-btn" onClick={onStart} style={{ background: "#141414", color: "#FFF", border: "none", borderRadius: 100, padding: "10px 20px", fontFamily: SANS, fontSize: 14, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Start free</button>
+          <button className="mw-btn" onClick={onStart} style={{ background: "#0A0A0A", color: "#FFF", border: "none", borderRadius: 100, padding: "10px 20px", fontFamily: SANS, fontSize: 14, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Start free</button>
         ) : (
-          <a href="/foundation" style={{ background: "#141414", color: "#FFF", borderRadius: 100, padding: "10px 20px", fontFamily: SANS, fontSize: 14, fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}>Start free</a>
+          <a href="/foundation" style={{ background: "#0A0A0A", color: "#FFF", borderRadius: 100, padding: "10px 20px", fontFamily: SANS, fontSize: 14, fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}>Start free</a>
         )}
       </span>
     </nav>
@@ -513,7 +513,7 @@ export function SiteFooter() {
   const link = { color: "#8FD6D0", textDecoration: "none", fontWeight: 550 };
   const sep = { color: "rgba(251,247,240,.3)", margin: "0 11px" };
   return (
-    <footer style={{ background: "#141414", marginTop: 60 }}>
+    <footer style={{ background: "#0A0A0A", marginTop: 60 }}>
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "52px 24px 46px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 22 }}>
           <span style={{ width: 10, height: 10, borderRadius: "50%", background: ACCENT }} />
