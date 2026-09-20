@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { track } from "@vercel/analytics";
 import { ph, phSetAudience } from "./lib/metrics.js";
+import { S as SK, blackPill, sectionLabel, cardStyle as suiteCard, Icons, SkeletonDoc, FileChip, CaptionMock, ScoreDialMock } from "./lib/suiteKit.jsx";
 import {
   ACCENT, INK, CREAM, ACCENT_RGB, INK_TEAL, BUTTER, ACCENT_TINT,
   SERIF, SANS, GLOBAL_CSS, PSYCH_LIBRARY,
@@ -498,39 +499,43 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
       {/* ── FULL-BLEED HERO with ambient video (landing only) ── */}
       {step === -1 && (
         <>
-          <section style={{ position: "relative", overflow: "hidden", background: INK_TEAL, backgroundImage: "url(/media/hero-poster.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}>
-            <video autoPlay muted loop playsInline poster="/media/hero-poster.jpg" aria-hidden="true"
-              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}>
-              <source src="/media/hero.mp4" type="video/mp4" />
-            </video>
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(175deg, rgba(11,59,52,.72) 0%, rgba(11,59,52,.55) 45%, rgba(11,59,52,.85) 100%)" }} />
-            <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "20px 24px 40px" }}>
-              {/* Nav: the strongest startup signal on the page is a nav with "For teams". */}
-              <div style={{ margin: "-20px -24px 14px" }}>
-                <SiteNav tone="dark" onStart={() => { track("start_questions"); setStep(-2); window.scrollTo({ top: 0 }); }} />
-              </div>
-              <h1 style={{ fontSize: "clamp(34px, 5.6vw, 52px)", lineHeight: 1.05, margin: "0 0 14px", fontWeight: 350, color: CREAM, letterSpacing: "-0.01em" }}>
-                Get found.<br />
-                <span style={{ display: "inline-block" }}>
-                  <span style={{ fontStyle: "italic", fontWeight: 400, color: BUTTER }}>Without performing.</span>
-                  <UnderlineStroke width={280} />
-                </span>
-              </h1>
-              <p style={{ fontSize: 18, lineHeight: 1.55, color: "rgba(251,247,240,.9)", maxWidth: 540, margin: "0 0 18px" }}>
-                Personal branding for people who are good at the work and bad at the announcing.
-              </p>
-              <p style={{ display: "flex", alignItems: "center", gap: 10, margin: "0 0 24px", fontFamily: SANS, fontSize: 13.5, color: "rgba(251,247,240,.75)" }}>
-                <img src="/media/afrin-portrait.jpg" alt="Sabiha Afrin" style={{ width: 40, height: 40, borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(251,247,240,.35)" }} />
-                <span>Built by Sabiha Afrin, brand strategist. The questions are hers. The AI just makes them fast.</span>
-              </p>
-              <button className="mw-btn" onClick={() => { track("start_questions"); setStep(-2); window.scrollTo({ top: 0 }); }} style={{ ...primaryBtn, fontSize: 18, padding: "17px 36px" }}>Start the six questions</button>
-              <p style={{ fontSize: 13.5, color: "rgba(251,247,240,.6)", marginTop: 14, fontFamily: SANS }}>
-                Six questions, about ten minutes. You leave knowing what content to make, with a 7-day plan. No account, no email.
-              </p>
-            </div>
-          </section>
 
-          {/* ── WHO IT'S FOR: inclusive, by the feeling, never by a label. Lands the distinction fast. ── */}
+          <div style={{ background: SK.BG, fontFamily: SK.SANS, color: SK.INK }}>
+            <SiteNav onStart={() => { track("start_questions"); setStep(-2); window.scrollTo({ top: 0 }); }} />
+
+            {/* ── HERO: centered product claim, no video, no serif ── */}
+            <section style={{ maxWidth: 780, margin: "0 auto", padding: "64px 24px 40px", textAlign: "center" }}>
+              <a href="/photo-to-posts" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SK.SANS, fontSize: 13, fontWeight: 600, color: SK.INK, background: SK.CARD, border: `1px solid ${SK.BORDER}`, borderRadius: 100, padding: "6px 14px", textDecoration: "none", marginBottom: 26, boxShadow: "0 2px 10px rgba(20,20,20,.04)" }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: SK.TEAL }} />
+                New: Photo to Posts
+              </a>
+              <h1 style={{ fontSize: "clamp(34px, 5.4vw, 54px)", lineHeight: 1.08, fontWeight: 700, letterSpacing: "-0.025em", margin: "0 0 18px", color: SK.INK }}>
+                The personal branding suite<br />for quiet professionals.
+              </h1>
+              <p style={{ fontSize: 18, lineHeight: 1.6, color: SK.MUTED, maxWidth: 560, margin: "0 auto 28px" }}>
+                Get found. Without performing. Five tools and one brand dossier,
+                designed by a brand strategist, written by AI, approved by you.
+              </p>
+              <button className="mw-btn" onClick={() => { track("start_questions"); setStep(-2); window.scrollTo({ top: 0 }); }} style={{ ...blackPill, fontSize: 16.5, padding: "15px 34px" }}>
+                Start free
+              </button>
+              <p style={{ fontSize: 13.5, color: SK.FAINT, margin: "14px 0 22px" }}>
+                Six questions, about ten minutes. No account, no email.
+              </p>
+              <p style={{ display: "inline-flex", alignItems: "center", gap: 9, margin: "0 0 44px", fontSize: 13.5, color: SK.MUTED }}>
+                <img src="/media/afrin-portrait.jpg" alt="Sabiha Afrin" style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover", border: `1px solid ${SK.BORDER}` }} />
+                <span>Built by Sabiha Afrin, brand strategist</span>
+              </p>
+              <div style={{ display: "flex", justifyContent: "center", gap: "22px 28px", flexWrap: "wrap" }}>
+                {[["questions", "Six Questions"], ["photo", "Photo to Posts"], ["scan", "Inward Scan"], ["voice", "Brand Voice"], ["roast", "Gentle Roast"], ["visibility", "AI Visibility"]].map(([k, label]) => (
+                  <span key={k} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 7, width: 78 }}>
+                    <span style={{ width: 44, height: 44, borderRadius: 12, background: SK.CARD, border: `1px solid ${SK.BORDER}`, display: "flex", alignItems: "center", justifyContent: "center" }}>{Icons[k]()}</span>
+                    <span style={{ fontSize: 11.5, color: SK.MUTED, lineHeight: 1.25 }}>{label}</span>
+                  </span>
+                ))}
+              </div>
+            </section>
+
           {/* ── WELCOME BACK: only for visitors who chose to keep their pattern on this device ── */}
           {storedPattern && PATTERN_HOME[storedPattern] && (
             <section style={{ maxWidth: 920, margin: "0 auto", padding: "40px 24px 0" }}>
@@ -568,112 +573,122 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             </section>
           )}
 
-          {/* The "for the quiet ones" editorial band was merged into the "Who it's for" section above. */}
-
-          {/* ── 6. THE TOOLS: her order. The six questions live in the hero;
-                this shelf is everything else, each tool standing alone. ── */}
-          <section id="framework" style={{ maxWidth: 680, margin: "0 auto", padding: "52px 24px 8px", scrollMarginTop: 20 }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 20px" }}>The tools</p>
-            <a href="/photo-to-posts" onClick={() => track("opened_photo")} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: CREAM, background: INK_TEAL, borderRadius: 16, padding: "20px 24px", marginBottom: 18 }}>
-              <span style={{ display: "block", fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: BUTTER, fontWeight: 700, marginBottom: 6 }}>Have a photo of your work?</span>
-              <span style={{ display: "block", fontSize: 20, fontWeight: 400, marginBottom: 4, lineHeight: 1.3 }}>Photo to Posts{doneSteps.includes("photo") ? " \u2713" : ""}</span>
-              <span style={{ display: "block", fontSize: 14.5, fontFamily: SANS, color: "rgba(251,247,240,.85)", lineHeight: 1.55 }}>Upload one photo. The AI looks at it and writes three posts in your voice, ready to tweak and post. No face required.</span>
-            </a>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "#9A8F82", fontWeight: 700, margin: "22px 0 10px" }}>Go deeper into personal branding</p>
-            {[
-              { title: "The Inward Scan", body: "One minute, eight taps. It names the specific way you get stuck when it's time to be visible.", key: "scan", href: "/scan" },
-              { title: "Brand Voice", body: "Your actual voice, written down, so everything you publish sounds like you instead of like everyone.", key: "voice", href: "/brand-voice" },
-              { title: "The Gentle Roast", body: "Paste what you wrote. Hear what to keep, what sounds like a costume, and one small fix.", key: "roast", href: "/roast" },
-              { title: "AI visibility check", body: "A live scan of where you actually show up, with the words that raise it.", key: "audit", href: "/ai-visibility" },
-            ].map((c) => {
-              const ok = doneSteps.includes(c.key);
-              return (
-                <a key={c.key} href={c.href} onClick={() => track("opened_" + c.key)} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "16px 18px", marginBottom: 10 }}>
-                  <span style={{ fontFamily: SANS, fontSize: 16.5, fontWeight: 600 }}>{c.title}{ok ? " \u2713" : ""}</span>
-                  <span style={{ display: "block", fontSize: 14.5, color: "#6B6157", fontFamily: SANS, lineHeight: 1.55, marginTop: 3 }}>{c.body}</span>
-                </a>
-              );
-            })}
-            <p style={{ fontSize: 15, color: "#6B6157", fontFamily: SANS, margin: "14px 0 0", lineHeight: 1.7 }}>
-              Each one works on its own. Everything you make quietly collects into{" "}
-              <a href="/brief" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>your Inward Brief</a>, emailed to you as one page.
-            </p>
-          </section>
-
-          {/* ── WHO THIS IS FOR: the photos are back, the words still carry it ── */}
-          <section style={{ borderTop: "1px solid #EFE7DA", background: "#FBF8F0", margin: "44px 0 0", padding: "40px 0 44px" }}>
-            <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 24px" }}>
-              <div className="mw-who-grid" style={{ marginBottom: 28 }}>
-                <div style={{ borderRadius: 16, overflow: "hidden", aspectRatio: "1/1", boxShadow: "0 10px 26px rgba(11,59,52,.12)" }}>
-                  <img loading="lazy" decoding="async" src="/media/pottery-hands.jpg" alt="Hands shaping clay on a pottery wheel" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                </div>
-                <div style={{ padding: "8px 6px" }}>
-                  <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 12px" }}>Who it's for</p>
-                  <p style={{ fontSize: "clamp(20px, 2.7vw, 25px)", lineHeight: 1.3, margin: 0, fontWeight: 350 }}>
-                    Built for people whose credibility <span style={{ fontStyle: "italic", color: ACCENT }}>lives in their work.</span>
+            {/* ── STEP 1: THE DOSSIER ── */}
+            <section style={{ maxWidth: 980, margin: "0 auto", padding: "56px 24px 8px" }}>
+              <div style={{ display: "flex", gap: "36px 48px", alignItems: "center", flexWrap: "wrap" }}>
+                <div style={{ flex: "1 1 380px", minWidth: 300 }}>
+                  <p style={sectionLabel}>Step 1 · The dossier</p>
+                  <h2 style={{ fontSize: "clamp(26px, 3.4vw, 36px)", lineHeight: 1.15, fontWeight: 700, letterSpacing: "-0.02em", margin: "0 0 14px" }}>
+                    Six questions build your brand dossier first.
+                  </h2>
+                  <p style={{ fontSize: 16.5, lineHeight: 1.65, color: SK.MUTED, margin: "0 0 20px" }}>
+                    Answer like you'd tell a friend. The suite turns it into the documents
+                    everything else gets written from, so nothing drifts off who you are.
                   </p>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    {["Positioning", "Brand Voice", "The One Word", "What To Make", "7-Day Plan"].map((c, i) => (
+                      <span key={c} style={{ fontFamily: SK.SANS, fontSize: 13, fontWeight: 600, color: i === 0 ? "#FFF" : SK.INK, background: i === 0 ? SK.INK : SK.CARD, border: `1px solid ${i === 0 ? SK.INK : SK.BORDER}`, borderRadius: 100, padding: "7px 15px" }}>{c}</span>
+                    ))}
+                  </div>
                 </div>
-                <div style={{ borderRadius: 16, overflow: "hidden", aspectRatio: "1/1", boxShadow: "0 10px 26px rgba(11,59,52,.12)" }}>
-                  <img loading="lazy" decoding="async" src="/media/writing-notebook.jpg" alt="A hand writing in a notebook by a window, coffee and glasses nearby" className="mw-kenburns" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", animationDelay: "-12s" }} />
+                <div style={{ flex: "1 1 340px", minWidth: 300 }}>
+                  <SkeletonDoc title="Your brand dossier" badge="Built from your answers" sections={["Positioning", "Your voice, named", "The one word to own"]} />
+                  <p style={{ fontSize: 12.5, color: SK.FAINT, margin: "10px 4px 0" }}>Stays on your device. Never on a server.</p>
                 </div>
               </div>
-              <p style={{ fontSize: 17, lineHeight: 1.7, color: "#443F39", margin: "0 0 24px", fontFamily: SANS, maxWidth: 680 }}>
-                Professors, researchers, and PhD candidates. Clinicians and scientists. Engineers,
-                designers, and independent consultants. Anyone who would rather be judged on what
-                they made than on how loudly they said it.
-              </p>
-              <p style={{ fontSize: "clamp(18px, 2.4vw, 21px)", lineHeight: 1.5, color: INK, margin: 0, borderLeft: `3px solid ${BUTTER}`, paddingLeft: 18, maxWidth: 680 }}>
-                People often tell me branding feels like it was written for extroverts. I disagree.
-                Any good brand strategist knows great brands aren't built on volume.
-                They're built on clarity, consistency, <span style={{ fontStyle: "italic", color: ACCENT }}>and the confidence to be unmistakably yourself.</span>
-              </p>
-            </div>
-          </section>
+            </section>
 
-          {/* ── 3. THE PROBLEM ── */}
-          <section style={{ maxWidth: 680, margin: "0 auto", padding: "52px 24px 8px" }}>
-            <p style={{ fontSize: "clamp(21px, 3vw, 26px)", lineHeight: 1.4, margin: "0 0 16px", fontWeight: 350, color: INK }}>
-              You have the expertise. <span style={{ fontStyle: "italic", color: ACCENT }}>Someone with half of it has the audience.</span>
-            </p>
-            <p style={{ fontSize: 17, lineHeight: 1.65, color: "#443F39", margin: 0, fontFamily: SANS }}>
-              That gap is not a talent problem. It is a specific way of getting stuck when you
-              have to talk about your own work. There are five of them, and each one has a name.
-            </p>
-          </section>
+            {/* ── THE HANDOFF ── */}
+            <section style={{ maxWidth: 680, margin: "0 auto", padding: "48px 24px 8px" }}>
+              <div style={{ ...suiteCard, padding: "30px 28px", textAlign: "center" }}>
+                <p style={{ ...sectionLabel, marginBottom: 10 }}>The handoff</p>
+                <h3 style={{ fontSize: "clamp(20px, 2.6vw, 25px)", lineHeight: 1.3, fontWeight: 700, letterSpacing: "-0.015em", margin: "0 0 18px" }}>
+                  Every tool reads your dossier<br />before it writes a word.
+                </h3>
+                <div style={{ display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+                  {["positioning.md", "brand-voice.md", "one-word.md", "content-plan.md"].map((f) => <FileChip key={f} name={f} />)}
+                </div>
+                <p style={{ fontSize: 13, color: SK.FAINT, margin: 0 }}>Saved on your device, never on a server. Clear it anytime.</p>
+              </div>
+            </section>
 
-
-          {/* ── 7. FOR DEPARTMENTS AND TEAMS: the waitlist. Hidden for now. ── */}
-          {SHOW_TEAMS && (
-          <section id="teams" style={{ background: INK_TEAL, margin: "52px 0 0", padding: "48px 0", scrollMarginTop: 20 }}>
-            <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
-              <h2 style={{ fontSize: "clamp(22px, 3vw, 27px)", lineHeight: 1.25, margin: "0 0 14px", fontWeight: 350, color: CREAM }}>
-                Branding Inward <span style={{ fontStyle: "italic", color: BUTTER }}>for departments and teams</span>
+            {/* ── STEP 2: THE TOOLS ── */}
+            <section id="framework" style={{ maxWidth: 980, margin: "0 auto", padding: "56px 24px 8px", scrollMarginTop: 20 }}>
+              <p style={sectionLabel}>Step 2 · The tools</p>
+              <h2 style={{ fontSize: "clamp(26px, 3.4vw, 36px)", lineHeight: 1.15, fontWeight: 700, letterSpacing: "-0.02em", margin: "0 0 26px" }}>
+                Each one works on its own.<br />Together they stay on message.
               </h2>
-              <p style={{ fontSize: 16.5, lineHeight: 1.65, color: "rgba(251,247,240,.85)", margin: "0 0 10px", fontFamily: SANS }}>
-                Most people who never post are not uninterested. They are stuck in a specific way,
-                and every way of being stuck needs a different fix.
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))", gap: 14 }}>
+                {[
+                  { icon: "questions", title: "The Six Questions", body: "Ten minutes of questions. Out comes your positioning, your one word, and a gentle 7-day plan.", key: "foundation", href: "/foundation" },
+                  { icon: "photo", title: "Photo to Posts", body: "Upload one photo of your work. Three posts in your voice, editable before you copy.", key: "photo", href: "/photo-to-posts" },
+                  { icon: "scan", title: "The Inward Scan", body: "Eight taps, one minute. Names the specific way you get stuck when it is time to be visible.", key: "scan", href: "/scan" },
+                  { icon: "voice", title: "Brand Voice", body: "Your actual voice, written down, so everything you publish sounds like you.", key: "voice", href: "/brand-voice" },
+                  { icon: "roast", title: "The Gentle Roast", body: "Paste what you wrote. Hear what to keep, and what sounds like a costume.", key: "roast", href: "/roast" },
+                  { icon: "visibility", title: "AI Visibility Check", body: "A live scan of where you show up in AI search. Receipts first, then the words that raise it.", key: "audit", href: "/ai-visibility" },
+                ].map((c) => {
+                  const ok = doneSteps.includes(c.key);
+                  return (
+                    <a key={c.key} href={c.href} onClick={() => track("opened_" + c.key)} className="mw-card-hover" style={{ ...suiteCard, padding: "20px 20px 18px", textDecoration: "none", color: SK.INK, display: "block" }}>
+                      <span style={{ width: 40, height: 40, borderRadius: 11, background: SK.TEAL_TINT, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>{Icons[c.icon](20)}</span>
+                      <span style={{ display: "block", fontSize: 16.5, fontWeight: 650, marginBottom: 5 }}>{c.title}{ok ? " ✓" : ""}</span>
+                      <span style={{ display: "block", fontSize: 14, lineHeight: 1.55, color: SK.MUTED, marginBottom: 12 }}>{c.body}</span>
+                      <span style={{ fontSize: 13.5, fontWeight: 600, color: SK.TEAL }}>Open &rarr;</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </section>
+
+            {/* ── STEP 3: WHAT COMES OUT ── */}
+            <section style={{ maxWidth: 980, margin: "0 auto", padding: "56px 24px 8px" }}>
+              <p style={sectionLabel}>Step 3 · What comes out</p>
+              <h2 style={{ fontSize: "clamp(26px, 3.4vw, 36px)", lineHeight: 1.15, fontWeight: 700, letterSpacing: "-0.02em", margin: "0 0 26px" }}>
+                Words you can actually use.<br />Not advice.
+              </h2>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 14, marginBottom: 18 }}>
+                <div>
+                  <CaptionMock />
+                  <p style={{ fontSize: 13, color: SK.MUTED, margin: "10px 4px 0" }}>Three posts from one photo, editable in place.</p>
+                </div>
+                <div>
+                  <ScoreDialMock />
+                  <p style={{ fontSize: 13, color: SK.MUTED, margin: "10px 4px 0" }}>Your findability, scored from a live scan.</p>
+                </div>
+              </div>
+              <p style={{ fontSize: 15, color: SK.MUTED, margin: 0, lineHeight: 1.65 }}>
+                And everything you make collects into{" "}
+                <a href="/brief" style={{ color: SK.TEAL, fontWeight: 600, textDecoration: "none" }}>your Inward Brief</a>,
+                one page, emailed to you.
               </p>
-              <p style={{ fontSize: 16.5, lineHeight: 1.65, color: "rgba(251,247,240,.85)", margin: "0 0 22px", fontFamily: SANS }}>
-                We are building a version that shows a whole team how each person is stuck, and what
-                to do about each one. If that is a problem you have, leave your email and I will come find you.
-              </p>
-              {teamSent ? (
-                <p style={{ fontFamily: SANS, fontSize: 16, color: BUTTER, margin: 0, fontWeight: 600 }}>You're on the list. I'll come find you.</p>
-              ) : (
-                <form onSubmit={(e) => { e.preventDefault(); joinWaitlist(); }} style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  <input aria-label="Your email" type="email" required value={teamEmail} onChange={(e) => setTeamEmail(e.target.value)}
-                    placeholder="you@university.edu"
-                    style={{ flex: "1 1 220px", fontFamily: SANS, fontSize: 16, padding: "13px 16px", borderRadius: 12, border: "1px solid rgba(251,247,240,.35)", background: "rgba(251,247,240,.08)", color: CREAM, outline: "none" }} />
-                  <button type="submit" className="mw-btn" disabled={teamBusy}
-                    style={{ background: BUTTER, color: INK_TEAL, border: "none", borderRadius: 12, padding: "13px 22px", fontFamily: SANS, fontSize: 15.5, fontWeight: 700, cursor: "pointer", opacity: teamBusy ? 0.6 : 1 }}>
-                    {teamBusy ? "Joining\u2026" : "Join the waitlist"}
-                  </button>
-                  {teamErr && <p style={{ width: "100%", fontFamily: SANS, fontSize: 14, color: "#F0997B", margin: "4px 0 0" }}>{teamErr}</p>}
-                </form>
-              )}
-            </div>
-          </section>
-          )}
+            </section>
+
+            {/* ── WHO IT'S FOR ── */}
+            <section style={{ maxWidth: 980, margin: "44px auto 0", borderTop: `1px solid ${SK.BORDER}`, padding: "48px 24px 64px" }}>
+              <div style={{ display: "flex", gap: "28px 40px", alignItems: "center", flexWrap: "wrap" }}>
+                <div style={{ flex: "1 1 420px", minWidth: 300 }}>
+                  <p style={sectionLabel}>Who it's for</p>
+                  <h2 style={{ fontSize: "clamp(24px, 3vw, 32px)", lineHeight: 1.2, fontWeight: 700, letterSpacing: "-0.02em", margin: "0 0 14px" }}>
+                    Built for people whose credibility lives in their work.
+                  </h2>
+                  <p style={{ fontSize: 16, lineHeight: 1.7, color: SK.MUTED, margin: "0 0 20px" }}>
+                    Professors, researchers, and PhD candidates. Clinicians and scientists.
+                    Engineers, designers, and independent consultants. Anyone who would rather
+                    be judged on what they made than on how loudly they said it.
+                  </p>
+                  <p style={{ fontSize: 16.5, lineHeight: 1.6, color: SK.INK, margin: 0, borderLeft: `3px solid ${SK.TEAL}`, paddingLeft: 16 }}>
+                    People often tell me branding feels like it was written for extroverts. I disagree.
+                    Any good brand strategist knows great brands aren't built on volume. They're built
+                    on clarity, consistency, and the confidence to be unmistakably yourself.
+                  </p>
+                </div>
+                <div style={{ flex: "1 1 260px", minWidth: 240, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  <img loading="lazy" decoding="async" src="/media/pottery-hands.jpg" alt="Hands shaping clay on a pottery wheel" style={{ width: "100%", aspectRatio: "1/1", objectFit: "cover", borderRadius: 14, border: `1px solid ${SK.BORDER}` }} />
+                  <img loading="lazy" decoding="async" src="/media/writing-notebook.jpg" alt="A hand writing in a notebook by a window" style={{ width: "100%", aspectRatio: "1/1", objectFit: "cover", borderRadius: 14, marginTop: 22, border: `1px solid ${SK.BORDER}` }} />
+                </div>
+              </div>
+            </section>
+          </div>
 
         </>
       )}

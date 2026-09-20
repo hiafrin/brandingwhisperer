@@ -403,12 +403,12 @@ for (const t of TOOL_PAGES) {
 //    the whole site is an empty div to them (the audit tool found exactly
 //    that when it fetched the site). React replaces #root on mount, same as
 //    the tool pages. ──
-const HOME_TITLE = "Branding Inward: get found without performing | free AI branding tools";
+const HOME_TITLE = "Branding Inward: the personal branding suite for quiet professionals";
 const homeFallback = `
-  <h1>Get found. Without performing.</h1>
-  <p>Personal branding for people who are good at the work and bad at the announcing. Built by Sabiha Afrin, brand strategist. The questions are hers. The AI just makes them fast. Six questions, about ten minutes, and you leave knowing what content to make, with a gentle 7-day plan. No account, no email.</p>
+  <h1>The personal branding suite for quiet professionals</h1>
+  <p>Get found. Without performing. Branding Inward is a suite of five free AI tools and one brand dossier, designed by brand strategist Sabiha Afrin. Six questions build your dossier: your positioning, your voice written down, and the one word you could own. Every tool reads that dossier before it writes a word, so everything stays on message and sounds like you. No account, no email, and your answers stay on your own device.</p>
   <h2>The tools</h2>
-  <p>Each one works on its own.</p>
+  <p>Each one works on its own. Together they stay on message, because every tool reads your brand dossier first.</p>
   <ul>
     <li><a href="/foundation">The Six Questions. You leave with a positioning line, the thing about your work nobody can copy, one word you could own, and a gentle 7-day plan.</a></li>
     <li><a href="/photo-to-posts">Photo to Posts. Upload one photo of your work; the AI looks at it and writes three posts in your voice, ready to tweak. No face required.</a></li>

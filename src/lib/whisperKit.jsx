@@ -116,7 +116,7 @@ export const GLOBAL_CSS = `
   @media (max-width: 680px) {
     .mw-nav-mid { display: none; }
     .mw-nav { padding-left: 16px !important; padding-right: 16px !important; }
-    .mw-nav-brand { font-size: 12px !important; letter-spacing: .07em !important; }
+    .mw-nav-brand { font-size: 14px !important; }
     .mw-nav .mw-menu-panel { position: fixed !important; left: 16px !important; right: 16px !important; top: 64px !important; width: auto !important; }
   }
   @keyframes ring { 0% { box-shadow:0 0 0 0 rgba(${ACCENT_RGB},.45);} 70% { box-shadow:0 0 0 16px rgba(${ACCENT_RGB},0);} 100% { box-shadow:0 0 0 0 rgba(${ACCENT_RGB},0);} }
@@ -399,7 +399,7 @@ export function ToolsMenuPanel({ onClose, side = "right", top = 52 }) {
   ];
 
   return (
-    <div role="menu" className="mw-menu-panel" style={{ position: "absolute", top, [side]: 0, width: "min(300px, calc(100vw - 32px))", background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, boxShadow: "0 16px 40px rgba(11,59,52,.22)", padding: 8, fontFamily: SANS, zIndex: 300 }}>
+    <div role="menu" className="mw-menu-panel" style={{ position: "absolute", top, [side]: 0, width: "min(300px, calc(100vw - 32px))", background: "#FFF", border: "1px solid #E8E6E1", borderRadius: 14, boxShadow: "0 16px 40px rgba(20,20,20,.14)", padding: 8, fontFamily: SANS, zIndex: 300 }}>
           {items.map((t, i) => {
             const newSection = i === 0 || items[i - 1].section !== t.section;
             return (
@@ -471,15 +471,15 @@ export function SiteNav({ tone = "dark", onStart }) {
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onKey); };
   }, [open]);
 
-  const linkColor = tone === "dark" ? "rgba(251,247,240,.85)" : "#443F39";
-  const brandColor = tone === "dark" ? CREAM : INK;
-  const item = { color: linkColor, textDecoration: "none", fontWeight: 600, fontFamily: SANS, fontSize: 14.5 };
+  // Product bar: white ground everywhere, one look on every page.
+  const item = { color: "#3E3B36", textDecoration: "none", fontWeight: 550, fontFamily: SANS, fontSize: 14.5 };
 
   return (
-    <nav className="mw-nav" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, maxWidth: 920, margin: "0 auto", padding: "20px 24px 0" }}>
-      <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-        <span style={{ width: 11, height: 11, borderRadius: "50%", background: tone === "dark" ? BUTTER : ACCENT }} />
-        <span className="mw-nav-brand" style={{ fontFamily: SANS, fontWeight: 600, letterSpacing: ".1em", fontSize: 14, textTransform: "uppercase", color: brandColor, whiteSpace: "nowrap" }}>Branding Inward</span>
+    <div style={{ background: "#FFFFFF", borderBottom: "1px solid #E8E6E1", position: "relative", zIndex: 200 }}>
+    <nav className="mw-nav" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, maxWidth: 980, margin: "0 auto", padding: "14px 24px" }}>
+      <a href="/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none" }}>
+        <span style={{ width: 10, height: 10, borderRadius: "50%", background: ACCENT }} />
+        <span className="mw-nav-brand" style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: "-0.01em", fontSize: 16.5, color: "#141414", whiteSpace: "nowrap" }}>Branding Inward</span>
       </a>
       <span style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <span ref={ref} style={{ position: "relative" }}>
@@ -496,12 +496,13 @@ export function SiteNav({ tone = "dark", onStart }) {
         <a className="mw-nav-mid" href="/buddy" style={item}>Find a buddy</a>
         <a className="mw-nav-mid" href="/about" style={item}>About</a>
         {onStart ? (
-          <button className="mw-btn" onClick={onStart} style={{ background: BUTTER, color: INK_TEAL, border: "none", borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }}>Start free</button>
+          <button className="mw-btn" onClick={onStart} style={{ background: "#141414", color: "#FFF", border: "none", borderRadius: 100, padding: "10px 20px", fontFamily: SANS, fontSize: 14, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Start free</button>
         ) : (
-          <a href="/foundation" style={{ background: BUTTER, color: INK_TEAL, borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }}>Start free</a>
+          <a href="/foundation" style={{ background: "#141414", color: "#FFF", borderRadius: 100, padding: "10px 20px", fontFamily: SANS, fontSize: 14, fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}>Start free</a>
         )}
       </span>
     </nav>
+    </div>
   );
 }
 
@@ -509,17 +510,17 @@ export function SiteNav({ tone = "dark", onStart }) {
 //    company" positioning, the link to her story + LinkedIn, and the
 //    device-only privacy line with a Forget control. ──
 export function SiteFooter() {
-  const link = { color: BUTTER, textDecoration: "none", fontWeight: 600 };
+  const link = { color: "#8FD6D0", textDecoration: "none", fontWeight: 550 };
   const sep = { color: "rgba(251,247,240,.3)", margin: "0 11px" };
   return (
-    <footer style={{ background: INK_TEAL, marginTop: 60 }}>
+    <footer style={{ background: "#141414", marginTop: 60 }}>
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "52px 24px 46px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 22 }}>
-          <span style={{ width: 11, height: 11, borderRadius: "50%", background: BUTTER }} />
-          <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase", color: CREAM }}>Branding Inward</span>
+          <span style={{ width: 10, height: 10, borderRadius: "50%", background: ACCENT }} />
+          <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: "-0.01em", fontSize: 16, color: "#FFF" }}>Branding Inward</span>
         </div>
-        <p style={{ fontSize: 18, lineHeight: 1.55, color: CREAM, margin: "0 0 8px", maxWidth: 620 }}>
-          Built by a real branding professional, <span style={{ fontStyle: "italic", color: BUTTER }}>not another tech company.</span>
+        <p style={{ fontFamily: SANS, fontSize: 17, fontWeight: 600, lineHeight: 1.55, color: "#FFF", margin: "0 0 8px", maxWidth: 620 }}>
+          Built by a real branding professional, <span style={{ color: "#8FD6D0" }}>not another tech company.</span>
         </p>
         <p style={{ fontSize: 15, lineHeight: 1.65, color: "rgba(251,247,240,.72)", margin: "0 0 18px", fontFamily: SANS, maxWidth: 620 }}>
           More than a decade in brand marketing, agency-side then client-side. The questions are mine, not generic AI prompts, and the AI just makes them fast. Free, always.
