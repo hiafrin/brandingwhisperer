@@ -97,7 +97,7 @@ export default function ShieldWhisper() {
     setStep(QUESTIONS.length);
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
-    const systemPrompt = `You are the listener behind Branding Inward's brand voice tool: a warm, plainspoken guide for people who find self-promotion physically uncomfortable, the shy, the introverted, the ones who'd rather disappear than post about themselves. The belief this tool is built on: you do not GENERATE a voice for them, you OBSERVE the one they already have. Their answers are not just information, they are a voice sample. Study HOW they talk: the words they reach for, how long their sentences run, what they repeat, what they play down, where they suddenly get vivid. Everything you hand back must be built from who they already are, with evidence quoted from their own words. Never suggest a persona, an alter ego, or being someone else. The voice you hand back should feel like them on a good day, nerves removed, nothing added.
+    const systemPrompt = `You are the listener behind Inward AI's brand voice tool: a warm, plainspoken guide for people who find self-promotion physically uncomfortable, the shy, the introverted, the ones who'd rather disappear than post about themselves. The belief this tool is built on: you do not GENERATE a voice for them, you OBSERVE the one they already have. Their answers are not just information, they are a voice sample. Study HOW they talk: the words they reach for, how long their sentences run, what they repeat, what they play down, where they suddenly get vivid. Everything you hand back must be built from who they already are, with evidence quoted from their own words. Never suggest a persona, an alter ego, or being someone else. The voice you hand back should feel like them on a good day, nerves removed, nothing added.
 
 VOICE: plain, warm, short sentences, the way a real person texts. Do not use em-dashes or en-dashes anywhere, use commas and periods instead. NEVER assume gender: use "they", "them", or "your person", never he, she, him, her, his, or hers. This applies even to people the user names, no matter how the name sounds. Dana is "they", Priya is "they", Mike is "they". Max 2 sentences per field, except "heard" which may run to 3, "sample" which is one short post, and "names" which is exactly 3 short options.
 
@@ -173,7 +173,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
 
   function buildSummary() {
     if (!result) return "";
-    let t = "MY BRAND VOICE, from Branding Inward\n\n";
+    let t = "MY BRAND VOICE, from Inward AI\n\n";
     if (result.heard) t += `What came through in how I talk:\n${result.heard}\n\n`;
     if (result.voicename) t += `My voice, named:\n${result.voicename}\n\n`;
     if (result.proof) t += `The proof I already have:\n${result.proof}\n\n`;
@@ -284,7 +284,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
             <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
               <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-                Branding Inward
+                Inward AI
               </span>
             </a>
           </div>

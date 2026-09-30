@@ -226,7 +226,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
 
   function copyResult() {
     if (!pattern) return;
-    let t = `MY VISIBILITY PATTERN, from Branding Inward\n\nPrimary: ${pattern.name}${sec ? `\nSecondary: ${sec.name}` : ""}\n\n${pattern.validate}\n\nWHAT GIVES IT AWAY:\nWhen I'm excited, ${pattern.moments.excited}.\nWhen it's time to publish, ${pattern.moments.publish}.\nWhen someone praises me, ${pattern.moments.praise}.\n\nPEOPLE LIKE ME SUCCEED WITH:\n${pattern.succeed.with.map((x) => "- " + x).join("\n")}\nNot: ${pattern.succeed.without}\n\nMY PATH, IN ORDER:\n`;
+    let t = `MY VISIBILITY PATTERN, from Inward AI\n\nPrimary: ${pattern.name}${sec ? `\nSecondary: ${sec.name}` : ""}\n\n${pattern.validate}\n\nWHAT GIVES IT AWAY:\nWhen I'm excited, ${pattern.moments.excited}.\nWhen it's time to publish, ${pattern.moments.publish}.\nWhen someone praises me, ${pattern.moments.praise}.\n\nPEOPLE LIKE ME SUCCEED WITH:\n${pattern.succeed.with.map((x) => "- " + x).join("\n")}\nNot: ${pattern.succeed.without}\n\nMY PATH, IN ORDER:\n`;
     pattern.path.forEach((k, i) => { t += `${i + 1}. ${TOOLS[k].name} (brandinginward.com/${TOOLS[k].href})\n`; });
     t += `\nMY FIRST MOVE:\n${pattern.move}`;
     navigator.clipboard.writeText(t).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000); }).catch(() => {});
@@ -257,7 +257,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
             <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
               <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-                Branding Inward
+                Inward AI
               </span>
             </a>
           </div>

@@ -1,12 +1,12 @@
 ---
 title: Know. Show. Grow.
-description: The whole of Branding Inward in three words. Know yourself before you write a bio, show up as yourself instead of performing, and let consistency do the growing.
+description: The whole of Inward AI in three words. Know yourself before you write a bio, show up as yourself instead of performing, and let consistency do the growing.
 shelf: framework
 order: 1
 tag: The framework
 ---
 
-The whole of Branding Inward, in three words.
+The whole of Inward AI, in three words.
 
 ## Know
 
@@ -32,7 +32,7 @@ Start wherever you're stuck. The framework doesn't mind.
 
 ### What is the Know. Show. Grow. framework?
 
-It's the Branding Inward method in three phases. Know: find your pattern and the un-copyable thing in your story before you make anything. Show: put your real voice out at a cost you can bear, without performing. Grow: let consistency compound into being remembered and findable. Each phase has free tools on this site.
+It's the Inward AI method in three phases. Know: find your pattern and the un-copyable thing in your story before you make anything. Show: put your real voice out at a cost you can bear, without performing. Grow: let consistency compound into being remembered and findable. Each phase has free tools on this site.
 
 ### Do I have to do the phases in order?
 

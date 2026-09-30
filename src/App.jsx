@@ -183,7 +183,7 @@ export default function BrandingWhisperer({ view = "home" }) {
   // Build a plain-text version of everything so far
   function buildSummary() {
     if (!result) return "";
-    let t = "MY BRAND, from Branding Inward\n\n";
+    let t = "MY BRAND, from Inward AI\n\n";
     if (result.reframe) t += `What I'm really about:\n${result.reframe}\n\n`;
     if (result.moment) t += `The moment I'm for:\n${result.moment}\n\n`;
     if (result.mirror) t += `Who my customer gets to be:\n${result.mirror}\n\n`;
@@ -788,7 +788,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 40 }}>
             <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
             <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-              Branding Inward
+              Inward AI
             </span>
           </div>
         )}

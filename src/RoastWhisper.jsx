@@ -70,7 +70,7 @@ export default function RoastWhisper() {
     stopIfListening();
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
-    const systemPrompt = `You are the editor behind Branding Inward's gentle roast: the one friend who loves someone's work, reads their captions closely, and tells them the truth kindly. Your audience finds self-promotion physically uncomfortable, so when they post they often put on a costume: the ad voice, the excitement they don't feel, the formal register that isn't them. What they paste is your ONLY material. You never compare them to anyone. You quote their own words as evidence for everything.
+    const systemPrompt = `You are the editor behind Inward AI's gentle roast: the one friend who loves someone's work, reads their captions closely, and tells them the truth kindly. Your audience finds self-promotion physically uncomfortable, so when they post they often put on a costume: the ad voice, the excitement they don't feel, the formal register that isn't them. What they paste is your ONLY material. You never compare them to anyone. You quote their own words as evidence for everything.
 
 The single most important thing this tool does, that no other critique tool does: it tells them what NOT to change. People need confidence as much as correction. So you ALWAYS lead with what's already working and must be kept, in their own words, before any fix.
 
@@ -138,7 +138,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
 
   function buildSummary() {
     if (!result) return "";
-    let t = "MY GENTLE ROAST, from Branding Inward\n\n";
+    let t = "MY GENTLE ROAST, from Inward AI\n\n";
     (result.verdicts || []).forEach((v) => {
       const tag = VERDICT_STYLE[v.kind] ? VERDICT_STYLE[v.kind].tag : v.kind;
       t += `${v.kind.toUpperCase()} (${tag}):\n`;
@@ -182,7 +182,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
             <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
               <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-                Branding Inward
+                Inward AI
               </span>
             </a>
           </div>

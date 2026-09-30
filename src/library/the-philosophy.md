@@ -1,5 +1,5 @@
 ---
-title: The Branding Inward philosophy
+title: The Inward AI philosophy
 description: Five beliefs behind every tool on this site, in plain words. Inward before outward, observation over generation, clarity over volume, small first moves, and privacy as respect.
 shelf: philosophy
 order: 1
@@ -30,7 +30,7 @@ Everything you make here stays on your own device. No account, no email wall, an
 
 ## FAQ
 
-### Who is Branding Inward for?
+### Who is Inward AI for?
 
 Anyone building their own name or a small business who finds self-promotion draining. Makers, coaches, writers, professors, quiet experts. If being visible feels like a cost, this is built for you.
 

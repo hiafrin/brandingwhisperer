@@ -479,7 +479,7 @@ export function SiteNav({ tone = "dark", onStart }) {
     <nav className="mw-nav" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, maxWidth: 980, margin: "0 auto", padding: "14px 24px" }}>
       <a href="/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none" }}>
         <span style={{ width: 10, height: 10, borderRadius: "50%", background: ACCENT }} />
-        <span className="mw-nav-brand" style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: "-0.01em", fontSize: 16.5, color: "#0A0A0A", whiteSpace: "nowrap" }}>Branding Inward</span>
+        <span className="mw-nav-brand" style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: "-0.01em", fontSize: 16.5, color: "#0A0A0A", whiteSpace: "nowrap" }}>Inward AI</span>
       </a>
       <span style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <span ref={ref} style={{ position: "relative" }}>
@@ -517,7 +517,7 @@ export function SiteFooter() {
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "52px 24px 46px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 22 }}>
           <span style={{ width: 10, height: 10, borderRadius: "50%", background: ACCENT }} />
-          <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: "-0.01em", fontSize: 16, color: "#FFF" }}>Branding Inward</span>
+          <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: "-0.01em", fontSize: 16, color: "#FFF" }}>Inward AI</span>
         </div>
         <p style={{ fontFamily: SANS, fontSize: 17, fontWeight: 600, lineHeight: 1.55, color: "#FFF", margin: "0 0 8px", maxWidth: 620 }}>
           Built by a real branding professional, <span style={{ color: "#8FD6D0" }}>not another tech company.</span>
@@ -557,7 +557,7 @@ export function SiteFooter() {
           <ForgetButton label="Forget everything on this device" tone="dark" />
         </p>
         <p style={{ fontSize: 13.5, color: "rgba(251,247,240,.6)", margin: 0, fontFamily: SANS }}>
-          Branding Inward. Built by Sabiha Afrin. <a href="mailto:safrin@brandinginward.com" style={{ color: BUTTER, textDecoration: "none" }}>safrin@brandinginward.com</a>
+          Inward AI. Built by Sabiha Afrin. <a href="mailto:safrin@brandinginward.com" style={{ color: BUTTER, textDecoration: "none" }}>safrin@brandinginward.com</a>
         </p>
         <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>&mdash; <span style={{ color: BUTTER }}>S. Afrin</span></p>
       </div>
@@ -747,7 +747,7 @@ export function BuddyForm() {
   const [err, setErr] = useState(null);
 
   function mailtoFallback() {
-    const subject = encodeURIComponent("Branding Inward, buddy match");
+    const subject = encodeURIComponent("Inward AI, buddy match");
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nI want: ${want}\nAbout me: ${about}`);
     window.location.href = `mailto:thecuriousafrin@gmail.com?subject=${subject}&body=${body}`;
   }

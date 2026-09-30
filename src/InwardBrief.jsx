@@ -49,7 +49,7 @@ export default function InwardBrief() {
   });
 
   function buildText() {
-    let t = "MY INWARD BRIEF, from Branding Inward\n\n";
+    let t = "MY INWARD BRIEF, from Inward AI\n\n";
     filled.forEach((d) => { t += `${d.label}:\n${d.value}\n\n`; });
     return t.trim();
   }

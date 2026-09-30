@@ -8,7 +8,7 @@ import {
   primaryBtn, ghostBtn, miniLabel, plainCard,
 } from "./lib/whisperKit.jsx";
 
-// ── The AI Visibility Audit, the Branding Inward way. Outside the five-tool
+// ── The AI Visibility Audit, the Inward AI way. Outside the five-tool
 //    framework: the steps build the brand, this checks how findable it is and
 //    then WRITES the words that fix it. The reframe the whole page stands on:
 //    AI search can't hear volume, only clarity. The scan is LIVE: the AI runs
@@ -126,7 +126,7 @@ What they do, in their words: "${work.trim()}"${where.trim() ? `\nWhere they wor
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        system: `You are the strategist behind Branding Inward's AI visibility audit. The live scan wasn't available, so you estimate from their answers alone. A low score must land as a clear starting point, never a scolding.
+        system: `You are the strategist behind Inward AI's AI visibility audit. The live scan wasn't available, so you estimate from their answers alone. A low score must land as a clear starting point, never a scolding.
 
 ${ESTIMATE_LIBRARY}
 
@@ -186,11 +186,11 @@ Return ONLY JSON, no markdown:
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          system: `You are the strategist behind Branding Inward's AI visibility audit, writing part two: the findability kit. The diagnosis is done; now you WRITE the three artifacts that make a quiet brand legible to AI search, ready to paste. The person finds self-promotion draining, so everything must sound like a calm human describing real work, never like marketing.
+          system: `You are the strategist behind Inward AI's AI visibility audit, writing part two: the findability kit. The diagnosis is done; now you WRITE the three artifacts that make a quiet brand legible to AI search, ready to paste. The person finds self-promotion draining, so everything must sound like a calm human describing real work, never like marketing.
 
 HONESTY RULES, the most important thing: use ONLY the facts they gave you and the scan findings below. Never invent credentials, years of experience, awards, clients, numbers, places, or product names that do not appear in their words. If a detail wasn't given, write around it. Plain, specific, true.
 
-VOICE: write in the first person, as them. Plain, warm, short sentences. No hype words (passionate, journey, elevate, unlock). Do not use em-dashes or en-dashes anywhere, use commas and periods instead. Never assume gender.${memLines ? `\n\nTHEIR OWN MATERIAL, saved on their device by the other Branding Inward tools, use it so the kit sounds like them and only them:\n${memLines}` : ""}${evidence}
+VOICE: write in the first person, as them. Plain, warm, short sentences. No hype words (passionate, journey, elevate, unlock). Do not use em-dashes or en-dashes anywhere, use commas and periods instead. Never assume gender.${memLines ? `\n\nTHEIR OWN MATERIAL, saved on their device by the other Inward AI tools, use it so the kit sounds like them and only them:\n${memLines}` : ""}${evidence}
 
 Return ONLY JSON, no markdown:
 {"anchor": "the About-page paragraph, 70 to 110 words, first person: who they are, what they make, for whom, where if given, and the one thing that makes it theirs. This is the page an engine will anchor their identity to, so every sentence is a plain fact.",
@@ -277,7 +277,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
             <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
               <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-                Branding Inward
+                Inward AI
               </span>
             </a>
           </div>

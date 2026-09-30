@@ -1,6 +1,6 @@
 ---
 title: Three prompts that do what my tools do
-description: The real prompt patterns behind the Branding Inward tools, simplified so you can run them in any AI chat. Voice observation, the gentle roast, and the quieter plan.
+description: The real prompt patterns behind the Inward AI tools, simplified so you can run them in any AI chat. Voice observation, the gentle roast, and the quieter plan.
 shelf: prompts
 order: 1
 tag: Prompt collection

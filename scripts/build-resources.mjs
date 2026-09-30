@@ -17,7 +17,7 @@ const LIBRARY_DIR = join(ROOT, "src", "library");
 const DIST = join(ROOT, "dist");
 
 const SITE_URL = "https://brandinginward.com";
-const SITE_NAME = "Branding Inward";
+const SITE_NAME = "Inward AI";
 
 // Shared entities. `sameAs` ties the writing to a real, findable person, which
 // is what answer engines use to attribute a quote to an author.
@@ -162,13 +162,13 @@ const STYLE = `
 
 const HEADER = `
   <header class="site-head"><div class="wrap">
-    <a class="brand" href="/"><span class="dot"></span><span class="name">Branding Inward</span></a>
+    <a class="brand" href="/"><span class="dot"></span><span class="name">Inward AI</span></a>
     <a class="nav-tools" href="/">The tools &rarr;</a>
   </div></header>`;
 
 const FOOTER = `
   <footer class="site"><div class="wrap">
-    <a class="brand" href="/"><span class="dot" style="background:${BUTTER}"></span><span class="name">Branding Inward</span></a>
+    <a class="brand" href="/"><span class="dot" style="background:${BUTTER}"></span><span class="name">Inward AI</span></a>
     <p class="tag">These aren't generic AI answers. Real questions from a real strategist, delivered by AI so they reach you in minutes, for free.</p>
     <p class="links">
       <a href="/resources">Library</a><span>&middot;</span>
@@ -237,7 +237,7 @@ function renderIndex(items) {
     <main class="wrap" style="padding-top:52px; padding-bottom:8px">
       <p class="eyebrow">The library</p>
       <h1 class="page">Everything worth keeping, <em>on shelves.</em></h1>
-      <p class="lede">Not a blog. The philosophy, the framework, the prompts, and the checklists behind Branding Inward, curated so you can find what you need and get back to making.</p>
+      <p class="lede">Not a blog. The philosophy, the framework, the prompts, and the checklists behind Inward AI, curated so you can find what you need and get back to making.</p>
       ${shelves}
     </main>`;
   const internal = items.filter((p) => !p.external);
@@ -248,7 +248,7 @@ function renderIndex(items) {
       "@id": `${SITE_URL}/resources#library`,
       url: `${SITE_URL}/resources`,
       name: `${SITE_NAME} Library`,
-      description: "The philosophy, framework, prompt collections, and checklists behind Branding Inward.",
+      description: "The philosophy, framework, prompt collections, and checklists behind Inward AI.",
       author: AUTHOR,
       publisher: PUBLISHER,
       hasPart: internal.map((p) => ({
@@ -261,7 +261,7 @@ function renderIndex(items) {
   ];
   return pageShell({
     title: `The Library | ${SITE_NAME}`,
-    description: "The Branding Inward library: the philosophy, the Know. Show. Grow. framework, AI prompt collections, and findability checklists. Free, no email.",
+    description: "The Inward AI library: the philosophy, the Know. Show. Grow. framework, AI prompt collections, and findability checklists. Free, no email.",
     canonical: `${SITE_URL}/resources`,
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@graph": indexGraph }),
     body,
@@ -372,7 +372,7 @@ function renderToolPage(shell, t) {
   const fallback = `<h1>${esc(t.h1)}</h1>
 <p>${esc(t.summary)}</p>
 ${t.faqs.map((f) => `<h2>${esc(f.q)}</h2>\n<p>${esc(f.a)}</p>`).join("\n")}
-<p><a href="/">Branding Inward: all five tools</a> · <a href="/resources">Resources</a></p>`;
+<p><a href="/">Inward AI: all five tools</a> · <a href="/resources">Resources</a></p>`;
   return html.replace('<div id="root"></div>', `<div id="root">${fallback}</div>`);
 }
 
@@ -403,10 +403,10 @@ for (const t of TOOL_PAGES) {
 //    the whole site is an empty div to them (the audit tool found exactly
 //    that when it fetched the site). React replaces #root on mount, same as
 //    the tool pages. ──
-const HOME_TITLE = "Branding Inward: the personal branding suite for quiet professionals";
+const HOME_TITLE = "Inward AI: the personal branding suite for quiet professionals";
 const homeFallback = `
   <h1>The personal branding suite for quiet professionals</h1>
-  <p>Get found. Without performing. Branding Inward is a suite of five free AI tools and one brand dossier, designed by brand strategist Sabiha Afrin. Six questions build your dossier: your positioning, your voice written down, and the one word you could own. Every tool reads that dossier before it writes a word, so everything stays on message and sounds like you. No account, no email, and your answers stay on your own device.</p>
+  <p>Get found. Without performing. Inward AI is a suite of five free AI tools and one brand dossier, designed by brand strategist Sabiha Afrin. Six questions build your dossier: your positioning, your voice written down, and the one word you could own. Every tool reads that dossier before it writes a word, so everything stays on message and sounds like you. No account, no email, and your answers stay on your own device.</p>
   <h2>The tools</h2>
   <p>Each one works on its own. Together they stay on message, because every tool reads your brand dossier first.</p>
   <ul>
