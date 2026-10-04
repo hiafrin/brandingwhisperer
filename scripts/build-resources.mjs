@@ -418,6 +418,15 @@ const homeFallback = `
     <li><a href="/ai-visibility">An AI visibility check. A live scan of where you actually show up, with the words that raise it.</a></li>
   </ul>
   <p>Everything you make quietly collects into <a href="/brief">your Inward Brief</a>, emailed to you as one page.</p>
+  <h2>Built for the moment you're stuck in</h2>
+  <ul>
+    <li><a href="/foundation">I don't know what makes me different: The Six Questions. Ten minutes, and you leave with your positioning, your one word, and a 7-day plan.</a></li>
+    <li><a href="/photo-to-posts">I need something to post today: Photo to Posts. One photo of your work in, three captions in your voice out.</a></li>
+    <li><a href="/scan">I freeze every time I try: The Inward Scan names the specific way you get stuck.</a></li>
+    <li><a href="/brand-voice">Everything I write sounds like everyone: Brand Voice writes your actual voice down.</a></li>
+    <li><a href="/roast">I keep deleting my drafts: The Gentle Roast tells you what to keep first.</a></li>
+    <li><a href="/ai-visibility">Nobody finds me when they search: the AI Visibility Check shows where you show up, receipts first.</a></li>
+  </ul>
   <p>You have the expertise. Someone with half of it has the audience. That gap is not a talent problem. It is a specific way of getting stuck when you have to talk about your own work. There are five of them, and each one has a name.</p>
   <h2>Built for people whose credibility lives in their work</h2>
   <p>Professors, researchers, and PhD candidates. Clinicians and scientists. Engineers, designers, and independent consultants. Anyone who would rather be judged on what they made than on how loudly they said it.</p>
