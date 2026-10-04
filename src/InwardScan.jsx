@@ -246,7 +246,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
           photo="/media/scan-hero.jpg"
           accent={BUTTER}
           Doodle={DoodleScan}
-          headline={<>Everyone gets stuck<br /><span style={{ fontStyle: "italic", color: "#8FD6D0" }}>in their own particular way.</span></>}
+          headline={<>Everyone gets stuck<br /><span style={{ fontStyle: "italic", color: "#0F7C77" }}>in their own particular way.</span></>}
           sub="Some people hide. Some burst and crash. Some write the post and delete it. Eight quick taps, and you'll know your pattern, the behaviors that give it away, and which of these tools to use first."
         />
       )}
@@ -376,7 +376,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
             </div>
 
             <div className="mw-deal" style={{ background: INK_TEAL, borderRadius: 20, padding: "26px 28px", marginTop: 6 }}>
-              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "#8FD6D0", fontWeight: 600, margin: "0 0 8px" }}>Your first move, under 15 minutes</p>
+              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "#0F7C77", fontWeight: 600, margin: "0 0 8px" }}>Your first move, under 15 minutes</p>
               <p style={{ fontSize: 17, lineHeight: 1.55, color: CREAM, margin: 0 }}>{pattern.move}</p>
             </div>
 

@@ -171,7 +171,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
           photo="/media/roast-hero.jpg"
           accent={CORAL}
           Doodle={TOOLS.roast.Doodle}
-          headline={<>Get roasted.<br /><span style={{ fontStyle: "italic", color: "#8FD6D0" }}>Your words. Your call on how hard.</span></>}
+          headline={<>Get roasted.<br /><span style={{ fontStyle: "italic", color: "#0F7C77" }}>Your words. Your call on how hard.</span></>}
           sub="When posting feels like performing, a costume goes on: the ad voice, the excitement you don't feel, the little apology for existing. Paste what you wrote, and this reads only your words, tells you first what to keep, then the few lines worth a gentle fix."
         />
       )}

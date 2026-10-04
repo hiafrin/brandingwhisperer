@@ -241,7 +241,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
             photo="/media/shield-still.jpg"
             accent={ACCENT}
             Doodle={DoodleShield}
-            headline={<>You don't need a new voice.<br /><span style={{ fontStyle: "italic", color: "#8FD6D0" }}>You need yours, written down.</span></>}
+            headline={<>You don't need a new voice.<br /><span style={{ fontStyle: "italic", color: "#0F7C77" }}>You need yours, written down.</span></>}
             sub="Six questions, the kind a journalist would ask. You talk, it listens, and hands your own voice back, named and quoted from your own words."
           />
 

@@ -75,14 +75,14 @@ export default function InwardBrief() {
       <GrainOverlay />
 
       {/* HERO */}
-      <section style={{ background: INK_TEAL }}>
+      <section style={{ background: "#FFFFFF", borderBottom: "1px solid #E6E6E6" }}>
         <SiteNav tone="dark" />
         <div className="mw-fade" style={{ maxWidth: 820, margin: "0 auto", padding: "34px 24px 56px" }}>
-          <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: BUTTER, fontWeight: 600, margin: "0 0 14px" }}>Your Inward Brief</p>
-          <h1 style={{ fontSize: "clamp(32px, 5vw, 50px)", lineHeight: 1.1, margin: "0 0 18px", fontWeight: 350, color: CREAM }}>
-            Everything you've found, <span style={{ fontStyle: "italic", color: BUTTER }}>in one place.</span>
+          <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>Your Inward Brief</p>
+          <h1 style={{ fontSize: "clamp(32px, 5vw, 50px)", lineHeight: 1.1, margin: "0 0 18px", fontWeight: 350, color: INK }}>
+            Everything you've found, <span style={{ fontStyle: "italic", color: ACCENT }}>in one place.</span>
           </h1>
-          <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.85)", margin: 0, maxWidth: 560 }}>
+          <p style={{ fontSize: 18, lineHeight: 1.6, color: "#4A4A4A", margin: 0, maxWidth: 560 }}>
             Nothing new is made here. It fills in from whichever tools you've used, in any order, so it's yours in one piece. It lives only on this device. Copy it, email it to yourself, keep it close.{nothingYet ? " Use a tool or two and it starts to fill in." : ""}
           </p>
         </div>

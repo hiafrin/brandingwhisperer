@@ -7,7 +7,7 @@ export const CREAM = "#FFFFFF"; // the white era: pages ground on pure white
 export const ACCENT_TINT = "#E8F4F1";
 export const ACCENT_TINT_STRONG = "#E6E6E6";
 export const ACCENT_RGB = "15,124,119";
-export const INK_TEAL = "#054648";    // deep teal for dark sections and the footer
+export const INK_TEAL = "#0A0A0A";    // dark surfaces are black now; the name stays for history
 export const CORAL = "#E76F51";       // warm secondary, the Kind Roast's color
 export const CORAL_TINT = "#FBEAE3";
 export const BUTTER = "#8FD6D0";      // light teal: the accent on dark-teal grounds
@@ -165,6 +165,8 @@ export const QUOTES = {
   brief: { q: "Now I become myself.", a: "May Sarton" },
 };
 export function PageQuote({ id }) {
+  return null; // retired with the editorial era
+  // eslint-disable-next-line no-unreachable
   const item = QUOTES[id];
   if (!item) return null;
   return (
@@ -178,7 +180,7 @@ export function PageQuote({ id }) {
 // ── Faint paper grain overlay (SVG turbulence as data URI, fixed, non-interactive) ──
 const GRAIN_URI = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")`;
 export function GrainOverlay() {
-  return <div aria-hidden="true" style={{ position: "fixed", inset: 0, backgroundImage: GRAIN_URI, opacity: 0.05, pointerEvents: "none", zIndex: 5 }} />;
+  return null; // retired with the paper-craft era
 }
 
 // ── Hand-drawn butter underline stroke, drops under a key word ──
@@ -817,24 +819,22 @@ export function BuddyForm() {
 //    + ghost label + big mixed-weight headline, so every tool page gets home's
 //    richness instead of flat cream. prefers-reduced-motion kills the zoom. ──
 export function ToolHero({ label, photo, accent = ACCENT, Doodle, headline, sub, children }) {
-  const labelInk = accent === BUTTER ? "#8FD6D0" : accent === CORAL ? "#F0997B" : "#9FE1CB";
+  // Crisp product hero: white ground, black Inter headline, teal only as the
+  // small accents. The photo-and-teal-slab era ended Oct 2026.
   return (
-    <section style={{ position: "relative", overflow: "hidden", background: INK_TEAL }}>
-      {photo && (
-        <img src={photo} alt="" aria-hidden="true" className="mw-kenburns"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.55 }} />
-      )}
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(175deg, rgba(11,59,52,.82) 0%, rgba(11,59,52,.66) 45%, rgba(11,59,52,.9) 100%)" }} />
-      <div style={{ position: "relative" }}>
-        <SiteNav tone="dark" />
-      </div>
-      <div className="mw-fade" style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "26px 24px 44px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-          {Doodle && <Doodle color={accent} size={40} />}
-          <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: labelInk, fontWeight: 600, margin: 0 }}>{label}</p>
+    <section style={{ background: "#FFFFFF" }}>
+      <SiteNav />
+      <div className="mw-fade" style={{ maxWidth: 920, margin: "0 auto", padding: "46px 24px 42px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 20 }}>
+          {Doodle && (
+            <span style={{ width: 42, height: 42, borderRadius: 11, background: "#EDF5F4", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <Doodle color={ACCENT} size={22} />
+            </span>
+          )}
+          <p style={{ fontFamily: SANS, fontSize: 12.5, letterSpacing: ".08em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: 0 }}>{label}</p>
         </div>
-        <h1 style={{ fontSize: "clamp(38px, 5.5vw, 56px)", lineHeight: 1.08, margin: "0 0 20px", fontWeight: 350, color: CREAM }}>{headline}</h1>
-        {sub && <p style={{ fontSize: 18, lineHeight: 1.65, color: "rgba(251,247,240,.85)", maxWidth: 560, margin: "0 0 28px" }}>{sub}</p>}
+        <h1 style={{ fontFamily: SANS, fontSize: "clamp(32px, 4.6vw, 46px)", lineHeight: 1.12, margin: "0 0 16px", fontWeight: 700, letterSpacing: "-0.02em", color: INK }}>{headline}</h1>
+        {sub && <p style={{ fontFamily: SANS, fontSize: 17, lineHeight: 1.65, color: "#4A4A4A", maxWidth: 580, margin: "0 0 26px" }}>{sub}</p>}
         {children}
       </div>
     </section>

@@ -29,18 +29,18 @@ export default function AboutInward() {
       <GrainOverlay />
 
       {/* ── HERO: portrait + point of view ── */}
-      <section style={{ background: INK_TEAL }}>
+      <section style={{ background: "#FFFFFF", borderBottom: "1px solid #E6E6E6" }}>
         <SiteNav tone="dark" />
         <div className="mw-fade" style={{ maxWidth: 920, margin: "0 auto", padding: "34px 24px 60px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "minmax(220px, 300px) 1fr", gap: 40, alignItems: "center" }} className="mw-about-grid">
             <Portrait />
             <div>
-              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: BUTTER, fontWeight: 600, margin: "0 0 14px" }}>About the strategist</p>
-              <h1 style={{ fontSize: "clamp(30px, 4.6vw, 46px)", lineHeight: 1.12, margin: "0 0 18px", fontWeight: 350, color: CREAM }}>
+              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>About the strategist</p>
+              <h1 style={{ fontSize: "clamp(30px, 4.6vw, 46px)", lineHeight: 1.12, margin: "0 0 18px", fontWeight: 350, color: INK }}>
                 Digital media is a channel.<br />
-                <span style={{ fontStyle: "italic", color: BUTTER }}>Not a destination.</span>
+                <span style={{ fontStyle: "italic", color: ACCENT }}>Not a destination.</span>
               </h1>
-              <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(251,247,240,.85)", margin: 0 }}>
+              <p style={{ fontSize: 18, lineHeight: 1.6, color: "#4A4A4A", margin: 0 }}>
                 I'm the S. Afrin at the bottom of every page, and no, no relation to the nasal spray. I'm a brand strategist, and I built these to help you start from a place that actually feels like you.
               </p>
             </div>

@@ -698,7 +698,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             photo="/media/quiet-desk.jpg"
             accent={ACCENT}
             Doodle={DoodleBubble}
-            headline={<>Six small questions.<br /><span style={{ fontStyle: "italic", color: "#8FD6D0" }}>One clear you at the end.</span></>}
+            headline={<>Six small questions.<br /><span style={{ fontStyle: "italic", color: "#0F7C77" }}>One clear you at the end.</span></>}
             sub="No marketing words. Answer like you'd tell a friend, and you'll know the real reason people choose you."
           />
           <section className="mw-fade" style={{ maxWidth: 660, margin: "0 auto", padding: "40px 24px 8px" }}>
@@ -759,7 +759,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   <p style={{ fontSize: 24, fontWeight: 400, margin: "0 0 8px" }}>{s.path}</p>
                   <p style={{ fontSize: 16, lineHeight: 1.6, color: "#333333", margin: "0 0 18px", fontFamily: SANS }}>{s.why}</p>
                   <div style={{ background: INK_TEAL, borderRadius: 14, padding: "16px 18px", marginBottom: 18 }}>
-                    <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#8FD6D0", fontWeight: 600, margin: "0 0 5px" }}>Today</p>
+                    <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#0F7C77", fontWeight: 600, margin: "0 0 5px" }}>Today</p>
                     <p style={{ fontSize: 16, lineHeight: 1.5, color: CREAM, margin: 0 }}>{s.today}</p>
                   </div>
                   {s.href && s.href !== "/foundation" ? (

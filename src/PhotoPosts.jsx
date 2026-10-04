@@ -153,7 +153,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
         photo="/media/pottery-hands.jpg"
         accent={ACCENT}
         Doodle={DoodleCamera}
-        headline={<>One photo of your work.<br /><span style={{ fontStyle: "italic", color: "#8FD6D0" }}>Three posts, ready to go.</span></>}
+        headline={<>One photo of your work.<br /><span style={{ fontStyle: "italic", color: "#0F7C77" }}>Three posts, ready to go.</span></>}
         sub="Upload a shot of what you made, your workspace, a whiteboard you filled, your hands mid-process. The AI looks at it and writes three posts around it, in your voice. No face required."
       />
 
