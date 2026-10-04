@@ -22,7 +22,7 @@ function Portrait() {
 }
 
 export default function AboutInward() {
-  const three = ["scan", "voice", "plan"].map((k) => TOOLS[k]);
+  const three = ["scan", "voice", "photo"].map((k) => TOOLS[k]).filter(Boolean);
   return (
     <div style={{ minHeight: "100vh", background: CREAM, color: INK, fontFamily: SERIF }}>
       <style>{GLOBAL_CSS}</style>
