@@ -226,7 +226,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
 
   function copyResult() {
     if (!pattern) return;
-    let t = `MY VISIBILITY PATTERN, from Inward AI\n\nPrimary: ${pattern.name}${sec ? `\nSecondary: ${sec.name}` : ""}\n\n${pattern.validate}\n\nWHAT GIVES IT AWAY:\nWhen I'm excited, ${pattern.moments.excited}.\nWhen it's time to publish, ${pattern.moments.publish}.\nWhen someone praises me, ${pattern.moments.praise}.\n\nPEOPLE LIKE ME SUCCEED WITH:\n${pattern.succeed.with.map((x) => "- " + x).join("\n")}\nNot: ${pattern.succeed.without}\n\nMY PATH, IN ORDER:\n`;
+    let t = `MY VISIBILITY PATTERN, from Branding Inward\n\nPrimary: ${pattern.name}${sec ? `\nSecondary: ${sec.name}` : ""}\n\n${pattern.validate}\n\nWHAT GIVES IT AWAY:\nWhen I'm excited, ${pattern.moments.excited}.\nWhen it's time to publish, ${pattern.moments.publish}.\nWhen someone praises me, ${pattern.moments.praise}.\n\nPEOPLE LIKE ME SUCCEED WITH:\n${pattern.succeed.with.map((x) => "- " + x).join("\n")}\nNot: ${pattern.succeed.without}\n\nMY PATH, IN ORDER:\n`;
     pattern.path.forEach((k, i) => { t += `${i + 1}. ${TOOLS[k].name} (brandinginward.com/${TOOLS[k].href})\n`; });
     t += `\nMY FIRST MOVE:\n${pattern.move}`;
     navigator.clipboard.writeText(t).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000); }).catch(() => {});
@@ -246,7 +246,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
           photo="/media/scan-hero.jpg"
           accent={BUTTER}
           Doodle={DoodleScan}
-          headline={<>Everyone gets stuck<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>in their own particular way.</span></>}
+          headline={<>Everyone gets stuck<br /><span style={{ fontStyle: "italic", color: "#8FD6D0" }}>in their own particular way.</span></>}
           sub="Some people hide. Some burst and crash. Some write the post and delete it. Eight quick taps, and you'll know your pattern, the behaviors that give it away, and which of these tools to use first."
         />
       )}
@@ -257,7 +257,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
             <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
               <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-                Inward AI
+                Branding Inward
               </span>
             </a>
           </div>
@@ -273,7 +273,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
               time="One minute, eight taps"
               madeFor="anyone who doesn't know where they're stuck, or where to start."
             />
-            <p style={{ fontSize: 15, lineHeight: 1.6, color: "#857B70", maxWidth: 520, margin: "0 0 28px", fontFamily: SANS }}>
+            <p style={{ fontSize: 15, lineHeight: 1.6, color: "#767676", maxWidth: 520, margin: "0 0 28px", fontFamily: SANS }}>
               No typing, no right answers. Your pattern is kept only on this device for your Inward Brief.
             </p>
             <button className="mw-btn" onClick={start} style={primaryBtn}>Find my pattern</button>
@@ -286,7 +286,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
           <div className="mw-fade" key={step}>
             <div style={{ display: "flex", gap: 6, marginBottom: 30 }}>
               {QUESTIONS.map((_, i) => (
-                <span key={i} style={{ height: 3, flex: 1, borderRadius: 2, background: i <= step ? ACCENT : "#E5DDD1", transition: "background .3s" }} />
+                <span key={i} style={{ height: 3, flex: 1, borderRadius: 2, background: i <= step ? ACCENT : "#E6E6E6", transition: "background .3s" }} />
               ))}
             </div>
             <div style={{ position: "relative", paddingTop: 34 }}>
@@ -295,7 +295,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
                 {step + 1} of {QUESTIONS.length}
               </p>
               <h2 style={{ fontSize: 30, lineHeight: 1.2, margin: "0 0 8px", fontWeight: 400, position: "relative" }}>{q.label}</h2>
-              <p style={{ fontSize: 15, color: "#857B70", margin: "0 0 22px", fontFamily: SANS, position: "relative" }}>{q.help}</p>
+              <p style={{ fontSize: 15, color: "#767676", margin: "0 0 22px", fontFamily: SANS, position: "relative" }}>{q.help}</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {q.options.map((o, i) => (
@@ -303,9 +303,9 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
                   key={i}
                   className="mw-btn"
                   onClick={() => answer(o.p)}
-                  style={{ textAlign: "left", background: "#FFF", color: INK, border: "2px solid #E5DDD1", borderRadius: 14, padding: "16px 20px", fontSize: 17, fontFamily: SERIF, cursor: "pointer", lineHeight: 1.45, transition: "all .18s" }}
+                  style={{ textAlign: "left", background: "#FFF", color: INK, border: "2px solid #E6E6E6", borderRadius: 14, padding: "16px 20px", fontSize: 17, fontFamily: SERIF, cursor: "pointer", lineHeight: 1.45, transition: "all .18s" }}
                   onMouseEnter={(e) => { e.currentTarget.style.borderColor = ACCENT; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#E5DDD1"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#E6E6E6"; }}
                 >
                   {o.text}
                 </button>
@@ -334,14 +334,14 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
             <div className="mw-deal" style={{ ...plainCard, marginTop: 6 }}>
               <p style={{ ...miniLabel, marginBottom: 14 }}>What gives it away</p>
               {[["When you're excited,", pattern.moments.excited], ["When it's time to publish,", pattern.moments.publish], ["When someone praises you,", pattern.moments.praise]].map(([when, then], i) => (
-                <div key={i} style={{ display: "flex", gap: 12, alignItems: "baseline", padding: i ? "12px 0 0" : "0", borderTop: i ? "1px solid #EFE7DA" : "none", marginTop: i ? 12 : 0 }}>
-                  <span style={{ flexShrink: 0, fontFamily: SANS, fontSize: 14, color: "#857B70", minWidth: 168 }}>{when}</span>
+                <div key={i} style={{ display: "flex", gap: 12, alignItems: "baseline", padding: i ? "12px 0 0" : "0", borderTop: i ? "1px solid #E6E6E6" : "none", marginTop: i ? 12 : 0 }}>
+                  <span style={{ flexShrink: 0, fontFamily: SANS, fontSize: 14, color: "#767676", minWidth: 168 }}>{when}</span>
                   <span style={{ fontSize: 18, lineHeight: 1.4 }}>{then}.</span>
                 </div>
               ))}
             </div>
 
-            <div className="mw-deal" style={{ ...plainCard, background: ACCENT_TINT, border: "1px solid #DCEFEA" }}>
+            <div className="mw-deal" style={{ ...plainCard, background: ACCENT_TINT, border: "1px solid #E6E6E6" }}>
               <p style={{ ...miniLabel, marginBottom: 12 }}>People like you usually succeed with</p>
               <ul style={{ margin: "0 0 14px", padding: 0, listStyle: "none" }}>
                 {pattern.succeed.with.map((x, i) => (
@@ -350,7 +350,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
                   </li>
                 ))}
               </ul>
-              <p style={{ fontSize: 16, fontFamily: SANS, color: "#857B70", margin: 0 }}>
+              <p style={{ fontSize: 16, fontFamily: SANS, color: "#767676", margin: 0 }}>
                 Not <span style={{ textDecoration: "line-through" }}>{pattern.succeed.without}</span>. You have permission to skip it.
               </p>
             </div>
@@ -359,24 +359,24 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
               <p style={{ ...miniLabel, marginBottom: 14 }}>Where to go with this</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {pattern.path.map((k, i) => (
-                  <a key={k} href={TOOLS[k].href} onClick={() => track("scan_routed")} className="mw-card-hover" style={{ display: "flex", gap: 14, alignItems: "flex-start", textDecoration: "none", color: INK, background: i === 0 ? ACCENT_TINT : "#FFF", border: `1px solid ${i === 0 ? "#DCEFEA" : "#EFE7DA"}`, borderRadius: 14, padding: "14px 16px" }}>
+                  <a key={k} href={TOOLS[k].href} onClick={() => track("scan_routed")} className="mw-card-hover" style={{ display: "flex", gap: 14, alignItems: "flex-start", textDecoration: "none", color: INK, background: i === 0 ? ACCENT_TINT : "#FFF", border: `1px solid ${i === 0 ? "#E6E6E6" : "#E6E6E6"}`, borderRadius: 14, padding: "14px 16px" }}>
                     <span>
                       <span style={{ fontFamily: SANS, fontSize: 16, fontWeight: 600 }}>
                         {TOOLS[k].name}
                         {i === 0 && <span style={{ fontSize: 11, background: ACCENT, color: "#FFF", borderRadius: 100, padding: "3px 10px", marginLeft: 8, verticalAlign: "2px" }}>best fit for your pattern</span>}
                       </span>
-                      <span style={{ display: "block", fontSize: 14, color: "#6B6157", fontFamily: SANS, lineHeight: 1.5, marginTop: 3 }}>{TOOLS[k].desc}</span>
+                      <span style={{ display: "block", fontSize: 14, color: "#4A4A4A", fontFamily: SANS, lineHeight: 1.5, marginTop: 3 }}>{TOOLS[k].desc}</span>
                     </span>
                   </a>
                 ))}
               </div>
-              <p style={{ fontSize: 13.5, color: "#857B70", fontFamily: SANS, margin: "12px 0 0", lineHeight: 1.55 }}>
+              <p style={{ fontSize: 13.5, color: "#767676", fontFamily: SANS, margin: "12px 0 0", lineHeight: 1.55 }}>
                 Each one works on its own. Take what you need, skip the rest.
               </p>
             </div>
 
             <div className="mw-deal" style={{ background: INK_TEAL, borderRadius: 20, padding: "26px 28px", marginTop: 6 }}>
-              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "#F7D06B", fontWeight: 600, margin: "0 0 8px" }}>Your first move, under 15 minutes</p>
+              <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "#8FD6D0", fontWeight: 600, margin: "0 0 8px" }}>Your first move, under 15 minutes</p>
               <p style={{ fontSize: 17, lineHeight: 1.55, color: CREAM, margin: 0 }}>{pattern.move}</p>
             </div>
 
@@ -388,13 +388,13 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
               <button className="mw-ghost" onClick={() => { setStep(-1); setKept(false); }} style={ghostBtn}>Retake</button>
             </div>
 
-            <div style={{ background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 14, padding: "16px 18px", marginTop: 20 }}>
+            <div style={{ background: "#FFF", border: "1px solid #E6E6E6", borderRadius: 14, padding: "16px 18px", marginTop: 20 }}>
               {!kept ? (
                 <>
                   <button className="mw-btn" onClick={() => { if (remember("pattern", primary)) setKept(true); }} style={{ ...primaryBtn, background: "#FFF", color: ACCENT, border: `2px solid ${ACCENT}`, boxShadow: "none", padding: "12px 22px", fontSize: 15 }}>
                     Keep this on my device
                   </button>
-                  <p style={{ fontSize: 13, color: "#9A8F82", margin: "10px 0 0", fontFamily: SANS, lineHeight: 1.55 }}>
+                  <p style={{ fontSize: 13, color: "#8A8A8A", margin: "10px 0 0", fontFamily: SANS, lineHeight: 1.55 }}>
                     Your pattern stays in this browser only. It never leaves your device, and the home page will greet you with your weekly move instead of starting from zero. Clear it anytime from the footer.
                   </p>
                 </>
@@ -405,7 +405,7 @@ export default function InwardScan({ embedded = false, startSignal = 0 }) {
               )}
             </div>
 
-            <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 18, fontFamily: SANS, lineHeight: 1.6 }}>
+            <p style={{ fontSize: 14, color: "#8A8A8A", marginTop: 18, fontFamily: SANS, lineHeight: 1.6 }}>
               There are no bad patterns. Each one protected you from something real. The tools just meet yours where it is.
             </p>
           </div>

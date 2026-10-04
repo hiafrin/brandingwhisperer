@@ -97,7 +97,7 @@ export default function ShieldWhisper() {
     setStep(QUESTIONS.length);
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
-    const systemPrompt = `You are the listener behind Inward AI's brand voice tool: a warm, plainspoken guide for people who find self-promotion physically uncomfortable, the shy, the introverted, the ones who'd rather disappear than post about themselves. The belief this tool is built on: you do not GENERATE a voice for them, you OBSERVE the one they already have. Their answers are not just information, they are a voice sample. Study HOW they talk: the words they reach for, how long their sentences run, what they repeat, what they play down, where they suddenly get vivid. Everything you hand back must be built from who they already are, with evidence quoted from their own words. Never suggest a persona, an alter ego, or being someone else. The voice you hand back should feel like them on a good day, nerves removed, nothing added.
+    const systemPrompt = `You are the listener behind Branding Inward's brand voice tool: a warm, plainspoken guide for people who find self-promotion physically uncomfortable, the shy, the introverted, the ones who'd rather disappear than post about themselves. The belief this tool is built on: you do not GENERATE a voice for them, you OBSERVE the one they already have. Their answers are not just information, they are a voice sample. Study HOW they talk: the words they reach for, how long their sentences run, what they repeat, what they play down, where they suddenly get vivid. Everything you hand back must be built from who they already are, with evidence quoted from their own words. Never suggest a persona, an alter ego, or being someone else. The voice you hand back should feel like them on a good day, nerves removed, nothing added.
 
 VOICE: plain, warm, short sentences, the way a real person texts. Do not use em-dashes or en-dashes anywhere, use commas and periods instead. NEVER assume gender: use "they", "them", or "your person", never he, she, him, her, his, or hers. This applies even to people the user names, no matter how the name sounds. Dana is "they", Priya is "they", Mike is "they". Max 2 sentences per field, except "heard" which may run to 3, "sample" which is one short post, and "names" which is exactly 3 short options.
 
@@ -173,7 +173,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
 
   function buildSummary() {
     if (!result) return "";
-    let t = "MY BRAND VOICE, from Inward AI\n\n";
+    let t = "MY BRAND VOICE, from Branding Inward\n\n";
     if (result.heard) t += `What came through in how I talk:\n${result.heard}\n\n`;
     if (result.voicename) t += `My voice, named:\n${result.voicename}\n\n`;
     if (result.proof) t += `The proof I already have:\n${result.proof}\n\n`;
@@ -241,7 +241,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
             photo="/media/shield-still.jpg"
             accent={ACCENT}
             Doodle={DoodleShield}
-            headline={<>You don't need a new voice.<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>You need yours, written down.</span></>}
+            headline={<>You don't need a new voice.<br /><span style={{ fontStyle: "italic", color: "#8FD6D0" }}>You need yours, written down.</span></>}
             sub="Six questions, the kind a journalist would ask. You talk, it listens, and hands your own voice back, named and quoted from your own words."
           />
 
@@ -253,18 +253,18 @@ These answers are also your voice sample. Study how they wrote them, not just wh
               madeFor="anyone who sounds like a stranger the moment they go public."
             />
             <button className="mw-btn" onClick={() => { track("shield_started"); setStep(0); }} style={{ ...primaryBtn, fontSize: 18, padding: "18px 34px" }}>Put my voice on paper</button>
-            <p style={{ fontSize: 14, color: "#9A8F82", margin: "16px 0 0", fontFamily: SANS }}>
+            <p style={{ fontSize: 14, color: "#8A8A8A", margin: "16px 0 0", fontFamily: SANS }}>
               No account. Your answers stay on your device, never sent to me. Ramble welcome, nobody's grading this.
             </p>
 
             {/* THE STORY, below the task */}
             <div style={{ marginTop: 48, maxWidth: 620 }}>
-            <p style={{ fontSize: 18, lineHeight: 1.7, color: "#5C534B", margin: "0 0 18px" }}>
+            <p style={{ fontSize: 18, lineHeight: 1.7, color: "#4A4A4A", margin: "0 0 18px" }}>
               You already have a voice. It's the way you talk about your work when a friend asks and
               you forget to be nervous. Nobody ever helped you put words to it, so every post starts
               from a blank page, and blank pages are where the freezing happens.
             </p>
-            <p style={{ fontSize: 18, lineHeight: 1.7, color: "#5C534B", margin: "0 0 18px" }}>
+            <p style={{ fontSize: 18, lineHeight: 1.7, color: "#4A4A4A", margin: "0 0 18px" }}>
               Most AI tools generate a voice for you, and it sounds like everyone else's AI.
               This one works the other way around. It listens to how you already talk and hands
               back the patterns that were always yours, quoted from your own words, with a name.
@@ -284,7 +284,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
             <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
               <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-                Inward AI
+                Branding Inward
               </span>
             </a>
           </div>
@@ -295,7 +295,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
           <div className="mw-fade" key={q.id}>
             <div style={{ display: "flex", gap: 8, marginBottom: 30 }}>
               {QUESTIONS.map((_, i) => (
-                <span key={i} style={{ height: 3, flex: 1, borderRadius: 2, background: i <= step ? ACCENT : "#E5DDD1", transition: "background .3s" }} />
+                <span key={i} style={{ height: 3, flex: 1, borderRadius: 2, background: i <= step ? ACCENT : "#E6E6E6", transition: "background .3s" }} />
               ))}
             </div>
             <div style={{ position: "relative", paddingTop: 34 }}>
@@ -305,21 +305,21 @@ These answers are also your voice sample. Study how they wrote them, not just wh
               </p>
               <h2 style={{ fontSize: 33, lineHeight: 1.18, margin: "0 0 10px", fontWeight: 400, position: "relative" }}>{q.label}</h2>
             </div>
-            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 22px", fontFamily: SANS }}>{q.help}</p>
+            <p style={{ fontSize: 16, color: "#767676", margin: "0 0 22px", fontFamily: SANS }}>{q.help}</p>
             <textarea aria-label="Your words, however they come out"
               ref={inputRef} className="mw-area" value={draft} maxLength={700}
               onChange={(e) => { setDraft(e.target.value); setBase(e.target.value); }}
               onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); next(); } }}
               placeholder={q.placeholder} rows={3}
-              style={{ width: "100%", fontSize: 19, fontFamily: SERIF, color: INK, padding: "18px 20px", borderRadius: 14, border: "2px solid #E5DDD1", background: "#FFF", resize: "none", outline: "none", lineHeight: 1.5 }}
-              onFocus={(e) => (e.target.style.borderColor = ACCENT)} onBlur={(e) => (e.target.style.borderColor = "#E5DDD1")}
+              style={{ width: "100%", fontSize: 19, fontFamily: SERIF, color: INK, padding: "18px 20px", borderRadius: 14, border: "2px solid #E6E6E6", background: "#FFF", resize: "none", outline: "none", lineHeight: 1.5 }}
+              onFocus={(e) => (e.target.style.borderColor = ACCENT)} onBlur={(e) => (e.target.style.borderColor = "#E6E6E6")}
             />
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 22, flexWrap: "wrap" }}>
               <button className="mw-btn" onClick={next} disabled={!draft.trim()} style={{ ...primaryBtn, opacity: draft.trim() ? 1 : 0.4, cursor: draft.trim() ? "pointer" : "not-allowed" }}>
                 {step + 1 >= QUESTIONS.length ? "Show me my voice" : "Next"}
               </button>
               {voiceSupported && (
-                <button onClick={toggleMic} className={listening ? "mw-mic-live" : ""} style={{ display: "flex", alignItems: "center", gap: 8, background: listening ? ACCENT : "#FFF", color: listening ? "#FFF" : INK, border: `2px solid ${listening ? ACCENT : "#E5DDD1"}`, borderRadius: 100, padding: "11px 18px", cursor: "pointer", fontFamily: SANS, fontSize: 14, fontWeight: 600, transition: "all .18s" }}>
+                <button onClick={toggleMic} className={listening ? "mw-mic-live" : ""} style={{ display: "flex", alignItems: "center", gap: 8, background: listening ? ACCENT : "#FFF", color: listening ? "#FFF" : INK, border: `2px solid ${listening ? ACCENT : "#E6E6E6"}`, borderRadius: 100, padding: "11px 18px", cursor: "pointer", fontFamily: SANS, fontSize: 14, fontWeight: 600, transition: "all .18s" }}>
                   <MicIcon color={listening ? "#FFF" : ACCENT} />
                   {listening ? "Listening…" : "Speak"}
                 </button>
@@ -383,9 +383,9 @@ These answers are also your voice sample. Study how they wrote them, not just wh
                   </div>
                 )}
 
-                <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E5DDD1" }}>
+                <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E6E6E6" }}>
                   <p style={{ ...miniLabel, marginBottom: 8 }}>Take your voice anywhere</p>
-                  <p style={{ fontSize: 16, lineHeight: 1.55, color: "#5C534B", margin: "0 0 14px" }}>
+                  <p style={{ fontSize: 16, lineHeight: 1.55, color: "#4A4A4A", margin: "0 0 14px" }}>
                     Your voice card is a block of text you paste into any AI before asking for writing help.
                     It turns the AI into your editor, not your ghostwriter. It fixes your drafts toward
                     sounding like you, instead of writing over you.
@@ -402,7 +402,7 @@ These answers are also your voice sample. Study how they wrote them, not just wh
 
                 <KeptNote section="Express yourself" />
 
-                <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E5DDD1" }}>
+                <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E6E6E6" }}>
                   <button className="mw-ghost" onClick={restart} style={{ ...ghostBtn, marginLeft: 0 }}>Start over</button>
                 </div>
               </div>

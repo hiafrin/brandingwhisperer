@@ -153,7 +153,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
         photo="/media/pottery-hands.jpg"
         accent={ACCENT}
         Doodle={DoodleCamera}
-        headline={<>One photo of your work.<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>Three posts, ready to go.</span></>}
+        headline={<>One photo of your work.<br /><span style={{ fontStyle: "italic", color: "#8FD6D0" }}>Three posts, ready to go.</span></>}
         sub="Upload a shot of what you made, your workspace, a whiteboard you filled, your hands mid-process. The AI looks at it and writes three posts around it, in your voice. No face required."
       />
 
@@ -168,10 +168,10 @@ Look at the photo and write 3 posts around it, in my voice.`;
         <div style={{ border: `2px solid ${ACCENT}`, borderRadius: 18, padding: "26px 26px", background: "#FFF" }}>
           <input aria-label="What do you make or do (optional)" value={about} onChange={(e) => setAbout(e.target.value)}
             placeholder="Optional: what do you make or do? Helps the voice."
-            style={{ width: "100%", boxSizing: "border-box", fontFamily: SANS, fontSize: 15.5, padding: "12px 14px", borderRadius: 10, border: "1px solid #E5DDD1", background: CREAM, color: INK, outline: "none", marginBottom: 14 }} />
+            style={{ width: "100%", boxSizing: "border-box", fontFamily: SANS, fontSize: 15.5, padding: "12px 14px", borderRadius: 10, border: "1px solid #E6E6E6", background: CREAM, color: INK, outline: "none", marginBottom: 14 }} />
           <input aria-label="Choose a photo or short clip" ref={fileRef} type="file" accept="image/*,video/*" onChange={onPhoto} style={{ display: "none" }} />
           {photoPreview && (
-            <div style={{ borderRadius: 14, overflow: "hidden", margin: "0 0 14px", border: "1px solid #EFE7DA" }}>
+            <div style={{ borderRadius: 14, overflow: "hidden", margin: "0 0 14px", border: "1px solid #E6E6E6" }}>
               <img src={photoPreview} alt="The photo you uploaded" style={{ width: "100%", display: "block" }} />
             </div>
           )}
@@ -187,7 +187,7 @@ Look at the photo and write 3 posts around it, in my voice.`;
             <p style={{ fontSize: 15, color: "#B4552D", fontFamily: SANS, margin: "14px 0 0", lineHeight: 1.55 }}>{photoErr}</p>
           )}
           {!photoBusy && !postResult && (
-            <p style={{ fontSize: 13.5, color: "#857B70", fontFamily: SANS, margin: "12px 0 0", lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13.5, color: "#767676", fontFamily: SANS, margin: "12px 0 0", lineHeight: 1.6 }}>
               The photo is read once and never stored. Nothing you upload leaves the one request.
             </p>
           )}
@@ -195,18 +195,18 @@ Look at the photo and write 3 posts around it, in my voice.`;
           {postResult && !photoBusy && (
             <div className="mw-fade" style={{ marginTop: 22 }}>
               {postResult.seen && (
-                <p style={{ fontSize: 15, fontStyle: "italic", color: "#6B6157", margin: "0 0 18px", fontFamily: SANS, lineHeight: 1.55 }}>
+                <p style={{ fontSize: 15, fontStyle: "italic", color: "#4A4A4A", margin: "0 0 18px", fontFamily: SANS, lineHeight: 1.55 }}>
                   Here's what I see: {postResult.seen}
                 </p>
               )}
               {postResult.posts.map((p, i) => (
                 <div key={i} className="mw-deal" style={{ ...plainCard, boxShadow: "none" }}>
                   {p.where && <p style={{ ...miniLabel, marginBottom: 4 }}>{p.where}</p>}
-                  <p style={{ fontSize: 12.5, color: "#9A8F82", fontFamily: SANS, margin: "0 0 8px" }}>Tweak it right here, then copy.</p>
+                  <p style={{ fontSize: 12.5, color: "#8A8A8A", fontFamily: SANS, margin: "0 0 8px" }}>Tweak it right here, then copy.</p>
                   <textarea value={drafts[i] || ""} onChange={(e) => setDrafts((d) => d.map((x, j) => (j === i ? e.target.value : x)))}
                     rows={Math.max(3, Math.ceil((drafts[i] || "").length / 55))}
-                    style={{ width: "100%", boxSizing: "border-box", fontFamily: SERIF, fontSize: 18, lineHeight: 1.55, color: INK, background: CREAM, border: "1px solid #EFE7DA", borderRadius: 10, padding: "12px 14px", margin: "0 0 10px", resize: "vertical", outline: "none" }} />
-                  {p.why && <p style={{ fontSize: 13, color: "#857B70", fontStyle: "italic", fontFamily: SANS, margin: "0 0 12px", lineHeight: 1.5 }}>{p.why}</p>}
+                    style={{ width: "100%", boxSizing: "border-box", fontFamily: SERIF, fontSize: 18, lineHeight: 1.55, color: INK, background: CREAM, border: "1px solid #E6E6E6", borderRadius: 10, padding: "12px 14px", margin: "0 0 10px", resize: "vertical", outline: "none" }} />
+                  {p.why && <p style={{ fontSize: 13, color: "#767676", fontStyle: "italic", fontFamily: SANS, margin: "0 0 12px", lineHeight: 1.5 }}>{p.why}</p>}
                   <button className="mw-btn" onClick={() => copyCaption(i)} style={{ ...primaryBtn, background: "#FFF", color: ACCENT, border: `2px solid ${ACCENT}`, boxShadow: "none", padding: "9px 18px", fontSize: 14 }}>
                     {postCopied === i ? "Copied ✓" : "Copy this caption"}
                   </button>

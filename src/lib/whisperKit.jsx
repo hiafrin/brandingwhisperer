@@ -2,18 +2,18 @@ import { useState, useRef, useEffect, Fragment } from "react";
 
 // ── Shared design tokens, used by every whisper page ──
 export const ACCENT = "#0F7C77";      // warm teal, the primary (teal, but blue kept just under green so it stays warm, not cyan)
-export const INK = "#2A2422";
-export const CREAM = "#FDFBF5";
+export const INK = "#0A0A0A";
+export const CREAM = "#FFFFFF"; // the white era: pages ground on pure white
 export const ACCENT_TINT = "#E8F4F1";
-export const ACCENT_TINT_STRONG = "#DCEFEB";
+export const ACCENT_TINT_STRONG = "#E6E6E6";
 export const ACCENT_RGB = "15,124,119";
 export const INK_TEAL = "#054648";    // deep teal for dark sections and the footer
 export const CORAL = "#E76F51";       // warm secondary, the Kind Roast's color
 export const CORAL_TINT = "#FBEAE3";
-export const BUTTER = "#F7D06B";      // hand-drawn underline and highlight strokes
+export const BUTTER = "#8FD6D0";      // light teal: the accent on dark-teal grounds
 
 // ── Fonts (loaded via Google Fonts in index.html) ──
-export const SERIF = "'Fraunces', 'Georgia', serif";
+export const SERIF = "'Inter', -apple-system, BlinkMacSystemFont, sans-serif"; // serif era ended Oct 2026
 export const SANS = "'Inter', 'Helvetica Neue', sans-serif";
 
 // ── The psychology library: real, cited principles every tool's prompt draws from.
@@ -267,8 +267,8 @@ export function stepsDone() {
 //    doing all six visibly compounds. One sentence, one link, device-only. ──
 export function KeptNote({ section }) {
   return (
-    <p style={{ fontSize: 14, color: "#9A8F82", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
-      Saved on this device only, never sent. This is now the <strong style={{ color: "#5C534B", fontWeight: 600 }}>{section}</strong> section of your <a href="/brief" style={{ color: ACCENT }}>Inward Brief</a>.
+    <p style={{ fontSize: 14, color: "#8A8A8A", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
+      Saved on this device only, never sent. This is now the <strong style={{ color: "#4A4A4A", fontWeight: 600 }}>{section}</strong> section of your <a href="/brief" style={{ color: ACCENT }}>Inward Brief</a>.
     </p>
   );
 }
@@ -279,7 +279,7 @@ export function ForgetButton({ label = "Forget my answers on this device", tone 
   const [armed, setArmed] = useState(false);
   const c = tone === "dark"
     ? { text: "rgba(251,247,240,.7)", strong: BUTTER, quiet: "rgba(251,247,240,.55)" }
-    : { text: "#857B70", strong: CORAL, quiet: "#9A8F82" };
+    : { text: "#767676", strong: CORAL, quiet: "#8A8A8A" };
   const base = { background: "none", border: "none", padding: 0, cursor: "pointer", fontFamily: SANS, fontSize: 14 };
 
   if (!armed) {
@@ -331,7 +331,7 @@ export function FrameworkStrip({ current }) {
         </a>
       )}
 
-      <p style={{ margin: "16px 0 0", fontFamily: SANS, fontSize: 15, lineHeight: 1.6, color: "#6B6157" }}>
+      <p style={{ margin: "16px 0 0", fontFamily: SANS, fontSize: 15, lineHeight: 1.6, color: "#4A4A4A" }}>
         {current !== "brief" && (
           <>
             <a href="/brief" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>See everything you've made on one page &rarr;</a>
@@ -349,15 +349,15 @@ export function FrameworkStrip({ current }) {
 //    orients, then gets out of the way so the first tap sits near the fold. ──
 export function ToolIntro({ stepKey, walkaway, time, madeFor, outside = false }) {
   return (
-    <div style={{ background: ACCENT_TINT, border: "1px solid #DCEFEB", borderRadius: 14, padding: "13px 17px", margin: "0 0 22px", fontFamily: SANS }}>
+    <div style={{ background: ACCENT_TINT, border: "1px solid #E6E6E6", borderRadius: 14, padding: "13px 17px", margin: "0 0 22px", fontFamily: SANS }}>
       <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "6px 12px", marginBottom: 7 }}>
         <span style={{ background: outside ? INK_TEAL : ACCENT, color: "#FFF", borderRadius: 100, padding: "4px 11px", fontSize: 12, fontWeight: 700, letterSpacing: ".04em", flexShrink: 0 }}>
           Free {"\u00b7"} works on its own
         </span>
-        <span style={{ fontSize: 13, color: "#5C534B" }}>{time}</span>
+        <span style={{ fontSize: 13, color: "#4A4A4A" }}>{time}</span>
         <a href="/" style={{ fontSize: 13, color: ACCENT, fontWeight: 600, textDecoration: "none", marginLeft: "auto" }}>All the tools &rarr;</a>
       </div>
-      <p style={{ margin: 0, fontSize: 15, lineHeight: 1.5, color: "#443F39" }}>{walkaway}</p>
+      <p style={{ margin: 0, fontSize: 15, lineHeight: 1.5, color: "#4A4A4A" }}>{walkaway}</p>
       {madeFor && (
         <p style={{ margin: "6px 0 0", fontSize: 13.5, lineHeight: 1.5, color: "#6E8B84", fontStyle: "italic" }}>Made for {madeFor}</p>
       )}
@@ -385,11 +385,11 @@ export function ToolsMenuPanel({ onClose, side = "right", top = 52 }) {
   const done = stepsDone();
   const items = [
     ...FRAMEWORK.map((s) => ({
-      section: "The tools",
+      section: "Inward AI",
       href: s.href,
       name: `${s.name}${done.includes(s.key) ? " ✓" : ""}`,
       cta: OUTCOME_LABELS[s.key] || s.blurb,
-      dot: done.includes(s.key) ? ACCENT : "#D9D2C6",
+      dot: done.includes(s.key) ? ACCENT : "#DDDDDD",
     })),
     { section: "More", href: "/ai-visibility", name: "AI visibility check", cta: "See where you show up, and the words that raise it", dot: CORAL, mobileOnly: true },
     { section: "More", href: "/buddy", name: "Find a hype buddy", cta: "Matched one-to-one to cheer each other on", dot: INK_TEAL, mobileOnly: true },
@@ -405,14 +405,14 @@ export function ToolsMenuPanel({ onClose, side = "right", top = 52 }) {
             return (
               <Fragment key={i}>
                 {newSection && (
-                  <p style={{ margin: i ? "10px 0 2px" : "2px 0 2px", padding: "6px 12px 4px", fontSize: 11, letterSpacing: ".13em", textTransform: "uppercase", color: "#B0A79A", fontWeight: 700, borderTop: i ? "1px solid #EFE7DA" : "none" }}>{t.section}</p>
+                  <p style={{ margin: i ? "10px 0 2px" : "2px 0 2px", padding: "6px 12px 4px", fontSize: 11, letterSpacing: ".13em", textTransform: "uppercase", color: "#9A9A9A", fontWeight: 700, borderTop: i ? "1px solid #E6E6E6" : "none" }}>{t.section}</p>
                 )}
                 <a href={t.href} onClick={onClose} role="menuitem" className={t.mobileOnly ? "mw-menu-row mw-menu-mobile-only" : "mw-menu-row"}
-                  style={{ display: "flex", alignItems: "flex-start", gap: 12, textDecoration: "none", color: INK, padding: "11px 12px", borderRadius: 10, borderTop: !newSection ? "1px solid #F4EFE6" : "none" }}>
+                  style={{ display: "flex", alignItems: "flex-start", gap: 12, textDecoration: "none", color: INK, padding: "11px 12px", borderRadius: 10, borderTop: !newSection ? "1px solid #FAFAFA" : "none" }}>
                   <span style={{ flexShrink: 0, width: 9, height: 9, borderRadius: "50%", background: t.dot, marginTop: 6 }} />
                   <span>
                     <span style={{ display: "block", fontSize: 15, fontWeight: 600, color: INK }}>{t.name}</span>
-                    <span style={{ display: "block", fontSize: 12.5, color: "#857B70", marginTop: 2 }}>{t.cta}</span>
+                    <span style={{ display: "block", fontSize: 12.5, color: "#767676", marginTop: 2 }}>{t.cta}</span>
                   </span>
                 </a>
               </Fragment>
@@ -479,12 +479,12 @@ export function SiteNav({ tone = "dark", onStart }) {
     <nav className="mw-nav" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, maxWidth: 980, margin: "0 auto", padding: "14px 24px" }}>
       <a href="/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none" }}>
         <span style={{ width: 10, height: 10, borderRadius: "50%", background: ACCENT }} />
-        <span className="mw-nav-brand" style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: "-0.01em", fontSize: 16.5, color: "#0A0A0A", whiteSpace: "nowrap" }}>Inward AI</span>
+        <span className="mw-nav-brand" style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: "-0.01em", fontSize: 16.5, color: "#0A0A0A", whiteSpace: "nowrap" }}>Branding Inward</span>
       </a>
       <span style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <span ref={ref} style={{ position: "relative" }}>
           <button onClick={toggleMenu} aria-haspopup="true" aria-expanded={open} style={{ ...item, background: "none", border: "none", padding: 0, cursor: "pointer", whiteSpace: "nowrap" }}>
-            Tools <span aria-hidden="true" style={{ fontSize: 9, display: "inline-block", transform: open ? "rotate(180deg)" : "none", transition: "transform .18s" }}>&#9662;</span>
+            Inward AI <span aria-hidden="true" style={{ fontSize: 9, display: "inline-block", transform: open ? "rotate(180deg)" : "none", transition: "transform .18s" }}>&#9662;</span>
           </button>
           {open && (
             <div style={{ position: "fixed", top: panelPos.top, left: panelPos.left, zIndex: 300 }}>
@@ -517,7 +517,7 @@ export function SiteFooter() {
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "52px 24px 46px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 22 }}>
           <span style={{ width: 10, height: 10, borderRadius: "50%", background: ACCENT }} />
-          <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: "-0.01em", fontSize: 16, color: "#FFF" }}>Inward AI</span>
+          <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: "-0.01em", fontSize: 16, color: "#FFF" }}>Branding Inward</span>
         </div>
         <p style={{ fontFamily: SANS, fontSize: 17, fontWeight: 600, lineHeight: 1.55, color: "#FFF", margin: "0 0 8px", maxWidth: 620 }}>
           Built by a real branding professional, <span style={{ color: "#8FD6D0" }}>not another tech company.</span>
@@ -527,7 +527,7 @@ export function SiteFooter() {
         </p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "18px 24px", margin: "0 0 26px", fontFamily: SANS, fontSize: 14.5, lineHeight: 2 }}>
           <div>
-            <p style={{ margin: "0 0 4px", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(251,247,240,.55)", fontWeight: 700 }}>Product</p>
+            <p style={{ margin: "0 0 4px", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(251,247,240,.55)", fontWeight: 700 }}>Inward AI</p>
             <a href="/foundation" style={{ ...link, display: "block" }}>The Six Questions</a>
             <a href="/photo-to-posts" style={{ ...link, display: "block" }}>Photo to Posts</a>
             <a href="/scan" style={{ ...link, display: "block" }}>The Inward Scan</a>
@@ -557,7 +557,7 @@ export function SiteFooter() {
           <ForgetButton label="Forget everything on this device" tone="dark" />
         </p>
         <p style={{ fontSize: 13.5, color: "rgba(251,247,240,.6)", margin: 0, fontFamily: SANS }}>
-          Inward AI. Built by Sabiha Afrin. <a href="mailto:safrin@brandinginward.com" style={{ color: BUTTER, textDecoration: "none" }}>safrin@brandinginward.com</a>
+          Branding Inward. Built by Sabiha Afrin. <a href="mailto:safrin@brandinginward.com" style={{ color: BUTTER, textDecoration: "none" }}>safrin@brandinginward.com</a>
         </p>
         <p style={{ fontSize: 18, fontStyle: "italic", color: CREAM, margin: 0 }}>&mdash; <span style={{ color: BUTTER }}>S. Afrin</span></p>
       </div>
@@ -585,15 +585,15 @@ export function SuccessProof({ id, eyebrow = "Quiet people who built it anyway",
         <h2 style={{ fontSize: "clamp(26px, 3.6vw, 34px)", lineHeight: 1.2, margin: "0 0 8px", fontWeight: 350 }}>{headline}</h2>
       )}
       {intro && (
-        <p style={{ fontSize: 16, lineHeight: 1.6, color: "#857B70", margin: "0 0 26px", fontFamily: SANS, maxWidth: 620 }}>{intro}</p>
+        <p style={{ fontSize: 16, lineHeight: 1.6, color: "#767676", margin: "0 0 26px", fontFamily: SANS, maxWidth: 620 }}>{intro}</p>
       )}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
         {people.map((p, i) => (
           <div key={i} style={{ ...plainCard, marginBottom: 0, display: "flex", flexDirection: "column" }}>
             <p style={{ fontSize: 22, fontWeight: 400, margin: "0 0 2px" }}>{p.who}</p>
             <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".04em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 12px" }}>{p.what}</p>
-            <p style={{ fontSize: 16, lineHeight: 1.55, color: "#3D3630", margin: "0 0 14px" }}>{p.how}</p>
-            <a href={p.href} style={{ fontFamily: SANS, fontSize: 13, color: "#9A8F82", textDecoration: "underline", marginTop: "auto" }}>Read their story &rarr;</a>
+            <p style={{ fontSize: 16, lineHeight: 1.55, color: "#333333", margin: "0 0 14px" }}>{p.how}</p>
+            <a href={p.href} style={{ fontFamily: SANS, fontSize: 13, color: "#8A8A8A", textDecoration: "underline", marginTop: "auto" }}>Read their story &rarr;</a>
           </div>
         ))}
       </div>
@@ -619,7 +619,7 @@ export function VoiceStory() {
       <div style={{ ...plainCard, marginBottom: 0 }}>
         <p style={{ fontSize: 22, fontWeight: 400, margin: "0 0 2px" }}>Susan Cain</p>
         <p style={{ fontFamily: SANS, fontSize: 13, letterSpacing: ".04em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 14px" }}>Writer</p>
-        <p style={{ fontSize: 17, lineHeight: 1.65, color: "#3D3630", margin: "0 0 14px" }}>
+        <p style={{ fontSize: 17, lineHeight: 1.65, color: "#333333", margin: "0 0 14px" }}>
           A self-described introvert and former lawyer who was genuinely afraid of public speaking. She
           didn't build a following by being everywhere. She spent years on one deeply-researched book,
           <span style={{ fontStyle: "italic" }}> Quiet</span>, and gave one carefully-prepared talk. Both reached millions. The depth did the work
@@ -628,7 +628,7 @@ export function VoiceStory() {
         <p style={{ fontSize: 16, lineHeight: 1.6, color: INK, margin: "0 0 14px", fontStyle: "italic" }}>
           Her voice landed because it was unmistakably hers. So is the one this tool hands back to you.
         </p>
-        <a href="https://en.wikipedia.org/wiki/Susan_Cain" style={{ fontFamily: SANS, fontSize: 13, color: "#9A8F82", textDecoration: "underline" }}>Read her story &rarr;</a>
+        <a href="https://en.wikipedia.org/wiki/Susan_Cain" style={{ fontFamily: SANS, fontSize: 13, color: "#8A8A8A", textDecoration: "underline" }}>Read her story &rarr;</a>
       </div>
     </section>
   );
@@ -648,7 +648,7 @@ export function Playbook() {
       <h2 style={{ fontSize: "clamp(24px, 3.4vw, 32px)", lineHeight: 1.2, margin: "0 0 10px", fontWeight: 350 }}>
         Two of the seven, <span style={{ fontStyle: "italic", color: ACCENT }}>on the house.</span>
       </h2>
-      <p style={{ fontSize: 16, lineHeight: 1.6, color: "#857B70", margin: "0 0 26px", fontFamily: SANS, maxWidth: 620 }}>
+      <p style={{ fontSize: 16, lineHeight: 1.6, color: "#767676", margin: "0 0 26px", fontFamily: SANS, maxWidth: 620 }}>
         Seven quiet tactics sit behind these tools, ways to be found that don't ask you to perform. Here are two of them in full, so you can see how they actually work.
       </p>
 
@@ -657,20 +657,20 @@ export function Playbook() {
         {TACTIC_LIBRARY.filter((t) => FREE_TACTICS.includes(t.name)).map((t, i) => (
           <div key={i} style={{ ...plainCard, marginBottom: 0 }}>
             <p style={{ fontSize: 18, fontWeight: 500, margin: "0 0 6px", color: INK }}>{t.name}</p>
-            <p style={{ fontSize: 15, lineHeight: 1.55, color: "#3D3630", margin: 0 }}>{t.what}</p>
+            <p style={{ fontSize: 15, lineHeight: 1.55, color: "#333333", margin: 0 }}>{t.what}</p>
           </div>
         ))}
       </div>
 
       {/* The other five: named, so you know what exists, method held for the book. */}
       <div style={{ border: `1px dashed #CFC6B8`, borderRadius: 16, padding: "22px 26px", marginBottom: 34, background: "rgba(255,255,255,.5)" }}>
-        <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: "#9A8F82", fontWeight: 700, margin: "0 0 12px" }}>The other five</p>
+        <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: "#8A8A8A", fontWeight: 700, margin: "0 0 12px" }}>The other five</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 10px", marginBottom: 16 }}>
           {TACTIC_LIBRARY.filter((t) => !FREE_TACTICS.includes(t.name)).map((t, i) => (
-            <span key={i} style={{ fontFamily: SANS, fontSize: 14, color: "#5C534B", background: "#F4EFE6", border: "1px solid #EFE7DA", borderRadius: 100, padding: "7px 14px" }}>{t.name}</span>
+            <span key={i} style={{ fontFamily: SANS, fontSize: 14, color: "#4A4A4A", background: "#FAFAFA", border: "1px solid #E6E6E6", borderRadius: 100, padding: "7px 14px" }}>{t.name}</span>
           ))}
         </div>
-        <p style={{ fontSize: 15, lineHeight: 1.6, color: "#5C534B", margin: 0, fontFamily: SANS, maxWidth: 620 }}>
+        <p style={{ fontSize: 15, lineHeight: 1.6, color: "#4A4A4A", margin: 0, fontFamily: SANS, maxWidth: 620 }}>
           The full method for each one, with the scripts and when to use them, is coming to the library.{" "}
           <a href="/resources" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none" }}>Browse the library &rarr;</a>
         </p>
@@ -682,7 +682,7 @@ export function Playbook() {
           <div key={i} style={{ ...plainCard, marginBottom: 0 }}>
             <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".04em", textTransform: "uppercase", color: ACCENT, fontWeight: 700, margin: "0 0 10px" }}>{c.cost}</p>
             {c.items.map((it, j) => (
-              <p key={j} style={{ fontSize: 15, lineHeight: 1.5, color: "#3D3630", margin: j ? "8px 0 0" : 0 }}>{it}</p>
+              <p key={j} style={{ fontSize: 15, lineHeight: 1.5, color: "#333333", margin: j ? "8px 0 0" : 0 }}>{it}</p>
             ))}
           </div>
         ))}
@@ -715,7 +715,7 @@ export function RoastOrigin() {
         The internet is brutally honest. <span style={{ fontStyle: "italic", color: CORAL }}>I kept the honest, dropped the brutal.</span>
       </h2>
       <div style={{ border: "1px solid #EBE3D6", borderRadius: 16, overflow: "hidden", background: "#FFF", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
-        <div style={{ background: "#F7F2E9", padding: "12px 20px", borderBottom: "1px solid #EBE3D6", fontFamily: SANS, fontSize: 13, color: "#857B70", fontWeight: 600 }}>
+        <div style={{ background: "#F7F2E9", padding: "12px 20px", borderBottom: "1px solid #EBE3D6", fontFamily: SANS, fontSize: 13, color: "#767676", fontWeight: 600 }}>
           the feedback threads that started this
         </div>
         {notes.map((n, i) => (
@@ -727,7 +727,7 @@ export function RoastOrigin() {
           </div>
         ))}
       </div>
-      <p style={{ fontFamily: SANS, fontSize: 13, lineHeight: 1.6, color: "#9A8F82", margin: "12px 0 0" }}>
+      <p style={{ fontFamily: SANS, fontSize: 13, lineHeight: 1.6, color: "#8A8A8A", margin: "12px 0 0" }}>
         Not real posts, my honest paraphrase of a hundred of them. The tool gives you that same honesty, aimed at the words and never at you.
       </p>
     </section>
@@ -747,7 +747,7 @@ export function BuddyForm() {
   const [err, setErr] = useState(null);
 
   function mailtoFallback() {
-    const subject = encodeURIComponent("Inward AI, buddy match");
+    const subject = encodeURIComponent("Branding Inward, buddy match");
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nI want: ${want}\nAbout me: ${about}`);
     window.location.href = `mailto:thecuriousafrin@gmail.com?subject=${subject}&body=${body}`;
   }
@@ -817,7 +817,7 @@ export function BuddyForm() {
 //    + ghost label + big mixed-weight headline, so every tool page gets home's
 //    richness instead of flat cream. prefers-reduced-motion kills the zoom. ──
 export function ToolHero({ label, photo, accent = ACCENT, Doodle, headline, sub, children }) {
-  const labelInk = accent === BUTTER ? "#F7D06B" : accent === CORAL ? "#F0997B" : "#9FE1CB";
+  const labelInk = accent === BUTTER ? "#8FD6D0" : accent === CORAL ? "#F0997B" : "#9FE1CB";
   return (
     <section style={{ position: "relative", overflow: "hidden", background: INK_TEAL }}>
       {photo && (
@@ -886,7 +886,7 @@ export function StepLoader({ steps, pace = 3000 }) {
           <span style={{ flexShrink: 0, width: 22, height: 22, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SANS, fontSize: 12, fontWeight: 700, background: i < at ? ACCENT : "transparent", color: "#FFF", border: `2px solid ${ACCENT}`, boxSizing: "border-box", animation: i === at ? "pulse 1.2s infinite ease-in-out" : "none" }}>
             {i < at ? "✓" : ""}
           </span>
-          <span style={{ fontFamily: SANS, fontSize: 16.5, lineHeight: 1.4, color: i === at ? INK : "#857B70", fontWeight: i === at ? 600 : 400 }}>
+          <span style={{ fontFamily: SANS, fontSize: 16.5, lineHeight: 1.4, color: i === at ? INK : "#767676", fontWeight: i === at ? 600 : 400 }}>
             {s}{i === at ? "…" : ""}
           </span>
         </div>
@@ -1053,14 +1053,14 @@ export function MicIcon({ color }) {
 
 // ── Shared card/button style objects, same look on every whisper page ──
 export const primaryBtn = { background: ACCENT, color: "#FFF", border: "none", borderRadius: 100, padding: "16px 32px", fontSize: 17, fontFamily: SANS, fontWeight: 600, cursor: "pointer", transition: "all .18s ease", boxShadow: "0 6px 18px rgba(15,124,108,.22)" };
-export const ghostBtn = { background: "none", border: "none", color: "#9A8F82", fontSize: 16, cursor: "pointer", fontFamily: SANS, transition: "color .18s", marginLeft: "auto" };
+export const ghostBtn = { background: "none", border: "none", color: "#8A8A8A", fontSize: 16, cursor: "pointer", fontFamily: SANS, transition: "color .18s", marginLeft: "auto" };
 export const miniLabel = { fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, margin: "0 0 10px", fontWeight: 600 };
-export const plainCard = { background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "22px 24px", marginBottom: 16, boxShadow: "0 8px 24px rgba(11,59,52,.05)" };
-export const heroCard = { background: ACCENT_TINT, border: "1px solid #DCEFEA", borderLeft: `5px solid ${ACCENT}`, borderRadius: 16, padding: "28px 28px", marginBottom: 16, boxShadow: "0 10px 28px rgba(11,59,52,.08)", position: "relative", overflow: "hidden" };
-export const quoteCard = { background: ACCENT_TINT, border: "1px solid #DCEFEA", borderRadius: 16, padding: "22px 24px", marginBottom: 16 };
+export const plainCard = { background: "#FFF", border: "1px solid #E6E6E6", borderRadius: 16, padding: "22px 24px", marginBottom: 16, boxShadow: "0 8px 24px rgba(11,59,52,.05)" };
+export const heroCard = { background: ACCENT_TINT, border: "1px solid #E6E6E6", borderLeft: `5px solid ${ACCENT}`, borderRadius: 16, padding: "28px 28px", marginBottom: 16, boxShadow: "0 10px 28px rgba(11,59,52,.08)", position: "relative", overflow: "hidden" };
+export const quoteCard = { background: ACCENT_TINT, border: "1px solid #E6E6E6", borderRadius: 16, padding: "22px 24px", marginBottom: 16 };
 export const todayBox = { background: INK_TEAL, borderRadius: 20, padding: "30px 32px", marginTop: 30, boxShadow: "0 14px 34px rgba(11,59,52,.25)" };
-export const bridgeBox = { background: ACCENT_TINT, border: "1px solid #DCEFEA", borderRadius: 16, padding: "22px 24px" };
-export const dayCard = { background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "20px 22px", marginBottom: 14, boxShadow: "0 8px 24px rgba(11,59,52,.05)" };
+export const bridgeBox = { background: ACCENT_TINT, border: "1px solid #E6E6E6", borderRadius: 16, padding: "22px 24px" };
+export const dayCard = { background: "#FFF", border: "1px solid #E6E6E6", borderRadius: 16, padding: "20px 22px", marginBottom: 14, boxShadow: "0 8px 24px rgba(11,59,52,.05)" };
 export const dayBadge = { flexShrink: 0, background: ACCENT_TINT_STRONG, color: ACCENT, borderRadius: 100, padding: "4px 12px", fontFamily: SANS, fontWeight: 700, fontSize: 13, letterSpacing: ".04em" };
 
 // ── Oversized ghost number behind question headings ──

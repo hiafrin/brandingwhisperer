@@ -70,7 +70,7 @@ export default function RoastWhisper() {
     stopIfListening();
     setLoading(true); setError(null); setResult(null); setReveal(0);
 
-    const systemPrompt = `You are the editor behind Inward AI's gentle roast: the one friend who loves someone's work, reads their captions closely, and tells them the truth kindly. Your audience finds self-promotion physically uncomfortable, so when they post they often put on a costume: the ad voice, the excitement they don't feel, the formal register that isn't them. What they paste is your ONLY material. You never compare them to anyone. You quote their own words as evidence for everything.
+    const systemPrompt = `You are the editor behind Branding Inward's gentle roast: the one friend who loves someone's work, reads their captions closely, and tells them the truth kindly. Your audience finds self-promotion physically uncomfortable, so when they post they often put on a costume: the ad voice, the excitement they don't feel, the formal register that isn't them. What they paste is your ONLY material. You never compare them to anyone. You quote their own words as evidence for everything.
 
 The single most important thing this tool does, that no other critique tool does: it tells them what NOT to change. People need confidence as much as correction. So you ALWAYS lead with what's already working and must be kept, in their own words, before any fix.
 
@@ -138,7 +138,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
 
   function buildSummary() {
     if (!result) return "";
-    let t = "MY GENTLE ROAST, from Inward AI\n\n";
+    let t = "MY GENTLE ROAST, from Branding Inward\n\n";
     (result.verdicts || []).forEach((v) => {
       const tag = VERDICT_STYLE[v.kind] ? VERDICT_STYLE[v.kind].tag : v.kind;
       t += `${v.kind.toUpperCase()} (${tag}):\n`;
@@ -171,7 +171,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
           photo="/media/roast-hero.jpg"
           accent={CORAL}
           Doodle={TOOLS.roast.Doodle}
-          headline={<>Get roasted.<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>Your words. Your call on how hard.</span></>}
+          headline={<>Get roasted.<br /><span style={{ fontStyle: "italic", color: "#8FD6D0" }}>Your words. Your call on how hard.</span></>}
           sub="When posting feels like performing, a costume goes on: the ad voice, the excitement you don't feel, the little apology for existing. Paste what you wrote, and this reads only your words, tells you first what to keep, then the few lines worth a gentle fix."
         />
       )}
@@ -182,7 +182,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
             <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
               <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-                Inward AI
+                Branding Inward
               </span>
             </a>
           </div>
@@ -203,7 +203,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
             </p>
 
             <p style={{ ...miniLabel, marginBottom: 4 }}>How hard do you want it?</p>
-            <p style={{ fontSize: 14, color: "#857B70", margin: "0 0 12px", fontFamily: SANS, lineHeight: 1.5 }}>
+            <p style={{ fontSize: 14, color: "#767676", margin: "0 0 12px", fontFamily: SANS, lineHeight: 1.5 }}>
               You choose. Even the sharp one aims at the words, never at you. Start gentle, dial up whenever you want.
             </p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 28 }}>
@@ -211,10 +211,10 @@ Read it closely. Tell me first what to keep and never change, then the few thing
                 <button
                   key={l.key}
                   onClick={() => setLevel(l.key)}
-                  style={{ flex: "1 1 180px", textAlign: "left", background: level === l.key ? ACCENT_TINT : "#FFF", border: `2px solid ${level === l.key ? ACCENT : "#E5DDD1"}`, borderRadius: 14, padding: "14px 16px", cursor: "pointer", fontFamily: SERIF, transition: "all .18s" }}
+                  style={{ flex: "1 1 180px", textAlign: "left", background: level === l.key ? ACCENT_TINT : "#FFF", border: `2px solid ${level === l.key ? ACCENT : "#E6E6E6"}`, borderRadius: 14, padding: "14px 16px", cursor: "pointer", fontFamily: SERIF, transition: "all .18s" }}
                 >
                   <span style={{ display: "block", fontSize: 17, color: INK, marginBottom: 3 }}>{l.label}</span>
-                  <span style={{ display: "block", fontFamily: SANS, fontSize: 13, color: "#857B70", lineHeight: 1.4 }}>{l.blurb}</span>
+                  <span style={{ display: "block", fontFamily: SANS, fontSize: 13, color: "#767676", lineHeight: 1.4 }}>{l.blurb}</span>
                 </button>
               ))}
             </div>
@@ -225,8 +225,8 @@ Read it closely. Tell me first what to keep and never change, then the few thing
               onChange={(e) => { setText(e.target.value); setBase(e.target.value); }}
               placeholder="Paste your bio, a few captions or posts, that draft you keep not posting. Any order, any mess."
               rows={9}
-              style={{ width: "100%", fontSize: 18, fontFamily: SERIF, color: INK, padding: "18px 20px", borderRadius: 14, border: "2px solid #E5DDD1", background: "#FFF", resize: "vertical", outline: "none", lineHeight: 1.5 }}
-              onFocus={(e) => (e.target.style.borderColor = ACCENT)} onBlur={(e) => (e.target.style.borderColor = "#E5DDD1")}
+              style={{ width: "100%", fontSize: 18, fontFamily: SERIF, color: INK, padding: "18px 20px", borderRadius: 14, border: "2px solid #E6E6E6", background: "#FFF", resize: "vertical", outline: "none", lineHeight: 1.5 }}
+              onFocus={(e) => (e.target.style.borderColor = ACCENT)} onBlur={(e) => (e.target.style.borderColor = "#E6E6E6")}
             />
 
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 22, flexWrap: "wrap" }}>
@@ -234,13 +234,13 @@ Read it closely. Tell me first what to keep and never change, then the few thing
                 {level === "friend" ? "Roast me, gently" : level === "stranger" ? "Give it to me straight" : "Don't hold back"}
               </button>
               {voiceSupported && (
-                <button onClick={toggleMic} className={listening ? "mw-mic-live" : ""} style={{ display: "flex", alignItems: "center", gap: 8, background: listening ? ACCENT : "#FFF", color: listening ? "#FFF" : INK, border: `2px solid ${listening ? ACCENT : "#E5DDD1"}`, borderRadius: 100, padding: "11px 18px", cursor: "pointer", fontFamily: SANS, fontSize: 14, fontWeight: 600, transition: "all .18s" }}>
+                <button onClick={toggleMic} className={listening ? "mw-mic-live" : ""} style={{ display: "flex", alignItems: "center", gap: 8, background: listening ? ACCENT : "#FFF", color: listening ? "#FFF" : INK, border: `2px solid ${listening ? ACCENT : "#E6E6E6"}`, borderRadius: 100, padding: "11px 18px", cursor: "pointer", fontFamily: SANS, fontSize: 14, fontWeight: 600, transition: "all .18s" }}>
                   <MicIcon color={listening ? "#FFF" : ACCENT} />
                   {listening ? "Listening…" : "Speak"}
                 </button>
               )}
             </div>
-            <p style={{ fontSize: 14, color: "#9A8F82", marginTop: 16, fontFamily: SANS }}>
+            <p style={{ fontSize: 14, color: "#8A8A8A", marginTop: 16, fontFamily: SANS }}>
               No account. Nothing you paste is saved, and I never see it.
             </p>
           </div>
@@ -300,7 +300,7 @@ Read it closely. Tell me first what to keep and never change, then the few thing
                     <p style={{ fontSize: 20, lineHeight: 1.45, color: "#FFF", margin: 0 }}>{result.today}</p>
                   </div>
                 )}
-                <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E5DDD1", display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+                <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E6E6E6", display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
                   <button className="mw-btn" onClick={copyAll} style={{ ...primaryBtn, padding: "12px 22px", fontSize: 15 }}>
                     {copied ? "Copied ✓" : "Copy everything"}
                   </button>

@@ -17,11 +17,11 @@ export default function WorkWithMe() {
         <h1 style={{ fontSize: "clamp(34px, 5vw, 48px)", lineHeight: 1.1, margin: "0 0 26px", fontWeight: 350 }}>
           Work <span style={{ fontStyle: "italic", color: ACCENT }}>with me</span>
         </h1>
-        <p style={{ fontSize: 18, lineHeight: 1.7, color: "#443F39", margin: "0 0 18px", fontFamily: SANS }}>
+        <p style={{ fontSize: 18, lineHeight: 1.7, color: "#4A4A4A", margin: "0 0 18px", fontFamily: SANS }}>
           I take a small number of engagements at a time. Positioning for one person, and
           workshops for groups who need to be visible without turning into content machines.
         </p>
-        <p style={{ fontSize: 18, lineHeight: 1.7, color: "#443F39", margin: 0, fontFamily: SANS }}>
+        <p style={{ fontSize: 18, lineHeight: 1.7, color: "#4A4A4A", margin: 0, fontFamily: SANS }}>
           Write to me at{" "}
           <a href="mailto:safrin@brandinginward.com" style={{ color: ACCENT, fontWeight: 600, textDecoration: "none", borderBottom: `2px solid ${ACCENT}` }}>
             safrin@brandinginward.com

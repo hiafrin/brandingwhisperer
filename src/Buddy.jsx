@@ -18,7 +18,7 @@ export default function Buddy() {
           <h1 style={{ fontSize: "clamp(32px, 5vw, 46px)", lineHeight: 1.12, margin: "0 0 16px", fontWeight: 350 }}>
             Find a <span style={{ fontStyle: "italic", color: ACCENT }}>hype buddy.</span>
           </h1>
-          <p style={{ fontSize: 17.5, lineHeight: 1.7, color: "#443F39", margin: 0, fontFamily: SANS }}>
+          <p style={{ fontSize: 17.5, lineHeight: 1.7, color: "#4A4A4A", margin: 0, fontFamily: SANS }}>
             Quiet people don't need a critic, they need one person in their corner. Get matched
             with one other quiet professional, introduced by me, to cheer each other's work,
             celebrate the small wins, swap endorsements, and nudge each other to actually

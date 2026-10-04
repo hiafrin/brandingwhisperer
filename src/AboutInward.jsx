@@ -50,13 +50,13 @@ export default function AboutInward() {
 
       {/* ── THE STORY ── */}
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "56px 24px 8px" }}>
-        <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
+        <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#333333" }}>
           I've spent more than a decade in brand marketing, first at agencies and later in-house. I learned
           what makes people remember a brand long before social media became part of every job, and long
           before AI entered the conversation. Platforms change all the time. What lasts is who you are, how
           you communicate, and what people come to know you for. That's what these tools are built around.
         </p>
-        <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#3D3630" }}>
+        <p style={{ fontSize: 19, lineHeight: 1.75, margin: "0 0 22px", color: "#333333" }}>
           A lot of people assume these are just ChatGPT prompts. They're not. I spent a long time
           researching, testing, and building the framework behind them. The questions come from the same way
           a brand strategist thinks through a problem. AI simply makes that process accessible in a few
@@ -69,7 +69,7 @@ export default function AboutInward() {
           clearly without asking them to perform. Keeping everything free was important for the same reason.
           Good guidance shouldn't depend on having a marketing budget.
         </p>
-        <p style={{ fontSize: 18, lineHeight: 1.7, margin: 0, color: "#5C534B" }}>
+        <p style={{ fontSize: 18, lineHeight: 1.7, margin: 0, color: "#4A4A4A" }}>
           One more thing. I'm not a professional web developer. I just love making things, whether that's
           shaping clay, trying a new recipe, building an app, or figuring out a complex website. I'm learning
           as I go, so you'll probably come across a bug or something that feels a little off. When you do, I'd
@@ -82,7 +82,7 @@ export default function AboutInward() {
 
       {/* ── SAY HI ── */}
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "36px 24px 0" }}>
-        <div style={{ background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "26px 28px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
+        <div style={{ background: "#FFF", border: "1px solid #E6E6E6", borderRadius: 16, padding: "26px 28px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
           <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 10px" }}>Say hi</p>
           <p style={{ fontSize: 17, lineHeight: 1.6, margin: "0 0 6px", color: INK }}>
             Got a thought, or a tool broke, or you just want to say hi? I'm at{" "}
@@ -95,10 +95,10 @@ export default function AboutInward() {
       {/* ── START WITH A TOOL ── */}
       <section style={{ maxWidth: 920, margin: "56px auto 0", padding: "0 24px" }}>
         <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 4px" }}>Start where you're stuck</p>
-        <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 18px", fontFamily: SANS }}>All free, private by default, one small step at a time.</p>
+        <p style={{ fontSize: 16, color: "#767676", margin: "0 0 18px", fontFamily: SANS }}>All free, private by default, one small step at a time.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
           {three.map((t) => (
-            <a key={t.key} href={t.href} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "22px 24px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
+            <a key={t.key} href={t.href} className="mw-card-hover" style={{ display: "block", textDecoration: "none", color: INK, background: "#FFF", border: "1px solid #E6E6E6", borderRadius: 16, padding: "22px 24px", boxShadow: "0 8px 24px rgba(11,59,52,.05)" }}>
               <t.Doodle color={t.accent} />
               <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase", color: t.accent === BUTTER ? "#854F0B" : t.accent, fontWeight: 700, margin: "12px 0 6px" }}>{t.name}</p>
               <p style={{ fontSize: 18, lineHeight: 1.4, fontStyle: "italic", margin: "0 0 12px" }}>&ldquo;{t.pain}&rdquo;</p>

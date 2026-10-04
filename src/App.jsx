@@ -183,7 +183,7 @@ export default function BrandingWhisperer({ view = "home" }) {
   // Build a plain-text version of everything so far
   function buildSummary() {
     if (!result) return "";
-    let t = "MY BRAND, from Inward AI\n\n";
+    let t = "MY BRAND, from Branding Inward\n\n";
     if (result.reframe) t += `What I'm really about:\n${result.reframe}\n\n`;
     if (result.moment) t += `The moment I'm for:\n${result.moment}\n\n`;
     if (result.mirror) t += `Who my customer gets to be:\n${result.mirror}\n\n`;
@@ -505,16 +505,13 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
 
             {/* ── HERO: centered product claim, no video, no serif ── */}
             <section style={{ maxWidth: 780, margin: "0 auto", padding: "64px 24px 40px", textAlign: "center" }}>
-              <a href="/photo-to-posts" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SK.SANS, fontSize: 13, fontWeight: 600, color: SK.INK, background: SK.CARD, border: `1px solid ${SK.BORDER}`, borderRadius: 100, padding: "6px 14px", textDecoration: "none", marginBottom: 26, boxShadow: "0 2px 10px rgba(20,20,20,.04)" }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: SK.TEAL }} />
-                New: Photo to Posts
-              </a>
               <h1 style={{ fontSize: "clamp(34px, 5.4vw, 54px)", lineHeight: 1.08, fontWeight: 700, letterSpacing: "-0.025em", margin: "0 0 18px", color: SK.INK }}>
                 The personal branding suite<br />for quiet professionals.
               </h1>
               <p style={{ fontSize: 18, lineHeight: 1.6, color: SK.MUTED, maxWidth: 560, margin: "0 auto 28px" }}>
-                Get found. Without performing. Five tools and one brand dossier,
-                designed by a brand strategist, written by AI, approved by you.
+                Get found. Without performing. Inward AI is five tools and one
+                brand dossier, designed by a brand strategist, written by AI,
+                approved by you.
               </p>
               <button className="mw-btn" onClick={() => { track("start_questions"); setStep(-2); window.scrollTo({ top: 0 }); }} style={{ ...blackPill, fontSize: 16.5, padding: "15px 34px" }}>
                 Start free
@@ -539,7 +536,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           {/* ── WELCOME BACK: only for visitors who chose to keep their pattern on this device ── */}
           {storedPattern && PATTERN_HOME[storedPattern] && (
             <section style={{ maxWidth: 920, margin: "0 auto", padding: "40px 24px 0" }}>
-              <div style={{ background: ACCENT_TINT, border: "1px solid #DCEFEA", borderLeft: `5px solid ${ACCENT}`, borderRadius: "0 16px 16px 0", padding: "24px 26px" }}>
+              <div style={{ background: ACCENT_TINT, border: "1px solid #E6E6E6", borderLeft: `5px solid ${ACCENT}`, borderRadius: "0 16px 16px 0", padding: "24px 26px" }}>
                 <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 6px" }}>Welcome back</p>
                 <p style={{ fontSize: 22, fontWeight: 350, margin: "0 0 14px" }}>
                   You're {PATTERN_HOME[storedPattern].name.replace("The", "a")}. How's the battery today?
@@ -547,7 +544,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: energy ? 16 : 0 }}>
                   {[["low", "Running low"], ["okay", "Okay"], ["good", "Actually good"]].map(([k, label]) => (
                     <button key={k} className="mw-btn" onClick={() => setEnergy(k)}
-                      style={{ background: energy === k ? ACCENT : "#FFF", color: energy === k ? "#FFF" : INK, border: `2px solid ${energy === k ? ACCENT : "#E5DDD1"}`, borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "all .18s" }}>
+                      style={{ background: energy === k ? ACCENT : "#FFF", color: energy === k ? "#FFF" : INK, border: `2px solid ${energy === k ? ACCENT : "#E6E6E6"}`, borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "all .18s" }}>
                       {label}
                     </button>
                   ))}
@@ -614,7 +611,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
 
             {/* ── STEP 2: THE TOOLS ── */}
             <section id="framework" style={{ maxWidth: 980, margin: "0 auto", padding: "56px 24px 8px", scrollMarginTop: 20 }}>
-              <p style={sectionLabel}>Step 2 · The tools</p>
+              <p style={sectionLabel}>Step 2 · The Inward AI tools</p>
               <h2 style={{ fontSize: "clamp(26px, 3.4vw, 36px)", lineHeight: 1.15, fontWeight: 700, letterSpacing: "-0.02em", margin: "0 0 26px" }}>
                 Each one works on its own.<br />Together they stay on message.
               </h2>
@@ -701,7 +698,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             photo="/media/quiet-desk.jpg"
             accent={ACCENT}
             Doodle={DoodleBubble}
-            headline={<>Six small questions.<br /><span style={{ fontStyle: "italic", color: "#F7D06B" }}>One clear you at the end.</span></>}
+            headline={<>Six small questions.<br /><span style={{ fontStyle: "italic", color: "#8FD6D0" }}>One clear you at the end.</span></>}
             sub="No marketing words. Answer like you'd tell a friend, and you'll know the real reason people choose you."
           />
           <section className="mw-fade" style={{ maxWidth: 660, margin: "0 auto", padding: "40px 24px 8px" }}>
@@ -721,10 +718,10 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 </button>
               ))}
             </div>
-            <p style={{ fontSize: 13.5, color: "#9A8F82", fontFamily: SANS, margin: "12px 0 0" }}>
+            <p style={{ fontSize: 13.5, color: "#8A8A8A", fontFamily: SANS, margin: "12px 0 0" }}>
               Same six questions either way, phrased for your path. About ten minutes, stop anytime.
             </p>
-            <p style={{ fontSize: 14, color: "#9A8F82", margin: "16px 0 0", fontFamily: SANS }}>
+            <p style={{ fontSize: 14, color: "#8A8A8A", margin: "16px 0 0", fontFamily: SANS }}>
               No account. One question at a time, and nothing leaves your device.
             </p>
           </section>
@@ -732,12 +729,12 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           {/* ── STUCK PICKER: a fallback, not a rival to this page's own CTA. It
                  sits after the six questions are offered, framed for the person
                  who isn't sure this is their step. ── */}
-          <section style={{ maxWidth: 920, margin: "0 auto", padding: "56px 24px 8px", borderTop: "1px solid #EFE7DA" }}>
-            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: "#9A8F82", fontWeight: 600, margin: "26px 0 8px" }}>Not sure this is your step?</p>
+          <section style={{ maxWidth: 920, margin: "0 auto", padding: "56px 24px 8px", borderTop: "1px solid #E6E6E6" }}>
+            <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase", color: "#8A8A8A", fontWeight: 600, margin: "26px 0 8px" }}>Not sure this is your step?</p>
             <h2 style={{ fontSize: "clamp(20px, 2.8vw, 25px)", lineHeight: 1.25, margin: "0 0 8px", fontWeight: 350 }}>
               Tell me where you <span style={{ fontStyle: "italic", color: ACCENT }}>get stuck</span>, and I'll point you to the right one.
             </h2>
-            <p style={{ fontSize: 15, color: "#857B70", margin: "0 0 22px", fontFamily: SANS, maxWidth: 560 }}>
+            <p style={{ fontSize: 15, color: "#767676", margin: "0 0 22px", fontFamily: SANS, maxWidth: 560 }}>
               Some of these lead back here. Some lead somewhere else entirely, and that's fine.
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
@@ -746,7 +743,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   key={s.key}
                   className="mw-btn"
                   onClick={() => { setStuck(s.key); track("stuck_" + s.key); }}
-                  style={{ textAlign: "left", background: stuck === s.key ? ACCENT_TINT : "#FFF", color: INK, border: `2px solid ${stuck === s.key ? ACCENT : "#EFE7DA"}`, borderRadius: 14, padding: "16px 18px", fontSize: 18, fontFamily: SERIF, cursor: "pointer", lineHeight: 1.4, transition: "all .18s", display: "flex", alignItems: "center", gap: 12 }}
+                  style={{ textAlign: "left", background: stuck === s.key ? ACCENT_TINT : "#FFF", color: INK, border: `2px solid ${stuck === s.key ? ACCENT : "#E6E6E6"}`, borderRadius: 14, padding: "16px 18px", fontSize: 18, fontFamily: SERIF, cursor: "pointer", lineHeight: 1.4, transition: "all .18s", display: "flex", alignItems: "center", gap: 12 }}
                 >
                   <span style={{ flexShrink: 0, width: 16, height: 16, borderRadius: "50%", border: `2px solid ${stuck === s.key ? ACCENT : "#CFC6B8"}`, background: stuck === s.key ? ACCENT : "transparent", transition: "all .18s" }} />
                   {s.label}
@@ -757,12 +754,12 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
             {stuck && (() => {
               const s = STUCK.find((x) => x.key === stuck);
               return (
-                <div className="mw-fade" style={{ marginTop: 18, background: ACCENT_TINT, border: "1px solid #DCEFEA", borderLeft: `5px solid ${ACCENT}`, borderRadius: "0 16px 16px 0", padding: "24px 26px" }}>
+                <div className="mw-fade" style={{ marginTop: 18, background: ACCENT_TINT, border: "1px solid #E6E6E6", borderLeft: `5px solid ${ACCENT}`, borderRadius: "0 16px 16px 0", padding: "24px 26px" }}>
                   <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>Here's your path</p>
                   <p style={{ fontSize: 24, fontWeight: 400, margin: "0 0 8px" }}>{s.path}</p>
-                  <p style={{ fontSize: 16, lineHeight: 1.6, color: "#3D3630", margin: "0 0 18px", fontFamily: SANS }}>{s.why}</p>
+                  <p style={{ fontSize: 16, lineHeight: 1.6, color: "#333333", margin: "0 0 18px", fontFamily: SANS }}>{s.why}</p>
                   <div style={{ background: INK_TEAL, borderRadius: 14, padding: "16px 18px", marginBottom: 18 }}>
-                    <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#F7D06B", fontWeight: 600, margin: "0 0 5px" }}>Today</p>
+                    <p style={{ fontFamily: SANS, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#8FD6D0", fontWeight: 600, margin: "0 0 5px" }}>Today</p>
                     <p style={{ fontSize: 16, lineHeight: 1.5, color: CREAM, margin: 0 }}>{s.today}</p>
                   </div>
                   {s.href && s.href !== "/foundation" ? (
@@ -788,7 +785,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 40 }}>
             <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
             <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-              Inward AI
+              Branding Inward
             </span>
           </div>
         )}
@@ -805,12 +802,12 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 <p style={{ fontSize: 19, lineHeight: 1.6, margin: 0, color: INK }}>{emerging}</p>
               </div>
             ) : (
-              <p style={{ fontSize: 16, color: "#857B70", fontFamily: SANS, margin: "0 0 18px" }}>Reading your first three answers&hellip;</p>
+              <p style={{ fontSize: 16, color: "#767676", fontFamily: SANS, margin: "0 0 18px" }}>Reading your first three answers&hellip;</p>
             )}
             <button className="mw-btn" onClick={() => setEmergingOpen(false)} style={primaryBtn}>
               Keep going, three questions left &rarr;
             </button>
-            <p style={{ fontSize: 13.5, color: "#9A8F82", fontFamily: SANS, margin: "12px 0 0" }}>
+            <p style={{ fontSize: 13.5, color: "#8A8A8A", fontFamily: SANS, margin: "12px 0 0" }}>
               Or stop here. Your answers are saved on this device and will be waiting.
             </p>
           </div>
@@ -821,7 +818,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
           <div className="mw-fade" key={q.id}>
             <div style={{ display: "flex", gap: 8, marginBottom: 30 }}>
               {QUESTIONS.map((_, i) => (
-                <span key={i} style={{ height: 3, flex: 1, borderRadius: 2, background: i <= step ? ACCENT : "#E5DDD1", transition: "background .3s" }} />
+                <span key={i} style={{ height: 3, flex: 1, borderRadius: 2, background: i <= step ? ACCENT : "#E6E6E6", transition: "background .3s" }} />
               ))}
             </div>
             <div style={{ position: "relative", paddingTop: 34 }}>
@@ -831,21 +828,21 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               </p>
               <h2 style={{ fontSize: 33, lineHeight: 1.18, margin: "0 0 10px", fontWeight: 400, position: "relative" }}>{q.label}</h2>
             </div>
-            <p style={{ fontSize: 16, color: "#857B70", margin: "0 0 22px", fontFamily: SANS }}>{q.help}</p>
+            <p style={{ fontSize: 16, color: "#767676", margin: "0 0 22px", fontFamily: SANS }}>{q.help}</p>
             <textarea aria-label="Your answer"
               ref={inputRef} className="mw-area" value={draft}
               onChange={(e) => { setDraft(e.target.value); setBase(e.target.value); }}
               onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); next(); } }}
               placeholder={q.placeholder} rows={3}
-              style={{ width: "100%", fontSize: 19, fontFamily: SERIF, color: INK, padding: "18px 20px", borderRadius: 14, border: "2px solid #E5DDD1", background: "#FFF", resize: "none", outline: "none", lineHeight: 1.5 }}
-              onFocus={(e) => (e.target.style.borderColor = ACCENT)} onBlur={(e) => (e.target.style.borderColor = "#E5DDD1")}
+              style={{ width: "100%", fontSize: 19, fontFamily: SERIF, color: INK, padding: "18px 20px", borderRadius: 14, border: "2px solid #E6E6E6", background: "#FFF", resize: "none", outline: "none", lineHeight: 1.5 }}
+              onFocus={(e) => (e.target.style.borderColor = ACCENT)} onBlur={(e) => (e.target.style.borderColor = "#E6E6E6")}
             />
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 22, flexWrap: "wrap" }}>
               <button className="mw-btn" onClick={next} disabled={!draft.trim()} style={{ ...primaryBtn, opacity: draft.trim() ? 1 : 0.4, cursor: draft.trim() ? "pointer" : "not-allowed" }}>
                 {step + 1 >= QUESTIONS.length ? "Show me what I'm really about" : "Next"}
               </button>
               {voiceSupported && (
-                <button onClick={toggleMic} className={listening ? "mw-mic-live" : ""} style={{ display: "flex", alignItems: "center", gap: 8, background: listening ? ACCENT : "#FFF", color: listening ? "#FFF" : INK, border: `2px solid ${listening ? ACCENT : "#E5DDD1"}`, borderRadius: 100, padding: "11px 18px", cursor: "pointer", fontFamily: SANS, fontSize: 14, fontWeight: 600, transition: "all .18s" }}>
+                <button onClick={toggleMic} className={listening ? "mw-mic-live" : ""} style={{ display: "flex", alignItems: "center", gap: 8, background: listening ? ACCENT : "#FFF", color: listening ? "#FFF" : INK, border: `2px solid ${listening ? ACCENT : "#E6E6E6"}`, borderRadius: 100, padding: "11px 18px", cursor: "pointer", fontFamily: SANS, fontSize: 14, fontWeight: 600, transition: "all .18s" }}>
                   <MicIcon color={listening ? "#FFF" : ACCENT} />
                   {listening ? "Listening…" : "Speak"}
                 </button>
@@ -891,7 +888,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                       <p style={{ ...miniLabel, marginBottom: 8, position: "relative" }}>{c.label}</p>
                       <p style={{ fontSize: c.hero ? 24 : 19, lineHeight: 1.42, margin: 0, color: INK, position: "relative", fontWeight: c.hero ? 350 : 400 }}>{c.body}</p>
                       {c.why && (
-                        <p style={{ fontSize: 14, lineHeight: 1.5, margin: "12px 0 0", color: "#857B70", fontStyle: "italic", position: "relative", borderTop: "1px solid rgba(11,59,52,.08)", paddingTop: 10 }}>
+                        <p style={{ fontSize: 14, lineHeight: 1.5, margin: "12px 0 0", color: "#767676", fontStyle: "italic", position: "relative", borderTop: "1px solid rgba(11,59,52,.08)", paddingTop: 10 }}>
                           <span style={{ fontFamily: SANS, fontStyle: "normal", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: ACCENT, fontWeight: 700, marginRight: 8 }}>Why this works</span>
                           {c.why}
                         </p>
@@ -922,7 +919,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                     {postsLoading && (
                       <div style={{ display: "flex", gap: 8, marginTop: 24, alignItems: "center" }}>
                         {[0, 1, 2].map((i) => <span key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: ACCENT, animation: `pulse 1.2s ${i * 0.2}s infinite ease-in-out` }} />)}
-                        <span style={{ fontSize: 16, color: "#857B70", marginLeft: 6 }}>Finding your angles…</span>
+                        <span style={{ fontSize: 16, color: "#767676", marginLeft: 6 }}>Finding your angles…</span>
                       </div>
                     )}
 
@@ -935,7 +932,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                         {posts.posts.map((p, i) => (
                           <div key={i} style={dayCard}>
                             <p style={{ fontSize: 18, fontWeight: 700, margin: "0 0 6px", lineHeight: 1.35 }}>{p.hook}</p>
-                            {p.idea && <p style={{ fontSize: 15, lineHeight: 1.5, color: "#857B70", margin: 0, fontFamily: SANS }}>{p.idea}</p>}
+                            {p.idea && <p style={{ fontSize: 15, lineHeight: 1.5, color: "#767676", margin: 0, fontFamily: SANS }}>{p.idea}</p>}
                           </div>
                         ))}
                         <button className="mw-btn" onClick={generatePosts} style={{ ...primaryBtn, marginTop: 12 }}>
@@ -951,7 +948,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                       </div>
                     )}
 
-                    <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E5DDD1" }}>
+                    <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E6E6E6" }}>
                       <p style={{ ...miniLabel, marginBottom: 12 }}>Save this</p>
                       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
                         <button className="mw-btn" onClick={copyAll} style={{ ...primaryBtn, padding: "12px 22px", fontSize: 15 }}>
@@ -961,7 +958,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                       <KeptNote section="Understand yourself" />
                     </div>
 
-                    <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E5DDD1" }}>
+                    <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid #E6E6E6" }}>
                       <button className="mw-btn" onClick={generatePlan} style={{ ...primaryBtn, background: "#FFF", color: ACCENT, border: `2px solid ${ACCENT}` }}>
                         Or get my 7-day plan →
                       </button>
@@ -982,7 +979,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                     <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 20 }}>
                       {[0, 1, 2].map((i) => <span key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: ACCENT, animation: `pulse 1.2s ${i * 0.2}s infinite ease-in-out` }} />)}
                     </div>
-                    <p style={{ fontSize: 20, color: "#5C534B" }}>Mapping out your week, gently…</p>
+                    <p style={{ fontSize: 20, color: "#4A4A4A" }}>Mapping out your week, gently…</p>
                   </div>
                 )}
 
@@ -1003,7 +1000,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                             <span style={{ fontSize: 18, fontWeight: 700 }}>{d.title}</span>
                           </div>
                           <p style={{ fontSize: 17, lineHeight: 1.6, color: INK, margin: "0 0 8px" }}>{d.action}</p>
-                          {d.why && <p style={{ fontSize: 14, lineHeight: 1.5, color: "#857B70", margin: 0, fontStyle: "italic", fontFamily: SANS }}>{d.why}</p>}
+                          {d.why && <p style={{ fontSize: 14, lineHeight: 1.5, color: "#767676", margin: 0, fontStyle: "italic", fontFamily: SANS }}>{d.why}</p>}
                         </div>
                       ))}
                     </div>

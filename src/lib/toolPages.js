@@ -9,7 +9,7 @@ export const TOOL_PAGES = [
   {
     slug: "scan",
     step: 1,
-    title: "The Inward Scan: find how you get stuck | Inward AI",
+    title: "The Inward Scan: find how you get stuck | Branding Inward",
     description:
       "A free one-minute scan, eight taps and no typing, that names the pattern behind why self-promotion feels impossible for you: hiding, pushing, deleting, perfecting, or scattering.",
     h1: "The Inward Scan",
@@ -18,7 +18,7 @@ export const TOOL_PAGES = [
     faqs: [
       {
         q: "What is the Inward Scan?",
-        a: "A free one-minute quiz from Inward AI, a brand strategist's toolkit for getting found without performing. Eight taps reveal your visibility pattern: the Hider, the Pusher, the Deleter, the Perfectionist, or the Scatterer, and the one move that breaks it.",
+        a: "A free one-minute quiz from Branding Inward, a brand strategist's toolkit for getting found without performing. Eight taps reveal your visibility pattern: the Hider, the Pusher, the Deleter, the Perfectionist, or the Scatterer, and the one move that breaks it.",
       },
       {
         q: "Do I need an account or an email address?",
@@ -26,14 +26,14 @@ export const TOOL_PAGES = [
       },
       {
         q: "Is this part of a bigger framework?",
-        a: "It points you to the tool that fits your pattern. Every Inward AI tool works on its own, and anything you make also collects quietly into your Inward Brief, one page that's yours to keep.",
+        a: "It points you to the tool that fits your pattern. Every Branding Inward tool works on its own, and anything you make also collects quietly into your Inward Brief, one page that's yours to keep.",
       },
     ],
   },
   {
     slug: "foundation",
     step: 2,
-    title: "What you're really about: six questions | Inward AI",
+    title: "What you're really about: six questions | Branding Inward",
     description:
       "Six questions that find the un-copyable thing in your own story: what you're really about, what makes you different, and the word you could own. Free, AI-assisted, built by a brand strategist.",
     h1: "What you're really about",
@@ -50,14 +50,14 @@ export const TOOL_PAGES = [
       },
       {
         q: "Do I have to use the other tools first?",
-        a: "No. Every Inward AI tool works on its own, in any order. You can start right here.",
+        a: "No. Every Branding Inward tool works on its own, in any order. You can start right here.",
       },
     ],
   },
   {
     slug: "brand-voice",
     step: 3,
-    title: "Your Brand Voice: how you already talk, written down | Inward AI",
+    title: "Your Brand Voice: how you already talk, written down | Branding Inward",
     description:
       "A free tool that observes how you actually write and hands your voice back, named, with a voice card you can paste into any AI so it edits toward you instead of writing over you.",
     h1: "Your Brand Voice",
@@ -81,7 +81,7 @@ export const TOOL_PAGES = [
   {
     slug: "photo-to-posts",
     step: 2,
-    title: "Photo to Posts: one photo in, three posts out | Inward AI",
+    title: "Photo to Posts: one photo in, three posts out | Branding Inward",
     description:
       "Upload one photo of your work. The AI looks at what is actually in it and writes three posts in your voice, each one editable before you copy it. Free, no face required.",
     h1: "Photo to Posts",
@@ -105,7 +105,7 @@ export const TOOL_PAGES = [
   {
     slug: "roast",
     step: 5,
-    title: "The Gentle Roast: honest notes on what you wrote | Inward AI",
+    title: "The Gentle Roast: honest notes on what you wrote | Branding Inward",
     description:
       "Paste your bio, caption, or About page and get honest, kind notes: what to keep, what sounds like a costume, what a reader might miss. You pick how hard it lands. Free.",
     h1: "The Gentle Roast",
@@ -129,16 +129,16 @@ export const TOOL_PAGES = [
   {
     slug: "brief",
     step: 6,
-    title: "Your Inward Brief: your whole brand, one page | Inward AI",
+    title: "Your Inward Brief: your whole brand, one page | Branding Inward",
     description:
-      "Everything the Inward AI tools found about you, assembled on one page and emailed to you: your pattern, what you're about, your voice, and your first move.",
+      "Everything the Branding Inward tools found about you, assembled on one page and emailed to you: your pattern, what you're about, your voice, and your first move.",
     h1: "Your Inward Brief",
     summary:
       "Everything the tools found about you, your pattern, what you're really about, your named voice, your chosen path, and your first move, assembled into one brief you can copy anywhere. It lives on your device only, and fills in from whichever tools you use, in any order.",
     faqs: [
       {
         q: "What is an Inward Brief?",
-        a: "One page holding what the Inward AI tools found: how you get stuck, what you're really about, your voice named, the path you chose, and a line worth keeping. It's your brand, written down, in your own words.",
+        a: "One page holding what the Branding Inward tools found: how you get stuck, what you're really about, your voice named, the path you chose, and a line worth keeping. It's your brand, written down, in your own words.",
       },
       {
         q: "Where is my brief stored?",
@@ -153,7 +153,7 @@ export const TOOL_PAGES = [
   {
     slug: "ai-visibility",
     step: null,
-    title: "The AI Visibility Audit: a live scan of how findable you are, then the words that fix it | Inward AI",
+    title: "The AI Visibility Audit: a live scan of how findable you are, then the words that fix it | Branding Inward",
     description:
       "AI search can't hear volume, only clarity. This free tool runs a few real web searches about your brand, reads your site, scores your findability out of 100, and writes the kit that raises it. No email.",
     h1: "The AI Visibility Audit",
@@ -181,7 +181,7 @@ export const TOOL_PAGES = [
   {
     slug: "work-with-me",
     step: null,
-    title: "Work with me | Inward AI",
+    title: "Work with me | Branding Inward",
     description:
       "A small number of engagements at a time: positioning for one person, and workshops for groups who need to be visible without turning into content machines.",
     h1: "Work with me",
@@ -189,7 +189,7 @@ export const TOOL_PAGES = [
       "I take a small number of engagements at a time. Positioning for one person, and workshops for groups who need to be visible without turning into content machines. Write to me at safrin@brandinginward.com.",
     faqs: [
       {
-        q: "What kind of engagements does Inward AI take?",
+        q: "What kind of engagements does Branding Inward take?",
         a: "Two kinds: one-on-one positioning work for a single person, and workshops for groups, departments, and teams who need to be visible without turning into content machines.",
       },
       {
@@ -201,7 +201,7 @@ export const TOOL_PAGES = [
   {
     slug: "buddy",
     step: null,
-    title: "Find a hype buddy | Inward AI",
+    title: "Find a hype buddy | Branding Inward",
     description:
       "Get matched one-to-one with another quiet professional to cheer each other's work, swap endorsements, and nudge each other to actually press post. No group, no community. One person.",
     h1: "Find a hype buddy",
@@ -221,15 +221,15 @@ export const TOOL_PAGES = [
   {
     slug: "about",
     step: null,
-    title: "About: the strategist behind Inward AI",
+    title: "About: the strategist behind Branding Inward",
     description:
-      "Inward AI is a brand strategist's free toolkit for people who find self-promotion draining: five tools to get found without performing.",
-    h1: "About Inward AI",
+      "Branding Inward is a brand strategist's free toolkit for people who find self-promotion draining: five tools to get found without performing.",
+    h1: "About Branding Inward",
     summary:
-      "Inward AI is built by Sabiha Afrin, a brand strategist. The framework, the questions, and the research behind every tool are hers; the AI is just what hands it to you in three minutes, for free. It exists for people who want to be known for their work without performing for it.",
+      "Branding Inward is built by Sabiha Afrin, a brand strategist. The framework, the questions, and the research behind every tool are hers; the AI is just what hands it to you in three minutes, for free. It exists for people who want to be known for their work without performing for it.",
     faqs: [
       {
-        q: "Who makes Inward AI?",
+        q: "Who makes Branding Inward?",
         a: "Sabiha Afrin, a brand strategist. The framework and every question in the tools come from her practice and research into consumer psychology.",
       },
       {

@@ -8,7 +8,7 @@ import {
   primaryBtn, ghostBtn, miniLabel, plainCard,
 } from "./lib/whisperKit.jsx";
 
-// ── The AI Visibility Audit, the Inward AI way. Outside the five-tool
+// ── The AI Visibility Audit, the Branding Inward way. Outside the five-tool
 //    framework: the steps build the brand, this checks how findable it is and
 //    then WRITES the words that fix it. The reframe the whole page stands on:
 //    AI search can't hear volume, only clarity. The scan is LIVE: the AI runs
@@ -126,7 +126,7 @@ What they do, in their words: "${work.trim()}"${where.trim() ? `\nWhere they wor
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        system: `You are the strategist behind Inward AI's AI visibility audit. The live scan wasn't available, so you estimate from their answers alone. A low score must land as a clear starting point, never a scolding.
+        system: `You are the strategist behind Branding Inward's AI visibility audit. The live scan wasn't available, so you estimate from their answers alone. A low score must land as a clear starting point, never a scolding.
 
 ${ESTIMATE_LIBRARY}
 
@@ -186,11 +186,11 @@ Return ONLY JSON, no markdown:
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          system: `You are the strategist behind Inward AI's AI visibility audit, writing part two: the findability kit. The diagnosis is done; now you WRITE the three artifacts that make a quiet brand legible to AI search, ready to paste. The person finds self-promotion draining, so everything must sound like a calm human describing real work, never like marketing.
+          system: `You are the strategist behind Branding Inward's AI visibility audit, writing part two: the findability kit. The diagnosis is done; now you WRITE the three artifacts that make a quiet brand legible to AI search, ready to paste. The person finds self-promotion draining, so everything must sound like a calm human describing real work, never like marketing.
 
 HONESTY RULES, the most important thing: use ONLY the facts they gave you and the scan findings below. Never invent credentials, years of experience, awards, clients, numbers, places, or product names that do not appear in their words. If a detail wasn't given, write around it. Plain, specific, true.
 
-VOICE: write in the first person, as them. Plain, warm, short sentences. No hype words (passionate, journey, elevate, unlock). Do not use em-dashes or en-dashes anywhere, use commas and periods instead. Never assume gender.${memLines ? `\n\nTHEIR OWN MATERIAL, saved on their device by the other Inward AI tools, use it so the kit sounds like them and only them:\n${memLines}` : ""}${evidence}
+VOICE: write in the first person, as them. Plain, warm, short sentences. No hype words (passionate, journey, elevate, unlock). Do not use em-dashes or en-dashes anywhere, use commas and periods instead. Never assume gender.${memLines ? `\n\nTHEIR OWN MATERIAL, saved on their device by the other Branding Inward tools, use it so the kit sounds like them and only them:\n${memLines}` : ""}${evidence}
 
 Return ONLY JSON, no markdown:
 {"anchor": "the About-page paragraph, 70 to 110 words, first person: who they are, what they make, for whom, where if given, and the one thing that makes it theirs. This is the page an engine will anchor their identity to, so every sentence is a plain fact.",
@@ -247,9 +247,9 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
   const band = result ? bandFor(result.score) : null;
   const inputStyle = {
     width: "100%", fontSize: 18, fontFamily: SERIF, color: INK, padding: "14px 17px",
-    borderRadius: 14, border: "2px solid #E5DDD1", background: "#FFF", outline: "none",
+    borderRadius: 14, border: "2px solid #E6E6E6", background: "#FFF", outline: "none",
   };
-  const focusRing = { onFocus: (e) => (e.target.style.borderColor = ACCENT), onBlur: (e) => (e.target.style.borderColor = "#E5DDD1") };
+  const focusRing = { onFocus: (e) => (e.target.style.borderColor = ACCENT), onBlur: (e) => (e.target.style.borderColor = "#E6E6E6") };
   const copyBtn = (key, text) => (
     <button className="mw-ghost" onClick={() => copyPiece(key, text)} style={{ ...ghostBtn, marginLeft: 0, padding: "8px 16px", fontSize: 13 }}>
       {copied === key ? "Copied ✓" : "Copy this"}
@@ -277,7 +277,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
             <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: ACCENT }} />
               <span style={{ fontFamily: SANS, fontWeight: 700, letterSpacing: ".14em", fontSize: 13, textTransform: "uppercase" }}>
-                Inward AI
+                Branding Inward
               </span>
             </a>
           </div>
@@ -328,7 +328,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
               Run my scan
             </button>
 
-            <p style={{ fontSize: 14, color: "#9A8F82", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
+            <p style={{ fontSize: 14, color: "#8A8A8A", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
               Honest small print: this runs a few real web searches about your name and reads your site if you
               share one. It's a light audit, a handful of real searches, and the web is bigger than one scan.
               Results appear right here, no email, and nothing you type is saved. If you've used the other tools,
@@ -342,10 +342,10 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
           <div className="mw-fade" style={{ textAlign: "center", padding: "60px 0" }}>
             <DoodleGlass size={40} />
             <p style={{ fontSize: 22, margin: "18px 0 6px" }}>Scanning for {name.trim()}.</p>
-            <p style={{ fontFamily: SANS, fontSize: 15, color: "#857B70", margin: "0 0 4px" }}>
+            <p style={{ fontFamily: SANS, fontSize: 15, color: "#767676", margin: "0 0 4px" }}>
               {SCAN_LINES[scanLine]}
             </p>
-            <p style={{ fontFamily: SANS, fontSize: 13, color: "#9A8F82", margin: 0 }}>
+            <p style={{ fontFamily: SANS, fontSize: 13, color: "#8A8A8A", margin: 0 }}>
               This can take a couple of minutes. It's really looking, not making it up.
             </p>
           </div>
@@ -355,7 +355,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
         {phase === "done" && result && band && (
           <div className="mw-fade">
             {estimated && (
-              <p style={{ fontFamily: SANS, fontSize: 14, color: "#857B70", background: "#F1EFE8", border: "1px solid #E5DDD1", borderRadius: 10, padding: "10px 14px", margin: "0 0 18px", lineHeight: 1.5 }}>
+              <p style={{ fontFamily: SANS, fontSize: 14, color: "#767676", background: "#F1EFE8", border: "1px solid #E6E6E6", borderRadius: 10, padding: "10px 14px", margin: "0 0 18px", lineHeight: 1.5 }}>
                 The live scan didn't finish this time, so this one is estimated from your answers alone.
                 Run it again in a bit for the full version.
               </p>
@@ -398,7 +398,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
 
             {/* the breakdown */}
             <p style={{ ...miniLabel, marginBottom: 4 }}>The five quiet signals</p>
-            <p style={{ fontSize: 15, color: "#857B70", margin: "0 0 14px", fontFamily: SANS, lineHeight: 1.5 }}>
+            <p style={{ fontSize: 15, color: "#767676", margin: "0 0 14px", fontFamily: SANS, lineHeight: 1.5 }}>
               Not one of these requires posting, performing, or showing your face.
             </p>
             <div style={{ ...plainCard, marginBottom: 26 }}>
@@ -406,12 +406,12 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
                 <div key={i} style={{ padding: i ? "14px 0 0" : 0, marginTop: i ? 14 : 0, borderTop: i ? "1px solid #F1EDE4" : "none" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, marginBottom: 6 }}>
                     <span style={{ fontFamily: SANS, fontSize: 14, fontWeight: 700, color: INK }}>{d.name}</span>
-                    <span style={{ fontFamily: SANS, fontSize: 13, color: "#6B6157", flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>{Math.max(0, Math.min(20, Math.round(d.score)))}/20</span>
+                    <span style={{ fontFamily: SANS, fontSize: 13, color: "#4A4A4A", flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>{Math.max(0, Math.min(20, Math.round(d.score)))}/20</span>
                   </div>
                   <div style={{ height: 6, borderRadius: 100, background: "#F1EDE4", overflow: "hidden", marginBottom: 7 }}>
                     <div style={{ width: `${(Math.max(0, Math.min(20, d.score)) / 20) * 100}%`, height: "100%", borderRadius: 100, background: d.score >= 15 ? "#5DCAA5" : d.score >= 8 ? "#EF9F27" : "#F0997B" }} />
                   </div>
-                  <p style={{ fontSize: 14, lineHeight: 1.5, margin: 0, fontFamily: SANS, color: "#5C534B" }}>{d.note}</p>
+                  <p style={{ fontSize: 14, lineHeight: 1.5, margin: 0, fontFamily: SANS, color: "#4A4A4A" }}>{d.note}</p>
                 </div>
               ))}
             </div>
@@ -421,14 +421,14 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
               <p style={{ ...miniLabel, marginBottom: 4 }}>The findability kit</p>
               <p style={{ fontSize: 18, lineHeight: 1.6, color: INK, fontWeight: 500, margin: "0 0 20px" }}>
                 Most tools would hand you a to-do list here. This writes the words instead.
-                {result.gap ? <span style={{ color: "#5C534B", fontWeight: 400 }}> Built to close your biggest gap: {result.gap.charAt(0).toLowerCase() + result.gap.slice(1)}</span> : ""}
+                {result.gap ? <span style={{ color: "#4A4A4A", fontWeight: 400 }}> Built to close your biggest gap: {result.gap.charAt(0).toLowerCase() + result.gap.slice(1)}</span> : ""}
               </p>
 
               {kitState === "writing" && (
                 <div style={{ ...plainCard, textAlign: "center", padding: "36px 24px" }}>
                   <DoodleGlass size={32} />
                   <p style={{ fontSize: 18, margin: "12px 0 4px" }}>Writing your kit.</p>
-                  <p style={{ fontFamily: SANS, fontSize: 14, color: "#857B70", margin: 0 }}>
+                  <p style={{ fontFamily: SANS, fontSize: 14, color: "#767676", margin: 0 }}>
                     An anchor paragraph, one bio sentence, three quotable answers. In your words, only your facts.
                   </p>
                 </div>
@@ -436,7 +436,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
 
               {kitState === "error" && (
                 <div style={{ ...plainCard, textAlign: "center", padding: "28px 24px" }}>
-                  <p style={{ fontSize: 16, margin: "0 0 14px", fontFamily: SANS, color: "#5C534B" }}>The kit didn't come through. The score stands, try the kit again.</p>
+                  <p style={{ fontSize: 16, margin: "0 0 14px", fontFamily: SANS, color: "#4A4A4A" }}>The kit didn't come through. The score stands, try the kit again.</p>
                   <button className="mw-btn" onClick={() => writeKit()} style={{ ...primaryBtn, padding: "11px 20px", fontSize: 14 }}>Write my kit</button>
                 </div>
               )}
@@ -445,25 +445,25 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
                 <>
                   <div style={{ ...plainCard, marginBottom: 16 }}>
                     <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: ACCENT, letterSpacing: ".04em", textTransform: "uppercase", margin: "0 0 4px" }}>1 · Your anchor paragraph</p>
-                    <p style={{ fontSize: 13, color: "#9A8F82", fontFamily: SANS, margin: "0 0 12px", lineHeight: 1.5 }}>{KIT_HOMES.anchor}</p>
+                    <p style={{ fontSize: 13, color: "#8A8A8A", fontFamily: SANS, margin: "0 0 12px", lineHeight: 1.5 }}>{KIT_HOMES.anchor}</p>
                     <p style={{ fontSize: 17, lineHeight: 1.65, margin: "0 0 14px", color: INK }}>{kit.anchor}</p>
                     {copyBtn("anchor", kit.anchor)}
                   </div>
 
                   <div style={{ ...plainCard, marginBottom: 16 }}>
                     <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: ACCENT, letterSpacing: ".04em", textTransform: "uppercase", margin: "0 0 4px" }}>2 · Your one bio sentence</p>
-                    <p style={{ fontSize: 13, color: "#9A8F82", fontFamily: SANS, margin: "0 0 12px", lineHeight: 1.5 }}>{KIT_HOMES.bio}</p>
+                    <p style={{ fontSize: 13, color: "#8A8A8A", fontFamily: SANS, margin: "0 0 12px", lineHeight: 1.5 }}>{KIT_HOMES.bio}</p>
                     <p style={{ fontSize: 19, lineHeight: 1.55, fontStyle: "italic", margin: "0 0 14px", color: INK }}>&ldquo;{kit.bio}&rdquo;</p>
                     {copyBtn("bio", kit.bio)}
                   </div>
 
                   <div style={{ ...plainCard, marginBottom: 16 }}>
                     <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: ACCENT, letterSpacing: ".04em", textTransform: "uppercase", margin: "0 0 4px" }}>3 · Your three quotable answers</p>
-                    <p style={{ fontSize: 13, color: "#9A8F82", fontFamily: SANS, margin: "0 0 14px", lineHeight: 1.5 }}>{KIT_HOMES.faqs}</p>
+                    <p style={{ fontSize: 13, color: "#8A8A8A", fontFamily: SANS, margin: "0 0 14px", lineHeight: 1.5 }}>{KIT_HOMES.faqs}</p>
                     {kit.faqs.slice(0, 3).map((f, i) => (
                       <div key={i} style={{ padding: i ? "12px 0 0" : 0, marginTop: i ? 12 : 0, borderTop: i ? "1px solid #F1EDE4" : "none" }}>
                         <p style={{ fontSize: 16, fontWeight: 600, margin: "0 0 4px", color: INK }}>{f.q}</p>
-                        <p style={{ fontSize: 15, lineHeight: 1.6, margin: 0, fontFamily: SANS, color: "#5C534B" }}>{f.a}</p>
+                        <p style={{ fontSize: 15, lineHeight: 1.6, margin: 0, fontFamily: SANS, color: "#4A4A4A" }}>{f.a}</p>
                       </div>
                     ))}
                     <div style={{ marginTop: 14 }}>
@@ -482,14 +482,14 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
               )}
             </div>
 
-            <div style={{ marginTop: 24, paddingTop: 20, borderTop: "1px solid #E5DDD1", display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+            <div style={{ marginTop: 24, paddingTop: 20, borderTop: "1px solid #E6E6E6", display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
               <button className="mw-btn" onClick={copyAll} style={{ ...primaryBtn, padding: "12px 22px", fontSize: 15 }}>
                 {copied === "all" ? "Copied ✓" : "Copy everything"}
               </button>
               <button className="mw-ghost" onClick={restart} style={ghostBtn}>Scan another brand</button>
             </div>
 
-            <p style={{ fontSize: 14, color: "#9A8F82", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
+            <p style={{ fontSize: 14, color: "#8A8A8A", fontFamily: SANS, margin: "18px 0 0", lineHeight: 1.6 }}>
               {estimated
                 ? "Estimated from your own answers this time, not a live scan, so treat it as a rough sketch."
                 : "Built from a light live audit: a few real searches plus your site if you shared it. The web is bigger than one scan, so treat this as a starting point, not the last word."}
@@ -497,7 +497,7 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
               Nothing you typed was saved.
             </p>
 
-            <div style={{ marginTop: 34, background: "#FFF", border: "1px solid #EFE7DA", borderRadius: 16, padding: "22px 24px" }}>
+            <div style={{ marginTop: 34, background: "#FFF", border: "1px solid #E6E6E6", borderRadius: 16, padding: "22px 24px" }}>
               <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: ACCENT, fontWeight: 600, margin: "0 0 8px" }}>
                 Want a sharper kit?
               </p>

@@ -100,7 +100,7 @@ function Router() {
   }, []);
 
   useEffect(() => {
-    document.title = TITLES[path] || "Inward AI";
+    document.title = TITLES[path] || "Branding Inward";
   }, [path]);
 
   const Page = ROUTES[path] || ROUTES["/"];

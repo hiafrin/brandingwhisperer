@@ -17,7 +17,7 @@ const LIBRARY_DIR = join(ROOT, "src", "library");
 const DIST = join(ROOT, "dist");
 
 const SITE_URL = "https://brandinginward.com";
-const SITE_NAME = "Inward AI";
+const SITE_NAME = "Branding Inward";
 
 // Shared entities. `sameAs` ties the writing to a real, findable person, which
 // is what answer engines use to attribute a quote to an author.
@@ -33,8 +33,8 @@ const PUBLISHER = { "@type": "Organization", "@id": `${SITE_URL}/#org`, name: SI
 
 // ── Brand tokens (kept in sync with src/lib/whisperKit.jsx) ──
 const ACCENT = "#0F7C77";
-const INK = "#2A2422";
-const CREAM = "#FDFBF5";
+const INK = "#0A0A0A";
+const CREAM = "#FFFFFF";
 const INK_TEAL = "#054648";
 const BUTTER = "#F7D06B";
 const ACCENT_TINT = "#E8F4F1";
@@ -109,28 +109,28 @@ function parseItem(file) {
 const STYLE = `
   :root { color-scheme: light; }
   * { box-sizing: border-box; }
-  body { margin:0; background:${CREAM}; color:${INK}; font-family:'Fraunces','Georgia',serif; -webkit-font-smoothing:antialiased; }
+  body { margin:0; background:${CREAM}; color:${INK}; font-family:'Inter',-apple-system,sans-serif; -webkit-font-smoothing:antialiased; }
   a { color:${ACCENT}; }
   .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
-  .site-head { border-bottom: 1px solid #EFE7DA; }
+  .site-head { border-bottom: 1px solid #E6E6E6; }
   .site-head .wrap { display:flex; align-items:center; justify-content:space-between; padding-top:22px; padding-bottom:22px; }
   .brand { display:flex; align-items:center; gap:10px; text-decoration:none; color:${INK}; }
   .brand .dot { width:11px; height:11px; border-radius:50%; background:${ACCENT}; }
   .brand .name { font-family:'Inter',sans-serif; font-weight:700; letter-spacing:.14em; font-size:13px; text-transform:uppercase; }
   .nav-tools { font-family:'Inter',sans-serif; font-size:14px; font-weight:600; text-decoration:none; color:${ACCENT}; }
   .eyebrow { font-family:'Inter',sans-serif; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:${ACCENT}; font-weight:600; margin:0 0 10px; }
-  h1.page { font-size: clamp(30px, 5vw, 46px); line-height:1.12; font-weight:350; margin:0 0 14px; }
-  .lede { font-family:'Inter',sans-serif; font-size:18px; line-height:1.6; color:#5C534B; margin:0 0 8px; }
-  .meta { font-family:'Inter',sans-serif; font-size:13px; color:#9A8F82; }
+  h1.page { font-size: clamp(30px, 5vw, 46px); line-height:1.12; font-weight:700; letter-spacing:-0.02em; margin:0 0 14px; }
+  .lede { font-family:'Inter',sans-serif; font-size:18px; line-height:1.6; color:#4A4A4A; margin:0 0 8px; }
+  .meta { font-family:'Inter',sans-serif; font-size:13px; color:#8A8A8A; }
   /* index list */
-  .post-card { display:block; text-decoration:none; color:${INK}; border-top:1px solid #EFE7DA; padding:26px 0; }
-  .post-card:last-of-type { border-bottom:1px solid #EFE7DA; }
+  .post-card { display:block; text-decoration:none; color:${INK}; border-top:1px solid #E6E6E6; padding:26px 0; }
+  .post-card:last-of-type { border-bottom:1px solid #E6E6E6; }
   .post-card .tag { font-family:'Inter',sans-serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:${ACCENT}; font-weight:700; }
-  .post-card h2 { font-size:26px; line-height:1.25; font-weight:400; margin:8px 0 8px; }
-  .post-card p { font-family:'Inter',sans-serif; font-size:16px; line-height:1.55; color:#5C534B; margin:0; }
+  .post-card h2 { font-size:24px; line-height:1.25; font-weight:650; margin:8px 0 8px; }
+  .post-card p { font-family:'Inter',sans-serif; font-size:16px; line-height:1.55; color:#4A4A4A; margin:0; }
   /* article prose */
-  article .prose { font-size:19px; line-height:1.75; color:#3D3630; }
-  article .prose h2 { font-size:26px; line-height:1.25; font-weight:400; margin:38px 0 10px; }
+  article .prose { font-size:19px; line-height:1.75; color:#333333; }
+  article .prose h2 { font-size:24px; line-height:1.25; font-weight:650; margin:38px 0 10px; }
   article .prose h3 { font-size:21px; line-height:1.3; font-weight:500; margin:28px 0 8px; }
   article .prose p { margin:0 0 20px; }
   article .prose a { font-weight:500; }
@@ -138,17 +138,17 @@ const STYLE = `
   article .prose li { margin:0 0 10px; }
   article .prose strong { font-weight:600; }
   article .prose em { font-style:italic; }
-  article .prose blockquote { margin:0 0 20px; padding:4px 0 4px 20px; border-left:3px solid ${BUTTER}; font-style:italic; color:#5C534B; }
-  .disclosure { font-family:'Inter',sans-serif; font-size:13px; line-height:1.55; color:#9A8F82; font-style:italic; background:${ACCENT_TINT}; border-radius:10px; padding:12px 16px; margin:0 0 32px; }
+  article .prose blockquote { margin:0 0 20px; padding:4px 0 4px 20px; border-left:3px solid ${BUTTER}; font-style:italic; color:#4A4A4A; }
+  .disclosure { font-family:'Inter',sans-serif; font-size:13px; line-height:1.55; color:#8A8A8A; font-style:italic; background:${ACCENT_TINT}; border-radius:10px; padding:12px 16px; margin:0 0 32px; }
   /* FAQ: a distinct, scannable block. Headings stay real h2/h3 so answer engines can parse them. */
-  article .prose .faq { margin-top:44px; padding-top:8px; border-top:1px solid #EFE7DA; }
+  article .prose .faq { margin-top:44px; padding-top:8px; border-top:1px solid #E6E6E6; }
   article .prose .faq h2 { font-size:22px; margin:20px 0 4px; }
   article .prose .faq h3 { font-size:19px; font-weight:600; margin:24px 0 6px; color:${INK_TEAL}; }
   article .prose .faq h3 + p { margin-bottom:16px; }
   article .prose code { font-family:'Inter',sans-serif; font-size:.9em; background:${ACCENT_TINT}; padding:2px 6px; border-radius:5px; }
   /* CTA + signup */
   .cta { background:${ACCENT_TINT}; border:1px solid #DCEFEB; border-radius:16px; padding:24px 26px; margin:44px 0; }
-  .cta p { font-family:'Inter',sans-serif; margin:0 0 14px; font-size:16px; color:#3D3630; line-height:1.5; }
+  .cta p { font-family:'Inter',sans-serif; margin:0 0 14px; font-size:16px; color:#333333; line-height:1.5; }
   .btn { display:inline-block; background:${ACCENT}; color:#fff; text-decoration:none; font-family:'Inter',sans-serif; font-weight:600; font-size:16px; padding:14px 26px; border-radius:999px; }
   /* footer */
   footer.site { background:${INK_TEAL}; margin-top:64px; }
@@ -162,13 +162,13 @@ const STYLE = `
 
 const HEADER = `
   <header class="site-head"><div class="wrap">
-    <a class="brand" href="/"><span class="dot"></span><span class="name">Inward AI</span></a>
+    <a class="brand" href="/"><span class="dot"></span><span class="name">Branding Inward</span></a>
     <a class="nav-tools" href="/">The tools &rarr;</a>
   </div></header>`;
 
 const FOOTER = `
   <footer class="site"><div class="wrap">
-    <a class="brand" href="/"><span class="dot" style="background:${BUTTER}"></span><span class="name">Inward AI</span></a>
+    <a class="brand" href="/"><span class="dot" style="background:${BUTTER}"></span><span class="name">Branding Inward</span></a>
     <p class="tag">These aren't generic AI answers. Real questions from a real strategist, delivered by AI so they reach you in minutes, for free.</p>
     <p class="links">
       <a href="/resources">Library</a><span>&middot;</span>
@@ -237,7 +237,7 @@ function renderIndex(items) {
     <main class="wrap" style="padding-top:52px; padding-bottom:8px">
       <p class="eyebrow">The library</p>
       <h1 class="page">Everything worth keeping, <em>on shelves.</em></h1>
-      <p class="lede">Not a blog. The philosophy, the framework, the prompts, and the checklists behind Inward AI, curated so you can find what you need and get back to making.</p>
+      <p class="lede">Not a blog. The philosophy, the framework, the prompts, and the checklists behind Branding Inward, curated so you can find what you need and get back to making.</p>
       ${shelves}
     </main>`;
   const internal = items.filter((p) => !p.external);
@@ -248,7 +248,7 @@ function renderIndex(items) {
       "@id": `${SITE_URL}/resources#library`,
       url: `${SITE_URL}/resources`,
       name: `${SITE_NAME} Library`,
-      description: "The philosophy, framework, prompt collections, and checklists behind Inward AI.",
+      description: "The philosophy, framework, prompt collections, and checklists behind Branding Inward.",
       author: AUTHOR,
       publisher: PUBLISHER,
       hasPart: internal.map((p) => ({
@@ -261,7 +261,7 @@ function renderIndex(items) {
   ];
   return pageShell({
     title: `The Library | ${SITE_NAME}`,
-    description: "The Inward AI library: the philosophy, the Know. Show. Grow. framework, AI prompt collections, and findability checklists. Free, no email.",
+    description: "The Branding Inward library: the philosophy, the Know. Show. Grow. framework, AI prompt collections, and findability checklists. Free, no email.",
     canonical: `${SITE_URL}/resources`,
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@graph": indexGraph }),
     body,
@@ -372,7 +372,7 @@ function renderToolPage(shell, t) {
   const fallback = `<h1>${esc(t.h1)}</h1>
 <p>${esc(t.summary)}</p>
 ${t.faqs.map((f) => `<h2>${esc(f.q)}</h2>\n<p>${esc(f.a)}</p>`).join("\n")}
-<p><a href="/">Inward AI: all five tools</a> · <a href="/resources">Resources</a></p>`;
+<p><a href="/">Branding Inward: all five tools</a> · <a href="/resources">Resources</a></p>`;
   return html.replace('<div id="root"></div>', `<div id="root">${fallback}</div>`);
 }
 
@@ -403,10 +403,10 @@ for (const t of TOOL_PAGES) {
 //    the whole site is an empty div to them (the audit tool found exactly
 //    that when it fetched the site). React replaces #root on mount, same as
 //    the tool pages. ──
-const HOME_TITLE = "Inward AI: the personal branding suite for quiet professionals";
+const HOME_TITLE = "Branding Inward: Inward AI, the personal branding suite for quiet professionals";
 const homeFallback = `
   <h1>The personal branding suite for quiet professionals</h1>
-  <p>Get found. Without performing. Inward AI is a suite of five free AI tools and one brand dossier, designed by brand strategist Sabiha Afrin. Six questions build your dossier: your positioning, your voice written down, and the one word you could own. Every tool reads that dossier before it writes a word, so everything stays on message and sounds like you. No account, no email, and your answers stay on your own device.</p>
+  <p>Get found. Without performing. Inward AI is Branding Inward's suite of five free AI tools and one brand dossier, designed by brand strategist Sabiha Afrin. Six questions build your dossier: your positioning, your voice written down, and the one word you could own. Every tool reads that dossier before it writes a word, so everything stays on message and sounds like you. No account, no email, and your answers stay on your own device.</p>
   <h2>The tools</h2>
   <p>Each one works on its own. Together they stay on message, because every tool reads your brand dossier first.</p>
   <ul>
