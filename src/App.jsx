@@ -660,6 +660,37 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
               </p>
             </section>
 
+            {/* ── WHICH TOOL, WHEN: Littlebird-style use-case list, so each
+                  Inward AI tool is understood by the moment it serves ── */}
+            <section style={{ maxWidth: 980, margin: "44px auto 0", borderTop: `1px solid ${SK.BORDER}`, padding: "48px 24px 8px" }}>
+              <div style={{ display: "flex", gap: "32px 56px", flexWrap: "wrap", alignItems: "flex-start" }}>
+                <div style={{ flex: "1 1 260px", minWidth: 240, maxWidth: 330 }}>
+                  <h2 style={{ fontSize: "clamp(24px, 3vw, 32px)", lineHeight: 1.18, fontWeight: 700, letterSpacing: "-0.02em", margin: "0 0 12px" }}>
+                    Built for the moment you're stuck in.
+                  </h2>
+                  <p style={{ fontSize: 15.5, lineHeight: 1.65, color: SK.MUTED, margin: 0 }}>
+                    Inward AI adapts to where you are, from naming what makes you
+                    different to pressing post to being found. Start anywhere.
+                  </p>
+                </div>
+                <div style={{ flex: "2 1 480px", minWidth: 280, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "26px 48px" }}>
+                  {[
+                    ["I don't know what makes me different", "The Six Questions. Ten minutes, and you leave with your positioning, your one word, and a 7-day plan.", "/foundation"],
+                    ["I need something to post today", "Photo to Posts. One photo of your work in, three captions in your voice out, editable before you copy.", "/photo-to-posts"],
+                    ["I freeze every time I try", "The Inward Scan. Eight taps. It names the specific way you get stuck, so the fix stops being a mystery.", "/scan"],
+                    ["Everything I write sounds like everyone", "Brand Voice. Your actual voice observed and written down, so AI edits toward you instead of over you.", "/brand-voice"],
+                    ["I keep deleting my drafts", "The Gentle Roast. Paste the draft. Hear what to keep first, then what reads like a costume.", "/roast"],
+                    ["Nobody finds me when they search", "AI Visibility Check. A live scan of where you show up, receipts first, then the words that raise it.", "/ai-visibility"],
+                  ].map(([moment, tool, href]) => (
+                    <a key={href} href={href} style={{ textDecoration: "none", display: "block" }}>
+                      <p style={{ fontSize: 16.5, fontWeight: 650, color: SK.INK, margin: "0 0 5px", lineHeight: 1.35 }}>{moment}</p>
+                      <p style={{ fontSize: 14, lineHeight: 1.55, color: SK.MUTED, margin: 0 }}>{tool}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </section>
+
             {/* ── WHO IT'S FOR ── */}
             <section style={{ maxWidth: 980, margin: "44px auto 0", borderTop: `1px solid ${SK.BORDER}`, padding: "48px 24px 64px" }}>
               <div style={{ display: "flex", gap: "28px 40px", alignItems: "center", flexWrap: "wrap" }}>
