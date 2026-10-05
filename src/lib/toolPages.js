@@ -199,6 +199,30 @@ export const TOOL_PAGES = [
     ],
   },
   {
+    slug: "linkedin-agent",
+    step: null,
+    title: "LinkedIn Agent: this week's posts, in your voice | Branding Inward",
+    description:
+      "An AI agent that reads your brand dossier, writes five LinkedIn post ideas in your voice, and checks your drafts before you post. Free, nothing posts automatically.",
+    h1: "LinkedIn Agent",
+    summary:
+      "The LinkedIn Agent inside Inward AI reads the brand dossier the other tools saved on your device, your positioning, your named voice, your one word, and writes five post ideas you could publish this week: a hook that survives the feed cut, a short post in your voice, and the strategy behind it so you learn the move. Paste a draft instead and it reads it like an editor: what to keep first, what to fix, and a sharper rewrite that still sounds like you. Nothing posts automatically, nothing is stored.",
+    faqs: [
+      {
+        q: "Does the LinkedIn Agent post for me?",
+        a: "No. It writes ideas and rewrites, you copy what you like and post it yourself. Nothing connects to your LinkedIn account and nothing goes out unless you put it there.",
+      },
+      {
+        q: "What makes the ideas sound like me?",
+        a: "The agent reads the brand dossier the other Inward AI tools saved on your device: what you're really about, your named voice, the one word you want to own. The more of the suite you've used, the sharper your ideas get.",
+      },
+      {
+        q: "Can it check a draft I already wrote?",
+        a: "Yes. Paste it and the agent reads it like an editor: whether the first two lines survive the feed, which lines to keep because they already sound like you, and a tightened rewrite.",
+      },
+    ],
+  },
+  {
     slug: "buddy",
     step: null,
     title: "Find a hype buddy | Branding Inward",

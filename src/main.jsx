@@ -12,6 +12,7 @@ import AIVisibility from "./AIVisibility.jsx";
 import WorkWithMe from "./WorkWithMe.jsx";
 import PhotoPosts from "./PhotoPosts.jsx";
 import Buddy from "./Buddy.jsx";
+import LinkedInAgent from "./LinkedInAgent.jsx";
 import { TOOL_PAGES } from "./lib/toolPages.js";
 
 // Real, indexable paths — one per tool. Each is also pre-rendered to its own
@@ -28,6 +29,7 @@ const ROUTES = {
   "/ai-visibility": () => <AIVisibility />, // outside the five-tool set
   "/work-with-me": () => <WorkWithMe />,
   "/buddy": () => <Buddy />,
+  "/linkedin-agent": () => <LinkedInAgent />,
 };
 
 // Old hash URLs, briefly live and possibly bookmarked or shared. Each maps to

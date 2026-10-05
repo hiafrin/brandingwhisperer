@@ -406,12 +406,13 @@ for (const t of TOOL_PAGES) {
 const HOME_TITLE = "Branding Inward: Inward AI, the personal branding suite for quiet professionals";
 const homeFallback = `
   <h1>The personal branding suite for quiet professionals</h1>
-  <p>Get found. Without performing. Inward AI is Branding Inward's suite of five free AI tools and one brand dossier, designed by brand strategist Sabiha Afrin. Six questions build your dossier: your positioning, your voice written down, and the one word you could own. Every tool reads that dossier before it writes a word, so everything stays on message and sounds like you. No account, no email, and your answers stay on your own device.</p>
+  <p>Get found. Without performing. Inward AI is Branding Inward's suite of six free AI tools and one brand dossier, designed by brand strategist Sabiha Afrin. Six questions build your dossier: your positioning, your voice written down, and the one word you could own. Every tool reads that dossier before it writes a word, so everything stays on message and sounds like you. No account, no email, and your answers stay on your own device.</p>
   <h2>The tools</h2>
   <p>Each one works on its own. Together they stay on message, because every tool reads your brand dossier first.</p>
   <ul>
     <li><a href="/foundation">The Six Questions. You leave with a positioning line, the thing about your work nobody can copy, one word you could own, and a gentle 7-day plan.</a></li>
     <li><a href="/photo-to-posts">Photo to Posts. Upload one photo of your work; the AI looks at it and writes three posts in your voice, ready to tweak. No face required.</a></li>
+    <li><a href="/linkedin-agent">LinkedIn Agent. Five post ideas a week in your voice, and an honest read on your drafts before you post.</a></li>
     <li><a href="/scan">The Inward Scan. Eight taps, no typing. It names the specific way you get stuck when it is time to be visible.</a></li>
     <li><a href="/brand-voice">Brand Voice. Your actual voice, written down, so everything you publish sounds like you instead of like everyone.</a></li>
     <li><a href="/roast">The Gentle Roast. Honest, kind notes on anything you wrote about your work.</a></li>
@@ -424,6 +425,7 @@ const homeFallback = `
     <li><a href="/photo-to-posts">I need something to post today: Photo to Posts. One photo of your work in, three captions in your voice out.</a></li>
     <li><a href="/scan">I freeze every time I try: The Inward Scan names the specific way you get stuck.</a></li>
     <li><a href="/brand-voice">Everything I write sounds like everyone: Brand Voice writes your actual voice down.</a></li>
+    <li><a href="/linkedin-agent">I never know what to post this week: the LinkedIn Agent writes five ideas in your voice.</a></li>
     <li><a href="/roast">I keep deleting my drafts: The Gentle Roast tells you what to keep first.</a></li>
     <li><a href="/ai-visibility">Nobody finds me when they search: the AI Visibility Check shows where you show up, receipts first.</a></li>
   </ul>

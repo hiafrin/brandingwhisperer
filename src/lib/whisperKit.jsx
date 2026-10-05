@@ -253,9 +253,10 @@ export const TOOLS = {
 export const FRAMEWORK = [
   { n: 1, key: "foundation", href: "/foundation", verb: "Understand yourself", short: "Understand", name: "The Six Questions", blurb: "What content to make, and a 7-day plan.", doneKey: "reallyabout" },
   { n: 2, key: "photo", href: "/photo-to-posts", verb: "Share yourself", short: "Share", name: "Photo to Posts", blurb: "One photo in, three posts out, in your voice.", doneKey: "photoposts" },
-  { n: 3, key: "scan", href: "/scan", verb: "See yourself", short: "See", name: "The Inward Scan", blurb: "The pattern you can't see on your own.", doneKey: "patternName" },
-  { n: 4, key: "voice", href: "/brand-voice", verb: "Express yourself", short: "Express", name: "Your Brand Voice", blurb: "How you already talk, written down.", doneKey: "voice" },
-  { n: 5, key: "roast", href: "/roast", verb: "Refine yourself", short: "Refine", name: "The Gentle Roast", blurb: "Sharpen what you already wrote.", doneKey: "roasted" },
+  { n: 3, key: "linkedin", href: "/linkedin-agent", verb: "Share yourself", short: "Post", name: "LinkedIn Agent", blurb: "This week's post ideas, and a read on your drafts.", doneKey: "linkedinidea" },
+  { n: 4, key: "scan", href: "/scan", verb: "See yourself", short: "See", name: "The Inward Scan", blurb: "The pattern you can't see on your own.", doneKey: "patternName" },
+  { n: 5, key: "voice", href: "/brand-voice", verb: "Express yourself", short: "Express", name: "Your Brand Voice", blurb: "How you already talk, written down.", doneKey: "voice" },
+  { n: 6, key: "roast", href: "/roast", verb: "Refine yourself", short: "Refine", name: "The Gentle Roast", blurb: "Sharpen what you already wrote.", doneKey: "roasted" },
 ];
 
 // ── Which steps this device has finished, read from what each tool already
@@ -308,7 +309,8 @@ export function ForgetButton({ label = "Forget my answers on this device", tone 
 const NEXT_STEP = {
   scan: { key: "foundation", href: "/foundation", title: "Find the un-copyable thing in your story", name: "The Six Questions", cost: "Six questions, about ten minutes, and a gentle 7-day plan at the end. Works on its own." },
   foundation: { key: "photo", href: "/photo-to-posts", title: "Turn what you found into a real post", name: "Photo to Posts", cost: "One photo of your work, three posts in your voice, under two minutes. Works on its own." },
-  photo: { key: "voice", href: "/brand-voice", title: "Write down how you actually sound", name: "Brand Voice", cost: "So every caption you tweak keeps sounding like you. Works on its own." },
+  photo: { key: "linkedin", href: "/linkedin-agent", title: "Get this week's post ideas", name: "LinkedIn Agent", cost: "Five feed-proof ideas from your dossier, in your voice. Works on its own." },
+  linkedin: { key: "voice", href: "/brand-voice", title: "Write down how you actually sound", name: "Brand Voice", cost: "The agent writes in your voice; this is where that voice gets named. Works on its own." },
   voice: { key: "roast", href: "/roast", title: "Get honest notes on something you already wrote", name: "The Gentle Roast", cost: "Paste a bio or a caption. Now that your voice has a name, the notes have something to aim at. Works on its own." },
   roast: { key: "photo", href: "/photo-to-posts", title: "Make the next post from one photo", name: "Photo to Posts", cost: "Upload a shot of your work and get three captions to tweak. Works on its own." },
 };
@@ -373,6 +375,7 @@ export function ToolIntro({ stepKey, walkaway, time, madeFor, outside = false })
 //    all five tools plus Home. Closes on Escape, outside click, or pick. ──
 // Fix 4: outcome first at every door; the poetic names stay inside.
 const OUTCOME_LABELS = {
+  linkedin: "Five posts you'd actually publish",
   scan: "Find your pattern",
   foundation: "Know what content to make, get a 7-day plan",
   voice: "Write down how you actually sound",
@@ -532,6 +535,7 @@ export function SiteFooter() {
             <p style={{ margin: "0 0 4px", fontSize: 12, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(251,247,240,.55)", fontWeight: 700 }}>Inward AI</p>
             <a href="/foundation" style={{ ...link, display: "block" }}>The Six Questions</a>
             <a href="/photo-to-posts" style={{ ...link, display: "block" }}>Photo to Posts</a>
+            <a href="/linkedin-agent" style={{ ...link, display: "block" }}>LinkedIn Agent</a>
             <a href="/scan" style={{ ...link, display: "block" }}>The Inward Scan</a>
             <a href="/brand-voice" style={{ ...link, display: "block" }}>Brand Voice</a>
             <a href="/roast" style={{ ...link, display: "block" }}>The Gentle Roast</a>

@@ -509,7 +509,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 The personal branding suite<br />for quiet professionals.
               </h1>
               <p style={{ fontSize: 18, lineHeight: 1.6, color: SK.MUTED, maxWidth: 560, margin: "0 auto 28px" }}>
-                Get found. Without performing. Inward AI is five tools and one
+                Get found. Without performing. Inward AI is six tools and one
                 brand dossier, designed by a brand strategist, written by AI,
                 approved by you.
               </p>
@@ -524,7 +524,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 <span>Built by Sabiha Afrin, brand strategist</span>
               </p>
               <div style={{ display: "flex", justifyContent: "center", gap: "22px 28px", flexWrap: "wrap" }}>
-                {[["questions", "Six Questions"], ["photo", "Photo to Posts"], ["scan", "Inward Scan"], ["voice", "Brand Voice"], ["roast", "Gentle Roast"], ["visibility", "AI Visibility"]].map(([k, label]) => (
+                {[["questions", "Six Questions"], ["photo", "Photo to Posts"], ["linkedin", "LinkedIn Agent"], ["scan", "Inward Scan"], ["voice", "Brand Voice"], ["roast", "Gentle Roast"], ["visibility", "AI Visibility"]].map(([k, label]) => (
                   <span key={k} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 7, width: 78 }}>
                     <span style={{ width: 44, height: 44, borderRadius: 12, background: SK.CARD, border: `1px solid ${SK.BORDER}`, display: "flex", alignItems: "center", justifyContent: "center" }}>{Icons[k]()}</span>
                     <span style={{ fontSize: 11.5, color: SK.MUTED, lineHeight: 1.25 }}>{label}</span>
@@ -619,6 +619,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                 {[
                   { icon: "questions", title: "The Six Questions", body: "Ten minutes of questions. Out comes your positioning, your one word, and a gentle 7-day plan.", key: "foundation", href: "/foundation" },
                   { icon: "photo", title: "Photo to Posts", body: "Upload one photo of your work. Three posts in your voice, editable before you copy.", key: "photo", href: "/photo-to-posts" },
+                  { icon: "linkedin", title: "LinkedIn Agent", body: "This week's five post ideas from your dossier, and an honest read on any draft before you post.", key: "linkedin", href: "/linkedin-agent" },
                   { icon: "scan", title: "The Inward Scan", body: "Eight taps, one minute. Names the specific way you get stuck when it is time to be visible.", key: "scan", href: "/scan" },
                   { icon: "voice", title: "Brand Voice", body: "Your actual voice, written down, so everything you publish sounds like you.", key: "voice", href: "/brand-voice" },
                   { icon: "roast", title: "The Gentle Roast", body: "Paste what you wrote. Hear what to keep, and what sounds like a costume.", key: "roast", href: "/roast" },
@@ -679,6 +680,7 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                     ["I need something to post today", "Photo to Posts. One photo of your work in, three captions in your voice out, editable before you copy.", "/photo-to-posts"],
                     ["I freeze every time I try", "The Inward Scan. Eight taps. It names the specific way you get stuck, so the fix stops being a mystery.", "/scan"],
                     ["Everything I write sounds like everyone", "Brand Voice. Your actual voice observed and written down, so AI edits toward you instead of over you.", "/brand-voice"],
+                    ["I never know what to post this week", "LinkedIn Agent. Five feed-proof ideas from your dossier, in your voice, plus a read on any draft.", "/linkedin-agent"],
                     ["I keep deleting my drafts", "The Gentle Roast. Paste the draft. Hear what to keep first, then what reads like a costume.", "/roast"],
                     ["Nobody finds me when they search", "AI Visibility Check. A live scan of where you show up, receipts first, then the words that raise it.", "/ai-visibility"],
                   ].map(([moment, tool, href]) => (

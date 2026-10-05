@@ -64,6 +64,7 @@ export const Icons = {
   voice: (size = 22) => ic(<><path d="M4 12h2M8 8v8M12 5v14M16 9v6M20 11v2" /></>, size),
   roast: (size = 22) => ic(<><path d="M12 3c2 3.5 6 5 6 10a6 6 0 0 1-12 0c0-5 4-6.5 6-10z" /><path d="M12 12c1 1.4 2 2 2 3.8a2 2 0 0 1-4 0c0-1.8 1-2.4 2-3.8z" /></>, size),
   visibility: (size = 22) => ic(<><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z" /><circle cx="12" cy="12" r="2.8" /></>, size),
+  linkedin: (size = 22) => ic(<><path d="M20 4c-6 1-11 5-13 11l-2 5 5-2c6-2 10-7 11-13z" /><path d="M7 15c2.5-3.5 5.5-6 9-8" /></>, size),
   brief: (size = 22) => ic(<><rect x="5" y="3.5" width="14" height="17" rx="2" /><path d="M9 8h6M9 12h6M9 16h3.5" /></>, size),
 };
 

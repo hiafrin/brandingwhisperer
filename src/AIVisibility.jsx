@@ -3,7 +3,7 @@ import { track } from "@vercel/analytics";
 import {
   ACCENT, INK, CREAM, INK_TEAL, CORAL, BUTTER, ACCENT_TINT,
   SERIF, SANS, GLOBAL_CSS,
-  parseWhisperResponse, recall,
+  parseWhisperResponse, recall, remember, StepLoader,
   GrainOverlay, ToolHero, ToolIntro, ToolsMenu, SiteFooter,
   primaryBtn, ghostBtn, miniLabel, plainCard,
 } from "./lib/whisperKit.jsx";
@@ -71,6 +71,12 @@ export default function AIVisibility() {
   const [work, setWork] = useState("");
   const [where, setWhere] = useState(""); // affiliation, the name-twin killer
   const [phase, setPhase] = useState("intro"); // intro | scanning | done
+  // The AEO agent: the last scan is remembered on this device so fixes can
+  // continue across visits without burning another scan.
+  const [storedScan] = useState(() => { try { return JSON.parse(recall("aeoscan") || "null"); } catch (_) { return null; } });
+  const [aeoPlan, setAeoPlan] = useState(null);
+  const [aeoBusy, setAeoBusy] = useState(false);
+  const [aeoErr, setAeoErr] = useState(null);
   const [scanLine, setScanLine] = useState(0);
   const [result, setResult] = useState(null);
   const [estimated, setEstimated] = useState(false); // true when the fallback ran
@@ -166,6 +172,9 @@ Return ONLY JSON, no markdown:
       g.score = Math.max(0, Math.min(100, Math.round(g.score)));
       setResult(g);
       setPhase("done");
+      try {
+        remember("aeoscan", JSON.stringify({ score: g.score, gap: g.gap || "", found: (g.found || []).slice(0, 5), dimensions: (g.dimensions || []).map((d) => ({ name: d.name, score: d.score, note: d.note })), name: name.trim(), site: site.trim(), work: work.trim(), ts: Date.now() }));
+      } catch (_) {}
       track("aivis_score_" + bandFor(g.score).name.toLowerCase().replace(/\s+/g, "-"));
     } catch (_) {
       setError("Couldn't finish the audit. Nothing was saved, give it another try in a moment.");
@@ -222,6 +231,39 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
     try { await navigator.clipboard.writeText(text); setCopied(key); setTimeout(() => setCopied(null), 2000); } catch (_) {}
   }
 
+  async function buildFixPlan(scan) {
+    setAeoBusy(true); setAeoErr(null); setAeoPlan(null);
+    const weakest = [...(scan.dimensions || [])].sort((a, b) => a.score - b.score).slice(0, 3);
+    const mem = deviceMemory();
+    const sys = `You are the AEO agent inside Branding Inward's Inward AI suite: an answer-engine-optimization fixer for one quiet professional. You received their real scan results. Your job: the three highest-leverage fixes, each with the ACTUAL words to paste, not advice. Plain, warm, zero drama, nothing requires posting or performing.
+
+RULES: every fix must trace to their scan evidence and target their weakest signals. The text you write must be specific to them, from their own details; if a sentence could belong to someone else's fix, rewrite it. Do not use em-dashes or en-dashes. Never assume anyone's gender.
+
+Return ONLY valid JSON, no markdown, compact, single quotes inside text:
+{"fixes": [exactly 3, in priority order, each {"signal": "which quiet signal this raises", "title": "the fix in six words or fewer", "where": "exactly where this text goes, one plain sentence", "text": "the paste-ready words, complete, in their voice", "why": "one sentence tying this to what the scan found"}]}`;
+    const usr = `My scan:
+Score: ${scan.score} of 100
+Weakest signals: ${weakest.map((d) => `${d.name} (${d.score}/20): ${d.note}`).join(" | ")}
+The gap, plainly: ${scan.gap}
+What the scan surfaced: ${(scan.found || []).join(" / ")}
+Who I am: ${scan.name}${scan.work ? `, ${scan.work}` : ""}${scan.site ? `, site ${scan.site}` : ""}
+${Object.keys(mem).length ? `\nFrom my dossier: ${JSON.stringify(mem)}` : ""}
+
+Write my three fixes with the paste-ready words.`;
+    try {
+      const r = await fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ system: sys, user: usr }) });
+      if (!r.ok) throw new Error();
+      const parsed = parseWhisperResponse(await r.json());
+      if (!parsed || !Array.isArray(parsed.fixes) || !parsed.fixes.length) throw new Error();
+      setAeoPlan(parsed.fixes.slice(0, 3));
+      track("aeo_fixplan");
+    } catch (_) {
+      setAeoErr("The fix plan didn't come through. Give it another try in a moment.");
+    } finally {
+      setAeoBusy(false);
+    }
+  }
+
   async function copyAll() {
     if (!result) return;
     const band = bandFor(result.score);
@@ -254,6 +296,27 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
     <button className="mw-ghost" onClick={() => copyPiece(key, text)} style={{ ...ghostBtn, marginLeft: 0, padding: "8px 16px", fontSize: 13 }}>
       {copied === key ? "Copied ✓" : "Copy this"}
     </button>
+  );
+
+  // ── The AEO agent's plan, rendered wherever it was requested ──
+  const aeoBlock = (aeoBusy || aeoErr || aeoPlan) && (
+    <div className="mw-fade" style={{ marginTop: 20 }}>
+      {aeoBusy && <StepLoader steps={["Reading your scan", "Ranking the weakest signals", "Writing the paste-ready fixes"]} />}
+      {aeoErr && !aeoBusy && <p style={{ fontSize: 15, color: "#B4552D", fontFamily: SANS, margin: 0 }}>{aeoErr}</p>}
+      {aeoPlan && !aeoBusy && aeoPlan.map((f, i) => (
+        <div key={i} style={{ border: "1px solid #E6E6E6", borderRadius: 14, padding: "18px 20px", marginBottom: 12, background: "#FFF" }}>
+          <p style={{ ...miniLabel, marginBottom: 6 }}>Fix {i + 1} · raises {f.signal}</p>
+          <p style={{ fontSize: 16.5, fontWeight: 650, margin: "0 0 6px", fontFamily: SANS }}>{f.title}</p>
+          <p style={{ fontSize: 13.5, color: "#767676", fontFamily: SANS, margin: "0 0 10px" }}>{f.where}</p>
+          <p style={{ fontSize: 15, lineHeight: 1.6, whiteSpace: "pre-wrap", background: "#FAFAFA", border: "1px solid #E6E6E6", borderRadius: 10, padding: "12px 14px", margin: "0 0 10px", fontFamily: SANS }}>{f.text}</p>
+          {f.why && <p style={{ fontSize: 13, color: "#767676", fontStyle: "italic", fontFamily: SANS, margin: "0 0 10px" }}>{f.why}</p>}
+          <button className="mw-btn" onClick={async () => { try { await navigator.clipboard.writeText(f.text); } catch (_) {} }}
+            style={{ background: "#FFF", color: ACCENT, border: `1.5px solid ${ACCENT}`, borderRadius: 100, padding: "8px 16px", fontFamily: SANS, fontSize: 13.5, fontWeight: 600, cursor: "pointer" }}>
+            Copy the words
+          </button>
+        </div>
+      ))}
+    </div>
   );
 
   return (
@@ -292,6 +355,22 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
               time="A few minutes, it's really looking"
               madeFor="anyone whose customers might ask an AI before they ask a friend."
             />
+
+            {storedScan && !result && (
+              <div style={{ border: "1px solid #E6E6E6", borderRadius: 16, padding: "20px 22px", marginBottom: 24, background: "#FFF" }}>
+                <p style={{ ...miniLabel, marginBottom: 6 }}>Your AEO agent remembers</p>
+                <p style={{ fontSize: 17, fontWeight: 650, fontFamily: SANS, margin: "0 0 4px" }}>
+                  Last scan: {storedScan.score} of 100{storedScan.name ? ` for ${storedScan.name}` : ""}
+                </p>
+                {storedScan.gap && <p style={{ fontSize: 14.5, color: "#4A4A4A", fontFamily: SANS, margin: "0 0 14px", lineHeight: 1.55 }}>{storedScan.gap}</p>}
+                <button className="mw-btn" onClick={() => { track("aeo_resume"); buildFixPlan(storedScan); }}
+                  style={{ background: "#0A0A0A", color: "#FFF", border: "none", borderRadius: 100, padding: "10px 20px", fontFamily: SANS, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+                  Get my fix plan
+                </button>
+                <span style={{ fontSize: 13, color: "#767676", fontFamily: SANS, marginLeft: 12 }}>or run a fresh scan below</span>
+                {aeoBlock}
+              </div>
+            )}
 
             <p style={{ fontSize: 18, lineHeight: 1.65, color: INK, fontWeight: 500, margin: "0 0 28px" }}>
               The good news hiding in AI search: it rewards exactly the quiet things. One clear page.
@@ -414,6 +493,22 @@ Their weakest signal, from the diagnosis: "${r0?.gap || "not known"}"`,
                   <p style={{ fontSize: 14, lineHeight: 1.5, margin: 0, fontFamily: SANS, color: "#4A4A4A" }}>{d.note}</p>
                 </div>
               ))}
+            </div>
+
+            {/* ── THE AEO AGENT: from score to fixes ── */}
+            <div style={{ border: "1px solid #E6E6E6", borderRadius: 16, padding: "20px 22px", marginBottom: 26, background: "#FFF" }}>
+              <p style={{ ...miniLabel, marginBottom: 6 }}>Your AEO agent</p>
+              <p style={{ fontSize: 15.5, color: "#4A4A4A", fontFamily: SANS, lineHeight: 1.6, margin: "0 0 14px" }}>
+                The score is the diagnosis. The agent writes the cure: your three
+                highest-leverage fixes, with the exact words to paste and where they go.
+              </p>
+              {!aeoBusy && !aeoPlan && (
+                <button className="mw-btn" onClick={() => { track("aeo_fixplan_click"); buildFixPlan({ score: result.score, gap: result.gap, found: result.found, dimensions: result.dimensions, name: name.trim(), site: site.trim(), work: work.trim() }); }}
+                  style={{ background: "#0A0A0A", color: "#FFF", border: "none", borderRadius: 100, padding: "11px 22px", fontFamily: SANS, fontSize: 14.5, fontWeight: 600, cursor: "pointer" }}>
+                  Get my fix plan
+                </button>
+              )}
+              {aeoBlock}
             </div>
 
             {/* ── THE KIT: not advice, the actual words ── */}

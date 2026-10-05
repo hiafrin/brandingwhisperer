@@ -21,6 +21,7 @@ const ITEMS = [
   { key: "playbook", label: "The path I chose", step: "The Quieter Plan", href: "/plan" },
   { key: "firstmove", label: "My first move", step: "The Quieter Plan", href: "/plan" },
   { key: "roasted", label: "A line worth keeping", step: "The Gentle Roast", href: "/roast" },
+  { key: "linkedinidea", label: "A post idea to keep", step: "LinkedIn Agent", href: "/linkedin-agent" },
 ];
 
 export default function InwardBrief() {
