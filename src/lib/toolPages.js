@@ -243,6 +243,30 @@ export const TOOL_PAGES = [
     ],
   },
   {
+    slug: "gathering",
+    step: null,
+    title: "Branding Without Performing: a live gathering in New York | Branding Inward",
+    description:
+      "A creative gathering during NYC AI Week for people who hate being on camera: a hands-on workshop, a candid panel, and conversations with people who get it. October 10, 2026.",
+    h1: "Branding without performing, live in New York",
+    summary:
+      "Branding Inward's community gathering during NYC AI Week, Saturday, October 10, 2026, 3:30 to 6:00 PM EDT in New York. A hands-on workshop on what a personal brand actually is and how to show up online without pretending to be someone else, a candid panel with people who once cringed at the idea of a personal brand, chai, cookies, and conversations with people who get it. You leave with a brand statement that sounds like you and a plan for what's next. Hosted by Sabiha Afrin with creative director Jack McNamara, as part of #AIWeekNY by Pulse NYC.",
+    faqs: [
+      {
+        q: "When and where is the gathering?",
+        a: "Saturday, October 10, 2026, 3:30 to 6:00 PM EDT in New York, NY, with doors at 3:15. The exact address is sent to approved guests after registration.",
+      },
+      {
+        q: "Do I have to present or perform anything?",
+        a: "No. The whole event is built for people who hate being on camera. Share as much or as little as you like; a phone and an open mind are enough.",
+      },
+      {
+        q: "What do I leave with?",
+        a: "A brand statement that sounds like you, a plan for what's next, and maybe a new hype buddy.",
+      },
+    ],
+  },
+  {
     slug: "about",
     step: null,
     title: "About: the strategist behind Branding Inward",
