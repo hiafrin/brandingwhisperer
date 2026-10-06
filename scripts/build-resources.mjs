@@ -16,7 +16,7 @@ const ROOT = join(__dirname, "..");
 const LIBRARY_DIR = join(ROOT, "src", "library");
 const DIST = join(ROOT, "dist");
 
-const SITE_URL = "https://brandinginward.com";
+const SITE_URL = "https://www.brandinginward.com";
 const SITE_NAME = "Branding Inward";
 
 // Shared entities. `sameAs` ties the writing to a real, findable person, which
