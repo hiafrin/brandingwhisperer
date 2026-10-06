@@ -49,6 +49,7 @@ const SHELVES = [
   { key: "prompts", name: "Prompt collections", blurb: "The real patterns behind the tools, portable to any AI chat." },
   { key: "worksheets", name: "Worksheets & checklists", blurb: "Front-loaded work that compounds. Print them, work through them." },
   { key: "linkedin", name: "From my LinkedIn", blurb: "The best of what I write over there, kept here." },
+  { key: "gatherings", name: "Gatherings", blurb: "In person, occasionally. Quiet people, real rooms." },
 ];
 
 // ── FAQ extraction: authors just end a post with a `## FAQ` section and
@@ -212,9 +213,9 @@ ${FOOTER}
 function renderIndex(items) {
   const card = (p) => p.external
     ? `
-    <a class="post-card" href="${esc(p.external)}" target="_blank" rel="noopener noreferrer">
+    <a class="post-card" href="${esc(p.external)}"${p.external.startsWith("/") ? "" : ` target="_blank" rel="noopener noreferrer"`}>
       <span class="tag">${esc(p.tag || "LinkedIn")}</span>
-      <h2>${esc(p.title)} &nearr;</h2>
+      <h2>${esc(p.title)}${p.external.startsWith("/") ? "" : " &nearr;"}</h2>
       <p>${esc(p.description)}</p>
     </a>`
     : `

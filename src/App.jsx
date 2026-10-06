@@ -15,6 +15,15 @@ import {
 // ── The six questions — engineered to extract psychological raw material
 //    (stories, sensory detail, identity, refusals, repeatable signatures),
 //    because that's what the science says brands are actually made of. ──
+// The homepage LinkedIn section embeds these posts straight from LinkedIn
+// (newest first). To feature a new post: open it on the company page, grab its
+// urn:li:share:<id> or urn:li:ugcPost:<id> from the embed code, add it here.
+const LINKEDIN_FEED = [
+  "urn:li:share:7512904921143468032",   // Oct 10 gathering promo
+  "urn:li:share:7512874723618467840",   // women of color in AI mixer
+  "urn:li:ugcPost:7512851770579030016", // sAIra at Smartly ADVANCE
+];
+
 const QUESTIONS = [
   {
     id: "business",
@@ -716,6 +725,28 @@ Build my gentle 7-day plan, one small action per day. Weave my signature moves i
                   <img loading="lazy" decoding="async" src="/media/pottery-hands.jpg" alt="Hands shaping clay on a pottery wheel" style={{ width: "100%", aspectRatio: "1/1", objectFit: "cover", borderRadius: 14, border: `1px solid ${SK.BORDER}` }} />
                   <img loading="lazy" decoding="async" src="/media/writing-notebook.jpg" alt="A hand writing in a notebook by a window" style={{ width: "100%", aspectRatio: "1/1", objectFit: "cover", borderRadius: 14, marginTop: 22, border: `1px solid ${SK.BORDER}` }} />
                 </div>
+              </div>
+            </section>
+
+            {/* ── THE LINKEDIN FEED: the company page's real posts, embedded live
+                   from LinkedIn. New posts: add the share/ugcPost URN up top. ── */}
+            <section style={{ maxWidth: 980, margin: "0 auto", borderTop: `1px solid ${SK.BORDER}`, padding: "48px 24px 24px" }}>
+              <p style={sectionLabel}>On LinkedIn</p>
+              <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 16, flexWrap: "wrap", margin: "0 0 20px" }}>
+                <h2 style={{ fontSize: "clamp(24px, 3vw, 32px)", lineHeight: 1.2, fontWeight: 700, letterSpacing: "-0.02em", margin: 0 }}>
+                  Live from the Branding Inward feed.
+                </h2>
+                <a href="https://www.linkedin.com/company/branding-inward/" target="_blank" rel="noopener noreferrer"
+                  style={{ background: "#0A0A0A", color: "#FFF", borderRadius: 100, padding: "9px 18px", fontFamily: SANS, fontSize: 13.5, fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}>
+                  Follow the page
+                </a>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))", gap: 14 }}>
+                {LINKEDIN_FEED.map((urn) => (
+                  <iframe key={urn} src={`https://www.linkedin.com/embed/feed/update/${urn}`}
+                    title="A Branding Inward post on LinkedIn" loading="lazy" frameBorder="0" allowFullScreen
+                    style={{ width: "100%", height: 480, border: `1px solid ${SK.BORDER}`, borderRadius: 14, background: "#FFF" }} />
+                ))}
               </div>
             </section>
           </div>
