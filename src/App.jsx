@@ -19,8 +19,8 @@ import {
 // (newest first). To feature a new post: open it on the company page, grab its
 // urn:li:share:<id> or urn:li:ugcPost:<id> from the embed code, add it here.
 const LINKEDIN_FEED = [
-  "urn:li:share:7512904921143468032",   // Oct 10 gathering promo
-  "urn:li:share:7512874723618467840",   // women of color in AI mixer
+  "urn:li:ugcPost:7513252386908512257", // sAIra's ADVANCE 2026 whiteboard takeaways
+  "urn:li:ugcPost:7513015843065167872", // corporate-speak translations video
   "urn:li:ugcPost:7512851770579030016", // sAIra at Smartly ADVANCE
 ];
 
