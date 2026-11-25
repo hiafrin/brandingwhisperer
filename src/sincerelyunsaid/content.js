@@ -2,21 +2,26 @@
    Edit the text between the quotes. Layout lives in markup.html and styles.css in this folder. */
 export const SU = {
 
-  /* Episodes, in order. "link" is where Watch goes.
-     PLACEHOLDER links: all 11 still point to the YouTube homepage. */
+  /* Episodes, in order. Only conversations already recorded are listed.
+     Waiting to be added once recorded: Jessica DeStefano, Christae Craig, Jack McNamara,
+     Cody Craig, Sarah Cundiff, Sunny Patel, Tony Lipari.
+     "link" is where Watch goes.
+     PLACEHOLDER links: all 9 still point to the YouTube homepage. */
   episodes: [
-    { who: "S. Afrin",          what: "A letter to Ammu, read on her mother's birthday.",                 link: "https://www.youtube.com/" },
-    { who: "Jessica DeStefano", what: "Why she has given so much of herself to Leonard Cohen's legacy.",  link: "https://www.youtube.com/" },
-    { who: "Dustin Lowman",     what: "The songs and lines of Cohen's that never let him go.",            link: "https://www.youtube.com/" },
-    { who: "Christae Craig",    what: "The stories that never make it to the stage.",                     link: "https://www.youtube.com/" },
-    { who: "Jack McNamara",     what: "The ideas he keeps for himself.",                                  link: "https://www.youtube.com/" },
-    { who: "Cody Craig",        what: "What it takes to show up for kids who need it most.",              link: "https://www.youtube.com/" },
-    { who: "Sarah Cundiff",     what: "The chapter of her own she rarely tells.",                         link: "https://www.youtube.com/" },
-    { who: "Sunny Patel",       what: "What stays outside the frame.",                                    link: "https://www.youtube.com/" },
-    { who: "Cammie Teresa",     what: "What it took to keep the doors open.",                             link: "https://www.youtube.com/" },
-    { who: "Kurt Angles",       what: "The story he hasn't told.",                                        link: "https://www.youtube.com/" },
-    { who: "Tony Lipari",       what: "The songs he almost kept to himself.",                             link: "https://www.youtube.com/" }
+    { who: "S. Afrin",       what: "A letter to Ammu, read on her mother's birthday.",        link: "https://www.youtube.com/" },
+    { who: "Dustin Lowman",  what: "The songs and lines of Cohen's that never let him go.",   link: "https://www.youtube.com/" },
+    { who: "Cammie Teresa",  what: "What it took to keep the doors open.",                    link: "https://www.youtube.com/" },
+    /* Carly's and Andrew's lines are their own words from their story clips. */
+    { who: "Carly Quellman", what: "\u201cI've been holding this for so long.\u201d",                link: "https://www.youtube.com/" },
+    { who: "Andrew Yuska",   what: "\u201cI'm so far from perfect.\u201d",                           link: "https://www.youtube.com/" },
+    /* CONFIRM last name. */
+    { who: "Kurt Angles",    what: "The story he hasn't told.",                               link: "https://www.youtube.com/" },
+    /* Lines still to write for these three. */
+    { who: "Ishita Rahman",  what: "",                                                        link: "https://www.youtube.com/" },
+    { who: "Jessie Craig",   what: "",                                                        link: "https://www.youtube.com/" },
+    { who: "Ishtiaq Rouf",   what: "",                                                        link: "https://www.youtube.com/" }
   ],
+
 
   /* Questions. The first one starts open. */
   questions: [
