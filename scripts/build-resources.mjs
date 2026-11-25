@@ -399,6 +399,33 @@ for (const t of TOOL_PAGES) {
   writeFileSync(join(dir, "index.html"), renderToolPage(shell, t));
 }
 
+// Sincerely Unsaid: a page with its own head, so a shared link previews as the
+// show. It is deliberately left out of the sitemap and the site navigation.
+{
+  const su = {
+    title: "Sincerely Unsaid",
+    description: "Sincerely Unsaid is a video podcast by S. Afrin. The stories people don't usually say out loud, plus letters and voice notes from listeners.",
+    url: `${SITE_URL}/sincerelyunsaid`,
+    image: `${SITE_URL}/media/sincerelyunsaid/share.jpg`,
+  };
+  const set = (html, re, v) => html.replace(re, `$1${esc(v)}$2`);
+  let html = shell.replace(/<title>[^<]*<\/title>/, `<title>${esc(su.title)}</title>`);
+  html = set(html, /(<meta name="description" content=")[^"]*(")/, su.description);
+  html = set(html, /(<link rel="canonical" href=")[^"]*(")/, su.url);
+  html = set(html, /(<meta property="og:site_name" content=")[^"]*(")/, su.title);
+  html = set(html, /(<meta property="og:title" content=")[^"]*(")/, su.title);
+  html = set(html, /(<meta property="og:description" content=")[^"]*(")/, su.description);
+  html = set(html, /(<meta property="og:url" content=")[^"]*(")/, su.url);
+  html = set(html, /(<meta property="og:image" content=")[^"]*(")/, su.image);
+  html = set(html, /(<meta property="og:image:alt" content=")[^"]*(")/, su.title);
+  html = set(html, /(<meta name="twitter:title" content=")[^"]*(")/, su.title);
+  html = set(html, /(<meta name="twitter:description" content=")[^"]*(")/, su.description);
+  html = set(html, /(<meta name="twitter:image" content=")[^"]*(")/, su.image);
+  html = html.replace('<div id="root"></div>', `<div id="root"><h1>${esc(su.title)}</h1>\n<p>The stories people don&#39;t usually say out loud. A video podcast by S. Afrin.</p></div>`);
+  mkdirSync(join(DIST, "sincerelyunsaid"), { recursive: true });
+  writeFileSync(join(DIST, "sincerelyunsaid", "index.html"), html);
+}
+
 // ── The homepage itself: give it a real title and crawlable text. Answer
 //    engines mostly don't run JavaScript, so without this the front door of
 //    the whole site is an empty div to them (the audit tool found exactly

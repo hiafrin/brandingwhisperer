@@ -32,7 +32,7 @@ function localApi(env) {
           };
           // Make secrets available to the handler, which reads process.env.
           // (Assigning undefined to process.env would store the string "undefined".)
-          for (const key of ["ANTHROPIC_API_KEY", "SHEETS_WEBHOOK_URL"]) {
+          for (const key of ["ANTHROPIC_API_KEY", "SHEETS_WEBHOOK_URL", "UNSAID_WEBHOOK_URL", "UNSAID_WEBHOOK_TOKEN"]) {
             if (env[key]) process.env[key] = env[key];
             else delete process.env[key];
           }

@@ -1,0 +1,223 @@
+<header class="hdr">
+  <nav aria-label="Sections">
+    <a href="#why" data-jump>Why this exists</a>
+    <a href="#episodes" data-jump>Episodes</a>
+    <a href="#submit" data-jump>Submit</a>
+    <a href="#questions" data-jump>Questions</a>
+  </nav>
+</header>
+
+<section class="band intro" id="top">
+  <div class="opening" id="opening" aria-hidden="true">
+    <div class="env" id="env">
+      <div class="env-back"></div>
+      <div class="letter" id="letter"><span id="lword">Sincerely<br><span id="lword2">Unsaid</span></span></div>
+      <div class="env-front"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0 100 L50 52 L100 100" fill="none" stroke="#b49a82" stroke-width="1" vector-effect="non-scaling-stroke" opacity=".6"/></svg></div>
+      <div class="flapwrap" id="flap">
+        <div class="flapshape"></div>
+        <svg class="seal" id="seal" viewBox="0 0 32 30"><path d="M16 28C6 20 1 14.5 1 8.8 1 4.5 4.4 1.5 8.3 1.5c3 0 5.9 1.7 7.7 4.5 1.800-2.800 4.700-4.500 7.700-4.500C27.600 1.500 31 4.500 31 8.800 31 14.500 26 20 16 28Z" fill="#4a1322"/></svg>
+      </div>
+    </div>
+  </div>
+  <div class="hero" aria-hidden="true">
+    <video id="herovid" muted loop playsinline preload="metadata" poster="/media/sincerelyunsaid/hero.jpg" tabindex="-1"><source src="/media/sincerelyunsaid/hero.mp4" type="video/mp4"></video>
+  </div>
+  <div class="stage">
+    <h1 class="line title">Sincerely Unsaid</h1>
+    <p class="line lede">The stories people don't usually say out loud.</p>
+    <p class="by">A video podcast by S. Afrin</p>
+    <p class="go"><a href="#episodes" data-jump>Watch the episodes</a><a href="#submit" data-jump>Tell your story</a></p>
+  </div>
+  <button class="vbtn" id="herobtn" type="button" aria-label="Pause video"><svg class="i-pause" viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.4" height="12" fill="currentColor"/><rect x="8.6" y="1" width="3.4" height="12" fill="currentColor"/></svg><svg class="i-play" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1l10 6-10 6z" fill="currentColor"/></svg></button>
+</section>
+
+<section class="band seg flow dark" id="why">
+  <div class="whystage">
+    <h2 class="line h2">Why this exists</h2>
+    <div class="echo" id="e-wrap">
+      <div class="echo-lines" id="e-lines">
+        <p class="f">It's the thing that echoes in your head.</p>
+        <p class="f">That you rehearse in the shower.</p>
+        <p><span class="f">That you say to yourself so often</span> <span class="f">that it seems crazy</span> <span class="f slow">other people don't already know.</span></p>
+      </div>
+      <p class="line" id="e-final">Somewhere along the way, I noticed how much of this goes unsaid.</p>
+      <div class="echo-why" id="e-why">
+        <p>Telling someone else's story has always come easier than telling your own.</p>
+        <p>So I made a room where the quiet ones go first. We begin in the middle, where the real part already started. Then, we learn how.</p>
+        <p>If you have something you have been carrying, there is a space for it here.</p>
+        <p class="sig">Sincerely, S. Afrin</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band seg flow light" id="episodes">
+  <div class="sechead">
+    <h2 class="line h2">Episodes</h2>
+    <p class="subhead">Each episode features a speaker telling their story, plus a short reading of an anonymous listener's story.</p>
+  </div>
+  <div class="eps" id="eps"></div>
+</section>
+
+<section class="band seg flow dark" id="submit">
+  <div class="cap-grid">
+    <div class="cap-side">
+      <div class="sechead">
+        <h2 class="line h2">Submit</h2>
+        <p class="subhead">Want your story to be heard? Come on the show, or submit anonymously.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tabs" role="tablist" aria-label="Ways to send">
+        <button class="tab" type="button" role="tab" id="t-guest" aria-controls="p-guest" aria-selected="true"><span class="l">Come on the show</span><span class="s">Be a guest</span></button>
+        <button class="tab" type="button" role="tab" id="t-letter" aria-controls="p-letter" aria-selected="false" tabindex="-1"><span class="l">Write a letter</span><span class="s">Letter</span></button>
+        <button class="tab" type="button" role="tab" id="t-voice" aria-controls="p-voice" aria-selected="false" tabindex="-1"><span class="l">Send a voice note</span><span class="s">Voice note</span></button>
+      </div>
+
+      <div role="tabpanel" id="p-letter" aria-labelledby="t-letter" hidden>
+        <form data-kind="letter">
+          <div class="dear"><span>Dear</span><input type="text" id="l-to" name="to" aria-label="Who is this letter for" placeholder="Ammu, my younger self, Rafi..." required></div>
+          <label class="f">Your letter <span class="hint">Write it in the language it came to you in. English, Bengali, Hindi and Urdu are all read here.</span>
+            <textarea id="l-body" name="letter" maxlength="2500" required placeholder="I never told you that..."></textarea>
+          </label>
+          <div class="counter"><span id="l-count">0</span> words. Around 200 reads in about a minute.</div>
+          <fieldset>
+            <legend>Sign it as</legend>
+            <div class="pills">
+              <label><input type="radio" name="sign" value="full" checked><span>My full name</span></label>
+              <label><input type="radio" name="sign" value="first"><span>First name only</span></label>
+              <label><input type="radio" name="sign" value="anon"><span>Anonymous</span></label>
+            </div>
+          </fieldset>
+          <div class="row">
+            <label class="f">Your name <span class="hint" data-namehint hidden></span><input type="text" id="l-name" required name="name" autocomplete="name"></label>
+            <label class="f">Email <span class="hint">kept private</span><input type="email" id="l-email" name="email" autocomplete="email" required></label>
+          </div>
+          <fieldset>
+            <label class="choice"><input type="checkbox" id="l-read" name="consent_read" required>You can read this letter on Sincerely Unsaid.</label>
+            <label class="choice"><input type="checkbox" id="l-own" name="consent_own" required>I wrote this, and it is mine to share.</label>
+            <label class="choice"><input type="checkbox" id="l-trim" name="consent_trim">You can trim it for length if needed.</label>
+          </fieldset>
+          <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <p class="status" role="alert" hidden></p>
+          <button class="send" type="submit">Send my letter</button>
+        </form>
+      </div>
+
+      <div role="tabpanel" id="p-voice" aria-labelledby="t-voice" hidden>
+        <form data-kind="voice">
+          <label class="f">Who or what is it about?
+            <input type="text" id="v-to" name="about" placeholder="My grandmother's kitchen, the year I left home..." required>
+          </label>
+          <label class="drop" id="v-drop" for="v-file">
+            <input type="file" id="v-file" name="audio" accept="audio/*,.m4a,.mp3,.wav" required>
+            <span id="v-file-text"><strong>Choose a voice note</strong> or drop it here.<br>Up to 3 minutes. Voice Memos and WhatsApp audio both work.</span>
+          </label>
+          <fieldset>
+            <legend>Credit it as</legend>
+            <div class="pills">
+              <label><input type="radio" name="sign" value="full" checked><span>My full name</span></label>
+              <label><input type="radio" name="sign" value="first"><span>First name only</span></label>
+              <label><input type="radio" name="sign" value="anon"><span>Anonymous</span></label>
+            </div>
+          </fieldset>
+          <div class="row">
+            <label class="f">Your name <span class="hint" data-namehint hidden></span><input type="text" id="v-name" required name="name" autocomplete="name"></label>
+            <label class="f">Email <span class="hint">kept private</span><input type="email" id="v-email" name="email" autocomplete="email" required></label>
+          </div>
+          <fieldset>
+            <label class="choice"><input type="checkbox" id="v-play" name="consent_play" required>You can play this recording on Sincerely Unsaid.</label>
+            <label class="choice"><input type="checkbox" id="v-own" name="consent_own" required>This is my voice and my story to share.</label>
+          </fieldset>
+          <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <p class="status" role="alert" hidden></p>
+          <button class="send" type="submit">Send my voice note</button>
+        </form>
+      </div>
+
+      <div role="tabpanel" id="p-guest" aria-labelledby="t-guest">
+        <form data-kind="guest">
+          <div class="row">
+            <label class="f">Your name <input type="text" id="g-name" name="name" autocomplete="name" required></label>
+            <label class="f">Email <input type="email" id="g-email" name="email" autocomplete="email" required></label>
+          </div>
+          <label class="f">Where can we find you? <span class="hint">Instagram, LinkedIn or a website</span>
+            <input type="text" id="g-link" name="link" placeholder="@yourhandle">
+          </label>
+          <label class="f">The story you would bring <span class="hint">A few lines is plenty. Start from the middle.</span>
+            <textarea id="g-story" name="story" style="min-height:140px" required></textarea>
+          </label>
+          <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <p class="status" role="alert" hidden></p>
+          <button class="send" type="submit">Ask to be a guest</button>
+        </form>
+      </div>
+      <p class="legal">By sending, you agree to the <a href="#terms" data-jump>Terms of Service</a> and <a href="#privacy" data-jump>Privacy Policy</a>. You must be 18 or older.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band seg flow light" id="questions">
+  <h2 class="line h2">Questions</h2>
+  <div class="qs" id="qs"></div>
+</section>
+
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="listen" aria-label="Find us on">
+      <span class="lbl">Find us on</span>
+      <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="Watch on YouTube" title="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="4.5" fill="currentColor"/><path d="M10 8.6v6.8l5.8-3.4z" fill="#fefdfa"/></svg></a>
+      <a href="https://www.instagram.com/sincerely.safrin/" target="_blank" rel="noopener" aria-label="Follow on Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="6" fill="currentColor"/><circle cx="12" cy="12" r="4.3" fill="none" stroke="#fefdfa" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.2" fill="#fefdfa"/></svg></a>
+    </div>
+    <div class="qs legaldocs">
+      <details id="privacy"><summary>Privacy Policy</summary>
+        <div class="doc">
+          <p>Effective [DATE].</p>
+          <h3>Who we are</h3>
+          <p>Sincerely Unsaid is produced by [LEGAL ENTITY NAME]. In this policy, "we" means that company. You can reach us at safrin@brandinginward.com.</p>
+          <h3>What we collect</h3>
+          <p>We collect what you choose to send through the forms on this page. That can include your letter or voice note, the name you give us, your email address, and, if you ask to be a guest, your links and the story you describe. Our website host and form provider also record basic technical information such as your browser type and the time of your visit. [LIST PROVIDERS]</p>
+          <h3>How we use it</h3>
+          <p>We use what you send to read and consider it for the show, to contact you about it, and to make the show. We do not sell your personal information.</p>
+          <h3>Anonymity</h3>
+          <p>If you choose Anonymous, we will not read or show your name. We still ask for an email address so we can reach you, and we do not share it.</p>
+          <h3>Who sees it</h3>
+          <p>The people who make the show see your submission. Companies that host this site and its forms process it for us. Anything read or played on the show becomes public.</p>
+          <h3>Keeping and deleting</h3>
+          <p>We keep submissions for [RETENTION PERIOD]. You can ask us to delete yours by emailing us. Once an episode that includes it has been published, we cannot take it back from places it has already been shared.</p>
+          <h3>Age</h3>
+          <p>This site is for adults. Please do not send anything if you are under 18.</p>
+          <h3>Your rights</h3>
+          <p>Depending on where you live, you may have the right to see, correct or delete the information we hold about you. Email us to ask.</p>
+          <h3>Changes</h3>
+          <p>If we change this policy, we will post the new version here with a new date.</p>
+        </div>
+      </details>
+      <details id="terms"><summary>Terms of Service</summary>
+        <div class="doc">
+          <p>Effective [DATE].</p>
+          <h3>Using this site</h3>
+          <p>By using this site or sending us anything through it, you agree to these terms. If you do not agree, please do not use the forms.</p>
+          <h3>What you send us</h3>
+          <p>You confirm that you are 18 or older and that what you send is yours to share. You give [LEGAL ENTITY NAME] permission to read, record, edit for length, publish and promote it as part of Sincerely Unsaid, in any format, anywhere, without payment. You keep ownership of your words. We may choose not to use what you send.</p>
+          <h3>Other people</h3>
+          <p>Please do not include private details about other people, such as full names, addresses or phone numbers. Do not send anything unlawful, threatening or untrue about a real person. We may edit or decline a submission for these reasons.</p>
+          <h3>Not advice and not a crisis service</h3>
+          <p>The show shares personal stories. It is not medical, legal or mental health advice, and we cannot respond to emergencies. If you or someone else is in immediate danger, contact your local emergency services.</p>
+          <h3>Guests</h3>
+          <p>Guests speak for themselves. Their views are their own and not those of the show.</p>
+          <h3>Our content</h3>
+          <p>The site, the episodes and the Sincerely Unsaid name belong to [LEGAL ENTITY NAME]. Please do not copy or reuse them without permission.</p>
+          <h3>Liability</h3>
+          <p>[WARRANTY DISCLAIMER AND LIMITATION OF LIABILITY, TO BE WRITTEN BY COUNSEL]</p>
+          <h3>Governing law</h3>
+          <p>These terms are governed by the laws of [STATE].</p>
+          <h3>Contact</h3>
+          <p>Questions about these terms can go to safrin@brandinginward.com.</p>
+        </div>
+      </details>
+    </div>
+    <p class="copyr">© 2026 Sincerely Unsaid. All rights reserved.</p>
+  </div>
+</footer>

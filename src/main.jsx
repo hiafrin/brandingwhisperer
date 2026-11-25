@@ -14,6 +14,7 @@ import PhotoPosts from "./PhotoPosts.jsx";
 import Buddy from "./Buddy.jsx";
 import LinkedInAgent from "./LinkedInAgent.jsx";
 import Gathering from "./Gathering.jsx";
+import SincerelyUnsaid from "./SincerelyUnsaid.jsx";
 import { TOOL_PAGES } from "./lib/toolPages.js";
 
 // Real, indexable paths — one per tool. Each is also pre-rendered to its own
@@ -32,6 +33,7 @@ const ROUTES = {
   "/buddy": () => <Buddy />,
   "/linkedin-agent": () => <LinkedInAgent />,
   "/gathering": () => <Gathering />,
+  "/sincerelyunsaid": () => <SincerelyUnsaid />, // its own design; not in the nav or sitemap
 };
 
 // Old hash URLs, briefly live and possibly bookmarked or shared. Each maps to
@@ -57,7 +59,10 @@ function normalizePath(p) {
 
 // Per-page titles, from the same data the pre-render bakes into each page's
 // static HTML, so a soft navigation and a direct load always agree.
-const TITLES = Object.fromEntries(TOOL_PAGES.map((t) => [`/${t.slug}`, t.title]));
+const TITLES = {
+  ...Object.fromEntries(TOOL_PAGES.map((t) => [`/${t.slug}`, t.title])),
+  "/sincerelyunsaid": "Sincerely Unsaid",
+};
 
 function Router() {
   const [path, setPath] = useState(() => normalizePath(window.location.pathname));
